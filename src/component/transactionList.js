@@ -3,35 +3,9 @@ import {Menu, Dropdown} from 'antd';
 import React from 'react';
 import {CSVLink} from 'react-csv';
 import {Select, Popover} from 'antd';
+import Menuelist from './menueList';
+
 const {Option, OptGroup} = Select;
-
-// const config = {size: 'large',};
-// const fields = ['BlockNumber', 'Time'];
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://localhost:3000/">Monthly</a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://localhost:3000/">Quarterly</a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://localhost:3000/">Yearly</a>
-    </Menu.Item>
-  </Menu>
-);
-
-const menuType = (
-  <Menu>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://localhost:3000/">GST</a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://localhost:3000/">Non-GST</a>
-    </Menu.Item>
-  </Menu>
-);
-
 class TransactionList extends React.Component {
   state = {
     show: true,
@@ -40,6 +14,8 @@ class TransactionList extends React.Component {
     error: null,
     filteredInfo: null,
     sortedInfo: null,
+    isGroupBy:false,
+    groupbyData:null,
     csvData: [],
   };
   handleChange = (pagination, filters, sorter) => {
@@ -49,6 +25,15 @@ class TransactionList extends React.Component {
       sortedInfo: sorter,
     });
   };
+
+  handleGroupby=()=>{
+  console.log("this clickbutton");
+};
+
+// setGroupData(promise)=>{
+//   this.setPromise(setPromise);
+//  this.setState({isGroupBy: true});
+// };
 
   handleChangeSelect = (value) => {
     console.log(`selected ${value}`);
@@ -63,18 +48,7 @@ class TransactionList extends React.Component {
     });
   };
 
-//  openNotificationWithIcon = (type) => {
-//   notification[type]({
-//     message: 'the type be changed',
-//     description: 'the type be changed',
-//   });
-// };
 
-// var a1 = ['a', 'b', 'c'];
-// var a2 = a1.map(function(item) { 
-//     return item.toUpperCase(); 
-// });
-// console.log(a2); // logs A,B,C
 
   parseDataFromApi = () => {
     let temp = this.state.data.map((item) => {
@@ -92,10 +66,10 @@ class TransactionList extends React.Component {
     this.setState({csvData: temp});
   }
 
-  setPromise = (promise) => {
+  setPromise = (promise,isGroupBy) => {
     promise.then((value) => {
-     console.log("this is value :"+value.result);
-      this.setState({data: value.result, loading: false, show: !this.state.show});
+     // console.log("this is value :"+value.result);
+      this.setState({isGroupBy:isGroupBy,data: value.result, loading: false, show: !this.state.show});
       this.parseDataFromApi();
 
     }).catch((error) => {
@@ -112,17 +86,8 @@ class TransactionList extends React.Component {
 
 
   componentWillReceiveProps = (nextProps) => {
-    this.setPromise(nextProps.promise);
+    this.setPromise(nextProps.promise,false);
   };
-  // exportCsv = () => {
-  //     let csv = json2csv({ data: data, fields: fields });
-
-  //     fs.writeFile('file.csv', csv, (err) => {
-  //         if (err) throw err;
-  //         console.log('file saved');
-  //     });
-  // }
-
   setAgeSort = () => {
     this.setState({
       sortedInfo: {
@@ -136,6 +101,28 @@ class TransactionList extends React.Component {
     let {sortedInfo, filteredInfo} = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
+    
+   const columnsGroup=[
+ {
+        title: 'Time',
+        dataIndex: 'timeStamp',
+        key: 'timeStamp',
+        width: "10%",
+        render: "test",
+      },
+
+ {
+        title: 'TotalPrice',
+        dataIndex: 'timeStamp',
+        key: 'timeStamp',
+        width: "10%",
+        render: "test",
+      },
+
+
+
+];
+
     const columns = [
       {
         title: 'Time',
@@ -148,15 +135,6 @@ class TransactionList extends React.Component {
         sorter: (a, b) => a.timeStamp - b.timeStamp,
         sortOrder: sortedInfo.columnKey === 'timeStamp' && sortedInfo.order,
       },
-      //    {
-      //   title: 'Amount(ETH) ',
-      //   dataIndex: 'value',
-      //   key: 'value',
-      //   width: "6%",
-      //   render: (text, record) => {
-      //     return (text * Math.pow(10, -18)).toFixed(8);
-      //   },
-      // },
       {
         title: 'From',
         dataIndex: 'from',
@@ -193,23 +171,6 @@ class TransactionList extends React.Component {
           return (text * Math.pow(10, -18) * record.gasPrice).toFixed(8);
         },
       },
-
-
-      // {
-      //   title: 'Success',
-      //   dataIndex: 'isError',
-      //   key: 'isError',
-      //   width: "6%",
-      //   render: (text) => {
-      //     return text === '0' ? 'true' : 'false';
-      //   },
-      //   filters: [
-      //     {text: 'true', value: '0'},
-      //     {text: 'false', value: '1'},
-      //   ],
-      //   filteredValue: filteredInfo.isError || null,
-      //   onFilter: (value, record) => record.isError.includes(value),
-      // },
 
       {
         title: 'Note',
@@ -265,15 +226,7 @@ class TransactionList extends React.Component {
         <div className="tableList">
           <div className="table-operations">
 
-
-            <Dropdown overlay={menuType} placement="bottomLeft">
-              <Button >Type</Button>
-            </Dropdown>
-            <Dropdown overlay={menu} placement="bottomLeft">
-              <Button >Summary</Button>
-            </Dropdown>
-
-
+          <Menuelist/>
             <Button icon="download">
               <CSVLink filename={"export.csv"} data={(this.state.csvData) ? (this.state.csvData) : []}>Xero
                 feed(csv)</CSVLink>
@@ -281,8 +234,8 @@ class TransactionList extends React.Component {
           </div>
           <Table
             loading={this.state.loading}
-            columns={ columns }
-            dataSource={this.state.data }
+            columns={this.state.isGroupBy?columnsGroup:columns }
+            dataSource={this.state.isGroupBy?this.state.groupbyData:this.state.data }
             onChange={ this.handleChange }
             pagination={{pageSize: 50}}
             scroll={{y: 500}}

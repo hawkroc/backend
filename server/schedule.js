@@ -18,11 +18,9 @@ scheduleCronstyle = () => {
                     start = parseInt(response.blockNumber)+1;
                 }
                 GetdataFromApi(start, end, address).then((response) => {
-                    console.log("start is " + start + " end is " + end);
-                    console.log("this array size" + response.data.result.length);
-                    CreateRecords(response.data.result, address);
-                  //  console.log(''+ GetDataGroupByDate());
-            
+
+                   CreateRecords(response.data.result, address);
+                  //  console.log('this get group by '+ GetDataGroupByDate());
                 });
             });
         });

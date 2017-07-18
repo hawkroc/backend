@@ -31,15 +31,20 @@ router.get('/', (req, res) => {
 router.route('/groupby/:keyword')
 
 .get((req, res) => {
-    GetDataGroupByDate();
+    GetDataGroupByDate().then((response)=>{
+
+        console.log('this response2 '+JSON.stringify(response));
+        res.json(response);
+    })
+    
 });
 
 
-router.route('/get/:address')
+// router.route('/get/:address')
 
-.get((req, res) => {
-    GetDataGroupByDate();
-});
+// .get((req, res) => {
+//     GetDataGroupByDate();
+// });
 
 
 scheduleCronstyle();
