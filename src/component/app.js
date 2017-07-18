@@ -42,18 +42,3 @@ export default class App extends Component {
     }
 }
 
-
-//   <div>
-//           <div>  <InputSearch changeItem={ this.changeItem }/></div> 
-//             <hr/>
-
-//           <div>  <PageTabs promise = {this.state.promise}/></div>
-// <div>
-//     <BackTop>
-//         <div
-//         className = "ant-back-top-inner"> UP </div> </
-//         BackTop>
-
-//         </div>
-
-//         </div>

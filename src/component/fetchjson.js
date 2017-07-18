@@ -31,3 +31,14 @@ export const GetCurrentBlock = (address) => {
    		return  GetdataFromApi(1,currentNumber,address,true);}
    	);
 }
+const groupBy="http://127.0.0.1:3001/api/groupby/test"
+
+export const GroupBy = (address) => {
+    let final = groupBy;
+    console.log(final);
+   return axios.get(final).then(
+    (response) =>{  
+      return response;
+    }
+    );
+}

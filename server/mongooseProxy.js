@@ -1,19 +1,5 @@
 const Record = require('../model/records');
 
-// var Potato = mongoose.model('Potato', PotatoSchema);
-
-// var potatoBag = [/* a humongous amount of potato objects */];
-
-// Potato.collection.insert(potatoBag, onInsert);
-
-// function onInsert(err, docs) {
-//     if (err) {
-//         // TODO: handle error
-//     } else {
-//         console.info('%d potatoes were successfully stored.', docs.length);
-//     }
-// }
-
 CreateRecords = (array, address) => {
 
     array.map((item) => {

@@ -30,10 +30,6 @@ class TransactionList extends React.Component {
   console.log("this clickbutton");
 };
 
-// setGroupData(promise)=>{
-//   this.setPromise(setPromise);
-//  this.setState({isGroupBy: true});
-// };
 
   handleChangeSelect = (value) => {
     console.log(`selected ${value}`);
@@ -68,9 +64,21 @@ class TransactionList extends React.Component {
 
   setPromise = (promise,isGroupBy) => {
     promise.then((value) => {
-     // console.log("this is value :"+value.result);
-      this.setState({isGroupBy:isGroupBy,data: value.result, loading: false, show: !this.state.show});
-      this.parseDataFromApi();
+      let rs=null;
+      
+      if(isGroupBy){
+
+        rs=value.data;
+
+      }else{
+        rs=value.result;
+      }
+      console.log("this is value :"+rs);
+      this.setState({isGroupBy:isGroupBy,data: rs, loading: false, show: !this.state.show});
+      if(!isGroupBy){
+              this.parseDataFromApi();
+      }
+
 
     }).catch((error) => {
       console.error(error);
@@ -105,18 +113,26 @@ class TransactionList extends React.Component {
    const columnsGroup=[
  {
         title: 'Time',
-        dataIndex: 'timeStamp',
-        key: 'timeStamp',
+        dataIndex: '_id',
+        key: '_id',
         width: "10%",
-        render: "test",
+          render: (text) => {
+          return (text.year+"/"+text.month);
+        },
       },
+
+
+
+
 
  {
         title: 'TotalPrice',
-        dataIndex: 'timeStamp',
-        key: 'timeStamp',
+        dataIndex: 'totalPrice',
+        key: 'totalPrice',
         width: "10%",
-        render: "test",
+        render: (text) => {
+          return (text * Math.pow(10, -18)).toFixed(8);
+        },
       },
 
 
@@ -226,7 +242,7 @@ class TransactionList extends React.Component {
         <div className="tableList">
           <div className="table-operations">
 
-          <Menuelist/>
+          <Menuelist setPromise={ this.setPromise}/>
             <Button icon="download">
               <CSVLink filename={"export.csv"} data={(this.state.csvData) ? (this.state.csvData) : []}>Xero
                 feed(csv)</CSVLink>
@@ -235,9 +251,9 @@ class TransactionList extends React.Component {
           <Table
             loading={this.state.loading}
             columns={this.state.isGroupBy?columnsGroup:columns }
-            dataSource={this.state.isGroupBy?this.state.groupbyData:this.state.data }
+            dataSource={this.state.data }
             onChange={ this.handleChange }
-            pagination={{pageSize: 50}}
+            pagination={{pageSize: 100}}
             scroll={{y: 500}}
           />
         </div >
