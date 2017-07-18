@@ -20,6 +20,7 @@ class MenueList extends Component {
   // GroupBy().then((response)=>{
   //   console.log(' '+response.data);
   //   });
+  console.log('this key', e);
   this.props.setPromise(GroupBy(),true);
  
 }
@@ -29,13 +30,13 @@ render() {
 const menu = (
   <Menu onClick={this.handleMenuClick}>
     <Menu.Item>
-      <a rel="noopener noreferrer" key="month" >Monthly</a>
+      <a rel="noopener noreferrer" key="1" >Monthly</a>
     </Menu.Item>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" key="quarterly">Quarterly</a>
+      <a  rel="noopener noreferrer" key="2">Records</a>
     </Menu.Item>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" key="year">Yearly</a>
+      <a target="_blank" rel="noopener noreferrer" key="3">Yearly</a>
     </Menu.Item>
   </Menu>
 );
