@@ -22,7 +22,7 @@ const RecordsSchema = new Schema({
   value:Number,
   time:Date,
   month:String,
-  type:String
+  type:Number
 
 
 });

@@ -42,7 +42,7 @@ router.route('/groupby/:keyword')
 router.route('/search/:start/:end')
 
     .get((req, res) => {
-        console.log("test ");
+   
         let start = req.params.start?req.params.start:0;
         let end = req.params.end?req.params.end:999999999;
         GetDataRecords(start, end).then((response) => {
@@ -52,6 +52,20 @@ router.route('/search/:start/:end')
         })
 
     });
+
+   router.route('/updateType')
+
+    .post((req, res) => {
+        let id = req.body.id?req.body.id:"596ec20f500174208cd07a99";
+        let type = req.body.type? req.body.type:4;
+        console.log("this is type "+type);
+        UpdateRecorder(id, type).then((response) => {
+
+            //    console.log('this response2 '+JSON.stringify(response));
+            res.json(response);
+        })
+
+    }); 
 
 
 

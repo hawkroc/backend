@@ -20,8 +20,13 @@ class MenueList extends Component {
   // GroupBy().then((response)=>{
   //   console.log(' '+response.data);
   //   });
-  console.log('this key', e);
+  console.log('this ', e);
+  console.log("key is "+e.key);
+  if(e.key==="item_0"){
   this.props.setPromise(GroupBy(),true);
+}else {
+  this.props.setPromise(null,false);
+}
  
 }
 

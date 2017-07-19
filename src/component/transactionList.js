@@ -63,6 +63,10 @@ class TransactionList extends React.Component {
   }
 
   setPromise = (promise,isGroupBy) => {
+    if(promise===null){
+        this.setState({isGroupBy:isGroupBy});
+        return null;
+    }
     promise.then((value) => {
       let rs=null;
       

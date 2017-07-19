@@ -6,6 +6,7 @@ CreateRecords = (array, address) => {
         item.time = new Date(item.timeStamp * 1000).toLocaleDateString();
         item.address = address;
         item.blockNumber = parseInt(item.blockNumber);
+        item.type=1;
     });
 
 
@@ -39,21 +40,21 @@ GetDataGroupByDate = () => {
 
     return Record.aggregate([{
             $project: {
-                address:"$address",
-                value:"$value",
-                gas:"$gas",
-                gasPrice:"$gasPrice",
+                address: "$address",
+                value: "$value",
+                gas: "$gas",
+                gasPrice: "$gasPrice",
                 year: { $year: "$time" },
                 month: { $month: "$time" },
                 day: { $dayOfMonth: "$time" },
 
             }
-        }, 
+        },
         {
             $group: {
-             _id : {year:"$year",month:"$month"},
-           totalPrice: { $sum: { $multiply: [ "$gas", "$gasPrice" ] }},
-           
+                _id: { year: "$year", month: "$month" },
+                totalPrice: { $sum: { $multiply: ["$gas", "$gasPrice"] } },
+
             }
         }
 
@@ -62,15 +63,14 @@ GetDataGroupByDate = () => {
 
             console.log("this is error ");
         } else {
-           //  console.log(JSON.stringify(result));
-               return result;
+            //  console.log(JSON.stringify(result));
+            return result;
         }
     });
 }
 GetDataRecords = (start, end) => {
-    console.log("this is be invoked");
-    return Record.
-    find()
+    // console.log("this is be invoked");
+    return Record.find()
         .where('blockNumber').gt(start).lt(end)
         .sort('-blockNumber')
         .exec((err, result) => {
@@ -83,7 +83,18 @@ GetDataRecords = (start, end) => {
             }
         });
 
+}
 
-
-
+UpdateRecorder=(id,type)=>{
+    console.log('this is id '+id);
+    return Record.findById(id,  (err, r)=> {
+  if (err) return handleError(err);
+  
+  r.type = type;
+  r.save((err, updatedRecord)=> {
+    if (err) return handleError(err);
+   // res.send(updatedTank);
+   return updatedRecord;
+  });
+});
 }
