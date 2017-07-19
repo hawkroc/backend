@@ -1,6 +1,7 @@
 import axios from 'axios';
 const url = "http://api.etherscan.io/api?module=account&action=txlist&address=";
 const key = "&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV";
+const urlLocal="http://127.0.0.1:3001/api/search/"
 var currentNumber;
 //test
 export const GetdataFromApi = (start, end,configaddress,isFirst) => { 
@@ -8,8 +9,9 @@ export const GetdataFromApi = (start, end,configaddress,isFirst) => {
        end=end>0?currentNumber:Math.round(end)+currentNumber;
         start=start>0?currentNumber:Math.round(start)+currentNumber;
       }
-    let final = url +configaddress+"&startblock="+ start + "&endblock=" + end + "&sort=desc" + key;
-    console.log(final);
+    //let final = url +configaddress+"&startblock="+ start + "&endblock=" + end + "&sort=desc" + key;
+   let final=urlLocal+start+"/"+end;
+    console.log("get data from "+final);
     return fetch(final, {
         method: 'get'
     }).then((response) => {

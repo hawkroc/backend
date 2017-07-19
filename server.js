@@ -30,14 +30,29 @@ router.get('/', (req, res) => {
 
 router.route('/groupby/:keyword')
 
-.get((req, res) => {
-    GetDataGroupByDate().then((response)=>{
+    .get((req, res) => {
 
-        console.log('this response2 '+JSON.stringify(response));
-        res.json(response);
-    })
-    
-});
+        GetDataGroupByDate().then((response) => {
+            res.json(response);
+        })
+
+    });
+
+
+router.route('/search/:start/:end')
+
+    .get((req, res) => {
+        console.log("test ");
+        let start = req.params.start?req.params.start:0;
+        let end = req.params.end?req.params.end:999999999;
+        GetDataRecords(start, end).then((response) => {
+
+            //    console.log('this response2 '+JSON.stringify(response));
+            res.json(response);
+        })
+
+    });
+
 
 
 // router.route('/get/:address')

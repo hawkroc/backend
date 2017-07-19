@@ -71,9 +71,8 @@ class TransactionList extends React.Component {
         rs=value.data;
 
       }else{
-        rs=value.result;
+        rs=value;
       }
-      console.log("this is value :"+rs);
       this.setState({isGroupBy:isGroupBy,data: rs, loading: false, show: !this.state.show});
       if(!isGroupBy){
               this.parseDataFromApi();

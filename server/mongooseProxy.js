@@ -67,41 +67,23 @@ GetDataGroupByDate = () => {
         }
     });
 }
+GetDataRecords = (start, end) => {
+    console.log("this is be invoked");
+    return Record.
+    find()
+        .where('blockNumber').gt(start).lt(end)
+        .sort('-blockNumber')
+        .exec((err, result) => {
+            if (err) {
 
-// GetDataRecords = () => {
-
-//     return Record.aggregate([{
-//             $project: {
-//                 address: "$address",
-//                 value: "$value",
-//                 gas: "$gas",
-//                 gasPrice: "$gasPrice",
-//                 year: { $year: "$time" },
-//                 month: { $month: "$time" },
-//                 day: { $dayOfMonth: "$time" },
-
-//             }
-//         }, {
-//             $group: {
-//                 _id: { year: "$year", month: "$month" },
-//                 totalPrice: { $sum: { $multiply: ["$gas", "$gasPrice"] } },
-
-//             }
-//         }
-
-//     ], (err, result) => {
-//         if (err) {
-
-//             console.log("this is error ");
-//         } else {
-//             // let rs=JSON.stringify(result);
-//             console.log("this is successfully ");
-//             //  JSON.stringify(result);
-//             return result;
-//         }
-//     });
+                console.log("this is error ");
+            } else {
+                //  console.log(JSON.stringify(result));
+                return result;
+            }
+        });
 
 
 
-// }
 
+}
