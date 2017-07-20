@@ -92,31 +92,27 @@ class Setting extends React.Component {
     }];
 
     this.state = {
-      dataSource: [{
-        key: '0',
-        name: 'Centrality Business Account',
-        age: '32',
-        address: '0x5ed8cee6b63b1c6afce3ad7c92f4fd7e1b8fad9f',
-      }, {
-        key: '1',
-        name: 'Blockhaus Swiss Account',
-        age: '32',
-        address: '0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae',
-      }],
-      count: 2,
+      dataSource: [],
+      count: 0,
     };
   }
+
+
   onCellChange = (index, key) => {
     return (value) => {
       const dataSource = [...this.state.dataSource];
       dataSource[index][key] = value;
+      this.props.setAlias(dataSource);
       this.setState({ dataSource });
+      //
     };
   }
   onDelete = (index) => {
     const dataSource = [...this.state.dataSource];
     dataSource.splice(index, 1);
+    this.props.setAlias(dataSource);
     this.setState({ dataSource });
+     //
   }
   handleAdd = () => {
     const { count, dataSource } = this.state;

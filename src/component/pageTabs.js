@@ -5,9 +5,11 @@ import LineChart from './chartLine';
 import Setting from './setting';
 const TabPane = Tabs.TabPane;
 
+
 class PageTabs extends React.Component {
   state = {
     promise: {},
+    alias:[],
     data: [],
   };
   callback = (key) => {
@@ -28,6 +30,12 @@ class PageTabs extends React.Component {
 
   };
 
+  setAlias=(arry)=>{
+       console.log(this.state.alias.toString());
+   this.setState({alias:arry});
+
+  }
+
 
   render() {
     return (
@@ -39,7 +47,7 @@ class PageTabs extends React.Component {
           <LineChart />
         </TabPane>
         <TabPane tab="Setting" key="3">
-          <Setting />
+          <Setting setAlias={this.setAlias} />
         </TabPane>
       </Tabs>
     );
