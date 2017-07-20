@@ -77,7 +77,7 @@ class TransactionList extends React.Component {
       }else{
         rs=value;
       }
-      this.setState({isGroupBy:isGroupBy,data: rs, loading: false, show: !this.state.show});
+      this.setState({isGroupBy:isGroupBy,data: rs,groupbyData:rs, loading: false, show: !this.state.show});
       if(!isGroupBy){
               this.parseDataFromApi();
       }
@@ -254,7 +254,7 @@ class TransactionList extends React.Component {
           <Table
             loading={this.state.loading}
             columns={this.state.isGroupBy?columnsGroup:columns }
-            dataSource={this.state.data }
+            dataSource={this.state.isGroupBy?this.state.groupbyData:this.state.data }
             onChange={ this.handleChange }
             pagination={{pageSize: 100}}
             scroll={{y: 500}}

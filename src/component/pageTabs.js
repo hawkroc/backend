@@ -2,6 +2,7 @@ import {Tabs} from 'antd';
 import React from 'react';
 import TransactionList from './transactionList';
 import LineChart from './chartLine';
+import Setting from './setting';
 const TabPane = Tabs.TabPane;
 
 class PageTabs extends React.Component {
@@ -38,7 +39,7 @@ class PageTabs extends React.Component {
           <LineChart />
         </TabPane>
         <TabPane tab="Setting" key="3">
-          <LineChart />
+          <Setting />
         </TabPane>
       </Tabs>
     );

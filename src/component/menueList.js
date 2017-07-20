@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Menu, Dropdown,Button, Icon, message } from 'antd';
-import {GroupBy} from './fetchjson';
-
+import {GroupBy,GetCurrentBlock} from './fetchjson';
+const configaddress="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae";
 
 
 class MenueList extends Component {
@@ -25,7 +25,7 @@ class MenueList extends Component {
   if(e.key==="item_0"){
   this.props.setPromise(GroupBy(),true);
 }else {
-  this.props.setPromise(null,false);
+  this.props.setPromise(GetCurrentBlock(configaddress),false);
 }
  
 }
