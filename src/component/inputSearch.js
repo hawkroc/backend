@@ -77,6 +77,11 @@ this.props.changeItem(GetCurrentBlock(this.state.address));
  <Col offset={1} span={3}>
        <Button onClick={this.onclickButton} type="primary" shape="circle" icon="search" />
        </Col>
+
+
+
+
+
        </Row>
       
       </div>
