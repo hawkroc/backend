@@ -42,9 +42,9 @@ router.route('/groupby/:keyword')
 router.route('/search/:start/:end')
 
     .get((req, res) => {
-   
-        let start = req.params.start?req.params.start:0;
-        let end = req.params.end?req.params.end:999999999;
+
+        let start = req.params.start ? req.params.start : 0;
+        let end = req.params.end ? req.params.end : 999999999;
         GetDataRecords(start, end).then((response) => {
 
             //    console.log('this response2 '+JSON.stringify(response));
@@ -53,19 +53,35 @@ router.route('/search/:start/:end')
 
     });
 
-   router.route('/updateType')
+router.route('/updateType')
 
     .post((req, res) => {
-        let id = req.body.id?req.body.id:"596ec20f500174208cd07a99";
-        let type = req.body.type? req.body.type:4;
-        console.log("this is type "+type);
+        let id = req.body.id ? req.body.id : "596ec20f500174208cd07a99";
+        let type = req.body.type ? req.body.type : 4;
+        console.log("this is type " + type);
         UpdateRecorder(id, type).then((response) => {
 
             //    console.log('this response2 '+JSON.stringify(response));
             res.json(response);
         })
 
-    }); 
+    });
+
+router.route('/createConfig')
+    .post((req, res) => {
+      //  console.log("test post");
+         res.json("test post");
+    //     let name = req.body.name;
+    //     let email = req.body.email;
+         let labels = req.body.data.labels;
+         let alias = req.body.data.alias;
+         console.log("this is labels  "+labels);
+        CreateSetting(alias,labels).then((response)=>{
+            res.json(response);
+        }
+
+    )
+})
 
 
 

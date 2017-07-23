@@ -1,55 +1,7 @@
-import { Table, Input, Icon, Button, Popconfirm } from 'antd';
+import { Table, Button, Popconfirm } from 'antd';
 import React, { Component } from 'react';
-class EditableCell extends React.Component {
-  state = {
-    value: this.props.value,
-    editable: false,
-  }
-  handleChange = (e) => {
-    const value = e.target.value;
-    this.setState({ value });
-  }
-  check = () => {
-    this.setState({ editable: false });
-    if (this.props.onChange) {
-      this.props.onChange(this.state.value);
-    }
-  }
-  edit = () => {
-    this.setState({ editable: true });
-  }
-  render() {
-    const { value, editable } = this.state;
-    return (
-      <div className="editable-cell">
-        {
-          editable ?
-            <div className="editable-cell-input-wrapper">
-              <Input
-                value={value}
-                onChange={this.handleChange}
-                onPressEnter={this.check}
-              />
-              <Icon
-                type="check"
-                className="editable-cell-icon-check"
-                onClick={this.check}
-              />
-            </div>
-            :
-            <div className="editable-cell-text-wrapper">
-              {value || ' '}
-              <Icon
-                type="edit"
-                className="editable-cell-icon"
-                onClick={this.edit}
-              />
-            </div>
-        }
-      </div>
-    );
-  }
-}
+import EditableCell from './editableCell';
+
 
 class Setting extends React.Component {
   constructor(props) {
@@ -131,6 +83,7 @@ class Setting extends React.Component {
     const columns = this.columns;
     return (
       <div>
+      <h2> Please input the address you want track </h2>
         <Button className="editable-add-btn" onClick={this.handleAdd}>Add</Button>
         <Table bordered dataSource={dataSource} columns={columns} />
       </div>

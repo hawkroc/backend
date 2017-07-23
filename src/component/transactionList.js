@@ -1,5 +1,4 @@
 import {Table, Button, notification} from 'antd';
-import {Menu, Dropdown} from 'antd';
 import React from 'react';
 import {CSVLink} from 'react-csv';
 import {Select, Popover} from 'antd';

@@ -2,7 +2,7 @@ import {Tabs} from 'antd';
 import React from 'react';
 import TransactionList from './transactionList';
 import LineChart from './chartLine';
-import Setting from './setting';
+import SetAll from './setAll';
 const TabPane = Tabs.TabPane;
 
 
@@ -47,7 +47,7 @@ class PageTabs extends React.Component {
           <LineChart />
         </TabPane>
         <TabPane tab="Setting" key="3">
-          <Setting setAlias={this.setAlias} />
+          <SetAll setAlias={this.setAlias} />
         </TabPane>
       </Tabs>
     );
