@@ -104,10 +104,11 @@ CreateSetting = (alias,labels) => {
     let setting = new Setting();
     setting.alias = alias;
     setting.labels=labels;
-    console.log("test is ok2")
+    setting.id=123;
+   // console.log("test is ok2"+alias+"   "+labels);
  return   setting.save((err) => {
         if (err) {
-            console.log("this isdsdf error");
+          
             return err;
         }
     });

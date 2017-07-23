@@ -52,20 +52,18 @@ export const SaveConfig = (config) => {
    // console.log("this is config ?"+config.toString());
   let authOptions = {
     method: 'POST',
-    url: 'http://127.0.0.1:3001/api/createConfig',
+    url: final,
     data: config,
     headers: {
         'Content-Type': 'application/json'
     },
     json: true
   };
-console.log(authOptions.url);
-console.log(authOptions.data);
-  return axios
-  .post(authOptions)
+
+  return axios(authOptions)
   .then(res=>{
    console.log(res) ;
-   console.log("this invoked is ok working.....");
+
  })
   .catch(err=>{
 
