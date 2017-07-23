@@ -1,7 +1,8 @@
-import { Select,notification } from 'antd';
+import { notification } from 'antd';
 import React from 'react';
 import {SaveConfig,GetSetting} from './fetchjson';
-const Option = Select.Option;
+import { Select } from 'antd';
+const { Option, OptGroup } = Select;
 
 class SelctType extends React.Component {
   state = {
@@ -58,7 +59,14 @@ openNotificationWithIcon = (type) => {
         filterOption={false}
         placeholder="select type"
       >
+       <OptGroup label="GST">
         {this.state.options}
+          </OptGroup>
+
+          <OptGroup label="NoGst">
+        {this.state.options}
+          </OptGroup>
+
       </Select>
     );
   }
