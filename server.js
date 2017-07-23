@@ -69,10 +69,6 @@ router.route('/updateType')
 
 router.route('/createConfig')
     .post((req, res) => {
-      //  console.log("test post");
-         res.json("test post");
-    //     let name = req.body.name;
-    //     let email = req.body.email;
          let labels = req.body.data.labels;
          let alias = req.body.data.alias;
          console.log("this is labels  "+labels);

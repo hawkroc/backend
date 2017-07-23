@@ -1,8 +1,9 @@
 import axios from 'axios';
 const url = "http://api.etherscan.io/api?module=account&action=txlist&address=";
 const key = "&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV";
-const urlLocal="http://127.0.0.1:3001/api/search/"
+const urlLocal="http://127.0.0.1:3001/api/search/";
 var currentNumber;
+const baseUrl="http://127.0.0.1:3001/api/";
 //test
 export const GetdataFromApi = (start, end,configaddress,isFirst) => { 
   if(!isFirst){
@@ -33,10 +34,10 @@ export const GetCurrentBlock = (address) => {
    		return  GetdataFromApi(1,currentNumber,address,true);}
    	);
 }
-const groupBy="http://127.0.0.1:3001/api/groupby/test"
+const groupBy="groupby/test"
 
 export const GroupBy = (address) => {
-    let final = groupBy;
+    let final =baseUrl+ groupBy;
     console.log(final);
    return axios.get(final).then(
     (response) =>{  
@@ -44,3 +45,35 @@ export const GroupBy = (address) => {
     }
     );
 }
+
+const createConfig="createConfig";
+export const SaveConfig = (config) => {
+    let final =baseUrl+ createConfig;
+   // console.log("this is config ?"+config.toString());
+  let authOptions = {
+    method: 'POST',
+    url: 'http://127.0.0.1:3001/api/createConfig',
+    data: config,
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    json: true
+  };
+console.log(authOptions.url);
+console.log(authOptions.data);
+  return axios
+  .post(authOptions)
+  .then(res=>{
+   console.log(res) ;
+   console.log("this invoked is ok working.....");
+ })
+  .catch(err=>{
+
+  
+   console.log("this invoked is ok working but error..... "+err) 
+
+ })
+
+}
+
+

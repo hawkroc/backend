@@ -8,6 +8,7 @@ class SetLabels extends React.Component {
 
  handleChange=(value)=> {
   console.log(`selected ${value}`);
+ // this.onCellChange(index, 'name');
 }
 
   constructor(props) {
@@ -25,11 +26,11 @@ class SetLabels extends React.Component {
     }, 
     {
       title: 'GST',
-      dataIndex: 'address',
+      dataIndex: 'GST',
        width: '30%',
       render: (text, record, index) => (
         <div>
-    <Select defaultValue="true"  onChange={this.handleChange}>
+    <Select defaultValue="true"  onChange={this.onCellChange(index, 'GST')}>
       <Option value="true">GST</Option>
       <Option value="false">UNGST</Option>
     </Select>
@@ -79,7 +80,7 @@ class SetLabels extends React.Component {
     const newData = {
       key: count,
       name: `input the Alias${count}`,
-      address: `input your Address. ${count}`,
+      GST: `input your Address. ${count}`,
     };
     this.setState({
       dataSource: [...dataSource, newData],

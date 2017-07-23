@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Setting from './setting';
 import SetLabels from './setLabels';
+import {SaveConfig} from './fetchjson';
 import { Row, Col,Button } from 'antd';
 class SetAll extends Component {
     static propTypes = {
@@ -8,7 +9,7 @@ class SetAll extends Component {
     };
 
       state = {
-   
+   config:{alias:[],labels:[]},
     alias:[],
     labels:[],
    
@@ -24,6 +25,23 @@ class SetAll extends Component {
     setLabels=(arry)=>{
        console.log(this.state.labels.toString());
    this.setState({labels:arry});
+
+  }
+
+     saveConfig=()=>{
+ //      console.log("this start");
+ //       console.log(this.state.labels.toString());
+ // console.log(this.state.alias.toString());
+ this.state.config.alias=this.state.alias;
+  this.state.config.labels=this.state.labels;
+ SaveConfig(this.state.config)
+ .then((response)=>{
+     console.log('this is what fuck');
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+   
 
   }
 
@@ -48,7 +66,7 @@ class SetAll extends Component {
 
     </Col>
 </Row>
-  <Button className="save-btn">Save</Button>
+  <Button className="save-btn" onClick={this.saveConfig}>Save</Button>
             </div>
         );
     }
