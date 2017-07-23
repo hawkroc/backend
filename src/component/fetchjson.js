@@ -75,3 +75,13 @@ export const SaveConfig = (config) => {
 }
 
 
+const getSetting="getSetting";
+export const GetSetting = () => {
+    let final =baseUrl+ getSetting;
+    console.log(final);
+   return axios.get(final).then(
+    (response) =>{  
+      // console.log(response);
+      return response;
+    });
+}

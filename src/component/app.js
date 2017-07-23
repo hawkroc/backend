@@ -17,7 +17,6 @@ export default class App extends Component {
 
 
     changeItem=(item) => {
-        console.log("this is promise " + item);
         this.setState({
             promise: item
         });

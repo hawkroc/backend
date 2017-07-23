@@ -57,7 +57,10 @@ class SetLabels extends React.Component {
       count: 0,
     };
   }
-
+  componentWillReceiveProps = (nextProps) => {
+   // this.setPromise(nextProps.initSource);
+    this.setState({dataSource:nextProps.initSource});
+  };
 
   onCellChange = (index, key) => {
     return (value) => {

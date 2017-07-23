@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Setting from './setting';
 import SetLabels from './setLabels';
-import {SaveConfig} from './fetchjson';
+import {SaveConfig,GetSetting} from './fetchjson';
 import { Row, Col,Button } from 'antd';
 class SetAll extends Component {
     static propTypes = {
@@ -29,14 +29,11 @@ class SetAll extends Component {
   }
 
      saveConfig=()=>{
- //      console.log("this start");
- //       console.log(this.state.labels.toString());
- // console.log(this.state.alias.toString());
  this.state.config.alias=this.state.alias;
   this.state.config.labels=this.state.labels;
  SaveConfig(this.state.config)
  .then((response)=>{
-     console.log('this is what fuck');
+    // console.log('this is what fuck');
     })
     .catch((error)=>{
       console.log(error);
@@ -45,6 +42,20 @@ class SetAll extends Component {
 
   }
 
+
+  componentDidMount =()=>{
+    GetSetting().then((response)=>{
+      
+      let tmp=response.data;
+     // console.log('this is task'+response.data.labels);
+          this.setState({labels:tmp.labels,alias:tmp.alias});
+          this.props.setLabels(tmp.labels);
+          this.props.setAlias(tmp.alias);
+    })
+
+
+// this.props.changeItem(GetCurrentBlock(this.state.address));
+}
 
 
     constructor(props) {
@@ -56,13 +67,13 @@ class SetAll extends Component {
             <div>
             <Row>
              <Col offset={1} span={9}>
-            <Setting setAlias={this.setAlias} />
+            <Setting setAlias={this.setAlias} initSource={this.state.alias} />
 
     </Col>
 
        
              <Col offset={1} span={9}>
-            <SetLabels setLabels={this.setLabels} />
+            <SetLabels setLabels={this.setLabels} initSource={this.state.labels} />
 
     </Col>
 </Row>

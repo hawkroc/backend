@@ -3,13 +3,16 @@ import React from 'react';
 import {CSVLink} from 'react-csv';
 import {Select, Popover} from 'antd';
 import Menuelist from './menueList';
-
+import SelectType from './selectType';
+import {GetSetting} from './fetchjson';
 const {Option, OptGroup} = Select;
 class TransactionList extends React.Component {
   state = {
     show: true,
     data: null,
     loading: true,
+    labels:[],
+    options: [],
     error: null,
     filteredInfo: null,
     sortedInfo: null,
@@ -35,15 +38,13 @@ class TransactionList extends React.Component {
 
   };
 
-  openNotificationWithIcon = (type) => {
-    notification[type]({
-      message: 'Notification',
-      description: 'This record type be changed',
-      duration: 2,
-    });
-  };
+  
 
-
+onChangeSelect=(text)=>{
+this.openNotificationWithIcon('success');
+  console.log(`selected ${text}`);
+ // console.log(''+record);
+}
 
   parseDataFromApi = () => {
     let temp = this.state.data.map((item) => {
@@ -94,25 +95,46 @@ class TransactionList extends React.Component {
     });
   };
 
+  componentDidMount =()=>{
+    GetSetting().then((response)=>{
+      
+      let tmp=response.data;
+     // console.log('this is task'+response.data.labels);
+          this.setState({labels:tmp.labels,alias:tmp.alias});
+
+
+  let options=  response.data.labels.map( (i) =>{
+
+      return <Option key={i.name}>{i.name}</Option> 
+
+    });
+     console.log("this is lab options "+JSON.stringify(options));
+     this.setState({options:options});
+
+         
+    })
+
+
+// this.props.changeItem(GetCurrentBlock(this.state.address));
+}
+
+
+
+
 
   componentWillReceiveProps = (nextProps) => {
     this.setPromise(nextProps.promise,false);
+  
+     
   };
-  setAgeSort = () => {
-    this.setState({
-      sortedInfo: {
-        order: 'descend',
-        columnKey: 'age',
-      },
-    });
-  }
+
 
   render() {
     let {sortedInfo, filteredInfo} = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
     
-   const columnsGroup=[
+   let columnsGroup=[
  {
         title: 'Time',
         dataIndex: '_id',
@@ -141,7 +163,7 @@ class TransactionList extends React.Component {
 
 ];
 
-    const columns = [
+    let columns = [
       {
         title: 'Time',
         dataIndex: 'timeStamp',
@@ -208,31 +230,13 @@ class TransactionList extends React.Component {
 
       {
         title: ' Tx type',
-        key: 'blockNumber',
+        key: 'type',
         width: "18%",
         render: (text, record) => (
+      
+       
           <div>
-
-            <Select
-              defaultValue="3"
-              style={{width: 150}}
-              onChange={() => this.openNotificationWithIcon('success')}
-            >
-
-              <OptGroup label="GST">
-                <Option value="1">Legal Fees</Option>
-                <Option value="2">Computer Expenses</Option>
-                <Option value="3">General Expenses</Option>
-                <Option value="4">Rent</Option>
-                <Option value="5"> Staff Expenses</Option>
-
-
-              </OptGroup>
-
-              <OptGroup label="Non-GST">
-                <Option value="6">Payroll</Option>
-              </OptGroup>
-            </Select>
+<SelectType optionsInt={this.state.options}/>
           </div>
         ),
       },

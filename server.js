@@ -79,7 +79,15 @@ router.route('/createConfig')
     )
 })
 
+router.route('/getSetting')
+    .get((req, res) => {
+         
+        GetSetting().then((response)=>{
+            res.json(response);
+        }
 
+    )
+})
 
 // router.route('/get/:address')
 

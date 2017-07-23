@@ -6,7 +6,7 @@ const mongoose = require('../server/db.js'),
       Schema = mongoose.Schema;
 
 const SettingSchema = new Schema({
-  id:String,
+  id:Number,
   alias:[{name:String,address:String}],
   labels:[{name:String,GST:Boolean}]
 });

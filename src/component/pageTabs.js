@@ -9,7 +9,9 @@ const TabPane = Tabs.TabPane;
 class PageTabs extends React.Component {
   state = {
     promise: {},
+  //  config:{},
     alias:[],
+    labels:[],
     data: [],
   };
   callback = (key) => {
@@ -23,13 +25,18 @@ class PageTabs extends React.Component {
 
   componentWillReceiveProps = (nextProps) => {
     this.setPromise(nextProps.promise);
+    // this.setLabels(nextProps.labels);
+    // this.setAlias(next)
   };
 
   setPromise = (promise) => {
     this.setState({promise: promise});
 
   };
-
+setLabels=(labels)=>{
+  console.log('this is test set lablels'+labels);
+  this.setState({labels:labels});
+};
   setAlias=(arry)=>{
        console.log(this.state.alias.toString());
    this.setState({alias:arry});
@@ -41,13 +48,13 @@ class PageTabs extends React.Component {
     return (
       <Tabs defaultActiveKey="1" onChange={this.callback}>
         <TabPane tab="Busines Account" key="1">
-          <TransactionList promise={this.state.promise}/>
+          <TransactionList promise={this.state.promise} labels={this.state.labels}/>
         </TabPane>
         <TabPane tab="Dashboard" key="2">
           <LineChart />
         </TabPane>
         <TabPane tab="Setting" key="3">
-          <SetAll setAlias={this.setAlias} />
+          <SetAll setAlias={this.setAlias} setLabels={this.setLabels} setAlias={this.setAlias}/>
         </TabPane>
       </Tabs>
     );

@@ -105,11 +105,31 @@ CreateSetting = (alias,labels) => {
     setting.alias = alias;
     setting.labels=labels;
     setting.id=123;
-   // console.log("test is ok2"+alias+"   "+labels);
- return   setting.save((err) => {
+  return  Setting.deleteOne({ id: 123 }, (err)=>{
+        if(err){
+            return err;
+        }
+
+ setting.save((err) => {
         if (err) {
           
             return err;
         }
     });
+
+    });
+   
+}
+
+GetSetting =()=>{
+      return Setting.findOne()
+        .exec((err, result) => {
+            if (err) {
+
+                console.log("this is error ");
+            } else {
+                //  console.log(JSON.stringify(result));
+                return result;
+            }
+        }); 
 }
