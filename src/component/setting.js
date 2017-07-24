@@ -73,7 +73,7 @@ class Setting extends React.Component {
   handleAdd = () => {
     const { count, dataSource } = this.state;
     const newData = {
-      key: count,
+      key: count+1,
       name: `input the Alias${count}`,
       address: `input your Address. ${count}`,
     };

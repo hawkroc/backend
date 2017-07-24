@@ -88,14 +88,14 @@ GetDataRecords = (start, end) => {
 
 UpdateRecorder = (id, type) => {
     return Record.findById(id, (err, r) => {
-        if (err) return handleError(err);
+       // // if (err) return handleError(err);
 
-        r.type = type;
-        r.save((err, updatedRecord) => {
-            if (err) return handleError(err);
-            // res.send(updatedTank);
-            return updatedRecord;
-        });
+       //  r.type = type;
+       //  r.save((err, updatedRecord) => {
+       //      if (err) return handleError(err);
+       //      // res.send(updatedTank);
+       //      return updatedRecord;
+       //  });
     });
 }
 

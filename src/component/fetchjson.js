@@ -85,3 +85,30 @@ export const GetSetting = () => {
       return response;
     });
 }
+
+const updateTypeUrl="updateType";
+export const UpdateType = (timestamp,type) => {
+   
+
+  let final =baseUrl+ updateTypeUrl;
+   // console.log("this is config ?"+config.toString());
+  let authOptions = {
+    method: 'POST',
+    url: final,
+    id: timestamp,
+    type:type,
+
+  };
+
+  return axios(authOptions)
+  .then(res=>{
+   console.log(res) ;
+
+ })
+  .catch(err=>{
+
+ })
+
+
+
+}

@@ -1,15 +1,8 @@
 import { Table,  Button, Popconfirm,Select } from 'antd';
 import React, { Component } from 'react';
 import EditableCell from './editableCell';
-const Option = Select.Option;
+
 class SetLabels extends React.Component {
-
-
-
- handleChange=(value)=> {
-  console.log(`selected ${value}`);
- // this.onCellChange(index, 'name');
-}
 
   constructor(props) {
     super(props);
@@ -30,7 +23,7 @@ class SetLabels extends React.Component {
        width: '30%',
       render: (text, record, index) => (
         <div>
-    <Select defaultValue="true"  onChange={this.onCellChange(index, 'GST')}>
+    <Select defaultValue="true" onChange={this.onCellChange(index, 'GST')}>
       <Option value="true">GST</Option>
       <Option value="false">UNGST</Option>
     </Select>
@@ -58,7 +51,7 @@ class SetLabels extends React.Component {
     };
   }
   componentWillReceiveProps = (nextProps) => {
-   // this.setPromise(nextProps.initSource);
+
     this.setState({dataSource:nextProps.initSource});
   };
 
@@ -81,10 +74,11 @@ class SetLabels extends React.Component {
   handleAdd = () => {
     const { count, dataSource } = this.state;
     const newData = {
-      key: count,
-      name: `input the Alias${count}`,
-      GST: `input your Address. ${count}`,
+      key: count+1,
+      name: `input the Name${count}`,
+      GST: `input your GST. ${count}`,
     };
+    console.log(count);
     this.setState({
       dataSource: [...dataSource, newData],
       count: count + 1,

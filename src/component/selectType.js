@@ -2,6 +2,7 @@ import { notification } from 'antd';
 import React from 'react';
 import {SaveConfig,GetSetting} from './fetchjson';
 import { Select } from 'antd';
+import {UpdateType} from './fetchjson';
 const { Option, OptGroup } = Select;
 
 class SelctType extends React.Component {
@@ -50,17 +51,21 @@ this.setState({NoGSToptions:NoGST});
  }
 
  componentWillReceiveProps = (nextProps) => {
-  this.setOptions(nextProps.optionsInt)
+  this.setOptions(nextProps.optionsInt);
  }
     
 
 
-   
+    handleChange=(value)=> {
+      this.openNotificationWithIcon("success");
+       UpdateType(this.props.recordId,value);
+  console.log(`selected ${value}`);
+}
+
   
 
   
-openNotificationWithIcon = (type) => {
-    console.log(type);
+openNotificationWithIcon = (type) => {   
     notification[type]({
       message: 'Notification',
       description: 'This record type be changed',
@@ -74,7 +79,7 @@ openNotificationWithIcon = (type) => {
     return (
       <Select
         style={{ width: 200 }}
-        onChange={() => this.openNotificationWithIcon('success')}
+        onChange={this.handleChange}
         placeholder="select type"
       >
        <OptGroup label="GST">

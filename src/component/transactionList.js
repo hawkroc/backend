@@ -100,7 +100,7 @@ this.openNotificationWithIcon('success');
     GetSetting().then((response)=>{
       
       let tmp=response.data;
-      console.log('this is task'+response.data.alias);
+    
           this.setState({labels:tmp.labels,alias:tmp.alias});
      this.setState({options: response.data.labels});
 
@@ -228,7 +228,7 @@ this.openNotificationWithIcon('success');
       
        
           <div>
-<SelectType optionsInt={this.state.options}/>
+<SelectType optionsInt={this.state.options} recordId={record.timeStamp} />
           </div>
         ),
       },
