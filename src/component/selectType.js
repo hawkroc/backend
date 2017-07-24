@@ -6,7 +6,8 @@ const { Option, OptGroup } = Select;
 
 class SelctType extends React.Component {
   state = {
-    options: [],
+    GSToptions: [],
+    NoGSToptions: [],
      labels:[],
   }
  //  componentDidMount = (value) => {
@@ -25,12 +26,38 @@ class SelctType extends React.Component {
  
  setOptions=(options)=>{
  
-  this.setState({options:options});
+  //this.setState({options:options});
+
+
+
+
+let GST= options.filter(i => {if (i.GST) return i }).map( (i) =>{
+
+      return <Option key={i.name}>{i.name}</Option> 
+
+    });
+
+
+let NoGST= options.filter(i => {if (!i.GST) return i }).map( (i) =>{
+
+      return <Option key={i.name}>{i.name}</Option> 
+
+    });
+
+this.setState({GSToptions:GST});
+this.setState({NoGSToptions:NoGST});
 
  }
 
  componentWillReceiveProps = (nextProps) => {
   this.setOptions(nextProps.optionsInt)
+  console.log( JSON.stringify(nextProps.optionsInt));
+
+
+
+
+
+
  
  }
     
@@ -54,17 +81,17 @@ openNotificationWithIcon = (type) => {
     // filterOption needs to be false，as the value is dynamically generated
     return (
       <Select
-        mode="combobox"
         style={{ width: 200 }}
         onChange={() => this.openNotificationWithIcon('success')}
         placeholder="select type"
       >
        <OptGroup label="GST">
-        {this.state.options}
+       {this.state.GSToptions}
           </OptGroup>
 
           <OptGroup label="NoGst">
-        {this.state.options}
+           {this.state.NoGSToptions}
+    
           </OptGroup>
 
       </Select>

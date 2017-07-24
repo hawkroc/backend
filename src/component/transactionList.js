@@ -101,15 +101,7 @@ this.openNotificationWithIcon('success');
       let tmp=response.data;
      // console.log('this is task'+response.data.labels);
           this.setState({labels:tmp.labels,alias:tmp.alias});
-
-
-  let options=  response.data.labels.map( (i) =>{
-
-      return <Option key={i.name}>{i.name}</Option> 
-
-    });
-     console.log("this is lab options "+JSON.stringify(options));
-     this.setState({options:options});
+     this.setState({options: response.data.labels});
 
          
     })
@@ -236,7 +228,7 @@ this.openNotificationWithIcon('success');
       
        
           <div>
-<SelectType optionsInt={this.state.options} recordId={record.contractAddress}/>
+<SelectType optionsInt={this.state.options}/>
           </div>
         ),
       },
