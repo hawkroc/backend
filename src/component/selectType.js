@@ -51,14 +51,6 @@ this.setState({NoGSToptions:NoGST});
 
  componentWillReceiveProps = (nextProps) => {
   this.setOptions(nextProps.optionsInt)
-  console.log( JSON.stringify(nextProps.optionsInt));
-
-
-
-
-
-
- 
  }
     
 

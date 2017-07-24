@@ -5,6 +5,7 @@ import {Select, Popover} from 'antd';
 import Menuelist from './menueList';
 import SelectType from './selectType';
 import {GetSetting} from './fetchjson';
+import Alias from './alias';
 const {Option, OptGroup} = Select;
 class TransactionList extends React.Component {
   state = {
@@ -99,7 +100,7 @@ this.openNotificationWithIcon('success');
     GetSetting().then((response)=>{
       
       let tmp=response.data;
-     // console.log('this is task'+response.data.labels);
+      console.log('this is task'+response.data.alias);
           this.setState({labels:tmp.labels,alias:tmp.alias});
      this.setState({options: response.data.labels});
 
@@ -173,9 +174,7 @@ this.openNotificationWithIcon('success');
         key: 'from',
         width: "15%",
         render: (text, record) => (
-          <Popover content={record.from} title="from" trigger="hover">
-            <Button>Centrality Business Account</Button>
-          </Popover>
+            <Alias datasource={record.from} aliasSource={this.state.alias} name=''/>
         ),
       },
 
@@ -185,9 +184,10 @@ this.openNotificationWithIcon('success');
         key: 'to',
         width: "15%",
         render: (text, record) => (
-          <Popover content={record.to} title="to" trigger="hover">
-            <Button>Blockhaus Swiss Account</Button>
-          </Popover>
+
+
+         <Alias datasource={record.to} aliasSource={this.state.alias}/>
+         
         ),
 
 
