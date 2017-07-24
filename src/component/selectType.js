@@ -31,6 +31,7 @@ class SelctType extends React.Component {
 
  componentWillReceiveProps = (nextProps) => {
   this.setOptions(nextProps.optionsInt)
+ 
  }
     
 
@@ -56,7 +57,6 @@ openNotificationWithIcon = (type) => {
         mode="combobox"
         style={{ width: 200 }}
         onChange={() => this.openNotificationWithIcon('success')}
-        filterOption={false}
         placeholder="select type"
       >
        <OptGroup label="GST">

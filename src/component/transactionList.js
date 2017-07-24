@@ -236,7 +236,7 @@ this.openNotificationWithIcon('success');
       
        
           <div>
-<SelectType optionsInt={this.state.options}/>
+<SelectType optionsInt={this.state.options} recordId={record.contractAddress}/>
           </div>
         ),
       },
