@@ -25,7 +25,7 @@ class SetLabels extends React.Component {
         <div>
     <Select defaultValue="true" onChange={this.onCellChange(index, 'GST')}>
       <Option value="true">GST</Option>
-      <Option value="false">UNGST</Option>
+      <Option value="false">NOGST</Option>
     </Select>
   </div>
       ),
