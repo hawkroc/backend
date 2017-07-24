@@ -1,7 +1,7 @@
 import { Table,  Button, Popconfirm,Select } from 'antd';
 import React, { Component } from 'react';
 import EditableCell from './editableCell';
-
+const Option = Select.Option;
 class SetLabels extends React.Component {
 
   constructor(props) {
