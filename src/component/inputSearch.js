@@ -13,7 +13,7 @@ class InputSearch extends React.Component {
  constructor(props) {
     super(props);
     this.state = {
-      userName: '',
+     // userName: '',
         start: '',
         end: '',
         address:configaddress,

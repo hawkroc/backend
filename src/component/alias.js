@@ -15,10 +15,10 @@ class Alias extends Component {
 
 setAliasSource=(alias)=>{
 	
-	if(alias!=null){
+	if(alias!==null){
 
  let temp= alias.filter(i => {if (i.address===this.props.datasource) return i.name });
-if(typeof(temp[0])!='undefined'){
+if(typeof(temp[0])!=='undefined'){
 
  //console.log("this is temp "+temp[0].name);
  this.setState({name: temp[0].name});

@@ -1,5 +1,5 @@
 import { Table, Button, Popconfirm } from 'antd';
-import React, { Component } from 'react';
+import React from 'react';
 import EditableCell from './editableCell';
 
 
@@ -50,7 +50,11 @@ class Setting extends React.Component {
   }
  componentWillReceiveProps = (nextProps) => {
    // this.setPromise(nextProps.initSource);
-    this.setState({dataSource:nextProps.initSource});
+     nextProps.initSource.map((i,index)=>{i.key=index+1});
+    // if(dataSource.length===0){
+ this.setState({dataSource:nextProps.initSource});
+   //  }
+   
   };
 
 

@@ -1,7 +1,6 @@
 import {Table, Button} from 'antd';
 import React from 'react';
 import {CSVLink} from 'react-csv';
-import {Select} from 'antd';
 import Menuelist from './menueList';
 import SelectType from './selectType';
 import {GetSetting} from './fetchjson';
