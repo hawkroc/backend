@@ -21,14 +21,16 @@ class SetLabels extends React.Component {
       title: 'GST',
       dataIndex: 'GST',
        width: '30%',
-      render: (text, record, index) => (
+      render: (text, record, index) =>{ 
+        let test=text.toString();
+        return  (
         <div>
-    <Select defaultValue="true" onChange={this.onCellChange(index, 'GST')}>
+    <Select value={test} defaultValue="true" onChange={this.onCellChange(index, 'GST')}>
       <Option value="true">GST</Option>
       <Option value="false">NOGST</Option>
     </Select>
   </div>
-      ),
+      )},
       
     }, {
       title: 'operation',

@@ -20,7 +20,7 @@ class PageTabs extends React.Component {
  GetSetting().then((response)=>{
    
       let tmp=response.data;
-       console.log("test2  "+JSON.stringify(tmp));
+
      if(tmp){
    this.setState({config:tmp});
       
@@ -33,12 +33,11 @@ class PageTabs extends React.Component {
   };
 
 changeConfig=(config)=>{
-this.setState(config:config);
+  //console.log("this is new config"+JSON.stringify(config));
+this.setState({config:config});
 }
 
-// getConfig=()=>{
-//   return 
-// }
+
   componentWillReceiveProps = (nextProps) => {
     this.setPromise(nextProps.promise);
 
@@ -49,11 +48,11 @@ this.setState(config:config);
 
   };
 setLabels=(labels)=>{
-  console.log('this is test set lablels'+labels);
+
   this.setState({labels:labels});
 };
   setAlias=(arry)=>{
-       console.log(this.state.alias.toString());
+ 
    this.setState({alias:arry});
 
   }

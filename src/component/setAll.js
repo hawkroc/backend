@@ -2,7 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import Setting from './setting';
 import SetLabels from './setLabels';
 import {SaveConfig,GetSetting} from './fetchjson';
-import { Row, Col,Button } from 'antd';
+import { Row, Col,Button,notification } from 'antd';
+
+
+const openNotificationWithIcon = (type) => {
+  notification[type]({
+    message: 'Save Success!',
+    description: 'Your setting is saved successful!',
+    duration:2,
+  });
+};
+
 class SetAll extends Component {
     static propTypes = {
         className: PropTypes.string,
@@ -39,7 +49,7 @@ constructor(props, context) {
     this.props.changeConfig(ctmp);
  SaveConfig(ctmp)
  .then((response)=>{
-    // console.log('this is what fuck');
+   openNotificationWithIcon('success');
     })
     .catch((error)=>{
       console.log(error);

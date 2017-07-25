@@ -59,7 +59,6 @@ export const SaveConfig = (config) => {
     },
     json: true
   };
-  console.log("this is insert"+JSON.stringify(config) );
   return axios(authOptions)
   .then(res=>{
    console.log(res) ;

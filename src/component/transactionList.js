@@ -113,26 +113,17 @@ this.openNotificationWithIcon('success');
   };
 
 
-componentDidMount =()=>{
- 
-}
-
   componentWillReceiveProps = (nextProps) => {
 
-
-
-      //console.log("2");
      this.setPromise(nextProps.promise,false); 
     //  console.log("1");
   let tmp=nextProps.config;
      if(tmp){
-//console.log(""+JSON.stringify(tmp.alias))
         this.setState({options: tmp.labels});
            this.setState({alias: tmp.alias});
+
      }
-  
-     
-       
+      
   };
 
 
