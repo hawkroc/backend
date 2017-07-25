@@ -29,7 +29,7 @@ class TransactionList extends React.Component {
   };
 
   handleGroupby=()=>{
-  console.log("this clickbutton");
+ // console.log("this clickbutton");
 };
 
 
@@ -92,7 +92,7 @@ this.openNotificationWithIcon('success');
        }
       });
 }
-          console.log("test3  ");
+         
 
       this.setState({isGroupBy:isGroupBy,data: rs,groupbyData:rs, loading: false, show: !this.state.show});
       if(!isGroupBy){
@@ -121,12 +121,12 @@ componentDidMount =()=>{
 
 
 
-      console.log("2");
+      //console.log("2");
      this.setPromise(nextProps.promise,false); 
-      console.log("1");
+    //  console.log("1");
   let tmp=nextProps.config;
      if(tmp){
-console.log(""+JSON.stringify(tmp.alias))
+//console.log(""+JSON.stringify(tmp.alias))
         this.setState({options: tmp.labels});
            this.setState({alias: tmp.alias});
      }
