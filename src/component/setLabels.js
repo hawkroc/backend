@@ -50,16 +50,11 @@ class SetLabels extends React.Component {
       count: 0,
     };
   }
-//   componentWillReceiveProps = (nextProps) => {
-//    nextProps.initLabels.map((i,index)=>{i.key=i._id});
-// console.log("this init "+JSON.stringify(nextProps.initLabels));
-//     this.setState({dataSource:nextProps.initLabels});
-//   };
+  componentWillReceiveProps = (nextProps) => {
+   nextProps.initLabels.map((i,index)=>{i.key=i._id});
+    this.setState({dataSource:nextProps.initLabels});
+  };
 
-  //  constructor(props) {
-  //   super(props);
-  //   this.state = { dataSource: props.labels };
-  // }
 
   onCellChange = (index, key) => {
     return (value) => {

@@ -23,6 +23,11 @@ class SetAll extends Component {
   }
 
 
+constructor(props, context) {
+    super(props, context);
+  }
+
+
     setLabels=(arry)=>{
    this.setState({labels:arry});
 
@@ -30,6 +35,7 @@ class SetAll extends Component {
 
      saveConfig=()=>{
       let ctmp={alias:this.state.alias,labels:this.state.labels};
+    this.props.changeConfig(ctmp);
  SaveConfig(ctmp)
  .then((response)=>{
     // console.log('this is what fuck');
@@ -42,22 +48,21 @@ class SetAll extends Component {
   }
 
 
+componentWillReceiveProps = (nextProps) => {
+ 
+         
+  };
 
 
   componentDidMount =()=>{
+   //console.log('this test ok1.........'+JSON.stringify(this.props.config));
+let tmp=this.props.config;
+ if(tmp){
    
- GetSetting().then((response)=>{
-      
-      let tmp=response.data;
- 
-     if(tmp){
-      
-          this.setLabels(tmp.labels);
-      
+           this.setLabels(tmp.labels);
           this.setAlias(tmp.alias);
-       
-          }
-    })
+     }
+
 }
 
 

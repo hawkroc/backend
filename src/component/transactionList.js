@@ -37,7 +37,9 @@ class TransactionList extends React.Component {
     console.log(`selected ${value}`);
 
   };
-
+constructor(props, context) {
+    super(props, context);
+  }
   
 
 onChangeSelect=(text)=>{
@@ -78,7 +80,9 @@ this.openNotificationWithIcon('success');
       }else{
         rs=value;
       }
+      
       let aliasTemp=this.state.alias;
+      if(aliasTemp){
       rs.map((i,index)=>{
         i.key=index+1;
        // console.log(i.from);
@@ -87,8 +91,8 @@ this.openNotificationWithIcon('success');
        i.to= (i.to==t.address)?t.name:i.to;
        }
       });
-
-       console.log("test3  "+JSON.stringify(this.state.alias));
+}
+          console.log("test3  ");
 
       this.setState({isGroupBy:isGroupBy,data: rs,groupbyData:rs, loading: false, show: !this.state.show});
       if(!isGroupBy){
@@ -108,30 +112,27 @@ this.openNotificationWithIcon('success');
     });
   };
 
-  componentDidMount =()=>{
 
-    GetSetting().then((response)=>{
-   
-      let tmp=response.data;
+componentDidMount =()=>{
+ 
+}
+
+  componentWillReceiveProps = (nextProps) => {
+
+
+
+      console.log("2");
+     this.setPromise(nextProps.promise,false); 
+      console.log("1");
+  let tmp=nextProps.config;
      if(tmp){
-
-      
+console.log(""+JSON.stringify(tmp.alias))
         this.setState({options: tmp.labels});
            this.setState({alias: tmp.alias});
      }
-         
-         
-    })
-}
-
-
-
-
-
-  componentWillReceiveProps = (nextProps) => {
-    this.setPromise(nextProps.promise,false);
   
      
+       
   };
 
 

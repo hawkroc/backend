@@ -3,30 +3,45 @@ import React from 'react';
 import TransactionList from './transactionList';
 import LineChart from './chartLine';
 import SetAll from './setAll';
+import {GetSetting} from './fetchjson';
 const TabPane = Tabs.TabPane;
 
 
 class PageTabs extends React.Component {
   state = {
     promise: {},
-  //  config:{},
-    alias:[],
-    labels:[],
+    config:{},
     data: [],
   };
-  callback = (key) => {
-
-  }
 
   constructor(props, context) {
     super(props, context);
+
+ GetSetting().then((response)=>{
+   
+      let tmp=response.data;
+       console.log("test2  "+JSON.stringify(tmp));
+     if(tmp){
+   this.setState({config:tmp});
+      
+        
+     }
+         
+         
+    })
+
   };
 
+changeConfig=(config)=>{
+this.setState(config:config);
+}
 
+// getConfig=()=>{
+//   return 
+// }
   componentWillReceiveProps = (nextProps) => {
     this.setPromise(nextProps.promise);
-    // this.setLabels(nextProps.labels);
-    // this.setAlias(next)
+
   };
 
   setPromise = (promise) => {
@@ -45,16 +60,17 @@ setLabels=(labels)=>{
 
 
   render() {
+
     return (
-      <Tabs defaultActiveKey="1" onChange={this.callback}>
+      <Tabs defaultActiveKey="1" >
         <TabPane tab="Busines Account" key="1">
-          <TransactionList promise={this.state.promise} labels={this.state.labels}/>
+          <TransactionList promise={this.state.promise} config={this.state.config}/>
         </TabPane>
         <TabPane tab="Dashboard" key="2">
           <LineChart />
         </TabPane>
         <TabPane tab="Setting" key="3">
-          <SetAll setAlias={this.setAlias} setLabels={this.setLabels} setAlias={this.setAlias}/>
+          <SetAll changeConfig={this.changeConfig} config={this.state.config}/>
         </TabPane>
       </Tabs>
     );

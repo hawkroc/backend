@@ -16,7 +16,7 @@ class SelctType extends React.Component {
   //this.setState({options:options});
 
 
-
+if(options){
 
 let GST= options.filter(i => {if (i.GST) return i }).map( (i) =>{
 
@@ -33,7 +33,7 @@ let NoGST= options.filter(i => {if (!i.GST) return i }).map( (i) =>{
 
 this.setState({GSToptions:GST});
 this.setState({NoGSToptions:NoGST});
-
+}
  }
 
  componentWillReceiveProps = (nextProps) => {
