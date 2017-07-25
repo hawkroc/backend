@@ -29,6 +29,7 @@ constructor(props, context) {
 
 
     setLabels=(arry)=>{
+      //console.log('this test ok1.........'+JSON.stringify(arry));
    this.setState({labels:arry});
 
   }
@@ -55,7 +56,7 @@ componentWillReceiveProps = (nextProps) => {
 
 
   componentDidMount =()=>{
-   //console.log('this test ok1.........'+JSON.stringify(this.props.config));
+   
 let tmp=this.props.config;
  if(tmp){
    
@@ -80,7 +81,7 @@ let tmp=this.props.config;
 
        
              <Col offset={1} span={9}>
-             <SetLabels setLabels={this.setLabels} initLabels={this.state.labels} />
+             <SetLabels setLabels={this.setLabels} initSource={this.state.labels} />
 
     </Col>
 </Row>

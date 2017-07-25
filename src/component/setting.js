@@ -49,10 +49,10 @@ class Setting extends React.Component {
     };
   }
  componentWillReceiveProps = (nextProps) => {
-
+ if(nextProps.initSource){
      nextProps.initSource.map((i,index)=>{i.key=index+1});
  this.setState({dataSource:nextProps.initSource});
-   //  }
+     }
    
   };
 

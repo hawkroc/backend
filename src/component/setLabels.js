@@ -51,8 +51,11 @@ class SetLabels extends React.Component {
     };
   }
   componentWillReceiveProps = (nextProps) => {
-   nextProps.initLabels.map((i,index)=>{i.key=i._id});
-    this.setState({dataSource:nextProps.initLabels});
+     if(nextProps.initSource){
+   //   console.log(JSON.stringify(nextProps.initSource));
+   nextProps.initSource.map((i,index)=>{i.key=i._id});
+    this.setState({dataSource:nextProps.initSource});
+  }
   };
 
 
