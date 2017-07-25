@@ -16,14 +16,14 @@ class SetAll extends Component {
   };
 
     setAlias=(arry)=>{
-       console.log(this.state.alias.toString());
+
    this.setState({alias:arry});
+
 
   }
 
 
     setLabels=(arry)=>{
-       console.log(this.state.labels.toString());
    this.setState({labels:arry});
 
   }
@@ -42,26 +42,29 @@ class SetAll extends Component {
   }
 
 
+
+
   componentDidMount =()=>{
-    GetSetting().then((response)=>{
+   
+ GetSetting().then((response)=>{
       
       let tmp=response.data;
-     // console.log('this is task'+response.data.labels);
+ 
      if(tmp){
-          this.setState({labels:tmp.labels,alias:tmp.alias});
-          this.props.setLabels(tmp.labels);
-          this.props.setAlias(tmp.alias);
+      
+          this.setLabels(tmp.labels);
+      
+          this.setAlias(tmp.alias);
+       
           }
     })
-
-
-// this.props.changeItem(GetCurrentBlock(this.state.address));
 }
 
 
  
 
     render() {
+
         return (
             <div>
             <Row>
@@ -72,7 +75,7 @@ class SetAll extends Component {
 
        
              <Col offset={1} span={9}>
-            <SetLabels setLabels={this.setLabels} initSource={this.state.labels} />
+             <SetLabels setLabels={this.setLabels} initLabels={this.state.labels} />
 
     </Col>
 </Row>

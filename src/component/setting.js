@@ -49,9 +49,8 @@ class Setting extends React.Component {
     };
   }
  componentWillReceiveProps = (nextProps) => {
-   // this.setPromise(nextProps.initSource);
+
      nextProps.initSource.map((i,index)=>{i.key=index+1});
-    // if(dataSource.length===0){
  this.setState({dataSource:nextProps.initSource});
    //  }
    
@@ -70,7 +69,6 @@ class Setting extends React.Component {
   }
   onDelete = (index) => {
     const dataSource = [...this.state.dataSource];
-    console.log('this is index '+index);
     dataSource.splice(index, 1);
     this.props.setAlias(dataSource);
     this.setState({ dataSource:dataSource });
@@ -83,8 +81,10 @@ class Setting extends React.Component {
       name: `input the Alias`,
       address: `input your Address`,
     };
+    let temp=[...dataSource, newData];
+     this.props.setAlias(temp);
     this.setState({
-      dataSource: [...dataSource, newData],
+      dataSource: temp,
      // count: count + 1,
     });
   }

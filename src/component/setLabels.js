@@ -46,14 +46,20 @@ class SetLabels extends React.Component {
     }];
 
     this.state = {
-      dataSource: [],
+      dataSource:[],
       count: 0,
     };
   }
-  componentWillReceiveProps = (nextProps) => {
-   nextProps.initSource.map((i,index)=>{i.key=index+1});
-    this.setState({dataSource:nextProps.initSource});
-  };
+//   componentWillReceiveProps = (nextProps) => {
+//    nextProps.initLabels.map((i,index)=>{i.key=i._id});
+// console.log("this init "+JSON.stringify(nextProps.initLabels));
+//     this.setState({dataSource:nextProps.initLabels});
+//   };
+
+  //  constructor(props) {
+  //   super(props);
+  //   this.state = { dataSource: props.labels };
+  // }
 
   onCellChange = (index, key) => {
     return (value) => {
@@ -78,9 +84,10 @@ class SetLabels extends React.Component {
       name: `input the Name${count}`,
       GST: `input your GST. ${count}`,
     };
-    console.log(count);
+   let temp=[...dataSource, newData];
+     this.props.setLabels(temp);
     this.setState({
-      dataSource: [...dataSource, newData],
+      dataSource: temp,
       count: count + 1,
     });
   }

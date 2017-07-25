@@ -10,20 +10,7 @@ class SelctType extends React.Component {
     NoGSToptions: [],
      labels:[],
   }
- //  componentDidMount = (value) => {
- //    let options;
- //    GetSetting().then((response)=>{
-      
- //      let tmp=response.data;
- //     // console.log('this is task'+response.data.labels);
- //     //     this.setState({labels:tmp.labels});
- //           options = tmp.labels.map((v) => {
- //      //  const email = `${value}@${domain}`;
- //        return <Option key={v.name}>{v.name}</Option>;
- //      });
- // this.setState({ options });
- //    })
- 
+
  setOptions=(options)=>{
  
   //this.setState({options:options});
