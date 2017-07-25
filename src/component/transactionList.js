@@ -3,7 +3,7 @@ import React from 'react';
 import {CSVLink} from 'react-csv';
 import Menuelist from './menueList';
 import SelectType from './selectType';
-import {GetSetting} from './fetchjson';
+//import {GetSetting} from './fetchjson';
 
 
 class TransactionList extends React.Component {
@@ -37,10 +37,7 @@ class TransactionList extends React.Component {
     console.log(`selected ${value}`);
 
   };
-constructor(props, context) {
-    super(props, context);
-  }
-  
+
 
 onChangeSelect=(text)=>{
 this.openNotificationWithIcon('success');
@@ -87,8 +84,8 @@ this.openNotificationWithIcon('success');
         i.key=index+1;
        // console.log(i.from);
        for(let t of aliasTemp){
-       i.from= (i.from==t.address)?t.name:i.from;
-       i.to= (i.to==t.address)?t.name:i.to;
+       i.from= (i.from===t.address)?t.name:i.from;
+       i.to= (i.to===t.address)?t.name:i.to;
        }
       });
 }

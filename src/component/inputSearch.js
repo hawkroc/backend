@@ -55,7 +55,7 @@ this.props.changeItem(GetCurrentBlock(this.state.address));
 
 
   render() {
-    const { userName } = this.state;
+ //   const { userName } = this.state;
    // const suffix = userName ? <Icon type="close-circle" onClick={this.emitEmpty} /> : null;
     return (
       <div>

@@ -5,9 +5,6 @@ class Exchange extends Component {
         className: PropTypes.string,
     };
 
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (

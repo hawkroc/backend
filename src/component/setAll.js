@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Setting from './setting';
 import SetLabels from './setLabels';
-import {SaveConfig,GetSetting} from './fetchjson';
+import {SaveConfig} from './fetchjson';
 import { Row, Col,Button,notification } from 'antd';
 
 
@@ -33,9 +33,9 @@ class SetAll extends Component {
   }
 
 
-constructor(props, context) {
-    super(props, context);
-  }
+// constructor(props, context) {
+//     super(props, context);
+//   }
 
 
     setLabels=(arry)=>{
