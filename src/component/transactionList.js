@@ -1,12 +1,12 @@
-import {Table, Button, notification} from 'antd';
+import {Table, Button} from 'antd';
 import React from 'react';
 import {CSVLink} from 'react-csv';
-import {Select, Popover} from 'antd';
+import {Select} from 'antd';
 import Menuelist from './menueList';
 import SelectType from './selectType';
 import {GetSetting} from './fetchjson';
 import Alias from './alias';
-const {Option, OptGroup} = Select;
+
 class TransactionList extends React.Component {
   state = {
     show: true,
@@ -78,6 +78,9 @@ this.openNotificationWithIcon('success');
       }else{
         rs=value;
       }
+      rs.map((i,index)=>{
+        i.key=index+1;
+      });
       this.setState({isGroupBy:isGroupBy,data: rs,groupbyData:rs, loading: false, show: !this.state.show});
       if(!isGroupBy){
               this.parseDataFromApi();
@@ -246,7 +249,7 @@ this.openNotificationWithIcon('success');
                 feed(csv)</CSVLink>
             </Button>
           </div>
-          <Table
+          <Table 
             loading={this.state.loading}
             columns={this.state.isGroupBy?columnsGroup:columns }
             dataSource={this.state.isGroupBy?this.state.groupbyData:this.state.data }

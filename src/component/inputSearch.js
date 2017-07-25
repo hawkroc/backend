@@ -1,7 +1,7 @@
 // import { Input, Icon } from 'antd';
 import { Row, Col } from 'antd';
-import { Button, Icon } from 'antd';
-import React, { Component } from 'react';
+import { Button } from 'antd';
+import React from 'react';
 import TimeRelatedForm from './searchTime';
 import {GetdataFromApi,GetCurrentBlock} from './fetchjson';
 
@@ -56,7 +56,7 @@ this.props.changeItem(GetCurrentBlock(this.state.address));
 
   render() {
     const { userName } = this.state;
-    const suffix = userName ? <Icon type="close-circle" onClick={this.emitEmpty} /> : null;
+   // const suffix = userName ? <Icon type="close-circle" onClick={this.emitEmpty} /> : null;
     return (
       <div>
       <div className="inputSearch ">

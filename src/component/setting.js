@@ -54,6 +54,7 @@ class Setting extends React.Component {
   };
 
 
+
   onCellChange = (index, key) => {
     return (value) => {
       const dataSource = [...this.state.dataSource];
@@ -65,21 +66,22 @@ class Setting extends React.Component {
   }
   onDelete = (index) => {
     const dataSource = [...this.state.dataSource];
+    console.log('this is index '+index);
     dataSource.splice(index, 1);
     this.props.setAlias(dataSource);
-    this.setState({ dataSource });
+    this.setState({ dataSource:dataSource });
      //
   }
   handleAdd = () => {
     const { count, dataSource } = this.state;
     const newData = {
-      key: dataSource.length,
-      name: `input the Alias${count}`,
-      address: `input your Address. ${count}`,
+      key: new Date().getTime(),
+      name: `input the Alias`,
+      address: `input your Address`,
     };
     this.setState({
       dataSource: [...dataSource, newData],
-      count: count + 1,
+     // count: count + 1,
     });
   }
   render() {

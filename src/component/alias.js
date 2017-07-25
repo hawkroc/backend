@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import {Button,Popover} from 'antd';
+import {Popover} from 'antd';
 
 class Alias extends Component {
     static propTypes = {

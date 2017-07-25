@@ -51,7 +51,7 @@ class SetLabels extends React.Component {
     };
   }
   componentWillReceiveProps = (nextProps) => {
-
+   nextProps.initSource.map((i,index)=>{i.key=index+1});
     this.setState({dataSource:nextProps.initSource});
   };
 
@@ -74,7 +74,7 @@ class SetLabels extends React.Component {
   handleAdd = () => {
     const { count, dataSource } = this.state;
     const newData = {
-      key: count+1,
+      key: new Date().getTime(),
       name: `input the Name${count}`,
       GST: `input your GST. ${count}`,
     };
@@ -91,7 +91,7 @@ class SetLabels extends React.Component {
       <div>
          <h2> Please input the labels  </h2>
         <Button className="editable-add-btn" onClick={this.handleAdd}>Add</Button>
-        <Table bordered dataSource={dataSource} columns={columns} />
+        <Table  bordered dataSource={dataSource} columns={columns} />
       </div>
     );
   }

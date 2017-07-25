@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import {Menu, Dropdown,Button, Icon, message } from 'antd';
+import {Menu, Dropdown, message } from 'antd';
 import {GroupBy,GetCurrentBlock} from './fetchjson';
 const configaddress="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae";
 
 
 class MenueList extends Component {
- constructor(props) {
-    super(props);
- 
-  }
+
 
 
  handleButtonClick=(e)=> {

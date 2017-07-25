@@ -29,8 +29,10 @@ class SetAll extends Component {
   }
 
      saveConfig=()=>{
- this.state.config.alias=this.state.alias;
-  this.state.config.labels=this.state.labels;
+      let ctmp={alias:this.state.alias,labels:this.state.labels};
+ // this.state.config.alias=this.state.alias;
+ //  this.state.config.labels=this.state.labels;
+ this.setState({config:ctmp});
  SaveConfig(this.state.config)
  .then((response)=>{
     // console.log('this is what fuck');
@@ -58,9 +60,7 @@ class SetAll extends Component {
 }
 
 
-    constructor(props) {
-        super(props);
-    }
+ 
 
     render() {
         return (

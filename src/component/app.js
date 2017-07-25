@@ -11,10 +11,7 @@ export default class App extends Component {
         promise: {},
     };
 
-    constructor(props, context) {
-        super(props, context);
-    };
-
+  
 
     changeItem=(item) => {
         this.setState({

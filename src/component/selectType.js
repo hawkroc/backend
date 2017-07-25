@@ -1,6 +1,5 @@
 import { notification } from 'antd';
 import React from 'react';
-import {SaveConfig,GetSetting} from './fetchjson';
 import { Select } from 'antd';
 import {UpdateType} from './fetchjson';
 const { Option, OptGroup } = Select;

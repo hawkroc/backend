@@ -12,7 +12,7 @@ class EditableCell extends React.Component {
   check = () => {
     this.setState({ editable: false });
     if (this.props.onChange) {
-      this.props.onChange(this.state.value);
+      this.props.onChange(this.state.value.trim());
     }
   }
   edit = () => {
