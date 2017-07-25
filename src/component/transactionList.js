@@ -4,15 +4,15 @@ import {CSVLink} from 'react-csv';
 import Menuelist from './menueList';
 import SelectType from './selectType';
 import {GetSetting} from './fetchjson';
-import Alias from './alias';
+
 
 class TransactionList extends React.Component {
   state = {
     show: true,
     data: null,
     loading: true,
-    labels:[],
     options: [],
+    alias:[],
     error: null,
     filteredInfo: null,
     sortedInfo: null,
@@ -63,6 +63,7 @@ this.openNotificationWithIcon('success');
   }
 
   setPromise = (promise,isGroupBy) => {
+
     if(promise===null){
         this.setState({isGroupBy:isGroupBy});
         return null;
@@ -77,9 +78,18 @@ this.openNotificationWithIcon('success');
       }else{
         rs=value;
       }
+      let aliasTemp=this.state.alias;
       rs.map((i,index)=>{
         i.key=index+1;
+       // console.log(i.from);
+       for(let t of aliasTemp){
+       i.from= (i.from==t.address)?t.name:i.from;
+       i.to= (i.to==t.address)?t.name:i.to;
+       }
       });
+
+       console.log("test3  "+JSON.stringify(this.state.alias));
+
       this.setState({isGroupBy:isGroupBy,data: rs,groupbyData:rs, loading: false, show: !this.state.show});
       if(!isGroupBy){
               this.parseDataFromApi();
@@ -99,18 +109,19 @@ this.openNotificationWithIcon('success');
   };
 
   componentDidMount =()=>{
-    GetSetting().then((response)=>{
-      
-      let tmp=response.data;
-    
-          this.setState({labels:tmp.labels,alias:tmp.alias});
-     this.setState({options: response.data.labels});
 
+    GetSetting().then((response)=>{
+   
+      let tmp=response.data;
+     if(tmp){
+
+      
+        this.setState({options: tmp.labels});
+           this.setState({alias: tmp.alias});
+     }
+         
          
     })
-
-
-// this.props.changeItem(GetCurrentBlock(this.state.address));
 }
 
 
@@ -176,7 +187,7 @@ this.openNotificationWithIcon('success');
         key: 'from',
         width: "15%",
         render: (text, record) => (
-            <Alias datasource={record.from} aliasSource={this.state.alias} name=''/>
+         record.from 
         ),
       },
 
@@ -187,8 +198,7 @@ this.openNotificationWithIcon('success');
         width: "15%",
         render: (text, record) => (
 
-
-         <Alias datasource={record.to} aliasSource={this.state.alias}/>
+record.to
          
         ),
 

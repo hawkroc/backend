@@ -30,10 +30,7 @@ class SetAll extends Component {
 
      saveConfig=()=>{
       let ctmp={alias:this.state.alias,labels:this.state.labels};
- // this.state.config.alias=this.state.alias;
- //  this.state.config.labels=this.state.labels;
- this.setState({config:ctmp});
- SaveConfig(this.state.config)
+ SaveConfig(ctmp)
  .then((response)=>{
     // console.log('this is what fuck');
     })
@@ -50,9 +47,11 @@ class SetAll extends Component {
       
       let tmp=response.data;
      // console.log('this is task'+response.data.labels);
+     if(tmp){
           this.setState({labels:tmp.labels,alias:tmp.alias});
           this.props.setLabels(tmp.labels);
           this.props.setAlias(tmp.alias);
+          }
     })
 
 

@@ -111,6 +111,7 @@ CreateSetting = (alias,labels) => {
         }
 
  setting.save((err) => {
+   // console.log("test is ok"+JSON.stringify(setting));
         if (err) {
           
             return err;

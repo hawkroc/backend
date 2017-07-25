@@ -71,7 +71,7 @@ router.route('/createConfig')
     .post((req, res) => {
          let labels = req.body.labels;
          let alias = req.body.alias;
-         console.log("this is labels  "+labels);
+         console.log("this is alias  "+alias);
         CreateSetting(alias,labels).then((response)=>{
             res.json(response);
         }
