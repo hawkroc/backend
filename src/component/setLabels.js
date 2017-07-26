@@ -65,6 +65,7 @@ class SetLabels extends React.Component {
     return (value) => {
       const dataSource = [...this.state.dataSource];
      // console.log(JSON.stringify(value));
+     value=(value==="false")?false:value;
       dataSource[index][key] = value;
       this.props.setLabels(dataSource);
       this.setState({ dataSource });

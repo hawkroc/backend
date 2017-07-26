@@ -34,7 +34,7 @@ class PageTabs extends React.Component {
   };
 
 changeConfig=(config)=>{
-  //console.log("this is new config"+JSON.stringify(config));
+  console.log("this is new config"+JSON.stringify(config));
 this.setState({config:config});
 }
 

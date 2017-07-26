@@ -19,14 +19,14 @@ if(options){
 
 let GST= options.filter(i => {if (i.GST) return i }).map( (i) =>{
 
-      return <Option key={i.key}>{i.name}</Option> 
+      return <Option key={i.key} value={i.key.toString()}>{i.name}</Option> 
 
     });
 
 
 let NoGST= options.filter(i => {if (!i.GST) return i }).map( (i) =>{
 
-      return <Option key={i.key}>{i.name}</Option> 
+      return <Option key={i.key} value={i.key.toString()}>{i.name}</Option> 
 
     });
 
@@ -42,7 +42,8 @@ this.setState({NoGSToptions:NoGST});
   if(nextProps.optionsInt){
 for (let t of nextProps.optionsInt ){
   if(nextProps.record.type===t.key){
-    this.setState({selectValue:t.name});
+    console.log(nextProps.record.type);
+    this.setState({selectValue:nextProps.record.type});
     break;
 
   }
@@ -71,9 +72,9 @@ openNotificationWithIcon = (type) => {
   
 
   render() {
-   if(this.state.selectValue){
-   console.log(this.state.selectValue);
-}
+//    if(this.state.selectValue){
+//    console.log(this.state.selectValue);
+// }
 
     return (
       <Select
