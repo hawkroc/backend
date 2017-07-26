@@ -56,15 +56,9 @@ router.route('/search/:start/:end')
 router.route('/updateType')
 
     .post((req, res) => {
-        let id = req.body.id ? req.body.id : "596ec20f500174208cd07a99";
-        let type = req.body.type ? req.body.type : 4;
-        console.log("this is type " + type);
-        UpdateRecorder(id, type).then((response) => {
-
-            //    console.log('this response2 '+JSON.stringify(response));
-            res.json(response);
-        })
-
+        let id = req.body.id ;
+        let type = req.body.type ;
+        res.json( UpdateRecorder(id, type));
     });
 
 router.route('/createConfig')

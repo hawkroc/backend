@@ -86,17 +86,20 @@ export const GetSetting = () => {
 }
 
 const updateTypeUrl="updateType";
-export const UpdateType = (timestamp,type) => {
+export const UpdateType = (id,type) => {
    
 
   let final =baseUrl+ updateTypeUrl;
    // console.log("this is config ?"+config.toString());
+   let config={"id":id,"type":type};
   let authOptions = {
     method: 'POST',
     url: final,
-    id: timestamp,
-    type:type,
-
+    data: config,
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    json: true
   };
 
   return axios(authOptions)

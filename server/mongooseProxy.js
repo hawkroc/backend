@@ -7,7 +7,7 @@ CreateRecords = (array, address) => {
         item.time = new Date(item.timeStamp * 1000).toLocaleDateString();
         item.address = address;
         item.blockNumber = parseInt(item.blockNumber);
-        item.type = 1;
+        item.type = null;
     });
 
 
@@ -87,16 +87,16 @@ GetDataRecords = (start, end) => {
 }
 
 UpdateRecorder = (id, type) => {
-    return Record.findById(id, (err, r) => {
-       // // if (err) return handleError(err);
+console.log("this is2 type " + type+" this is  id"+id);
+return Record.update({ '_id': id }, { $set: { 'type': type}}, (err, result) => {
+            if (err) {
 
-       //  r.type = type;
-       //  r.save((err, updatedRecord) => {
-       //      if (err) return handleError(err);
-       //      // res.send(updatedTank);
-       //      return updatedRecord;
-       //  });
-    });
+                console.log("this is error ");
+            } else {
+                  console.log(JSON.stringify(result));
+                return result;
+            }
+        });
 }
 
 

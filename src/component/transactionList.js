@@ -42,6 +42,7 @@ class TransactionList extends React.Component {
 onChangeSelect=(text)=>{
 this.openNotificationWithIcon('success');
   console.log(`selected ${text}`);
+
  // console.log(''+record);
 }
 
@@ -68,6 +69,7 @@ this.openNotificationWithIcon('success');
         return null;
     }
     promise.then((value) => {
+
       let rs=null;
       
       if(isGroupBy){
@@ -225,13 +227,13 @@ record.to
         title: ' Tx type',
         key: 'type',
         width: "18%",
-        render: (text, record) => (
-      
-       
+        render: (text, record) => {
+
+          return(
           <div>
-<SelectType optionsInt={this.state.options} recordId={record.timeStamp} />
+<SelectType optionsInt={this.state.options} recordId={record._id} selectValue={record.type} />
           </div>
-        ),
+        )},
       },
 
     ];
@@ -248,6 +250,7 @@ record.to
             </Button>
           </div>
           <Table 
+             rowKey={record => record._id}
             loading={this.state.loading}
             columns={this.state.isGroupBy?columnsGroup:columns }
             dataSource={this.state.isGroupBy?this.state.groupbyData:this.state.data }

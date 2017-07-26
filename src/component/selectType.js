@@ -9,6 +9,8 @@ class SelctType extends React.Component {
     GSToptions: [],
     NoGSToptions: [],
      labels:[],
+     recordId:'',
+     selectValue:'',
   }
 
  setOptions=(options)=>{
@@ -20,14 +22,14 @@ if(options){
 
 let GST= options.filter(i => {if (i.GST) return i }).map( (i) =>{
 
-      return <Option key={i.name}>{i.name}</Option> 
+      return <Option key={i._id}>{i.name}</Option> 
 
     });
 
 
 let NoGST= options.filter(i => {if (!i.GST) return i }).map( (i) =>{
 
-      return <Option key={i.name}>{i.name}</Option> 
+      return <Option key={i._id}>{i.name}</Option> 
 
     });
 
@@ -38,14 +40,17 @@ this.setState({NoGSToptions:NoGST});
 
  componentWillReceiveProps = (nextProps) => {
   this.setOptions(nextProps.optionsInt);
+  this.setState({recordId:nextProps.recordId});
+  //console.log('this is test value ......'+nextProps.selectValue);
+  this.setState({selectValue:nextProps.selectValue})
  }
     
 
 
     handleChange=(value)=> {
       this.openNotificationWithIcon("success");
-       UpdateType(this.props.recordId,value);
-  console.log(`selected ${value}`);
+       UpdateType(this.state.recordId,value);
+  //console.log(`selected ${value}`+' id is '+ this.state.recordId);
 }
 
   
@@ -64,6 +69,7 @@ openNotificationWithIcon = (type) => {
     // filterOption needs to be false，as the value is dynamically generated
     return (
       <Select
+        defaultValue={this.state.selectValue}
         style={{ width: 200 }}
         onChange={this.handleChange}
         placeholder="select type"

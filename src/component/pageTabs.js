@@ -22,7 +22,7 @@ class PageTabs extends React.Component {
       let tmp=response.data;
 
      if(tmp){
-      console.log(JSON.stringify(tmp));
+    
    this.setState({config:tmp});
       
         
