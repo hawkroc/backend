@@ -39,7 +39,7 @@ class SetAll extends Component {
 
 
     setLabels=(arry)=>{
-      //console.log('this test ok1.........'+JSON.stringify(arry));
+      console.log('this test ok1.........'+JSON.stringify(arry));
    this.setState({labels:arry});
 
   }
@@ -68,11 +68,16 @@ componentWillReceiveProps = (nextProps) => {
   componentDidMount =()=>{
    
 let tmp=this.props.config;
- if(tmp){
-   
+
+       if(tmp.labels){
            this.setLabels(tmp.labels);
-          this.setAlias(tmp.alias);
-     }
+           }
+
+           if(tmp.alias){
+           this.setAlias(tmp.alias);
+           }
+         
+     
 
 }
 

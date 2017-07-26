@@ -8,6 +8,6 @@ const mongoose = require('../server/db.js'),
 const SettingSchema = new Schema({
   id:Number,
   alias:[{name:String,address:String}],
-  labels:[{name:String,GST:Boolean}]
+  labels:[{name:String,GST:Boolean,key:String}]
 });
 module.exports = mongoose.model('Setting', SettingSchema);

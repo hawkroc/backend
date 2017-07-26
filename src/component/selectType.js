@@ -22,14 +22,14 @@ if(options){
 
 let GST= options.filter(i => {if (i.GST) return i }).map( (i) =>{
 
-      return <Option key={i._id}>{i.name}</Option> 
+      return <Option key={i.key}>{i.name}</Option> 
 
     });
 
 
 let NoGST= options.filter(i => {if (!i.GST) return i }).map( (i) =>{
 
-      return <Option key={i._id}>{i.name}</Option> 
+      return <Option key={i.key}>{i.name}</Option> 
 
     });
 
@@ -74,11 +74,11 @@ openNotificationWithIcon = (type) => {
         onChange={this.handleChange}
         placeholder="select type"
       >
-       <OptGroup label="GST">
+       <OptGroup label="GST" key ="GST">
        {this.state.GSToptions}
           </OptGroup>
 
-          <OptGroup label="NoGst">
+          <OptGroup label="NoGst" key ="NoGst">
            {this.state.NoGSToptions}
     
           </OptGroup>
