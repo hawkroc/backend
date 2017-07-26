@@ -43,6 +43,7 @@ this.setState({NoGSToptions:NoGST});
 for (let t of nextProps.optionsInt ){
   if(nextProps.record.type===t.key){
    // console.log(nextProps.record.type);
+   // this.setState({selectValue:nextProps.record.type});
     this.setState({selectValue:t.name});
     break;
 
@@ -71,13 +72,13 @@ openNotificationWithIcon = (type) => {
   
 
   render() {
-//    if(this.state.selectValue){
-//    console.log(this.state.selectValue);
-// }
+   if(this.state.selectValue){
+   console.log(this.state.selectValue);
+}
 
     return (
       <div>
-      <div> {this.state.selectValue}</div>
+      <div>{this.state.selectValue}</div>
       <Select
         defaultValue={this.state.selectValue}
         style={{ width: 200 }}
