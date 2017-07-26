@@ -39,7 +39,7 @@ class SetAll extends Component {
 
 
     setLabels=(arry)=>{
-      console.log('this test ok1.........'+JSON.stringify(arry));
+      
    this.setState({labels:arry});
 
   }

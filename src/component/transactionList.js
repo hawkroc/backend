@@ -79,7 +79,7 @@ this.openNotificationWithIcon('success');
       }else{
         rs=value;
       }
-      
+
       let aliasTemp=this.state.alias;
       if(aliasTemp){
       rs.map((i,index)=>{
@@ -231,7 +231,7 @@ record.to
 
           return(
           <div>
-<SelectType optionsInt={this.state.options} recordId={record._id} selectValue={record.type} />
+<SelectType optionsInt={this.state.options} record ={record}  />
           </div>
         )},
       },

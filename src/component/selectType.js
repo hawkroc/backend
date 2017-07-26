@@ -14,9 +14,6 @@ class SelctType extends React.Component {
   }
 
  setOptions=(options)=>{
- 
-  //this.setState({options:options});
-
 
 if(options){
 
@@ -40,9 +37,17 @@ this.setState({NoGSToptions:NoGST});
 
  componentWillReceiveProps = (nextProps) => {
   this.setOptions(nextProps.optionsInt);
-  this.setState({recordId:nextProps.recordId});
-  //console.log('this is test value ......'+nextProps.selectValue);
-  this.setState({selectValue:nextProps.selectValue})
+
+  this.setState({recordId:nextProps.record._id});
+  if(nextProps.optionsInt){
+for (let t of nextProps.optionsInt ){
+  if(nextProps.record.type===t.key){
+    this.setState({selectValue:t.name});
+    break;
+
+  }
+}
+} 
  }
     
 
@@ -66,7 +71,10 @@ openNotificationWithIcon = (type) => {
   
 
   render() {
-    // filterOption needs to be false，as the value is dynamically generated
+   if(this.state.selectValue){
+   console.log(this.state.selectValue);
+}
+
     return (
       <Select
         defaultValue={this.state.selectValue}
@@ -74,11 +82,11 @@ openNotificationWithIcon = (type) => {
         onChange={this.handleChange}
         placeholder="select type"
       >
-       <OptGroup label="GST" key ="GST">
+       <OptGroup label="GST" >
        {this.state.GSToptions}
           </OptGroup>
 
-          <OptGroup label="NoGst" key ="NoGst">
+          <OptGroup label="NoGst">
            {this.state.NoGSToptions}
     
           </OptGroup>
