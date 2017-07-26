@@ -79,9 +79,6 @@ this.props.changeItem(GetCurrentBlock(this.state.address));
        </Col>
 
 
-
-
-
        </Row>
       
       </div>

@@ -42,8 +42,8 @@ this.setState({NoGSToptions:NoGST});
   if(nextProps.optionsInt){
 for (let t of nextProps.optionsInt ){
   if(nextProps.record.type===t.key){
-    console.log(nextProps.record.type);
-    this.setState({selectValue:nextProps.record.type});
+   // console.log(nextProps.record.type);
+    this.setState({selectValue:t.name});
     break;
 
   }
@@ -56,7 +56,6 @@ for (let t of nextProps.optionsInt ){
     handleChange=(value)=> {
       this.openNotificationWithIcon("success");
        UpdateType(this.state.recordId,value);
-  //console.log(`selected ${value}`+' id is '+ this.state.recordId);
 }
 
   
@@ -77,6 +76,8 @@ openNotificationWithIcon = (type) => {
 // }
 
     return (
+      <div>
+      <div> {this.state.selectValue}</div>
       <Select
         defaultValue={this.state.selectValue}
         style={{ width: 200 }}
@@ -93,6 +94,7 @@ openNotificationWithIcon = (type) => {
           </OptGroup>
 
       </Select>
+      </div>
     );
   }
 }
