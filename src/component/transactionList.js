@@ -114,14 +114,17 @@ this.openNotificationWithIcon('success');
 
 
 componentDidMount= ()=> {
+  this.getCurrentExchange();
+};
+
+getCurrentExchange=()=>{
+
    GetExchange().then((response)=>{
-   console.log('this exchange'+response.toString() )
+   //console.log('this exchange'+response.toString() )
   this.setState({ exchange:response.toString() });
 
 })
 };
-
-
 
 
   componentWillReceiveProps = (nextProps) => {
@@ -271,6 +274,7 @@ record.to
               <CSVLink filename={"export.csv"} data={(this.state.csvData) ? (this.state.csvData) : []}>Xero
                 feed(csv)</CSVLink>
             </Button>
+            <Button onClick={this.getCurrentExchange}> GetExchange </Button>
           </div>
           <Table 
              rowKey={record => record._id}
