@@ -220,7 +220,7 @@ record.to
       },
 
      {
-        title: '‘USD equivalent',
+        title: 'USD equivalent',
         dataIndex: 'gasPrice',
         key: 'gasPrice',
         width: "6%",
