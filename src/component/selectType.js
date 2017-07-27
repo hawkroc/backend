@@ -19,7 +19,7 @@ if(options){
 
 let GST= options.filter(i => {if (i.GST) return i }).map( (i) =>{
 
-      return <Option key={i.key} value={i.key.toString()}>{i.name}</Option> 
+      return <Option key={i.key} value={i.key.toString()}>{i.name}</Option>
 
     });
 
@@ -81,7 +81,7 @@ openNotificationWithIcon = (type) => {
       <div>{this.state.selectValue}</div>
       <Select
         defaultValue={this.state.selectValue}
-        style={{ width: 200 }}
+        style={{ width: 100 }}
         onChange={this.handleChange}
         placeholder="select type"
       >

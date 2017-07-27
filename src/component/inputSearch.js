@@ -7,8 +7,7 @@ import {GetdataFromApi,GetCurrentBlock} from './fetchjson';
 
 
 const configaddress="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae";
-//const FormItem = Form.Item;
-//const logo="./img/blockeeper_Blue.png";
+
 class InputSearch extends React.Component {
  constructor(props) {
     super(props);
@@ -64,7 +63,7 @@ this.props.changeItem(GetCurrentBlock(this.state.address));
     <Row>
  <Col offset={1}  span={2}>
  <div >
- <img className="logo" src={require("../../img/blockeeper_Blue.png")}/>
+ <img  role="presentation" className="logo" src={require("../../img/blockeeper_Blue.png")}/>
  </div>
 
 

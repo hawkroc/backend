@@ -45,7 +45,7 @@ class Setting extends React.Component {
 
     this.state = {
       dataSource: [],
-      count: 0,
+      //count: 0,
     };
   }
  componentWillReceiveProps = (nextProps) => {
@@ -75,7 +75,7 @@ class Setting extends React.Component {
      //
   }
   handleAdd = () => {
-    const { count, dataSource } = this.state;
+    const {  dataSource } = this.state;
     const newData = {
       key: new Date().getTime(),
       name: `input the Alias`,

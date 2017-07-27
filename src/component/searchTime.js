@@ -22,14 +22,14 @@ getTimDiff=(m)=>{
  return m.diff(Date.now())/timeDiff;
 
 }
- disabledRangeTime=(_, type)=> {
-  type === 'start'?{
+ // disabledRangeTime=(_, type)=> {
+ //  type === 'start'?{
 
-      disabledHours: () => this.range(0, 60).splice(4, 20),
-      disabledMinutes: () => this.range(30, 60),
-      disabledSeconds: () => [55, 56],
-    }:null;
-  }
+ //      disabledHours: () => this.range(0, 60).splice(4, 20),
+ //      disabledMinutes: () => this.range(30, 60),
+ //      disabledSeconds: () => [55, 56],
+ //    }:null;
+ //  }
 
 
   range = (start, end)=> {
@@ -45,7 +45,6 @@ getTimDiff=(m)=>{
     <div>
      <RangePicker
       disabledDate={this.disabledDate}
-      disabledTime={this.disabledRangeTime}
       onChange={this.onChange}
       size={'large'}
       showTime={{

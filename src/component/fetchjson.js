@@ -1,9 +1,9 @@
 import axios from 'axios';
 //const url = "http://api.etherscan.io/api?module=account&action=txlist&address=";
 const key = "&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV";
-const urlLocal="http://127.0.0.1:3001/api/search/";
+const urlLocal="http://192.168.88.77:3001/api/search/";
 var currentNumber;
-const baseUrl="http://127.0.0.1:3001/api/";
+const baseUrl="http://192.168.88.77:3001/api/";
 //test
 export const GetdataFromApi = (start, end,configaddress,isFirst) => { 
   if(!isFirst){

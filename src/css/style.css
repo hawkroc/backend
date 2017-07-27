@@ -153,6 +153,11 @@
 }
 
 .extrange{
-  color: red;
+  color: green;
   font-style:normal;
+  display: line;
+}
+
+.selectType{
+  width: 30px;
 }
