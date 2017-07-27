@@ -9,7 +9,7 @@ scheduleCronstyle = () => {
         GetCurrentBlock().then((response) => {
             end = response.data.result;
             console.log('this is current blcok ' + response.data.result);
-            GetMaxBlock().then((response) => {
+            GetMaxBlock(address).then((response) => {
                 //  console.log("this max number "+response.data.blockNumber);
                // (response) ? start = response.data.blockNumber: 1;
                 if (response === null) {
@@ -17,6 +17,7 @@ scheduleCronstyle = () => {
                 } else {
                     start = parseInt(response.blockNumber)+1;
                 }
+                  console.log(' max blcok ' + start);
                 GetdataFromApi(start, end, address).then((response) => {
 
                    CreateRecords(response.data.result, address);

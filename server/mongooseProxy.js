@@ -15,7 +15,7 @@ CreateRecords = (array, address) => {
         if (err) {
             // TODO: handle error
         } else {
-            console.info('%d potatoes were successfully stored.', docs.length);
+            console.info('%d records were successfully stored.', docs.length);
         }
 
 
@@ -25,9 +25,9 @@ CreateRecords = (array, address) => {
 
 
 
-GetMaxBlock = () => {
+GetMaxBlock = (address) => {
 
-    return Record.findOne()
+    return Record.findOne({ 'address': address})
         // .select('record.blockNumber')
         .sort({ "blockNumber": -1 }) // give me the max
         .exec((err, record) => {
