@@ -3,7 +3,7 @@ import React from 'react';
 import {CSVLink} from 'react-csv';
 import Menuelist from './menueList';
 import SelectType from './selectType';
-//import {GetSetting} from './fetchjson';
+import {GetExchange} from './fetchjson';
 
 
 class TransactionList extends React.Component {
@@ -14,6 +14,7 @@ class TransactionList extends React.Component {
     options: [],
     alias:[],
     error: null,
+    exchange:"",
     filteredInfo: null,
     sortedInfo: null,
     isGroupBy:false,
@@ -112,6 +113,17 @@ this.openNotificationWithIcon('success');
   };
 
 
+componentDidMount= ()=> {
+   GetExchange().then((response)=>{
+   console.log('this exchange'+response.toString() )
+  this.setState({ exchange:response.toString() });
+
+})
+};
+
+
+
+
   componentWillReceiveProps = (nextProps) => {
 
      this.setPromise(nextProps.promise,false); 
@@ -176,7 +188,7 @@ this.openNotificationWithIcon('success');
         title: 'From',
         dataIndex: 'from',
         key: 'from',
-        width: "15%",
+        width: "12%",
         render: (text, record) => (
          record.from 
         ),
@@ -186,7 +198,7 @@ this.openNotificationWithIcon('success');
         title: 'To',
         dataIndex: 'to',
         key: 'to',
-        width: "15%",
+        width: "12%",
         render: (text, record) => (
 
 record.to
@@ -207,6 +219,17 @@ record.to
         },
       },
 
+     {
+        title: '‘USD equivalent',
+        dataIndex: 'gasPrice',
+        key: 'gasPrice',
+        width: "6%",
+        render: (text, record) => {
+        return (text * Math.pow(10, -18) * record.gas).toFixed(8)*this.state.exchange;
+        },
+      },
+
+
       {
         title: 'Note',
         dataIndex: 'contractAddress',
@@ -226,7 +249,7 @@ record.to
       {
         title: ' Tx type',
         key: 'type',
-        width: "18%",
+        width: "12%",
         render: (text, record) => {
 
           return(

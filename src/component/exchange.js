@@ -1,22 +1,44 @@
 import React, { Component, PropTypes } from 'react';
+import {GetExtrange} from './fetchjson';
 
 class Exchange extends Component {
-    static propTypes = {
-        className: PropTypes.string,
+    constructor(props) {
+    super(props);
+    this.state = {
+    extrange:"",
     };
+  }
+
+componentDidMount= ()=> {
+   let intervalId = setInterval(this.timer, 6000);
+   // store intervalId in the state so it can be accessed later:
+   this.setState({intervalId: intervalId});
+}
+
+componentWillUnmount= ()=> {
+   // use intervalId from the state to clear the interval
+   clearInterval(this.state.intervalId);
+}
+
+timer= ()=> {
+GetExtrange().then((response)=>{
+
+  this.setState({ extrange:response.toString() });
+
+})
+ 
+
+}
+
 
 
     render() {
         return (
             
-        <div>    
-<p className="marquee"><span>Bitcoin<a href="http://windows.microsoft.com/en-US/windows-8/start-screen">ETC</a>, <a href="http://windows.microsoft.com/en-US/windows-8/charms">ETH</a>, and a <a href="http://windows.microsoft.com/en-US/windows-8/microsoft-account">coin</a></span></p>
+        
+{this.state.extrange} 
 
-<p className="vanity">
- 
-</p>
 
-</div>
 
         );
     }

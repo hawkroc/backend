@@ -12,7 +12,7 @@ export const GetdataFromApi = (start, end,configaddress,isFirst) => {
       }
     //let final = url +configaddress+"&startblock="+ start + "&endblock=" + end + "&sort=desc" + key;
    let final=urlLocal+start+"/"+end;
-    console.log("get data from "+final);
+   // console.log("get data from "+final);
     return fetch(final, {
         method: 'get'
     }).then((response) => {
@@ -26,7 +26,7 @@ const currentBlock = "https://api.etherscan.io/api?module=proxy&action=eth_block
 
 export const GetCurrentBlock = (address) => {
     let final = currentBlock + key;
-    console.log(final);
+  //  console.log(final);
    return axios.get(final).then(
    	(response) =>{  
        currentNumber=parseInt(response.data.result, 16);
@@ -38,7 +38,7 @@ const groupBy="groupby/test"
 
 export const GroupBy = (address) => {
     let final =baseUrl+ groupBy;
-    console.log(final);
+ //   console.log(final);
    return axios.get(final).then(
     (response) =>{  
       return response;
@@ -67,7 +67,7 @@ export const SaveConfig = (config) => {
   .catch(err=>{
 
   
-   console.log("this invoked is ok working but error..... "+err) 
+ //  console.log("this invoked is ok working but error..... "+err) 
 
  })
 
@@ -77,7 +77,7 @@ export const SaveConfig = (config) => {
 const getSetting="getSetting";
 export const GetSetting = () => {
     let final =baseUrl+ getSetting;
-    console.log(final);
+ //   console.log(final);
    return axios.get(final).then(
     (response) =>{  
       // console.log(response);
@@ -113,4 +113,13 @@ export const UpdateType = (id,type) => {
 
 
 
+}
+
+const exchange="https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD";
+export const GetExchange = () => {
+   return axios.get(exchange).then(
+    (response) =>{  
+    
+      return response.data.USD;
+    });
 }
