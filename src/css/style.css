@@ -151,12 +151,13 @@
   margin-left: 79%;
   background-color: #108ee9;
 }
-
-.extrange{
-  color: green;
+.exchangeDiv{
+   color: green;
   font-style:normal;
-  display: line;
+  display: inline;
+  margin-left: 1em;
 }
+
 
 .selectType{
   width: 30px;

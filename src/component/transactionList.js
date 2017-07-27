@@ -264,7 +264,7 @@ record.to
 
     ];
     return (
-      <div>
+      <div className="exchangeDiv">
 
         <div className="tableList">
           <div className="table-operations">
@@ -274,7 +274,7 @@ record.to
               <CSVLink filename={"export.csv"} data={(this.state.csvData) ? (this.state.csvData) : []}>Xero
                 feed(csv)</CSVLink>
             </Button>
-            <div className="extrange">1 ETH = {this.state.exchange}USD</div>
+            <div className="exchangeDiv">1 ETH = {this.state.exchange}USD</div>
           </div>
           <Table 
              rowKey={record => record._id}
