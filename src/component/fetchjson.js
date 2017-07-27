@@ -123,3 +123,14 @@ export const GetExchange = () => {
       return response.data.USD;
     });
 }
+
+const balance="https://api.etherscan.io/api?module=account&action=balance&tag=latest"+key+"&address=";
+
+export const GetBalance = (address) => {
+  let final = balance+address;
+   return axios.get(exchange).then(
+    (response) =>{  
+    
+      return response.data.result;
+    });
+}

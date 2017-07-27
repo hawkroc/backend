@@ -5,7 +5,7 @@ class Exchange extends Component {
     constructor(props) {
     super(props);
     this.state = {
-    extrange:"",
+    rate:"",
     };
   }
 
@@ -23,7 +23,7 @@ componentWillUnmount= ()=> {
 timer= ()=> {
 GetExtrange().then((response)=>{
 
-  this.setState({ extrange:response.toString() });
+  this.setState({ rate:response.toString() });
 
 })
  
@@ -36,7 +36,7 @@ GetExtrange().then((response)=>{
         return (
             
         
-{this.state.extrange} 
+{this.state.rate} 
 
 
 
