@@ -87,7 +87,7 @@ let tmp=this.props.config;
         return (
             <div>
             <Row>
-             <Col offset={1} span={9}>
+             <Col offset={1} span={10}>
             <Setting setAlias={this.setAlias} initSource={this.state.alias} />
 
     </Col>

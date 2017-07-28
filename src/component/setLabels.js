@@ -9,7 +9,7 @@ class SetLabels extends React.Component {
     this.columns = [{
       title: 'name',
       dataIndex: 'name',
-      width: '30%',
+      width: '40%',
       render: (text, record, index) => (
         <EditableCell
           value={text}
