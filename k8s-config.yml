@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: blockeeper-service
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      labels:
+        app: blockeeper-service
+    spec:
+      containers:
+      - name: blockeeper-service
+        image: centralitycontainerregistry-on.azurecr.io/centrality/etherdelta.blockeeper:1.0.<number>
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+      imagePullSecrets:
+      - name: registry-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blockeeper-service
+  labels:
+    app: blockeeper-service
+spec:
+  ports:
+  - port: 3000
+  selector:
+    app: blockeeper-service
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: blockeeper-service
+  labels:
+    app: blockeeper-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    name: blockeeper-service
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
