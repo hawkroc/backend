@@ -46,10 +46,10 @@ const menu = (
 const menuType = (
   <Menu>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://localhost:3000/">GST</a>
+      <a target="_blank" rel="noopener noreferrer" href="http://192.168.88.77:3000/">GST</a>
     </Menu.Item>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://localhost:3000/">Non-GST</a>
+      <a target="_blank" rel="noopener noreferrer" href="http://192.168.88.77:3000/">Non-GST</a>
     </Menu.Item>
   </Menu>
 );

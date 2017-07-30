@@ -1,6 +1,7 @@
 import { Table, Button, Popconfirm } from 'antd';
 import React from 'react';
 import EditableCell from './editableCell';
+import Balance from './balance';
 
 
 class Setting extends React.Component {
@@ -28,7 +29,19 @@ class Setting extends React.Component {
         />
       ),
       
-    }, {
+    },
+    {
+      title: 'balance',
+      dataIndex: 'balance',
+       width: '30%',
+      render: (text, record, index) => {
+        let tmp=record.address;
+        console.log("this is address "+tmp);
+        return (<Balance address={this.tmp}/>)
+      },
+      
+    }
+    , {
       title: 'operation',
       dataIndex: 'operation',
       render: (text, record, index) => {
@@ -45,7 +58,7 @@ class Setting extends React.Component {
 
     this.state = {
       dataSource: [],
-      count: 0,
+      //count: 0,
     };
   }
  componentWillReceiveProps = (nextProps) => {
@@ -75,7 +88,7 @@ class Setting extends React.Component {
      //
   }
   handleAdd = () => {
-    const { count, dataSource } = this.state;
+    const {  dataSource } = this.state;
     const newData = {
       key: new Date().getTime(),
       name: `input the Alias`,

@@ -19,7 +19,7 @@ if(options){
 
 let GST= options.filter(i => {if (i.GST) return i }).map( (i) =>{
 
-      return <Option key={i.key} value={i.key.toString()}>{i.name}</Option> 
+      return <Option key={i.key} value={i.key.toString()}>{i.name}</Option>
 
     });
 
@@ -40,22 +40,30 @@ this.setState({NoGSToptions:NoGST});
 
   this.setState({recordId:nextProps.record._id});
   if(nextProps.optionsInt){
-for (let t of nextProps.optionsInt ){
-  if(nextProps.record.type===t.key){
-   // console.log(nextProps.record.type);
-   // this.setState({selectValue:nextProps.record.type});
+    this.setState({labels:nextProps.optionsInt});
+    this.getNameFromValue(nextProps.record.type);
+
+} 
+ }
+   
+   getNameFromValue=(value)=>{
+    let name="";
+for (let t of this.state.labels ){
+  if(value===t.key){
+    name=t.name;
     this.setState({selectValue:t.name});
+
     break;
 
   }
 }
-} 
- }
-    
+return name;
+   } 
 
 
     handleChange=(value)=> {
       this.openNotificationWithIcon("success");
+      this.setState({selectValue:this.getNameFromValue(value)});
        UpdateType(this.state.recordId,value);
 }
 
@@ -81,7 +89,7 @@ openNotificationWithIcon = (type) => {
       <div>{this.state.selectValue}</div>
       <Select
         defaultValue={this.state.selectValue}
-        style={{ width: 200 }}
+        style={{ width: 100 }}
         onChange={this.handleChange}
         placeholder="select type"
       >

@@ -151,8 +151,14 @@
   margin-left: 79%;
   background-color: #108ee9;
 }
-
-.extrange{
-  color: red;
+.exchangeDiv{
+   color: green;
   font-style:normal;
+  display: inline;
+  margin-left: 1em;
+}
+
+
+.selectType{
+  width: 30px;
 }

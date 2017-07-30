@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Setting from './setting';
 import SetLabels from './setLabels';
 import {SaveConfig} from './fetchjson';
@@ -14,9 +14,7 @@ const openNotificationWithIcon = (type) => {
 };
 
 class SetAll extends Component {
-    static propTypes = {
-        className: PropTypes.string,
-    };
+
 
       state = {
    config:{alias:[],labels:[]},
@@ -89,7 +87,7 @@ let tmp=this.props.config;
         return (
             <div>
             <Row>
-             <Col offset={1} span={9}>
+             <Col offset={1} span={10}>
             <Setting setAlias={this.setAlias} initSource={this.state.alias} />
 
     </Col>

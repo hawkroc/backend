@@ -213,7 +213,7 @@ record.to
 
 
       {
-        title: 'Spent',
+        title: 'Amount',
         dataIndex: 'gas',
         key: 'gas',
         width: "6%",
@@ -223,18 +223,18 @@ record.to
       },
 
      {
-        title: 'USD equivalent',
+        title: 'USD',
         dataIndex: 'gasPrice',
         key: 'gasPrice',
         width: "6%",
         render: (text, record) => {
-        return (text * Math.pow(10, -18) * record.gas).toFixed(8)*this.state.exchange;
+        return ((text * Math.pow(10, -18) * record.gas).toFixed(8)*this.state.exchange).toFixed(2);
         },
       },
 
 
       {
-        title: 'Note',
+        title: 'Internal tx',
         dataIndex: 'contractAddress',
         key: 'contractAddress',
         width: "6%",
@@ -257,14 +257,14 @@ record.to
 
           return(
           <div>
-<SelectType optionsInt={this.state.options} record ={record}  />
+<SelectType optionsInt={this.state.options} record={record}  />
           </div>
         )},
       },
 
     ];
     return (
-      <div>
+      <div className="exchangeDiv">
 
         <div className="tableList">
           <div className="table-operations">
@@ -274,7 +274,7 @@ record.to
               <CSVLink filename={"export.csv"} data={(this.state.csvData) ? (this.state.csvData) : []}>Xero
                 feed(csv)</CSVLink>
             </Button>
-            <Button onClick={this.getCurrentExchange}> GetExchange </Button>
+            <div className="exchangeDiv">1 ETH = {this.state.exchange}USD</div>
           </div>
           <Table 
              rowKey={record => record._id}
