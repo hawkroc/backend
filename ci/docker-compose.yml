@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  blockeeper:
+    image: centrality/blockeeper:1.0.0
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    links:
+      - mongodb
+
+  mongodb:
+    image: mongo:3.4
