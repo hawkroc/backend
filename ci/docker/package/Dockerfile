@@ -15,4 +15,4 @@ ARG GEMFURY
 EXPOSE 3000 3001
 
 RUN npm i --registry $GEMFURY -q
-ENTRYPOINT npm start
+ENTRYPOINT npm run start
