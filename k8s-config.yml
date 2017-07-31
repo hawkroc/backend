@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: blockeeper-service
-        image: centralitycontainerregistry-on.azurecr.io/centrality/etherdelta.blockeeper:1.0.<number>
+        image: centralitycontainerregistry-on.azurecr.io/centrality/blockeeper:1.0.<number>
         resources:
           requests:
             cpu: 100m
@@ -29,7 +29,9 @@ metadata:
 spec:
   ports:
   - port: 3000
+    name: frontend
   - port: 3001
+    name: backend
   selector:
     app: blockeeper-service
 ---
