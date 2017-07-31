@@ -2,6 +2,7 @@ FROM node:8.1.4
 WORKDIR /workdir
 
 COPY ./package.json .
+COPY ./Procfile .
 COPY ./server.js .
 COPY ./img ./img
 COPY ./model ./model
