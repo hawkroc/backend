@@ -9,6 +9,7 @@ COPY ./model ./model
 COPY ./public ./public
 COPY ./server ./server
 COPY ./src ./src
+COPY ./config_prod.js ./config.js
 
 ARG GEMFURY
 EXPOSE 3000 3001
