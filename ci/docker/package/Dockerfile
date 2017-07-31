@@ -11,6 +11,7 @@ COPY ./server ./server
 COPY ./src ./src
 
 ARG GEMFURY
+EXPOSE 3000 3001
 
 RUN npm i --registry $GEMFURY -q
 ENTRYPOINT npm start
