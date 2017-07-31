@@ -5,7 +5,8 @@ class Exchange extends Component {
     constructor(props) {
     super(props);
     this.state = {
-    rate:"",
+    ETH:"",
+    BTC:"",
     };
   }
 
@@ -21,12 +22,16 @@ componentWillUnmount= ()=> {
 }
 
 timer= ()=> {
-GetExtrange().then((response)=>{
+GetExtrange("ETH").then((response)=>{
+console.log(JSON.stringify(response));
+  this.setState({ ETH:response.toString() });
 
-  this.setState({ rate:response.toString() });
+});
+ GetExtrange("BTC").then((response)=>{
 
-})
- 
+  this.setState({ BTC:response.toString() });
+
+});
 
 }
 
@@ -36,8 +41,8 @@ GetExtrange().then((response)=>{
         return (
             
         
-{this.state.rate} 
-
+{this.state.ETH} 
+{this.state.BIT} 
 
 
         );

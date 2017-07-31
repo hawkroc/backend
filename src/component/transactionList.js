@@ -119,7 +119,7 @@ componentDidMount= ()=> {
 
 getCurrentExchange=()=>{
 
-   GetExchange().then((response)=>{
+   GetExchange({"ETH":"","BTC":""}).then((response)=>{
    //console.log('this exchange'+response.toString() )
   this.setState({ exchange:response.toString() });
 

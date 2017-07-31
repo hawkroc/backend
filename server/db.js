@@ -1,5 +1,7 @@
+const config = require('../config');
+
 var mongoose = require('mongoose'),
-    DB_URL = 'mongodb://localhost:27017/demo';
+    DB_URL = config.dbConfig;
 
 /**
  * 连接

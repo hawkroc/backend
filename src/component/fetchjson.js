@@ -1,17 +1,16 @@
 import axios from 'axios';
-//const url = "http://api.etherscan.io/api?module=account&action=txlist&address=";
-const key = "&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV";
-const urlLocal="http://192.168.88.77:3001/api/search/";
+//const key = "&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV";
 var currentNumber;
-const baseUrl="http://192.168.88.77:3001/api/";
+const baseUrl="http://127.0.0.1:3001/api/";
+const config = require('../../config');
 //test
 export const GetdataFromApi = (start, end,configaddress,isFirst) => { 
   if(!isFirst){
        end=end>0?currentNumber:Math.round(end)+currentNumber;
         start=start>0?currentNumber:Math.round(start)+currentNumber;
       }
-    //let final = url +configaddress+"&startblock="+ start + "&endblock=" + end + "&sort=desc" + key;
-   let final=urlLocal+start+"/"+end;
+   
+   let final=baseUrl+"search/"+start+"/"+end;
    // console.log("get data from "+final);
     return fetch(final, {
         method: 'get'
@@ -25,7 +24,7 @@ export const GetdataFromApi = (start, end,configaddress,isFirst) => {
 const currentBlock = "https://api.etherscan.io/api?module=proxy&action=eth_blockNumber"
 
 export const GetCurrentBlock = (address) => {
-    let final = currentBlock + key;
+    let final = currentBlock + config.key;
   //  console.log(final);
    return axios.get(final).then(
    	(response) =>{  
@@ -114,9 +113,10 @@ export const UpdateType = (id,type) => {
 
 
 }
-
+//ETH BTC
 const exchange="https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD";
-export const GetExchange = () => {
+export const GetExchange = (type) => {
+  console.log(exchange);
    return axios.get(exchange).then(
     (response) =>{  
     
@@ -124,7 +124,7 @@ export const GetExchange = () => {
     });
 }
 
-const balance="https://api.etherscan.io/api?module=account&action=balance&tag=latest"+key+"&address=";
+const balance="https://api.etherscan.io/api?module=account&action=balance&tag=latest"+config.key+"&address=";
 
 export const GetBalance = (address) => {
   let final = balance+address;

@@ -4,9 +4,9 @@ import { Button } from 'antd';
 import React from 'react';
 import TimeRelatedForm from './searchTime';
 import {GetdataFromApi,GetCurrentBlock} from './fetchjson';
+const config = require('../../config');
 
-
-const configaddress="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae";
+//const configaddress="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae";
 
 class InputSearch extends React.Component {
  constructor(props) {
@@ -15,7 +15,7 @@ class InputSearch extends React.Component {
      // userName: '',
         start: '',
         end: '',
-        address:configaddress,
+        address:config.hardcode_address,
     };
   }
 

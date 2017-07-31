@@ -4,14 +4,15 @@ const accountUrl="module=account&action=txlist&address=";
 const currentBlock="module=proxy&action=eth_blockNumber";
 // const start="";
 // const end="";
-const key="&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV";
+//const key="&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV";
+const config = require('../config');
 const  axios = require('axios');
 
 //var blockStart=1;
 //"&startblock=11063&endblock=4009538&sort=asc"
 
   GetCurrentBlock = () => {
-    let final = base+currentBlock + key;
+    let final = base+currentBlock + config.key;
    // console.log(final);
    return axios.get(final).then(
    	(response) =>{  
@@ -24,7 +25,7 @@ const  axios = require('axios');
 
 
  GetdataFromApi = (startblock, endblock,address) => { 
- let final = base+accountUrl+address+"&startblock="+startblock+"&endblock="+endblock+"&sort=asc" + key;
+ let final = base+accountUrl+address+"&startblock="+startblock+"&endblock="+endblock+"&sort=asc" + config.key;
     console.log(final);
    // timeStamp
    return axios.get(final).then((response)=>{

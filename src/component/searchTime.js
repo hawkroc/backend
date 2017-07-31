@@ -2,7 +2,9 @@ import moment from 'moment';
 import { DatePicker } from 'antd';
 import React from 'react';
 const {RangePicker } = DatePicker;
-const timeDiff=16000;
+const config = require('../../config');
+//const timeDiff=config.timeDiff;
+
 class TimeRelatedForm extends React.Component {
 
 
@@ -19,7 +21,7 @@ this.props.setTime(this.getTimDiff(date[0]),this.getTimDiff(date[1]));
 }
 
 getTimDiff=(m)=>{
- return m.diff(Date.now())/timeDiff;
+ return m.diff(Date.now())/config.timeDiff;
 
 }
  // disabledRangeTime=(_, type)=> {

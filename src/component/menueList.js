@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {Menu, Dropdown, message } from 'antd';
 import {GroupBy,GetCurrentBlock} from './fetchjson';
-const configaddress="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae";
-
+//const configaddress="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae";
+const config = require('../../config');
 
 class MenueList extends Component {
 
@@ -22,7 +22,7 @@ class MenueList extends Component {
   if(e.key==="item_0"){
   this.props.setPromise(GroupBy(),true);
 }else {
-  this.props.setPromise(GetCurrentBlock(configaddress),false);
+  this.props.setPromise(GetCurrentBlock(config.address),false);
 }
  
 }
