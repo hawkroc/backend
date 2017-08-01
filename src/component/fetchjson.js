@@ -11,7 +11,7 @@ export const GetdataFromApi = (start, end,configaddress,isFirst) => {
       }
    
    let final=config.baseUrl_dev+"search/"+start+"/"+end;
-   // console.log("get data from "+final);
+    console.log("get data from "+final);
     return fetch(final, {
         method: 'get'
     }).then((response) => {
