@@ -88,7 +88,7 @@ GetDataRecords = (start, end) => {
 }
 
 UpdateRecorder = (id, type) => {
-console.log("this is2 type " + type+" this is  id"+id);
+//console.log("this is2 type " + type+" this is  id"+id);
 return Record.update({ '_id': id }, { $set: { 'type': type}}, (err, result) => {
             if (err) {
 
