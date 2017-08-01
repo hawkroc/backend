@@ -91,11 +91,11 @@ export const UpdateType = (id,type) => {
 
   let final =config.baseUrl_dev+ updateTypeUrl;
    // console.log("this is config ?"+config.toString());
-   let config={"id":id,"type":type};
+   let cg={"id":id,"type":type};
   let authOptions = {
     method: 'POST',
     url: final,
-    data: config,
+    data: cg,
     headers: {
         'Content-Type': 'application/json'
     },
