@@ -47,12 +47,12 @@ router.route('/search/:start/:end')
         let start = req.params.start ? req.params.start : 0;
         let end = req.params.end ? req.params.end : 999999999;
           res.json({ message: 'API ok?' });
-        // GetDataRecords(start, end).then((response) => {
+        GetDataRecords(start, end).then((response) => {
 
-        //     //    console.log('this response2 '+JSON.stringify(response));
-        //     //res.json(response);
-        //        res.json({ message: 'invoke success?' });
-        // })
+            //    console.log('this response2 '+JSON.stringify(response));
+               res.json(response);
+              // res.json({ message: 'invoke success?' });
+        })
 
     });
 
