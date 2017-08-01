@@ -1,51 +1,119 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: blockeeper-service
+  name: nginx-ingress
 spec:
   replicas: 1
-  revisionHistoryLimit: 2
   template:
     metadata:
       labels:
-        app: blockeeper-service
+        app: nginx-ingress
     spec:
       containers:
-      - name: blockeeper-service
-        image: centralitycontainerregistry-on.azurecr.io/centrality/blockeeper:1.0.<number>
-        resources:
-          requests:
-            cpu: 100m
-            memory: 256Mi
-      imagePullSecrets:
-      - name: registry-secret
+      - image: nginxdemos/nginx-ingress:0.8.1-alpine
+        imagePullPolicy: Always
+        name: nginx-ingress
+        ports:
+        - containerPort: 80
+          hostPort: 80
+        - containerPort: 443
+          hostPort: 443
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: blockeeper-service
+  name: nginx-ingress
   labels:
-    app: blockeeper-service
+    app: nginx
 spec:
+  type: LoadBalancer
   ports:
-  - port: 3000
-    name: frontend
-  - port: 3001
-    name: backend
+  - port: 80
+    name: http
+  - port: 443
+    name: https
   selector:
-    app: blockeeper-service
+    app: nginx-ingress
 ---
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: blockeeper-service
-  labels:
-    app: blockeeper-service
+  name: all-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.org/ssl-services: "ssl-svc"
 spec:
-  scaleTargetRef:
-    apiVersion: apps/v1beta1
-    kind: Deployment
-    name: blockeeper-service
-  minReplicas: 1
-  maxReplicas: 1
-  targetCPUUtilizationPercentage: 80
+  tls:
+  - hosts:
+    - <env_prefix>ms.centrality.ai
+    secretName: centrality-tls-certs
+  rules:
+  - host: <env_prefix>ms.centrality.ai
+    http:
+      paths:
+      - path: /settings/
+        backend:
+          serviceName: settings-service
+          servicePort: 8080
+      - path: /userprofiles/
+        backend:
+          serviceName: userprofiles-service
+          servicePort: 8080
+      - path: /userprofiles/internal/
+        backend:
+          serviceName: userprofiles-service
+          servicePort: 9999
+      - path: /identity/
+        backend:
+          serviceName: identity-service
+          servicePort: 8080
+      - path: /identity/internal/
+        backend:
+          serviceName: identity-service
+          servicePort: 9999
+      - path: /petrolpump/
+        backend:
+          serviceName: petrolpump-service
+          servicePort: 8080
+      - path: /petrolpump/internal/
+        backend:
+          serviceName: petrolpump-service
+          servicePort: 9999
+      - path: /payments/
+        backend:
+          serviceName: payments-service
+          servicePort: 8080
+      - path: /onboardings/
+        backend:
+          serviceName: onboardings-service
+          servicePort: 8080
+  - host: dev-etherdelta.centrality.ai
+    http:
+      paths:
+      - backend:
+          serviceName: etherdelta-service
+          servicePort: 3000
+  - host: dev-etherdeltaportal.centrality.ai
+    http:
+      paths:
+      - backend:
+          serviceName: etherdeltaportal-service
+          servicePort: 80
+  - host: dev-cache-etherdelta.centrality.ai
+    http:
+      paths:
+      - backend:
+          serviceName: etherdelta-service
+          servicePort: 8001
+  - host: blockeeper.centrality.ai
+    http:
+      paths:
+      - backend:
+          serviceName: blockeeper-service
+          servicePort: 3000
+  - host: blockeeper-api.centrality.ai
+    http:
+      paths:
+      - backend:
+          serviceName: blockeeper-service
+          servicePort: 3001
