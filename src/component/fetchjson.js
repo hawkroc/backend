@@ -1,7 +1,7 @@
 import axios from 'axios';
 //const key = "&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV";
 var currentNumber;
-//const config.baseUrl_dev="http://127.0.0.1:3001/api/";
+const baseUrl_dev="http://127.0.0.1:3001/api/";
 const config = require('../../config');
 //test
 export const GetdataFromApi = (start, end,configaddress,isFirst) => { 
@@ -10,7 +10,7 @@ export const GetdataFromApi = (start, end,configaddress,isFirst) => {
         start=start>0?currentNumber:Math.round(start)+currentNumber;
       }
    
-   let final=config.baseUrl_dev+"search/"+start+"/"+end;
+   let final=baseUrl_dev+"search/"+start+"/"+end;
    // console.log("get data from "+final);
     return fetch(final, {
         method: 'get'
@@ -36,7 +36,7 @@ export const GetCurrentBlock = (address) => {
 const groupBy="groupby/test"
 
 export const GroupBy = (address) => {
-    let final =config.baseUrl_dev+ groupBy;
+    let final =baseUrl_dev+ groupBy;
  //   console.log(final);
    return axios.get(final).then(
     (response) =>{  
@@ -47,7 +47,7 @@ export const GroupBy = (address) => {
 
 const createConfig="createConfig";
 export const SaveConfig = (config) => {
-    let final =config.baseUrl_dev+ createConfig;
+    let final =baseUrl_dev+ createConfig;
    // console.log("this is config ?"+config.toString());
   let authOptions = {
     method: 'POST',
@@ -75,7 +75,7 @@ export const SaveConfig = (config) => {
 
 const getSetting="getSetting";
 export const GetSetting = () => {
-    let final =config.baseUrl_dev+ getSetting;
+    let final =baseUrl_dev+ getSetting;
  //   console.log(final);
    return axios.get(final).then(
     (response) =>{  
@@ -88,7 +88,7 @@ const updateTypeUrl="updateType";
 export const UpdateType = (id,type) => {
    
 
-  let final =config.baseUrl_dev+ updateTypeUrl;
+  let final =baseUrl_dev+ updateTypeUrl;
    // console.log("this is config ?"+config.toString());
    let config={"id":id,"type":type};
   let authOptions = {
