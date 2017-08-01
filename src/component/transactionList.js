@@ -94,7 +94,7 @@ this.openNotificationWithIcon('success');
 }
          
 
-      this.setState({isGroupBy:isGroupBy,data: rs,groupbyData:rs, loading: false, show: !this.state.show});
+      this.setState({csvData: rs,isGroupBy:isGroupBy,data: rs,groupbyData:rs, loading: false, show: !this.state.show});
       if(!isGroupBy){
               this.parseDataFromApi();
       }
