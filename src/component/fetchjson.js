@@ -1,7 +1,7 @@
 import axios from 'axios';
 //const key = "&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV";
 var currentNumber;
-const config.baseUrl_dev="http://127.0.0.1:3001/api/";
+//const config.baseUrl_dev="http://127.0.0.1:3001/api/";
 const config = require('../../config');
 //test
 export const GetdataFromApi = (start, end,configaddress,isFirst) => { 
