@@ -42,13 +42,14 @@ router.route('/groupby/:keyword')
 router.route('/search/:start/:end')
 
     .get((req, res) => {
-
+     
         let start = req.params.start ? req.params.start : 0;
         let end = req.params.end ? req.params.end : 999999999;
         GetDataRecords(start, end).then((response) => {
 
             //    console.log('this response2 '+JSON.stringify(response));
-            res.json(response);
+            //res.json(response);
+               res.json({ message: 'invoke success?' });
         })
 
     });
