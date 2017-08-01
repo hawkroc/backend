@@ -13,7 +13,7 @@ const  axios = require('axios');
 
   GetCurrentBlock = () => {
     let final = base+currentBlock + config.key;
-   // console.log(final);
+  //  console.log("this is getData url "+final);
    return axios.get(final).then(
    	(response) =>{  
        response.data.result=parseInt(response.data.result, 16);

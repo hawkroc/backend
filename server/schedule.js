@@ -15,7 +15,7 @@ scheduleCronstyle = () => {
             GetMaxBlock(config.address).then((response) => {
                 //  console.log("this max number "+response.data.blockNumber);
                // (response) ? start = response.data.blockNumber: 1;
-                if (response === null) {
+                if (response === null||typeof response === 'undefined') {
                     start = 1;
                 } else {
                     start = parseInt(response.blockNumber)+1;

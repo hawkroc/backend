@@ -15,7 +15,7 @@ class InputSearch extends React.Component {
      // userName: '',
         start: '',
         end: '',
-        address:config.hardcode_address,
+        address:config.address,
     };
   }
 

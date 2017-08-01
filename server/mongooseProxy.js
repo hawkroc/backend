@@ -31,6 +31,7 @@ GetMaxBlock = (address) => {
         // .select('record.blockNumber')
         .sort({ "blockNumber": -1 }) // give me the max
         .exec((err, record) => {
+            console.log("this is the max number in db "+JSON.stringify(record));
             return record;
 
 
@@ -62,7 +63,7 @@ GetDataGroupByDate = () => {
     ]).exec((err, result) => {
         if (err) {
 
-            console.log("this is error ");
+            console.log("this is error "+ JSON.stringify(err));
         } else {
             //  console.log(JSON.stringify(result));
             return result;
