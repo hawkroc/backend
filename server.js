@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 });
 //test api
 router.get('/', (req, res) => {
-    res.json({ message: 'API success?' });
+    res.json({ message: 'API success1?' });
 });
 
 
