@@ -78,7 +78,7 @@ GetDataRecords = (start, end) => {
         .exec((err, result) => {
             if (err) {
 
-                console.log("this is error ");
+                console.log("this is error "+JSON.stringify(err));
             } else {
                 //  console.log(JSON.stringify(result));
                 return result;

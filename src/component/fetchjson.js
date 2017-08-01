@@ -46,13 +46,14 @@ export const GroupBy = (address) => {
 }
 
 const createConfig="createConfig";
-export const SaveConfig = (config) => {
+export const SaveConfig = (cg) => {
+  //  console.log(JSON.stringify())
     let final =config.baseUrl_dev+ createConfig;
-   // console.log("this is config ?"+config.toString());
+    console.log("this is config ?"+final);
   let authOptions = {
     method: 'POST',
     url: final,
-    data: config,
+    data: cg,
     headers: {
         'Content-Type': 'application/json'
     },
