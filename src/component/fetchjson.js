@@ -129,7 +129,7 @@ const balance="https://api.etherscan.io/api?module=account&action=balance&tag=la
 
 export const GetBalance = (address) => {
   let final = balance+address;
-   return axios.get(exchange).then(
+   return axios.get(final).then(
     (response) =>{  
     
       return response.data.result;

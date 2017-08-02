@@ -54,6 +54,7 @@ GetDataGroupByDate = () => {
         },
         {
             $group: {
+                // _id:{time:"$time"},
                 _id: { year: "$year", month: "$month" },
                 totalPrice: { $sum: { $multiply: ["$gas", "$gasPrice"] } },
 

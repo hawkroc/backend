@@ -3,7 +3,7 @@
 var config = {
  
   debug: true,
-  dbConfig:'mongodb://devappservicesblockeeper:UScvCB9xTFpR7zvbLNww5HUO12RpJ81WQpgilNLJmq1TvgS8kcRZsWUOwd4N8bOPm97rxtjcYmaRYvCVx3ZhPA==@devappservicesblockeeper.documents.azure.com:10255/?ssl=true',//mongodb://mongodb/blockeeper
+  dbConfig:'mongodb://localhost:27017/demo',//mongodb://mongodb/blockeeper
  // dbConfig:'mongodb://localhost:27017/demo',
   schedule:'1 * * * * *',
   address:'0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae',

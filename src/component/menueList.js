@@ -17,11 +17,13 @@ class MenueList extends Component {
   // GroupBy().then((response)=>{
   //   console.log(' '+response.data);
   //   });
-  console.log('this ', e);
-  console.log("key is "+e.key);
+  // console.log('this ', e);
+  // console.log("key is "+e.key);
   if(e.key==="item_0"){
+      console.log('this is groupBy ');
   this.props.setPromise(GroupBy(),true);
 }else {
+  console.log('this is records ');
   this.props.setPromise(GetCurrentBlock(config.address),false);
 }
  

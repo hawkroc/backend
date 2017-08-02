@@ -74,7 +74,7 @@ this.openNotificationWithIcon('success');
       let rs=null;
       
       if(isGroupBy){
-
+       
         rs=value.data;
 
       }else{
@@ -93,7 +93,6 @@ this.openNotificationWithIcon('success');
       });
 }
          
-
       this.setState({csvData: rs,isGroupBy:isGroupBy,data: rs,groupbyData:rs, loading: false, show: !this.state.show});
       if(!isGroupBy){
               this.parseDataFromApi();
@@ -156,10 +155,6 @@ getCurrentExchange=()=>{
           return (text.year+"/"+text.month);
         },
       },
-
-
-
-
 
  {
         title: 'TotalPrice',
@@ -277,7 +272,7 @@ record.to
             <div className="exchangeDiv">1 ETH = {this.state.exchange}USD</div>
           </div>
           <Table 
-             rowKey={record => record._id}
+            rowKey={record => this.state.isGroupBy?(record.totalPrice) :record._id}
             loading={this.state.loading}
             columns={this.state.isGroupBy?columnsGroup:columns }
             dataSource={this.state.isGroupBy?this.state.groupbyData:this.state.data }
