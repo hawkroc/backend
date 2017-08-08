@@ -1,0 +1,164 @@
+@import 'antd.min.css';
+.table-operations {
+    margin-bottom: 16px;
+}
+
+.table-operations > button {
+    margin-right: 8px;
+}
+
+.example-input .ant-input {
+    width: 20px;
+    margin: 10px 8px 8px 10px;
+}
+
+#components-form-demo-advanced-search .ant-advanced-search-form {
+    padding: 24px;
+    background: #fbfbfb;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+}
+
+.inputSearch {
+    margin-bottom: 0em;
+    margin-top: 0em;
+
+   /* background: blue;
+    border: solid red;*/
+  /*  border: 1px solid red;*/
+}
+
+
+
+
+.style-one {
+   height: 6px;
+    border: 1px solid red;
+  box-shadow: inset 0 3px 3px -3px rgba(0, 0, 0, 0.5);
+}
+.list{
+	margin-top:1em;
+}
+
+.tableList{
+  margin:1em;
+}
+.backTop{
+  background: blue;
+}
+
+
+
+.ant-back-top {
+  bottom: 100px;
+}
+.ant-back-top-inner {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  background-color: #1088e9;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+}
+.logo{
+  height: 3em;
+  background: url('./img/logo.png') no-repeat 0 0;
+}
+.menueList{
+  display: inline;
+  margin-right: 10em;
+
+}
+
+/* Make it a marquee */
+.marquee {
+    width: 100%;
+    margin: 0 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+  /*  border: 1px green solid;*/
+}
+
+.marquee span {
+    display: inline-block;
+    padding-left: 100%;
+    text-indent: 0;
+   /* border: 1px red solid;*/
+    animation: marquee 15s linear infinite;
+}
+.marquee span:hover {
+    animation-play-state: paused
+}
+
+/* Make it move */
+@keyframes marquee {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
+
+
+/* ::before was :before before ::before was ::before - kthx */
+.microsoft:before, .microsoft::before {
+    z-index: 2;
+    content: '';
+    position: absolute;
+    top: -1em; left: -1em;
+    width: .5em; height: .5em;
+    box-shadow: 1.0em 1.25em 0 #F65314,
+            1.6em 1.25em 0 #7CBB00,
+            1.0em 1.85em 0 #00A1F1,
+            1.6em 1.85em 0 #FFBB00;
+}
+
+.microsoft:after, .microsoft::after {
+  /*  z-index: 1;*/
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2em; height: 2em;
+    background-image: linear-gradient(90deg, white 70%, rgba(255,255,255,0));
+}
+
+/* Style the links */
+.vanity {
+    color: #333;
+    text-align: center;
+    font: .75em 'Segoe UI', Tahoma, Helvetica, Sans-Serif;
+}
+
+.vanity a, .microsoft a {
+    color: #1570A6;
+    transition: color .5s;
+    text-decoration: none;
+}
+
+.vanity a:hover, .microsoft a:hover {
+    color: #F65314;
+}
+
+/* Style toggle button */
+.toggle {
+  display: block;
+    margin: 2em auto;
+}
+
+.save-btn{
+  margin-top: 1em;
+  margin-left: 79%;
+  background-color: #108ee9;
+}
+.exchangeDiv{
+   color: green;
+  font-style:normal;
+  display: inline;
+  margin-left: 1em;
+}
+
+
+.selectType{
+  width: 30px;
+}
