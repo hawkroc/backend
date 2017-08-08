@@ -43,19 +43,16 @@ componentDidMount =()=>{
       <div>
       <div className="inputSearch ">
 
-    <Row>
- <Col offset={1}  span={2}>
- <div >
- <img  role="presentation" className="logo" />
- </div>
-
-
-
-    </Col>
-      <Col offset={6} span={6}>
-       <TimeRelatedForm setTime={this.setTime}/>
-   
-      </Col>
+        <Row>
+          <Col offset={1}  span={2}>
+            <div >
+              <img  role="presentation" className="logo" />
+            </div>
+          </Col>
+          <Col offset={6} span={6}>
+            <TimeRelatedForm setTime={this.setTime}/>
+  
+          </Col>
  <Col offset={1} span={3}>
        <Button onClick={this.onclickButton} type="primary" shape="circle" icon="search" />
        </Col>

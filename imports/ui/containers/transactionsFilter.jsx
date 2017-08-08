@@ -1,8 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const view = () => {
-    return <div>My transactions filterer</div>   
+import TimespanSelectorComponent from '../components/timespanSelector'
+
+const View = () => {
+    return (
+        <div>
+            <TimespanSelectorComponent />
+        </div>
+    )
 }
 
-export default connect()(view)
+export default connect()(View)

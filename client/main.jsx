@@ -7,8 +7,8 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from  '../imports/redux/reducers/rootReducer'
 
-import TransactionsFilterContainer from '../imports/ui/containers/transactionsFilter'
-import TransactionsViewerContainer from '../imports/ui/containers/transactionsViewer'
+import HeaderContentLayout from '../imports/ui/layouts/headerContent'
+//import TransactionsViewerContainer from '../imports/ui/containers/transactionsViewer'
 
 import './style.css'
 
@@ -18,8 +18,8 @@ Meteor.startup(() => {
   render(
     <Provider store={store}>
       <div>
-        <TransactionsFilterContainer />
-        <TransactionsViewerContainer />
+        <HeaderContentLayout />
+        {/* <TransactionsViewerContainer /> */}
       </div>
     </Provider>, 
     document.getElementById('react-root')

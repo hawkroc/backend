@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const view = () => {
-    return <div>My transactions viewer</div>   
-}
+const View = () => (
+    <div>My transactions viewer</div>
+)
 
-export default connect()(view)
+export default connect(View)
