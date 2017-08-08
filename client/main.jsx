@@ -5,9 +5,11 @@ import { render } from 'react-dom'
 
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import rootReducer from  './imports/redux/reducers'
+import rootReducer from  '../imports/redux/reducers/rootReducer'
 
-import App from '../imports/ui/App.jsx'
+import TransactionsFilterContainer from '../imports/ui/containers/transactionsFilter'
+import TransactionsViewerContainer from '../imports/ui/containers/transactionsViewer'
+
 import './style.css'
 
 const store = createStore(rootReducer)
@@ -15,7 +17,10 @@ const store = createStore(rootReducer)
 Meteor.startup(() => {
   render(
     <Provider store={store}>
-      <App />
+      <div>
+        <TransactionsFilterContainer />
+        <TransactionsViewerContainer />
+      </div>
     </Provider>, 
     document.getElementById('react-root')
   );

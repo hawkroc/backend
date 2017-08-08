@@ -1,13 +1,14 @@
 import { combineReducers } from 'redux';
-//import cart from './cart';
+import accountsReducer from './accountsReducer';
+import navigationReducer from './navigationReducer';
 
 /**
  * Root redux reducer provided to createStore.
  * 
  */
-
 const rootReducer = combineReducers({
-    
+    accountsReducer,
+    navigationReducer
 });
 
 export default rootReducer;

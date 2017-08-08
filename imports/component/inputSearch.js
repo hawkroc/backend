@@ -1,61 +1,44 @@
-// import { Input, Icon } from 'antd';
-import { Row, Col } from 'antd';
-import { Button } from 'antd';
-import React from 'react';
-import TimeRelatedForm from './searchTime';
-import {GetdataFromApi,GetCurrentBlock} from './fetchjson';
-const config = require('../config/config');
+import { Row, Col, Button } from 'antd'
+import React from 'react'
+import TimeRelatedForm from './searchTime'
+import { GetdataFromApi, GetCurrentBlock } from './fetchjson'
 
-//const configaddress="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae";
+const config = require('../config/config')
 
-class InputSearch extends React.Component {
+class InputSearchComponent extends React.Component {
  constructor(props) {
-    super(props);
+    super(props)
     this.state = {
      // userName: '',
         start: '',
         end: '',
         address:config.address,
-    };
+    }
   }
 
 setTime=(start,end)=>{
-  console.log("time diff"+start+"diff"+end);
-  this.setState({
-     start:start,
-     end:end,
-    });
+  console.log("time diff"+start+"diff"+end)
+
+  // TODO: action creator callback.
+  // this.setState({
+  //    start:start,
+  //    end:end,
+  //   })
 }
 
 componentDidMount =()=>{
 
-this.props.changeItem(GetCurrentBlock(this.state.address));
+//this.props.changeItem(GetCurrentBlock(this.state.address));
 }
 
 
-  emitEmpty = () => {
-    // this.userNameInput.focus();
-    this.setState({ userName: '' });
-  }
-
- onChangeStart = (e) => {
-    this.setState({ start: e.target.value });
-  }
-   onChangeEnd = (e) => {
-    this.setState({ end: e.target.value });
-  }
-
-
-
   onclickButton = () => {
-    this.props.changeItem(GetdataFromApi(this.state.start,this.state.end,this.state.address,false));
+    //this.props.changeItem(GetdataFromApi(this.state.start,this.state.end,this.state.address,false));
  
   };
 
 
   render() {
- //   const { userName } = this.state;
-   // const suffix = userName ? <Icon type="close-circle" onClick={this.emitEmpty} /> : null;
     return (
       <div>
       <div className="inputSearch ">
@@ -89,4 +72,4 @@ this.props.changeItem(GetCurrentBlock(this.state.address));
 	}
 
 
-	export default InputSearch;
+	export default InputSearchComponent;
