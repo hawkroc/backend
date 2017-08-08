@@ -2,10 +2,7 @@
 const base="http://api.etherscan.io/api?"
 const accountUrl="module=account&action=txlist&address=";
 const currentBlock="module=proxy&action=eth_blockNumber";
-// const start="";
-// const end="";
-//const key="&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV";
-const config = require('../config');
+const config = require('../imports/config/config');
 const  axios = require('axios');
 
 //var blockStart=1;
@@ -13,11 +10,11 @@ const  axios = require('axios');
 
   GetCurrentBlock = () => {
     let final = base+currentBlock + config.key;
-  //  console.log("this is getData url "+final);
+   // console.log("this is getData url "+final);
    return axios.get(final).then(
    	(response) =>{  
        response.data.result=parseInt(response.data.result, 16);
-        // console.log(currentNumber);
+     // console.log("this is currentNumber  "+response.data.result);
    		return  response;
    	}
    	);
@@ -26,7 +23,7 @@ const  axios = require('axios');
 
  GetdataFromApi = (startblock, endblock,address) => { 
  let final = base+accountUrl+address+"&startblock="+startblock+"&endblock="+endblock+"&sort=asc" + config.key;
-    console.log(final);
+  //  console.log(final);
    // timeStamp
    return axios.get(final).then((response)=>{
   // response.data.result=[..., Date(parseInt(timeStamp) * 1000).toLocaleDateString()];

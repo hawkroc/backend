@@ -4,7 +4,7 @@ import { Button } from 'antd';
 import React from 'react';
 import TimeRelatedForm from './searchTime';
 import {GetdataFromApi,GetCurrentBlock} from './fetchjson';
-const config = require('../../config');
+const config = require('../config/config');
 
 //const configaddress="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae";
 
@@ -63,7 +63,7 @@ this.props.changeItem(GetCurrentBlock(this.state.address));
     <Row>
  <Col offset={1}  span={2}>
  <div >
- <img  role="presentation" className="logo" src={require("../../img/blockeeper_Blue.png")}/>
+ <img  role="presentation" className="logo" />
  </div>
 
 

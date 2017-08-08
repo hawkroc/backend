@@ -43,7 +43,7 @@ class SetAll extends Component {
   }
 
      saveConfig=()=>{
-      let ctmp={alias:this.state.alias,labels:this.state.labels};
+      let ctmp={alias:this.state.alias,labels:this.state.labels,userId:123};
     this.props.changeConfig(ctmp);
  SaveConfig(ctmp)
  .then((response)=>{

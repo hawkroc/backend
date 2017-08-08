@@ -1,9 +1,9 @@
 import {BackTop} from 'antd';
 import React, {Component} from 'react';
-import InputSearch from './inputSearch';
-// import TransactionList from './transactionList';
-import PageTabs from './pageTabs';
-//import Exchange from './exchange';
+import InputSearch from '../../imports/component/inputSearch';
+
+import PageTabs from '../../imports/component/pageTabs';
+
 export default class App extends Component {
 
     state={

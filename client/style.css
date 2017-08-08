@@ -1,4 +1,4 @@
-
+@import 'antd.min.css';
 .table-operations {
     margin-bottom: 16px;
 }
@@ -64,7 +64,7 @@
 }
 .logo{
   height: 3em;
-
+  background: url('./img/logo.png') no-repeat 0 0;
 }
 .menueList{
   display: inline;

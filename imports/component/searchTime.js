@@ -2,7 +2,7 @@ import moment from 'moment';
 import { DatePicker } from 'antd';
 import React from 'react';
 const {RangePicker } = DatePicker;
-const config = require('../../config');
+const config = require('../config/config');
 //const timeDiff=config.timeDiff;
 
 class TimeRelatedForm extends React.Component {

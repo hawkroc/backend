@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Menu, Dropdown, message } from 'antd';
 import {GroupBy,GetCurrentBlock} from './fetchjson';
 //const configaddress="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae";
-const config = require('../../config');
+const config = require('../config/config');
 
 class MenueList extends Component {
 
