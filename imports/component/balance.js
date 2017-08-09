@@ -1,33 +1,34 @@
-import React, { Component } from 'react';
-import {GetBalance}  from './fetchjson';
+import React, {Component} from 'react';
+import {GetBalance} from './fetchjson';
 
 class Balance extends Component {
-  state = {
-   
-     balance:'',
-     address:''
+    state = {
+
+        balance: '',
+        address: ''
+    }
+
+    getBalance = (address) => {
+      
+        GetBalance(address).then((response) => {
+            this.setState({balance: response});
+        })
+
+    };
+  componentDidMount =()=>{
+     
+      this.getBalance(this.props.address);
   }
 
-
-    getBalance =()=>{
-    	console.log('this.props.address '+this.state.address)
-     GetBalance(this.state.address).then((response)=>{
-     this.setState({balance:response});
-     })
-     
-    };
-
-
-
     componentWillReceiveProps = (nextProps) => {
-console.log('this.props.address '+nextProps.balanceaddress);
-     this.setState({address:nextProps.address});
+        console.log('this.props.address ' + nextProps.address);
+        this.setState({address: nextProps.address});
     };
 
     render() {
         return (
             <div>
-            {this.state.balance}$
+               {this.state.balance}$
             </div>
         );
     }

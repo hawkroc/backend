@@ -36,8 +36,8 @@ class Setting extends React.Component {
        width: '30%',
       render: (text, record, index) => {
         let tmp=record.address;
-        console.log("this is address "+tmp);
-        return (<Balance address={this.tmp}/>)
+        return <Balance address={tmp}/>
+         // return 1000;
       },
       
     }

@@ -10,7 +10,7 @@ import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 import App from '../imports/ui/App.jsx'
 import './style.css'
-//const { LocaleProvider, locales } = window.antd;
+
 
 const store = createStore(rootReducer)
  
