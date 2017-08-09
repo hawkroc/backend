@@ -54,12 +54,13 @@ const columns = [
      return (
         <div>
             <h2>Transaction Labels:</h2>
-            <Button className="editable-add-btn"
-                onClick={() => alert("Handle adding label")}>Add</Button>
+            <br />
             <Table bordered 
                 rowKey={label => label.name}
                 dataSource={transactionLabels} 
                 columns={columns} />
+            <Button className="editable-add-btn"
+                onClick={() => alert("Handle adding label")}>Add label</Button>
         </div>
      )
  }

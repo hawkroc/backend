@@ -1,6 +1,14 @@
 import * as actions from '../actions/configurationActions'
 
+const getDefaultLabelState = () =>{
+    return {
+        name: "New label",
+        gst: false
+    }
+}
+
 const initialState = {
+    
     /**
      * Collection of available transaction labels.
      * 

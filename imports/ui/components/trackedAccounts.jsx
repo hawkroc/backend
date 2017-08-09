@@ -55,14 +55,15 @@ const View = ({
     return (
         <div>
             <h2>Tracked accounts:</h2>
-            <Button className="editable-add-btn" 
-                onClick={() => alert("Handle add tracked account")}>Add
-            </Button>
+            <br />
             <Table bordered 
                 rowKey={account => account.address}
                 dataSource={accounts}
                 columns={columns}
             />
+            <Button className="editable-add-btn" 
+                onClick={() => alert("Handle add tracked account")}>Add account
+            </Button>
         </div>
     )
 }

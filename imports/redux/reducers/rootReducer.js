@@ -1,8 +1,9 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux'
 
-import accountsReducer from './accountsReducer';
-import navigationReducer from './navigationReducer';
-import configurationReducer from './configurationReducer';
+import accountsReducer from './accountsReducer'
+import navigationReducer from './navigationReducer'
+import configurationReducer from './configurationReducer'
+import transactionsReducer from './transactionsReducer'
 
 /**
  * Root redux reducer provided to createStore.
@@ -11,7 +12,8 @@ import configurationReducer from './configurationReducer';
 const rootReducer = combineReducers({
     accounts: accountsReducer,
     navigation: navigationReducer,
-    configuration: configurationReducer
+    configuration: configurationReducer,
+    transactions: transactionsReducer
 });
 
 export default rootReducer;
