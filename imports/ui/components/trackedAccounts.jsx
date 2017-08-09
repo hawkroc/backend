@@ -4,8 +4,8 @@ import { Table, Button, Popconfirm } from 'antd'
 
 const columns = [
     {
-        title: 'name',
-        dataIndex: 'name',
+        title: 'alias',
+        dataIndex: 'alias',
         width: '30%',
         render: (text, record, index) => (
             text
