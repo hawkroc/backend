@@ -11,22 +11,27 @@ import TransactionLabels from '../components/transactionLabels'
  * Container for configuring high-level application settings.
  * 
  */
-const View = () => (
+const View = ({
+    accounts,
+    transactionLabels
+}) => (
     <div>
         <Row>
             <Col offset={1} span={10}>
-                <TrackedAccounts />
+                <TrackedAccounts {...{accounts}} />
             </Col>
             <Col offset={1} span={9}>
-                <TransactionLabels />
+                <TransactionLabels {...{transactionLabels}} />
             </Col>
         </Row>
     </div>
 )
 
 const mapStateToProps = (state) => {
+
     return {
-        
+        accounts: state.accounts.items,
+        transactionLabels: state.configuration.labels
     }
 }
 

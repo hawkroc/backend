@@ -1,6 +1,6 @@
 import * as actions from '../actions/navigationActions'
 
-const intialState = {
+const initialState = {
     /**
      * Is there currently a filter active over the transactions.
      */
@@ -15,7 +15,7 @@ const intialState = {
     }
 }
 
-const reducer = (state = intialState, payload) => {
+const reducer = (state = initialState, payload) => {
     switch (payload.type) {
 
         default:
@@ -23,4 +23,4 @@ const reducer = (state = intialState, payload) => {
     }
 };
 
-export default reducer;
+export default reducer

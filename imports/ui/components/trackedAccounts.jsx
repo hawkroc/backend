@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Table, Button, Popconfirm } from 'antd';
+import { Table, Button, Popconfirm } from 'antd'
 
 const columns = [
     {
@@ -14,7 +14,7 @@ const columns = [
     {
         title: 'address',
         dataIndex: 'address',
-        width: '30%',
+        width: '40%',
         render: (text, record, index) => (
             text
         )
@@ -22,7 +22,7 @@ const columns = [
     {
         title: 'balance',
         dataIndex: 'balance',
-        width: '30%',
+        width: '15%',
         render: (text, record, index) => {
             text
         },
@@ -33,35 +33,38 @@ const columns = [
         dataIndex: 'operation',
         render: (text, record, index) => {
         return (
-            this.state.dataSource.length > 0 ?
-            (
-                <Popconfirm 
-                        title="Are you sure you want to stop tracking this account?" 
-                        onConfirm={() => this.onDelete(index)}>
-                    <a href="#">Remove</a>
-                </Popconfirm>
-            ) : null
-        );
+            <Popconfirm 
+                    title="Are you sure you want to stop tracking this account?" 
+                    onConfirm={() => alert("Handle remove tracked account")}>
+                <a href="#">Remove</a>
+            </Popconfirm>
+        )
     },
-}];
+}]
 
 /**
  * Presents a grid containing accounts currently tracked by the application.
  * 
  *  TODO: editable cells.
+ * 
  */
- const View = ({
-    
- }) => {
-     return (
+const View = ({
+    // Collection of accounts to display.
+    accounts
+}) => {
+    return (
         <div>
             <h2>Tracked accounts:</h2>
             <Button className="editable-add-btn" 
                 onClick={() => alert("Handle add tracked account")}>Add
             </Button>
-            <Table bordered dataSource={[]} columns={columns} />
+            <Table bordered 
+                rowKey={account => account.address}
+                dataSource={accounts}
+                columns={columns}
+            />
         </div>
-     )
- }
+    )
+}
 
- export default View;
+export default View
