@@ -66,12 +66,15 @@ componentWillReceiveProps = (nextProps) => {
   componentDidMount =()=>{
    
 let tmp=this.props.config;
+console.log(" this is get config "+JSON.stringify(tmp));
 
        if(tmp.labels){
+
            this.setLabels(tmp.labels);
            }
 
            if(tmp.alias){
+
            this.setAlias(tmp.alias);
            }
          

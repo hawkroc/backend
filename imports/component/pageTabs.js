@@ -18,12 +18,11 @@ class PageTabs extends React.Component {
     super(props, context);
 
  GetSetting().then((response)=>{
-   
-      let tmp=response.data;
 
-     if(tmp){
-    
-   this.setState({config:tmp});
+
+     if(response[0]){
+ 
+   this.setState({config:response[0]});
       
         
      }
@@ -34,7 +33,6 @@ class PageTabs extends React.Component {
   };
 
 changeConfig=(config)=>{
-  console.log("this is new config"+JSON.stringify(config));
 this.setState({config:config});
 }
 

@@ -20,7 +20,7 @@ if (Meteor.isServer) {
 Meteor.methods({
     'records.searchRecords' (start, end, address) {
         // check(text, String);
-        console.log('searchRecords the records');
+      
 
         let test = Records.find({
             $and: [
