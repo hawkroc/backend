@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import TransactionsGridComponent from '../components/transactions/transactionsGrid'
+import TransactionsChartComponent from '../components/transactions/transactionsChart'
 
 const View = () => (
     <div>
-        <TransactionsGridComponent />
+        <TransactionsChartComponent />
     </div>
 )
 
