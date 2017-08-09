@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {GetBalance} from './fetchjson';
+import {ChangeRate} from '../utility/utility';
 
 class Balance extends Component {
     state = {
@@ -11,7 +12,7 @@ class Balance extends Component {
     getBalance = (address) => {
       
         GetBalance(address).then((response) => {
-            this.setState({balance: response});
+            this.setState({balance:response});
         })
 
     };
