@@ -37,7 +37,7 @@ Meteor.methods({
 
     'settings.findByUserId' (userId) {
         //  check(text, String);
-        console.log('find be invoked ' + userId);
+     
         let result = Settings.find({userId:userId}).fetch();
         if (!result) {
             result = {};
