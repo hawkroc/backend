@@ -6,6 +6,8 @@ import { Row, Col, Button, notification } from 'antd'
 import TrackedAccounts from '../components/trackedAccounts'
 import TransactionLabels from '../components/transactionLabels'
 
+import Accounts from '../../api/accounts/accounts'
+
 
 /**
  * Container for configuring high-level application settings.

@@ -9,6 +9,10 @@ import { Provider } from 'react-redux'
 import { LocaleProvider } from 'antd'
 import enUS from 'antd/lib/locale-provider/en_US'
 
+// Subscribe the client to all of our API collections.
+import subscribeCollections from '../imports/api/startup/client/subscribeCollections'
+subscribeCollections.apply();
+
 import './style.css'
 
 import rootReducer from  '../imports/redux/reducers/rootReducer'
