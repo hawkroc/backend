@@ -1,46 +1,8 @@
 import React from 'react'
 
-import { Table, Button, Popconfirm, Select } from 'antd';
+import { Table, Button } from 'antd';
 
-const columns = [
-    {
-        title: 'name',
-        dataIndex: 'name',
-        width: '40%',
-        render: (text, record, index) => (
-            text
-        )
-    }, 
-    {
-        title: 'GST',
-        dataIndex: 'GST',
-        width: '30%',
-        render: (text, record, index) => { 
-            return  (
-                <div>
-                    <Select value={record.gst ? "GST" : "NOGST"} 
-                            defaultValue="true" 
-                            onChange={() => alert("Handle label GST class change")}>
-                        <Option value="true">GST</Option>
-                        <Option value="false">NOGST</Option>
-                    </Select>
-                </div>
-            )
-        }
-    }, 
-    {
-        title: 'operation',
-        dataIndex: 'operation',
-        render: (text, record, index) => {
-            return (
-                <Popconfirm 
-                        title="Are you sure you want to delete this label?" 
-                        onConfirm={() => alert("Handle label delete")}>
-                    <a href="#">Delete</a>
-                </Popconfirm>
-            );
-        }
-    }];
+import { buildColumns } from './transactionLabelsColumns'
 
 /**
  * Presents a grid containing labels associable with transactions.
@@ -49,8 +11,13 @@ const columns = [
  */
  const View = ({
     // Collection of existing transaction labels to display.
-    transactionLabels
+    transactionLabels,
+
+    onUpdateLabel
  }) => {
+
+    const columns = buildColumns({onUpdateLabel});
+
      return (
         <div>
             <h2>Transaction Labels:</h2>

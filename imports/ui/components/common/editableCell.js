@@ -1,23 +1,35 @@
-import { Input, Icon } from 'antd';
+/**
+ * Example adapted from Ant Design website:
+ *  https://ant.design/components/table/#components-table-demo-edit-cell
+ * 
+ */
+
 import React from 'react';
+import { Input, Icon } from 'antd';
+
 class EditableCell extends React.Component {
+  // Manage own internal state.
   state = {
     value: this.props.value,
     editable: false,
   }
+
   handleChange = (e) => {
     const value = e.target.value;
     this.setState({ value });
   }
+
   check = () => {
     this.setState({ editable: false });
-    if (this.props.onChange) {
-      this.props.onChange(this.state.value.trim());
+    if (this.props.onChangeConfirmed) {
+      this.props.onChangeConfirmed(this.state.value.trim());
     }
   }
+
   edit = () => {
     this.setState({ editable: true });
   }
+  
   render() {
     const { value, editable } = this.state;
     return (
@@ -28,12 +40,12 @@ class EditableCell extends React.Component {
               <Input
                 value={value}
                 onChange={this.handleChange}
-                onPressEnter={this.check}
+                onPressEnter={() => this.check()}
               />
               <Icon
                 type="check"
                 className="editable-cell-icon-check"
-                onClick={this.check}
+                onClick={() => this.check()}
               />
             </div>
             :

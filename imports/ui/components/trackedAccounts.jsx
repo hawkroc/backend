@@ -1,46 +1,7 @@
 import React from 'react'
 
 import { Table, Button, Popconfirm } from 'antd'
-
-const columns = [
-    {
-        title: 'alias',
-        dataIndex: 'alias',
-        width: '30%',
-        render: (text, record, index) => (
-            text
-        )
-    }, 
-    {
-        title: 'address',
-        dataIndex: 'address',
-        width: '40%',
-        render: (text, record, index) => (
-            text
-        )
-    },
-    {
-        title: 'balance',
-        dataIndex: 'balance',
-        width: '15%',
-        render: (text, record, index) => {
-            text
-        },
-        
-    },
-    {
-        title: 'operation',
-        dataIndex: 'operation',
-        render: (text, record, index) => {
-        return (
-            <Popconfirm 
-                    title="Are you sure you want to stop tracking this account?" 
-                    onConfirm={() => alert("Handle remove tracked account")}>
-                <a href="#">Remove</a>
-            </Popconfirm>
-        )
-    },
-}]
+import { buildColumns } from './trackedAccountsColumns'
 
 /**
  * Presents a grid containing accounts currently tracked by the application.
@@ -50,11 +11,18 @@ const columns = [
  */
 const View = ({
     // Collection of accounts to display.
-    accounts
+    accounts,
+
+    // Called when the UI requests a change to account information.
+    onUpdateAccount
 }) => {
+
+    // Build the column set for this table.
+    const columns = buildColumns({onUpdateAccount})
+
     return (
         <div>
-            <h2>Tracked accounts:</h2>
+            <h2>Tracked accounts</h2>
             <br />
             <Table bordered 
                 rowKey={account => account.address}
