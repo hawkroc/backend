@@ -1,28 +1,37 @@
+import { Tracker } from 'meteor/tracker'
+
+import store from '../store'
 import * as actionTypes from '../constants/actionTypes'
-import * as actions from '../actions/accountActions'
+import { setAccounts } from '../actions/accountActions'
+
+import Accounts from '../../api/accounts/accounts'
+
 
 const initialState = {
     /**
      * Collection of configured accounts.
      * 
      */
-    items: [
-        {
-            name: 'Default account',
-            address: '0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae',
-            balance: '$0.00'
-        }
-    ]
+    items: [ ]
 }
 
 const reducer = (state = initialState, payload) => {
     switch (payload.type) {
-        case actionTypes.SET_ACCOUNT:
-            //return [...state, payload.item];
+        case actionTypes.SET_ACCOUNTS:
+            return Object.assign({}, state, { items: payload.value })
 
         default:
             return state;
     }
 };
+
+// Every change to the accounts collection will trigger a dispatch.
+Meteor.startup(() => {
+    Tracker.autorun(() => {
+        store.dispatch(
+            setAccounts(Accounts.find().fetch())
+        )
+    })
+})
 
 export default reducer

@@ -3,12 +3,28 @@ import { connect } from 'react-redux';
 
 import TimespanSelectorComponent from '../components/timespanSelector'
 
-const View = () => {
+const View = ({
+    onTimespanSelected
+}) => {
     return (
         <div>
-            <TimespanSelectorComponent />
+            <TimespanSelectorComponent {...{onTimespanSelected}} />
         </div>
     )
 }
 
-export default connect()(View)
+const mapStateToProps = (state) => {
+    return {
+
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onTimespanSelected: () => {
+            alert("Handle timestamp selected change")
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(View)

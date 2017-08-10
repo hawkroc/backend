@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor'
 import React from 'react'
 import { render } from 'react-dom'
 
-import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
 import { LocaleProvider } from 'antd'
@@ -15,18 +14,17 @@ subscribeCollections.apply();
 
 import './style.css'
 
-import rootReducer from  '../imports/redux/reducers/rootReducer'
+import store from '../imports/redux/store'
 
 import HeaderContentLayout from '../imports/ui/layouts/headerContent'
 import BodyContentLayout from '../imports/ui/layouts/bodyContent'
 
-const store = createStore(rootReducer)
  
 Meteor.startup(() => {
     render(
       <Provider store={store}>
         <LocaleProvider locale={enUS}>
-          <div>
+          <div className="list">
             <HeaderContentLayout />
             <BodyContentLayout />
           </div>

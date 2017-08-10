@@ -15,15 +15,18 @@ import Accounts from '../../api/accounts/accounts'
  */
 const View = ({
     accounts,
-    transactionLabels
+    transactionLabels,
+
+    onUpdateAccount,
+    onUpdateLabel
 }) => (
     <div>
         <Row>
             <Col offset={1} span={10}>
-                <TrackedAccounts {...{accounts}} />
+                <TrackedAccounts {...{accounts, onUpdateAccount}} />
             </Col>
             <Col offset={1} span={9}>
-                <TransactionLabels {...{transactionLabels}} />
+                <TransactionLabels {...{transactionLabels, onUpdateLabel}} />
             </Col>
         </Row>
     </div>
@@ -39,7 +42,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, state) => {
     return {
-
+        onUpdateAccount: (updatedAccount) => {
+            // Update the account.
+            let account = Accounts.update(updatedAccount._id, {
+                $set: {
+                    address: updatedAccount.address,
+                    alias: updatedAccount.alias
+                }
+            })
+        },
+        
+        onUpdateLabel: (label) => {
+            alert("Updating label!!! " + label.name + "   " + label.gst)
+        }
     }
 }
 

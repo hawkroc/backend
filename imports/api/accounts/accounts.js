@@ -21,16 +21,19 @@ class AccountsCollection extends Mongo.Collection {
 
 const Accounts = new AccountsCollection('accounts')
 
-// Don't let the client update the collection for now.
-// The server can still use all of these just fine.
+// Allow and deny rules for operations against this collection.
+// Return 'true' to allow/deny based on authorization logic.
 Accounts.deny({
     insert() { return true; },
+    remove() { return true; }
+})
+
+Accounts.allow({
     update() { return true; },
-    remove() { return true; },
 })
 
 Accounts.schema = new SimpleSchema({
-    _id: {type:String},
+    _id: { type: String, regEx: SimpleSchema.RegEx.Id },
     address: { type: String },
     latestMinedBlock: {type:Number},
     transactions: {type:[
