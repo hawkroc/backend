@@ -24,7 +24,7 @@ Meteor.startup(() => {
     render(
       <Provider store={store}>
         <LocaleProvider locale={enUS}>
-          <div>
+          <div className="list">
             <HeaderContentLayout />
             <BodyContentLayout />
           </div>

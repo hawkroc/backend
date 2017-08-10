@@ -11,7 +11,7 @@ export const buildColumns = ({
         {
             title: 'Name',
             dataIndex: 'name',
-            width: '40%',
+            width: '50%',
 
             render: (text, record, index) => (
                 <EditableCell
@@ -27,13 +27,14 @@ export const buildColumns = ({
         {
             title: 'GST',
             dataIndex: 'gst',
-            width: '30%',
+            width: '35%',
 
             render: (text, record, index) => { 
                 return  (
                     <div>
                         <Select value={record.gst ? "GST" : "NOGST"} 
-                                defaultValue={"true"} 
+                                defaultValue={"true"}
+                                style={{width: "100%"}}
                                 onChange={
                                     (newValue) => {
                                         record['gst'] = (newValue == "true");

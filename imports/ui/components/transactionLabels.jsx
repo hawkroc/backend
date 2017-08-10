@@ -20,7 +20,7 @@ import { buildColumns } from './transactionLabelsColumns'
 
      return (
         <div>
-            <h2>Transaction Labels:</h2>
+            <h2>Transaction Labels</h2>
             <br />
             <Table bordered 
                 rowKey={label => label.name}

@@ -42,8 +42,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, state) => {
     return {
-        onUpdateAccount: (account) => {
-            alert("Updating account!!! " + account.alias + "   " + account.address)
+        onUpdateAccount: (updatedAccount) => {
+            // Update the account.
+            let account = Accounts.update(updatedAccount._id, {
+                $set: {
+                    address: updatedAccount.address,
+                    alias: updatedAccount.alias
+                }
+            })
         },
         
         onUpdateLabel: (label) => {

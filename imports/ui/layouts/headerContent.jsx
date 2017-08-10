@@ -15,7 +15,7 @@ import TransactionsFilterContainer from '../containers/transactionsFilter'
                 <Row>
                     <Col offset={1}  span={2}>
                         <div>
-                            <img role="presentation" className="logo" />
+                            <img role="presentation" src="/img/blockeeper_Blue.png" className="logo" />
                         </div>
                     </Col>
                     <Col offset={6} span={6}>
