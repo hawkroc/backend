@@ -9,7 +9,7 @@ export const buildColumns = ({
 }) => {
     return [
         {
-            title: 'name',
+            title: 'Name',
             dataIndex: 'name',
             width: '40%',
 
@@ -48,7 +48,7 @@ export const buildColumns = ({
             }
         }, 
         {
-            title: 'operation',
+            title: '',
             dataIndex: 'operation',
 
             render: (text, record, index) => {

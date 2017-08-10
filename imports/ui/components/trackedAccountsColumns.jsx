@@ -33,6 +33,7 @@ export const buildColumns = ({
             render: (text, record, index) => (
                 <EditableCell
                     value={text}
+                    valueMask={v => v.substring(0, 12) + "..."}
                     onChangeConfirmed={(newValue) => {
                             record['address'] = newValue;
                             onUpdateAccount(record)

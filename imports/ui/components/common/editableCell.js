@@ -11,6 +11,9 @@ class EditableCell extends React.Component {
   // Manage own internal state.
   state = {
     value: this.props.value,
+
+    // Function to transform the value for masking.
+    valueMask: this.props.valueMask ? this.props.valueMask : v => v,
     editable: false,
   }
 
@@ -31,7 +34,7 @@ class EditableCell extends React.Component {
   }
   
   render() {
-    const { value, editable } = this.state;
+    const { value, valueMask, editable } = this.state;
     return (
       <div className="editable-cell">
         {
@@ -50,7 +53,7 @@ class EditableCell extends React.Component {
             </div>
             :
             <div className="editable-cell-text-wrapper">
-              {value || ' '}
+              {valueMask(value) || ' '}
               <Icon
                 type="edit"
                 className="editable-cell-icon"
