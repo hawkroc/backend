@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo'
-import { SimpleSchema } from 'meteor/aldeed:simple-schema'
-//import {Record} from './records'
+
+import AccountSchema from './accountSchema'
 
 //import Transactions from '../transactions/transactions.js';
 
@@ -13,13 +13,14 @@ class AccountsCollection extends Mongo.Collection {
     }
 
     remove(selector, callback) {
-        // Cascade removal to all associated transactions.
-        // TODO: Transactions.remove({ account: selector });
+        // TODO: should probably check and not remove account if at least one user is
+        // referencing it.
         return super.remove(selector, callback);
     }
 }
 
 const Accounts = new AccountsCollection('accounts')
+Accounts.attachSchema(AccountSchema)
 
 // Allow and deny rules for operations against this collection.
 // Return 'true' to allow/deny based on authorization logic.
@@ -32,42 +33,11 @@ Accounts.allow({
     update() { return true; },
 })
 
-Accounts.schema = new SimpleSchema({
-    _id: { type: String, regEx: SimpleSchema.RegEx.Id },
-    address: { type: String },
-    latestMinedBlock: {type:Number},
-    transactions: {type:[
-        {      
-				_id: {type:String},				
-				address:{type:String},
-				blockNumber: {type:Number},
-				timeStamp: {type:String},
-				from:{type:String},
-				to:{type:String},
-				gas:{type:Number},
-				gasPrice:{type:Number},
-				isError:{type:String},
-				input:{type:String},
-				contractAddress:{type:String},
-				cumulativeGasUsed:{type:String},
-				gasUsed:{type:String},
-				confirmations:{type:String},
-				value:{type:Number}, 
-        }
-    
-    
-    ]}
-  
-})
-
-Accounts.attachSchema(Accounts.schema)
-
 // Fields of the collection items that are made available to the client.
 Accounts.publicFields = {
-    _id:1,
     address: 1,
     transactions: 1,
-    latestMinedBlock:1
+    latestMinedBlock: 1
 }
 
 // Attach helpers to the collection object.
