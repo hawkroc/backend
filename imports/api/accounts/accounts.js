@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo'
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
+//import {Record} from './records'
 
 //import Transactions from '../transactions/transactions.js';
 
@@ -29,16 +30,41 @@ Accounts.deny({
 })
 
 Accounts.schema = new SimpleSchema({
+    _id: {type:String},
     address: { type: String },
-    alias: { type: String }
+    latestMinedBlock: {type:Number},
+    transactions: {type:[
+        {      
+				_id: {type:String},				
+				address:{type:String},
+				blockNumber: {type:Number},
+				timeStamp: {type:String},
+				from:{type:String},
+				to:{type:String},
+				gas:{type:Number},
+				gasPrice:{type:Number},
+				isError:{type:String},
+				input:{type:String},
+				contractAddress:{type:String},
+				cumulativeGasUsed:{type:String},
+				gasUsed:{type:String},
+				confirmations:{type:String},
+				value:{type:Number}, 
+        }
+    
+    
+    ]}
+  
 })
 
 Accounts.attachSchema(Accounts.schema)
 
 // Fields of the collection items that are made available to the client.
 Accounts.publicFields = {
+    _id:1,
     address: 1,
-    alias: 1
+    transactions: 1,
+    latestMinedBlock:1
 }
 
 // Attach helpers to the collection object.

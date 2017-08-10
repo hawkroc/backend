@@ -1,4 +1,5 @@
 import Accounts from '../../accounts/accounts';
+import Users from '../../users/users';
 
 /**
  * Serverside only - publish collections to clients.
