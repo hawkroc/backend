@@ -1,4 +1,5 @@
 import Profiles from '../../../api/profiles/profiles'
+import Accounts from '../../../api/accounts/accounts'
 
 Meteor.methods({
 
@@ -9,9 +10,24 @@ Meteor.methods({
      */
     'profiles.active.insert.trackedAccount' ({ alias, address }) {
         // TODO: VALIDATION! of user vs profile.
+        // TODO: address validation!
+        // TODO: user collection factories!
         let currentProfile = Profiles.current();
 
-        // TODO: push new account into Accounts collection for mining.
+        // If the user is tracking an account that does not yet exist in our system,
+        // create it.
+        let account = Accounts.findOne({ address });
+        let accountId = null;
+
+        if (!account) {
+            accountId = Accounts.insert({
+                address,
+                transactions: [ ],
+                latestMinedBlock: 0
+            })
+        } else {
+            accountId = account._id
+        }
 
         Profiles.update(currentProfile._id, {
             $push: {
@@ -19,7 +35,7 @@ Meteor.methods({
                     // TODO: best way to do IDs?
                     _id: new Meteor.Collection.ObjectID().toHexString(),
                     alias, 
-                    accountId: "TEST ACCOUNT ID",
+                    accountId,
                     labels: [ ]
                 }
             }
@@ -33,9 +49,6 @@ Meteor.methods({
      */
     'profiles.active.update.trackedAccount' ({_id, alias, accountId}) {
         // TODO: VALIDATION! of user vs profile.
-
-        // TODO: if the referenced account isn't available in our system,
-        // we need to add it and start scraping for its transactions.
 
         // Accounts.insert({
         //    address: updatedAccount.address,
@@ -60,15 +73,28 @@ Meteor.methods({
      * @param {*} param0 
      */
     'profiles.active.delete.trackedAccount' ({ _id }) {
-        let currentProfile = Profiles.current();
+        let currentProfile = Profiles.current()
 
-        // TODO: if this is the last user tracking an account in our Accounts collection,
-        // remove the account from the collection also.
+        let toDelete = currentProfile.trackedAccounts
+            .find(ta => ta._id === _id);
 
-        Profiles.update(currentProfile._id, {
-            $pull: {
-                'trackedAccounts': { _id }
+        if (toDelete) {
+            // Delete.
+            Profiles.update(currentProfile._id, {
+                $pull: {
+                    'trackedAccounts': { _id }
+                }
+            })
+
+            // If this is the last user tracking an account in our Accounts collection,
+            // remove the account from the collection also.
+            let trackerCount = Profiles.find({ 'trackedAccounts.accountId': { 
+                $eq: toDelete.accountId 
+            } }).count()
+
+            if (trackerCount === 0) {
+                Accounts.remove(toDelete.accountId)
             }
-        })
-    },
+        }
+    }
 })
