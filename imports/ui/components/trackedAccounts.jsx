@@ -11,22 +11,22 @@ import { buildColumns } from './trackedAccountsColumns'
  */
 const View = ({
     // Collection of accounts to display.
-    accounts,
+    trackedAccounts,
 
     // Called when the UI requests a change to account information.
-    onUpdateAccount
+    onUpdateTrackedAccount
 }) => {
 
     // Build the column set for this table.
-    const columns = buildColumns({onUpdateAccount})
+    const columns = buildColumns({onUpdateTrackedAccount})
 
     return (
         <div>
             <h2>Tracked accounts</h2>
             <br />
             <Table bordered 
-                rowKey={account => account.address}
-                dataSource={accounts}
+                rowKey={account => account._id}
+                dataSource={trackedAccounts}
                 columns={columns}
             />
             <Button className="editable-add-btn" 

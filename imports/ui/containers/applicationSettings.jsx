@@ -15,16 +15,16 @@ import Profiles from '../../api/profiles/profiles'
  * 
  */
 const View = ({
-    accounts,
+    trackedAccounts,
     labelTypes,
 
-    onUpdateAccount,
+    onUpdateTrackedAccount,
     onUpdateLabelType
 }) => (
     <div>
         <Row>
             <Col offset={1} span={10}>
-                <TrackedAccounts {...{accounts, onUpdateAccount}} />
+                <TrackedAccounts {...{trackedAccounts, onUpdateTrackedAccount}} />
             </Col>
             <Col offset={1} span={9}>
                 <TransactionLabels {...{labelTypes, onUpdateLabelType}} />
@@ -36,26 +36,25 @@ const View = ({
 const mapStateToProps = (state) => {
 
     return {
-        accounts: state.accounts.items,
+        trackedAccounts: state.profiles.active.trackedAccounts,
         labelTypes: state.profiles.active.labelTypes
     }
 }
 
 const mapDispatchToProps = (dispatch, state) => {
     return {
-        onUpdateAccount: (updatedAccount) => {
-            // Update the account.
-            Accounts.update(updatedAccount._id, {
-                $set: {
-                    address: updatedAccount.address,
-                    alias: updatedAccount.alias
-                }
+        
+        onUpdateTrackedAccount: (updatedAccount) => {
+
+            // Update the active profile's label.
+            Meteor.call('profiles.active.update.trackedAccount', {
+                ...updatedAccount
             })
         },
         
         onUpdateLabelType: (updatedLabel) => {
             // Update the active profile's label.
-            Meteor.call('profiles.current.update.labelType', {
+            Meteor.call('profiles.active.update.labelType', {
                 ...updatedLabel
             })
         }

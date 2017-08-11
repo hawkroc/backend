@@ -3,11 +3,11 @@ import Profiles from '../../api/profiles/profiles'
 Meteor.methods({
 
     /**
-     * Update the user's current profile's labelType.
+     * Update a user's label type in their active profile.
      * 
      * @param {*} param0 
      */
-    'profiles.current.update.labelType' ({_id, name, gst}) {
+    'profiles.active.update.labelType' ({_id, name, gst}) {
         // TODO: VALIDATION! of user vs profile.
         //let currentProfile = Profiles.current();
         
@@ -18,6 +18,34 @@ Meteor.methods({
                 $set: {
                     'labelTypes.$.name': name,
                     'labelTypes.$.gst': gst
+                }
+            }
+        )
+    },
+
+    /**
+     * Update a user's tracked account in their active profile.
+     * 
+     * @param {*} param0 
+     */
+    'profiles.active.update.trackedAccount' ({_id, alias, accountId}) {
+        // TODO: VALIDATION! of user vs profile.
+
+        // TODO: if the referenced account isn't available in our system,
+        // we need to add it and start scraping for its transactions.
+
+        // Accounts.insert({
+        //    address: updatedAccount.address,
+        //    ...
+        // })
+
+        Profiles.update(
+            {
+                'trackedAccounts._id': _id
+            }, {
+                $set: {
+                    'trackedAccounts.$.alias': alias,
+                    'trackedAccounts.$.accountId': accountId
                 }
             }
         )

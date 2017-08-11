@@ -20,10 +20,10 @@ import { buildColumns } from './transactionLabelsColumns'
 
      return (
         <div>
-            <h2>Transaction Labels</h2>
+            <h2>Transaction labels</h2>
             <br />
             <Table bordered 
-                rowKey={label => label.name}
+                rowKey={label => label._id}
                 dataSource={labelTypes} 
                 columns={columns} />
             <Button className="editable-add-btn"

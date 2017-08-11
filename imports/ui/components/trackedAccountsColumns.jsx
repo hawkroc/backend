@@ -3,9 +3,11 @@ import React from 'react'
 import { Popconfirm } from 'antd'
 import EditableCell from './common/editableCell'
 
+import Accounts from '../../api/accounts/accounts'
+
 export const buildColumns = ({
     // Callback for updating an account.
-    onUpdateAccount
+    onUpdateTrackedAccount
 }) => {
     return [
         // Human readable alias of account.
@@ -19,7 +21,7 @@ export const buildColumns = ({
                     value={text}
                     onChangeConfirmed={(newValue) => {
                             record['alias'] = newValue;
-                            onUpdateAccount(record)
+                            onUpdateTrackedAccount(record)
                         }
                     }
                 />
@@ -27,20 +29,18 @@ export const buildColumns = ({
         }, 
         {
             title: 'Address',
-            dataIndex: 'address',
+            dataIndex: 'accountId',
             width: '40%',
 
-            render: (text, record, index) => (
-                <EditableCell
-                    value={text}
-                    valueMask={v => v.substring(0, 12) + "..."}
-                    onChangeConfirmed={(newValue) => {
-                            record['address'] = newValue;
-                            onUpdateAccount(record)
-                        }
-                    }
-                />
-            )
+            render: (text, record, index) => {
+                let account = Accounts.findOne({_id: text})
+
+                if (!account) {
+                    return <span>Pending...</span>
+                }
+
+                return account.address.substring(0, 12) + "..."
+            }
         },
         {
             title: 'Balance',
