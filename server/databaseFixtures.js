@@ -9,7 +9,7 @@ import Profiles from '../imports/api/profiles/profiles'
  */
 export default {
     apply: () => {
-        Meteor.startup(() => { 
+        Meteor.startup(() => {
             pushAccountFixtures();
             pushProfileFixtures();
         })
@@ -33,7 +33,12 @@ const pushProfileFixtures = () => {
             },
 
             trackedAccounts: [
-                // Could probably link an account from the account fixture calls.
+                {
+                    _id: new Meteor.Collection.ObjectID().toHexString(),
+                    accountId: Accounts.findOne()._id,
+                    alias: "Demo account",
+                    labels: [ ]
+                }
             ],
 
             labelTypes: [
@@ -57,7 +62,7 @@ const pushProfileFixtures = () => {
     ]
 
     data.forEach((profile) => {
-        const whatsThis = Profiles.insert(profile);
+        Profiles.insert(profile)
     })
 }
 
@@ -65,7 +70,7 @@ const pushAccountFixtures = () => {
     // Don't add fixtures if we already have data.
     if (Accounts.find().count() !== 0) {
         console.log("databaseFixtures: Found existing ACCOUNT data. No ACCOUNT fixtures added.")
-        return;
+        return [];
     }
 
     console.log("databaseFixtures: No existing ACCOUNT data. Adding test fixtures.")
@@ -79,7 +84,6 @@ const pushAccountFixtures = () => {
     ]
 
     data.forEach((account) => {
-        const whatsThis = Accounts.insert(account);
-        console.log("What's this?", whatsThis)
+        Accounts.insert(account)
     })
 }
