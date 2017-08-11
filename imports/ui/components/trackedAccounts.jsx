@@ -58,12 +58,13 @@ class TrackedAccountsComponent extends React.Component {
 
             // Called when the UI requests a change to account information.
             onUpdateTrackedAccount,
-            onInsertTrackedAccount
+            onInsertTrackedAccount,
+            onDeleteTrackedAccount
 
         } = this.props
 
         // Build the column set for this table.
-        const columns = buildColumns({onUpdateTrackedAccount})
+        const columns = buildColumns({onUpdateTrackedAccount, onDeleteTrackedAccount})
 
         return (
             <div>
@@ -88,7 +89,7 @@ class TrackedAccountsComponent extends React.Component {
                     <Input size="large" placeholder="My new account" 
                         value={this.state.addAlias} onChange={this.handleAddAliasChange} />
                     <br />
-                    
+
                     <h3>Account address</h3>
                     <Input size="large" placeholder="0x..." 
                         value={this.state.addAddress} onChange={this.handleAddAddressChange} />

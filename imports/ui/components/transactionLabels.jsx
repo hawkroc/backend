@@ -14,10 +14,11 @@ import { buildColumns } from './transactionLabelsColumns'
     labelTypes,
 
     onUpdateLabelType,
-    onInsertLabelType
+    onInsertLabelType,
+    onDeleteLabelType
  }) => {
 
-    const columns = buildColumns({onUpdateLabelType});
+    const columns = buildColumns({onUpdateLabelType, onDeleteLabelType});
 
      return (
         <div>

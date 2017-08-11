@@ -20,16 +20,18 @@ const View = ({
 
     onInsertTrackedAccount,
     onUpdateTrackedAccount,
+    onDeleteTrackedAccount,
     onInsertLabelType,
-    onUpdateLabelType
+    onUpdateLabelType,
+    onDeleteLabelType
 }) => (
     <div>
         <Row>
             <Col offset={1} span={10}>
-                <TrackedAccounts {...{trackedAccounts, onInsertTrackedAccount, onUpdateTrackedAccount}} />
+                <TrackedAccounts {...{trackedAccounts, onInsertTrackedAccount, onUpdateTrackedAccount, onDeleteTrackedAccount}} />
             </Col>
             <Col offset={1} span={9}>
-                <TransactionLabels {...{labelTypes, onInsertLabelType, onUpdateLabelType}} />
+                <TransactionLabels {...{labelTypes, onInsertLabelType, onUpdateLabelType, onDeleteLabelType}} />
             </Col>
         </Row>
     </div>
@@ -59,6 +61,12 @@ const mapDispatchToProps = (dispatch, state) => {
                 ...newAccount
             })
         },
+
+        onDeleteTrackedAccount: (trackedAccount) => {
+            Meteor.call('profiles.active.delete.trackedAccount', {
+                _id: trackedAccount._id
+            })
+        },
         
         onUpdateLabelType: (updatedLabel) => {
             // Update the active profile's label.
@@ -70,6 +78,12 @@ const mapDispatchToProps = (dispatch, state) => {
         onInsertLabelType: (newLabel) => {
             Meteor.call('profiles.active.insert.labelType', {
                 ...newLabel
+            })
+        },
+
+        onDeleteLabelType: (label) => {
+            Meteor.call('profiles.active.delete.labelType', {
+                _id: label._id
             })
         }
     }

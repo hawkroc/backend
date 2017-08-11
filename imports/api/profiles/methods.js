@@ -44,6 +44,29 @@ Meteor.methods({
         )
     },
 
+    /**
+     * Delete a user's label type in their active profile.
+     * 
+     * @param {*} param0 
+     */
+    'profiles.active.delete.labelType' ({ _id }) {
+        let currentProfile = Profiles.current();
+
+        // TODO: remove all transaction labels from the user profile corresponding
+        // to this label type.
+
+        Profiles.update(currentProfile._id, {
+            $pull: {
+                'labelTypes': { _id }
+            }
+        })
+    },
+
+    /**
+     * Insert a new tracked account into a user's active profile.
+     * 
+     * @param {*} param0 
+     */
     'profiles.active.insert.trackedAccount' ({ alias, address }) {
         // TODO: VALIDATION! of user vs profile.
         let currentProfile = Profiles.current();
@@ -89,5 +112,23 @@ Meteor.methods({
                 }
             }
         )
-    }
+    },
+
+    /**
+     * Delete a user's tracked account type in their active profile.
+     * 
+     * @param {*} param0 
+     */
+    'profiles.active.delete.trackedAccount' ({ _id }) {
+        let currentProfile = Profiles.current();
+
+        // TODO: if this is the last user tracking an account in our Accounts collection,
+        // remove the account from the collection also.
+
+        Profiles.update(currentProfile._id, {
+            $pull: {
+                'trackedAccounts': { _id }
+            }
+        })
+    },
 })

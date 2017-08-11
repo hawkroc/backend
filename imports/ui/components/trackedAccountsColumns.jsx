@@ -7,7 +7,8 @@ import Accounts from '../../api/accounts/accounts'
 
 export const buildColumns = ({
     // Callback for updating an account.
-    onUpdateTrackedAccount
+    onUpdateTrackedAccount,
+    onDeleteTrackedAccount
 }) => {
     return [
         // Human readable alias of account.
@@ -57,7 +58,7 @@ export const buildColumns = ({
                 return (
                     <Popconfirm 
                             title="Are you sure you want to stop tracking this account?" 
-                            onConfirm={() => alert("Handle remove tracked account")}>
+                            onConfirm={() => onDeleteTrackedAccount(record)}>
                         <a href="#">Remove</a>
                     </Popconfirm>
                 )

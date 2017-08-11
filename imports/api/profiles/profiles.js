@@ -11,11 +11,8 @@ const Profiles = new ProfilesCollection('profiles')
 // The server can still use all of these just fine.
 Profiles.deny({
     insert() { return true; },
+    update() { return true; },
     remove() { return true; }
-})
-
-Profiles.allow({
-    update() { return true; }
 })
 
 Profiles.attachSchema(ProfileSchema)

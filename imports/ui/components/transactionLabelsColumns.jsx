@@ -5,7 +5,8 @@ import EditableCell from './common/editableCell'
 
 
 export const buildColumns = ({
-    onUpdateLabelType
+    onUpdateLabelType,
+    onDeleteLabelType
 }) => {
     return [
         {
@@ -55,8 +56,8 @@ export const buildColumns = ({
             render: (text, record, index) => {
                 return (
                     <Popconfirm 
-                            title="Are you sure you want to delete this label?" 
-                            onConfirm={() => alert("Handle label delete")}>
+                            title="All associated transactions will be unlabled.<br />Are you sure you want to delete this label?"
+                            onConfirm={() => onDeleteLabelType(record)}>
                         <a href="#">Delete</a>
                     </Popconfirm>
                 );
