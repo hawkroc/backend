@@ -18,16 +18,18 @@ const View = ({
     trackedAccounts,
     labelTypes,
 
+    onInsertTrackedAccount,
     onUpdateTrackedAccount,
+    onInsertLabelType,
     onUpdateLabelType
 }) => (
     <div>
         <Row>
             <Col offset={1} span={10}>
-                <TrackedAccounts {...{trackedAccounts, onUpdateTrackedAccount}} />
+                <TrackedAccounts {...{trackedAccounts, onInsertTrackedAccount, onUpdateTrackedAccount}} />
             </Col>
             <Col offset={1} span={9}>
-                <TransactionLabels {...{labelTypes, onUpdateLabelType}} />
+                <TransactionLabels {...{labelTypes, onInsertLabelType, onUpdateLabelType}} />
             </Col>
         </Row>
     </div>
@@ -51,11 +53,23 @@ const mapDispatchToProps = (dispatch, state) => {
                 ...updatedAccount
             })
         },
+
+        onInsertTrackedAccount: (newAccount) => {
+            Meteor.call('profiles.active.insert.trackedAccount', {
+                ...newAccount
+            })
+        },
         
         onUpdateLabelType: (updatedLabel) => {
             // Update the active profile's label.
             Meteor.call('profiles.active.update.labelType', {
                 ...updatedLabel
+            })
+        },
+
+        onInsertLabelType: (newLabel) => {
+            Meteor.call('profiles.active.insert.labelType', {
+                ...newLabel
             })
         }
     }

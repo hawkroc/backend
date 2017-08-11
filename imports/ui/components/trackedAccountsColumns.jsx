@@ -14,7 +14,7 @@ export const buildColumns = ({
         {
             title: 'Alias',
             dataIndex: 'alias',
-            width: '30%',
+            width: '40%',
 
             render: (text, record, index) => (
                 <EditableCell
@@ -30,7 +30,7 @@ export const buildColumns = ({
         {
             title: 'Address',
             dataIndex: 'accountId',
-            width: '40%',
+            width: '30%',
 
             render: (text, record, index) => {
                 let account = Accounts.findOne({_id: text})

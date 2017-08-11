@@ -13,7 +13,8 @@ import { buildColumns } from './transactionLabelsColumns'
     // Collection of existing transaction labels to display.
     labelTypes,
 
-    onUpdateLabelType
+    onUpdateLabelType,
+    onInsertLabelType
  }) => {
 
     const columns = buildColumns({onUpdateLabelType});
@@ -27,7 +28,7 @@ import { buildColumns } from './transactionLabelsColumns'
                 dataSource={labelTypes} 
                 columns={columns} />
             <Button className="editable-add-btn"
-                onClick={() => alert("Handle adding label")}>Add label</Button>
+                onClick={() => onInsertLabelType({ name: "New label", gst: false })}>Add label</Button>
         </div>
      )
  }
