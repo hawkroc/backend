@@ -2,8 +2,6 @@ import { Mongo } from 'meteor/mongo'
 
 import AccountSchema from './accountSchema'
 
-//import Transactions from '../transactions/transactions.js';
-
 class AccountsCollection extends Mongo.Collection {
     insert(account, callback) {
         // TODO: We could use this to trigger a call to retrieve transactions for the
