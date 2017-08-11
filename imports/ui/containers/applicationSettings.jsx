@@ -7,6 +7,7 @@ import TrackedAccounts from '../components/trackedAccounts'
 import TransactionLabels from '../components/transactionLabels'
 
 import Accounts from '../../api/accounts/accounts'
+import Profiles from '../../api/profiles/profiles'
 
 
 /**
@@ -15,10 +16,10 @@ import Accounts from '../../api/accounts/accounts'
  */
 const View = ({
     accounts,
-    transactionLabels,
+    labelTypes,
 
     onUpdateAccount,
-    onUpdateLabel
+    onUpdateLabelType
 }) => (
     <div>
         <Row>
@@ -26,7 +27,7 @@ const View = ({
                 <TrackedAccounts {...{accounts, onUpdateAccount}} />
             </Col>
             <Col offset={1} span={9}>
-                <TransactionLabels {...{transactionLabels, onUpdateLabel}} />
+                <TransactionLabels {...{labelTypes, onUpdateLabelType}} />
             </Col>
         </Row>
     </div>
@@ -36,7 +37,7 @@ const mapStateToProps = (state) => {
 
     return {
         accounts: state.accounts.items,
-        transactionLabels: state.configuration.labels
+        labelTypes: state.profiles.active.labelTypes
     }
 }
 
@@ -44,7 +45,7 @@ const mapDispatchToProps = (dispatch, state) => {
     return {
         onUpdateAccount: (updatedAccount) => {
             // Update the account.
-            let account = Accounts.update(updatedAccount._id, {
+            Accounts.update(updatedAccount._id, {
                 $set: {
                     address: updatedAccount.address,
                     alias: updatedAccount.alias
@@ -52,8 +53,11 @@ const mapDispatchToProps = (dispatch, state) => {
             })
         },
         
-        onUpdateLabel: (label) => {
-            alert("Updating label!!! " + label.name + "   " + label.gst)
+        onUpdateLabelType: (updatedLabel) => {
+            // Update the active profile's label.
+            Meteor.call('profiles.current.update.labelType', {
+                ...updatedLabel
+            })
         }
     }
 }

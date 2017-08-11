@@ -11,12 +11,12 @@ import { buildColumns } from './transactionLabelsColumns'
  */
  const View = ({
     // Collection of existing transaction labels to display.
-    transactionLabels,
+    labelTypes,
 
-    onUpdateLabel
+    onUpdateLabelType
  }) => {
 
-    const columns = buildColumns({onUpdateLabel});
+    const columns = buildColumns({onUpdateLabelType});
 
      return (
         <div>
@@ -24,7 +24,7 @@ import { buildColumns } from './transactionLabelsColumns'
             <br />
             <Table bordered 
                 rowKey={label => label.name}
-                dataSource={transactionLabels} 
+                dataSource={labelTypes} 
                 columns={columns} />
             <Button className="editable-add-btn"
                 onClick={() => alert("Handle adding label")}>Add label</Button>

@@ -17,7 +17,7 @@ export default {
         Meteor.publish('profiles', () => {
             // Return the first profile to the client only for now.
             // This will eventually be selected based on the logged in user.
-            return Profiles.findOne({ }, {
+            return Profiles.find({ }, {
                 fields: Profiles.publicFields
             })
         })

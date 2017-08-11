@@ -5,7 +5,7 @@ import EditableCell from './common/editableCell'
 
 
 export const buildColumns = ({
-    onUpdateLabel
+    onUpdateLabelType
 }) => {
     return [
         {
@@ -18,7 +18,7 @@ export const buildColumns = ({
                     value={text}
                     onChangeConfirmed={(newValue) => {
                             record['name'] = newValue;
-                            onUpdateLabel(record)
+                            onUpdateLabelType(record)
                         }
                     }
                 />
@@ -38,7 +38,7 @@ export const buildColumns = ({
                                 onChange={
                                     (newValue) => {
                                         record['gst'] = (newValue == "true");
-                                        onUpdateLabel(record)
+                                        onUpdateLabelType(record)
                                     }
                                 }>
                             <Select.Option value={"true"}>GST</Select.Option>
