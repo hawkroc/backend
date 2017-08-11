@@ -1,8 +1,9 @@
 import { Mongo } from 'meteor/mongo'
 
-import ProfileSchema from './profileSchema'
+import ProfileSchema from './schemas/profileSchema'
 
-import './methods'
+import './methods/labelMethods'
+import './methods/trackedAccountMethods'
 
 class ProfilesCollection extends Mongo.Collection { }
 const Profiles = new ProfilesCollection('profiles')

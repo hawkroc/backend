@@ -56,7 +56,7 @@ export const buildColumns = ({
             render: (text, record, index) => {
                 return (
                     <Popconfirm 
-                            title="All associated transactions will be unlabled.<br />Are you sure you want to delete this label?"
+                            title="Are you sure you want to delete this label?"
                             onConfirm={() => onDeleteLabelType(record)}>
                         <a href="#">Delete</a>
                     </Popconfirm>
