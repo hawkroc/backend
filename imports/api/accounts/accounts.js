@@ -1,7 +1,6 @@
 import { Mongo } from 'meteor/mongo'
-import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
-//import Transactions from '../transactions/transactions.js';
+import AccountSchema from './accountSchema'
 
 class AccountsCollection extends Mongo.Collection {
     insert(account, callback) {
@@ -12,13 +11,14 @@ class AccountsCollection extends Mongo.Collection {
     }
 
     remove(selector, callback) {
-        // Cascade removal to all associated transactions.
-        // TODO: Transactions.remove({ account: selector });
+        // TODO: should probably check and not remove account if at least one user is
+        // referencing it.
         return super.remove(selector, callback);
     }
 }
 
 const Accounts = new AccountsCollection('accounts')
+Accounts.attachSchema(AccountSchema)
 
 // Allow and deny rules for operations against this collection.
 // Return 'true' to allow/deny based on authorization logic.
@@ -31,18 +31,11 @@ Accounts.allow({
     update() { return true; },
 })
 
-Accounts.schema = new SimpleSchema({
-    _id: { type: String, regEx: SimpleSchema.RegEx.Id },
-    address: { type: String },
-    alias: { type: String }
-})
-
-Accounts.attachSchema(Accounts.schema)
-
 // Fields of the collection items that are made available to the client.
 Accounts.publicFields = {
     address: 1,
-    alias: 1
+    transactions: 1,
+    latestMinedBlock: 1
 }
 
 // Attach helpers to the collection object.
