@@ -1,5 +1,3 @@
-import { Records } from '../imports/api/records.js';
-import {Settings} from '../imports/api/settings.js';
 import { Meteor } from 'meteor/meteor';
 const schedule = require('node-schedule');
 const synData = require('./synchronizeData');
