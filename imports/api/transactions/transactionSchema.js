@@ -1,31 +1,78 @@
-import { Mongo } from 'meteor/mongo'
-import { SimpleSchema } from 'meteor/aldeed:simple-schema'
+import {Mongo} from 'meteor/mongo'
+import {SimpleSchema} from 'meteor/aldeed:simple-schema'
 
 const TransactionSchema = new SimpleSchema({
-    _id: { 
-        type: String, 
-        regEx: SimpleSchema.RegEx.Id 
+    // _id: {     type: String,     regEx: SimpleSchema.RegEx.Id }, address: { type:
+    // String },
+    contractAddress: {
+        type: String,
+        defaultValue: ""
+    },
+    blockNumber: {
+        type: Number,
+        defaultValue: 0
+    },
+    timeStamp: {
+        type: Number,
+        defaultValue: 0
+    },
+    hash: {
+        type: String,
+        defaultValue: ""
+    },
+    nonce: {
+        type: String,
+        defaultValue: ""
+    },
+    blockHash: {
+        type: String,
+        defaultValue: ""
+    },
+    transactionIndex: {
+        type: String,
+        defaultValue: ""
+    },
+    from: {
+        type: String,
+        defaultValue: ""
+    },
+    to: {
+        type: String,
+        defaultValue: ""
+    },
+    gas: {
+        type: Number,
+        defaultValue: 0
+    },
+    gasPrice: {
+        type: Number,
+        defaultValue: 0
+    },
+    gasUsed: {
+        type: String,
+        defaultValue: ""
+    },
+    cumulativeGasUsed: {
+        type: String,
+        defaultValue: ""
     },
 
-    address: { type: String },
-    contractAddress: { type: String },
-
-    blockNumber: { type: Number },
-    timeStamp: { type: String },
-
-    from: { type: String },
-    to: { type: String },
-
-    gas: { type: Number },
-    gasPrice: { type: Number },
-    gasUsed: { type: String },
-    cumulativeGasUsed: { type: String },
-
-    isError: { type: String },
-    input: { type: String },
-    confirmations: { type: String },
-
-    value: { type: Number }
+    isError: {
+        type: String,
+        defaultValue: ""
+    },
+    input: {
+        type: String,
+        defaultValue: ""
+    },
+    confirmations: {
+        type: String,
+        defaultValue: ""
+    },
+    value: {
+        type: String,
+        defaultValue: ""
+    }
 })
 
 export default TransactionSchema

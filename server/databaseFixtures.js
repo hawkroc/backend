@@ -9,8 +9,9 @@ export default {
         Meteor.startup(() => { 
 
             // Don't add fixturs if we already have data.
-            if (Accounts.find().count() !== 0) {
-                console.log("databaseFixtures: Found existing data. Skip adding fixtures.")
+            let count=Accounts.find().count();
+            if (count !== 0) {
+                console.log("databaseFixtures: Found existing data. Skip adding fixtures.this count is "+count)
                 return;
             }
 
