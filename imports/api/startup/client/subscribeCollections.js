@@ -4,6 +4,7 @@
  */
 export default {
     apply: () => {
-        Meteor.subscribe('accounts');
+        Meteor.subscribe('accounts')
+        Meteor.subscribe('profiles')
     }
 }
