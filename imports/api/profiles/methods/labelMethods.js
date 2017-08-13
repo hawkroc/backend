@@ -9,9 +9,9 @@ Meteor.methods({
      */
     'profiles.active.insert.labelType' ({name, gst}) {
 
-        let currentProfile = Profiles.current();
+        let activeProfile = Profiles.active();
 
-        Profiles.update(currentProfile._id, {
+        Profiles.update(activeProfile._id, {
             $push: {
                 'labelTypes': {
                     // TODO: best way to do IDs?
@@ -30,7 +30,7 @@ Meteor.methods({
      */
     'profiles.active.update.labelType' ({_id, name, gst}) {
         // TODO: VALIDATION! of user vs profile.
-        //let currentProfile = Profiles.current();
+        //let activeProfile = Profiles.active();
         
         Profiles.update(
             {
@@ -50,12 +50,12 @@ Meteor.methods({
      * @param {*} param0 
      */
     'profiles.active.delete.labelType' ({ _id }) {
-        let currentProfile = Profiles.current();
+        let activeProfile = Profiles.active();
 
         // TODO: remove all transaction labels from the user profile corresponding
         // to this label type.
 
-        Profiles.update(currentProfile._id, {
+        Profiles.update(activeProfile._id, {
             $pull: {
                 'labelTypes': { _id }
             }

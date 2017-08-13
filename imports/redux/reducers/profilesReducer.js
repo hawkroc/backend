@@ -31,7 +31,7 @@ const reducer = (state = initialState, payload) => {
 Meteor.startup(() => {
     Tracker.autorun(() => {
         store.dispatch(
-            setActiveProfile(Profiles.current())
+            setActiveProfile(Profiles.active())
         )
     })
 })

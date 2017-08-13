@@ -11,8 +11,8 @@ Meteor.methods({
     'profiles.active.insert.trackedAccount' ({ alias, address }) {
         // TODO: VALIDATION! of user vs profile.
         // TODO: address validation!
-        // TODO: user collection factories!
-        let currentProfile = Profiles.current();
+        // TODO: profile collection factories!
+        let activeProfile = Profiles.active();
 
         // If the user is tracking an account that does not yet exist in our system,
         // create it.
@@ -29,7 +29,7 @@ Meteor.methods({
             accountId = account._id
         }
 
-        Profiles.update(currentProfile._id, {
+        Profiles.update(activeProfile._id, {
             $push: {
                 'trackedAccounts': {
                     // TODO: best way to do IDs?
@@ -40,6 +40,8 @@ Meteor.methods({
                 }
             }
         })
+
+        // TODO: tigger initial transaction mining for this account?
     },
 
     /**
@@ -73,14 +75,14 @@ Meteor.methods({
      * @param {*} param0 
      */
     'profiles.active.delete.trackedAccount' ({ _id }) {
-        let currentProfile = Profiles.current()
+        let activeProfile = Profiles.active()
 
-        let toDelete = currentProfile.trackedAccounts
+        let toDelete = activeProfile.trackedAccounts
             .find(ta => ta._id === _id);
 
         if (toDelete) {
             // Delete.
-            Profiles.update(currentProfile._id, {
+            Profiles.update(activeProfile._id, {
                 $pull: {
                     'trackedAccounts': { _id }
                 }
