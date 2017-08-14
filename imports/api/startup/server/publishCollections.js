@@ -8,10 +8,19 @@ import Profiles from '../../profiles/profiles';
 export default {
     apply: () => {
         Meteor.publish('accounts', () => {
-            // Return all accounts for now.
-            return Accounts.find({ }, {
-                fields: Accounts.publicFields
-            })
+            // Get the user's currently tracked accounts only.
+            let accountIds = Profiles.active().trackedAccounts.map(
+                ta => ta.accountId
+            )
+
+            console.error("ACCOUNT IDS", accountIds)
+
+            return Accounts.find({ 
+                _id: {
+                    $in: accountIds
+                }
+             }, { fields: Accounts.publicFields }
+            )
         })
 
         Meteor.publish('profiles', () => {

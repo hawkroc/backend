@@ -34,7 +34,7 @@ import { buildColumns } from './transactionsGridColumns'
                 columns={gridColumns}
                 dataSource={gridDataSource}
                 rowKey={transaction => transaction._id}
-                pagination={{ pageSize: 8 }}
+                pagination={{ pageSize: 7 }}
             />
         </div>
     )
