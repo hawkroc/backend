@@ -1,76 +1,118 @@
 const base = "http://api.etherscan.io/api?"
 const accountUrl = "module=account&action=txlist&address=";
 const currentBlock = "module=proxy&action=eth_blockNumber";
+
 const config = require('../imports/config/config');
 const axios = require('axios');
+
 import Accounts from '../imports/api/accounts/accounts';
-import {Meteor} from 'meteor/meteor';
-GetCurrentBlock = () => {
-  let final = base + currentBlock + config.key;
-  // console.log("this is getData url "+final);
-  return axios
-    .get(final)
-    .then((response) => {
-      response.data.result = parseInt(response.data.result, 16);
-      // console.log("this is currentNumber  "+response.data.result);
-      return response;
-    });
+
+// Simple lock to ensure we don't start mining an account multiple times
+// i.e. if we're inserting a lot of data.
+let MINING_PROCESS_LOCK = false;
+
+/**
+ * Query API for the current head block.
+ * 
+ */
+const getCurrentBlock = () => {
+	let final = base + currentBlock + config.key;
+	
+	return axios
+		.get(final)
+		.then((response) => {
+			response.data.result = parseInt(response.data.result, 16);
+			
+			return response;
+		});
 }
 
-GetdataFromApi = (startblock, endblock, address) => {
-  let final = base + accountUrl + address + "&startblock=" + startblock + "&endblock=" + endblock + "&sort=asc" + config.key;
-console.log("this url "+final);
-  return axios
-    .get(final)
-    .then((response) => {
-   
+/** 
+ * Fetch transaction data from the API.
+ * 
+ */
+const getdataFromApi = (startblock, endblock, address) => {
+	let final = base + accountUrl + address + "&startblock=" + startblock + 
+		"&endblock=" + endblock + "&sort=asc" + config.key;
 
-      return response;
-    })
+	console.log("synchronizeData: Fetching remote data:", final);
+
+	return axios
+		.get(final)
+		.then((response) => {
+			return response;
+		})
 };
 
-SynchronizeDataFromApi = () => {
+/**
+ * Fetch data up to the latest block.
+ * 
+ */
+synchronizeDataFromApi = () => {
 
-  return GetCurrentBlock().then((response) => {
-    let end = response.data.result;
-    let accountsList = Accounts
-      .find()
-      .fetch();
-    for (let account of accountsList) {
-      GetdataFromApi(account.latestMinedBlock,end, account.address).then((response) => {
-        //3946145,4013330
-        //account.latestMinedBlock,end
-        let res = response.data.result;
-      console.log("this is  transactions  " + JSON.stringify(res.length));
-        account.transactions = [
-          ...account.transactions,
-          ...res
-        ];
-        if (res) {
-          account.latestMinedBlock = parseInt(res.slice(-1)[0].blockNumber);
-        }
+	if (MINING_PROCESS_LOCK) {
+		console.log("synchronizeData: Mining process already active - skipping.")
+		return;
+	}
 
-       console.log("this is new transactions  " + JSON.stringify(account));
+	MINING_PROCESS_LOCK = true;
 
-        // Accounts.update({   '_id': account._id }, {   $set: {'latestMinedBlock':
-        // account.latestMinedBlock}},  {$push: {'transactions':account.transactions}});
-       // let transactionsTemp=[{blockNumber:1234,timeStamp:3456},{blockNumber:45,timeStamp:789}];
-      //  account.transactions=[...account.transactions,...transactionsTemp];
-       
-      Accounts.remove({
-          '_id': account._id
-        }, (err, res) => {
-          if (res) {
-   
-            return Accounts.insert(account,(err,res)=>{
-              console.log(JSON.stringify(res));
-            });
-          }
-          return null;
-        });
+	return getCurrentBlock().then((response) => {
+		let endBlock = response.data.result;
 
-      });
+		// Pull a list of unique addresses.
+		let accountsList = Accounts.find()
+			.map(a => ({ _id: a._id, address: a.address, latestMinedBlock: a.latestMinedBlock }))
 
-    }
-  });
+		console.log("synchronizeData: Mining account data for", accountsList.length, "accounts.")
+
+		for (let account of accountsList) {
+			console.log("synchronizeData: Mining account data for account with _id", account._id,
+				"with address", account.address);
+
+			getdataFromApi(account.latestMinedBlock + 1, endBlock, account.address)
+				.then((response) => {
+
+					// TODO: validation and error checking.
+
+					let res = response.data.result;
+					console.log("synchronizeData: Remote fetch returned", res.length, "records.");
+
+					if (res.length === 0) {
+						// No new data.
+						return;
+					}
+
+					res.forEach(t => {
+						t._id = new Meteor.Collection.ObjectID().toHexString()
+					});
+
+					// Push the new transcations to the account.
+					// TODO: we should do some validation checking to make sure we don't duplicate any
+					// transactions. This would also be achieved through robust error handling too.
+					Accounts.update(account._id, {
+						$push: {
+							'transactions': {
+								$each: res
+							}
+						}
+					})
+
+					// Successful transaction import? Update latest block.
+					Accounts.update(account._id, {
+						$set: {
+							'latestMinedBlock': res.slice(-1)[0].blockNumber
+						}
+					})
+
+					MINING_PROCESS_LOCK = false
+					console.log("synchronizeData: Remote fetch completed.")
+
+				}).catch((e) => {
+					MINING_PROCESS_LOCK = false
+					console.log("synchronizeData: Remote fetch completed with errors.")
+					console.log(e);
+				});
+		}
+	});
 }

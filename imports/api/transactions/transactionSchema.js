@@ -2,8 +2,7 @@ import {Mongo} from 'meteor/mongo'
 import {SimpleSchema} from 'meteor/aldeed:simple-schema'
 
 const TransactionSchema = new SimpleSchema({
-    // _id: {     type: String,     regEx: SimpleSchema.RegEx.Id }, address: { type:
-    // String },
+    _id: { type: String },
     contractAddress: {
         type: String,
         defaultValue: ""

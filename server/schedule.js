@@ -5,8 +5,8 @@ const config = require('../imports/config/config');
 
 scheduleCronstyle = () => {
     schedule.scheduleJob(config.schedule, () => {
-      console.log("shedule job started");
-      SynchronizeDataFromApi();
+      console.log("schedule: Data sync job has started.");
+      synchronizeDataFromApi();
 
     });
 }
