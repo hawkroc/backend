@@ -13,8 +13,6 @@ export default {
                 ta => ta.accountId
             )
 
-            console.error("ACCOUNT IDS", accountIds)
-
             return Accounts.find({ 
                 _id: {
                     $in: accountIds

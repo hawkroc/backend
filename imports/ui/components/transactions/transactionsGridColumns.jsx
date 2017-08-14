@@ -37,6 +37,7 @@ export const buildColumns = ({
             dataIndex: 'timeStamp',
             key: 'timeStamp',
             width: "10%",
+            sortOrder: "descend",
 
             render: (text) => {
                 return (
@@ -68,7 +69,7 @@ export const buildColumns = ({
             )
         },
         {
-            title: 'Amount',
+            title: 'ETH',
             dataIndex: 'gas',
             key: 'gas',
             width: "6%",
@@ -93,13 +94,13 @@ export const buildColumns = ({
             }
         },
         {
-            title: 'Internal tx',
+            title: 'Internal',
             dataIndex: 'contractAddress',
             key: 'contractAddress',
             width: "6%",
 
             render: (text) => {
-                return text === "" ? '' : 'with internal tx';
+                return text === "" ? '' : 'Internal';
             },
 
             filters: [
@@ -111,7 +112,7 @@ export const buildColumns = ({
             },
         },
         {
-            title: ' Tx type',
+            title: ' Label',
             key: 'type',
             width: "12%",
             render: (text, record) => {
