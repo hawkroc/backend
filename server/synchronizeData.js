@@ -7,9 +7,6 @@ const axios = require('axios');
 
 import Accounts from '../imports/api/accounts/accounts';
 
-// Simple lock to ensure we don't start mining an account multiple times
-// i.e. if we're inserting a lot of data.
-let MINING_PROCESS_LOCK = false;
 
 /**
  * Query API for the current head block.
@@ -50,14 +47,7 @@ const getdataFromApi = (startblock, endblock, address) => {
  */
 synchronizeDataFromApi = () => {
 
-	if (MINING_PROCESS_LOCK) {
-		console.log("synchronizeData: Mining process already active - skipping.")
-		return;
-	}
-
-	MINING_PROCESS_LOCK = true;
-
-	return getCurrentBlock().then((response) => {
+	getCurrentBlock().then((response) => {
 		let endBlock = response.data.result;
 
 		// Pull a list of unique addresses.
@@ -80,9 +70,14 @@ synchronizeDataFromApi = () => {
 
 					if (res.length === 0) {
 						// No new data.
-						return;
+						return true;
 					}
 
+					// Filter out duplicate transactions
+					// TODO: this could be done better by making sure the mining process never overlaps.
+					res = res.filter(t => t.blockNumber >= account.latestMinedBlock)
+
+					// Attach an object ID to each transaction.
 					res.forEach(t => {
 						t._id = new Meteor.Collection.ObjectID().toHexString()
 					});
@@ -101,17 +96,19 @@ synchronizeDataFromApi = () => {
 					// Successful transaction import? Update latest block.
 					Accounts.update(account._id, {
 						$set: {
+							// TODO: should this be latest block from API call?
 							'latestMinedBlock': res.slice(-1)[0].blockNumber
 						}
 					})
 
-					MINING_PROCESS_LOCK = false
-					console.log("synchronizeData: Remote fetch completed.")
+					return true;
 
 				}).catch((e) => {
-					MINING_PROCESS_LOCK = false
-					console.log("synchronizeData: Remote fetch completed with errors.")
-					console.log(e);
+					console.log("synchronizeData:", e);
+					return false;
+
+				}).finally(() => {
+					console.log("synchronizeData: Remote fetch completed.")
 				});
 		}
 	});
