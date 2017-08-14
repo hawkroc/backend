@@ -36,8 +36,7 @@ const pushProfileFixtures = () => {
                 {
                     _id: new Meteor.Collection.ObjectID().toHexString(),
                     accountId: Accounts.findOne()._id,
-                    alias: "Demo account",
-                    labels: [ ]
+                    alias: "Demo account"                    
                 }
             ],
 
@@ -57,8 +56,10 @@ const pushProfileFixtures = () => {
                     name: "Rent",
                     gst: true
                 }
-            ]
-        }
+            ],
+
+            labels: [ ]
+        },
     ]
 
     data.forEach((profile) => {

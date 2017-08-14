@@ -24,7 +24,7 @@ import ApplicationSettings from '../containers/applicationSettings'
                     <TransactionsReporting />
                     {/* <LineChart /> */}
                 </TabPane>
-                <TabPane tab="Account Settings" key="2">
+                <TabPane tab="Account settings" key="2">
                     <ApplicationSettings />
                     {/* <SetAll changeConfig={this.changeConfig} config={this.state.config}/> */}
                 </TabPane>

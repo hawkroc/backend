@@ -35,8 +35,7 @@ Meteor.methods({
                     // TODO: best way to do IDs?
                     _id: new Meteor.Collection.ObjectID().toHexString(),
                     alias, 
-                    accountId,
-                    labels: [ ]
+                    accountId
                 }
             }
         })

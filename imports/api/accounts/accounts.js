@@ -18,7 +18,8 @@ class AccountsCollection extends Mongo.Collection {
 }
 
 const Accounts = new AccountsCollection('accounts')
-Accounts.attachSchema(AccountSchema)
+// TODO: why is schema validation so slow...
+//Accounts.attachSchema(AccountSchema)
 
 // Allow and deny rules for operations against this collection.
 // Return 'true' to allow/deny based on authorization logic.

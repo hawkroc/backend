@@ -1,36 +1,115 @@
-//const address="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae";
-const base="http://api.etherscan.io/api?"
-const accountUrl="module=account&action=txlist&address=";
-const currentBlock="module=proxy&action=eth_blockNumber";
+const base = "http://api.etherscan.io/api?"
+const accountUrl = "module=account&action=txlist&address=";
+const currentBlock = "module=proxy&action=eth_blockNumber";
+
 const config = require('../imports/config/config');
-const  axios = require('axios');
+const axios = require('axios');
 
-//var blockStart=1;
-//"&startblock=11063&endblock=4009538&sort=asc"
+import Accounts from '../imports/api/accounts/accounts';
 
-  GetCurrentBlock = () => {
-    let final = base+currentBlock + config.key;
-   // console.log("this is getData url "+final);
-   return axios.get(final).then(
-   	(response) =>{  
-       response.data.result=parseInt(response.data.result, 16);
-     // console.log("this is currentNumber  "+response.data.result);
-   		return  response;
-   	}
-   	);
+
+/**
+ * Query API for the current head block.
+ * 
+ */
+const getCurrentBlock = () => {
+	let final = base + currentBlock + config.key;
+	
+	return axios
+		.get(final)
+		.then((response) => {
+			response.data.result = parseInt(response.data.result, 16);
+			
+			return response;
+		});
 }
 
+/** 
+ * Fetch transaction data from the API.
+ * 
+ */
+const getdataFromApi = (startblock, endblock, address) => {
+	let final = base + accountUrl + address + "&startblock=" + startblock + 
+		"&endblock=" + endblock + "&sort=asc" + config.key;
 
- GetdataFromApi = (startblock, endblock,address) => { 
- let final = base+accountUrl+address+"&startblock="+startblock+"&endblock="+endblock+"&sort=asc" + config.key;
-  //  console.log(final);
-   // timeStamp
-   return axios.get(final).then((response)=>{
-  // response.data.result=[..., Date(parseInt(timeStamp) * 1000).toLocaleDateString()];
+	console.log("synchronizeData: Fetching remote data:", final);
 
-
-   	return response;
-   })
+	return axios
+		.get(final)
+		.then((response) => {
+			return response;
+		})
 };
 
+/**
+ * Fetch data up to the latest block.
+ * 
+ */
+synchronizeDataFromApi = () => {
 
+	getCurrentBlock().then((response) => {
+		let endBlock = response.data.result;
+
+		// Pull a list of unique addresses.
+		let accountsList = Accounts.find()
+			.map(a => ({ _id: a._id, address: a.address, latestMinedBlock: a.latestMinedBlock }))
+
+		console.log("synchronizeData: Mining account data for", accountsList.length, "accounts.")
+
+		for (let account of accountsList) {
+			console.log("synchronizeData: Mining account data for account with _id", account._id,
+				"with address", account.address);
+
+			getdataFromApi(account.latestMinedBlock + 1, endBlock, account.address)
+				.then((response) => {
+
+					// TODO: validation and error checking.
+
+					let res = response.data.result;
+					console.log("synchronizeData: Remote fetch returned", res.length, "records.");
+
+					if (res.length === 0) {
+						// No new data.
+						return true;
+					}
+
+					// Filter out duplicate transactions
+					// TODO: this could be done better by making sure the mining process never overlaps.
+					res = res.filter(t => t.blockNumber >= account.latestMinedBlock)
+
+					// Attach an object ID to each transaction.
+					res.forEach(t => {
+						t._id = new Meteor.Collection.ObjectID().toHexString()
+					});
+
+					// Push the new transcations to the account.
+					// TODO: we should do some validation checking to make sure we don't duplicate any
+					// transactions. This would also be achieved through robust error handling too.
+					Accounts.update(account._id, {
+						$push: {
+							'transactions': {
+								$each: res
+							}
+						}
+					})
+
+					// Successful transaction import? Update latest block.
+					Accounts.update(account._id, {
+						$set: {
+							// TODO: should this be latest block from API call?
+							'latestMinedBlock': res.slice(-1)[0].blockNumber
+						}
+					})
+
+					return true;
+
+				}).catch((e) => {
+					console.log("synchronizeData:", e);
+					return false;
+
+				}).finally(() => {
+					console.log("synchronizeData: Remote fetch completed.")
+				});
+		}
+	});
+}

@@ -1,4 +1,5 @@
 import Profiles from '../../../api/profiles/profiles'
+import Accounts from '../../../api/accounts/accounts'
 
 Meteor.methods({
 
@@ -52,13 +53,57 @@ Meteor.methods({
     'profiles.active.delete.labelType' ({ _id }) {
         let activeProfile = Profiles.active();
 
-        // TODO: remove all transaction labels from the user profile corresponding
+        // Remove all transaction labels from the user profile corresponding
         // to this label type.
+        Profiles.update({
+                _id: activeProfile._id,
+                'labels.labelTypeId': _id
+            }, {
+                $pull: {
+                    'labels': {
+                        labelTypeId: _id
+                    }
+            }
+        })
 
+        // Remove the label type.
         Profiles.update(activeProfile._id, {
             $pull: {
                 'labelTypes': { _id }
             }
+        })
+    },
+
+    /**
+     * Update the active user's label for a transaction.
+     * 
+     * @param {*} param0 
+     */
+    'profiles.active.update.label' ({txId, labelTypeId}) {
+        let activeProfile = Profiles.active();
+
+        // Pull all exising labels for provided transaction ID.
+        Profiles.update({
+                _id: activeProfile._id,
+                'labels.transactionId': txId
+            }, {
+            $pull: {
+                'labels': { 
+                    transactionId: txId
+                 }
+            },
+        })
+
+        // Push the new label against the account/transaction.
+        Profiles.update({
+                _id: activeProfile._id
+            }, {
+            $push: {
+                'labels': { 
+                    transactionId: txId,
+                    labelTypeId
+                 }
+            },
         })
     }
 })
