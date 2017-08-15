@@ -9,6 +9,9 @@ import TransactionLabels from '../components/transactionLabels'
 import Accounts from '../../api/accounts/accounts'
 import Profiles from '../../api/profiles/profiles'
 
+import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
+import trackedAccountMethodTypes from '../../api/profiles/methods/trackedAccountMethodTypes'
+
 
 /**
  * Container for configuring high-level application settings.
@@ -51,38 +54,38 @@ const mapDispatchToProps = (dispatch, state) => {
         onUpdateTrackedAccount: (updatedAccount) => {
 
             // Update the active profile's label.
-            Meteor.call('profiles.active.update.trackedAccount', {
+            Meteor.call(trackedAccountMethodTypes.PROFILE_UPDATE_TRACKEDACCOUNT, {
                 ...updatedAccount
             })
         },
 
         onInsertTrackedAccount: (newAccount) => {
-            Meteor.call('profiles.active.insert.trackedAccount', {
+            Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
                 ...newAccount
             })
         },
 
         onDeleteTrackedAccount: (trackedAccount) => {
-            Meteor.call('profiles.active.delete.trackedAccount', {
+            Meteor.call(trackedAccountMethodTypes.PROFILE_DELETE_TRACKEDACCOUNT, {
                 _id: trackedAccount._id
             })
         },
         
         onUpdateLabelType: (updatedLabel) => {
             // Update the active profile's label.
-            Meteor.call('profiles.active.update.labelType', {
+            Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABELTYPE, {
                 ...updatedLabel
             })
         },
 
         onInsertLabelType: (newLabel) => {
-            Meteor.call('profiles.active.insert.labelType', {
+            Meteor.call(labelMethodTypes.PROFILE_INSERT_LABELTYPE, {
                 ...newLabel
             })
         },
 
         onDeleteLabelType: (label) => {
-            Meteor.call('profiles.active.delete.labelType', {
+            Meteor.call(labelMethodTypes.PROFILE_DELETE_LABELTYPE, {
                 _id: label._id
             })
         }

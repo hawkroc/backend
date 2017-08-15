@@ -1,3 +1,5 @@
+import * as methodTypes from './trackedAccountMethodTypes'
+
 import Profiles from '../../../api/profiles/profiles'
 import Accounts from '../../../api/accounts/accounts'
 
@@ -8,7 +10,7 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-    'profiles.active.insert.trackedAccount' ({ alias, address }) {
+    [methodTypes.PROFILE_INSERT_TRACKEDACCOUNT] ({ alias, address }) {
         // TODO: VALIDATION! of user vs profile.
         // TODO: address validation!
         // TODO: profile collection factories!
@@ -48,7 +50,7 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-    'profiles.active.update.trackedAccount' ({_id, alias, accountId}) {
+    [methodTypes.PROFILE_UPDATE_TRACKEDACCOUNT] ({_id, alias, accountId}) {
         // TODO: VALIDATION! of user vs profile.
 
         // Accounts.insert({
@@ -73,7 +75,7 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-    'profiles.active.delete.trackedAccount' ({ _id }) {
+    [methodTypes.PROFILE_DELETE_TRACKEDACCOUNT] ({ _id }) {
         let activeProfile = Profiles.active()
 
         let toDelete = activeProfile.trackedAccounts

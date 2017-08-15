@@ -6,6 +6,9 @@ import faker from 'faker'
 
 import Profiles from '../../../imports/api/profiles/profiles'
 
+import labelMethodTypes from '../../../imports/api/profiles/methods/labelMethodTypes'
+import trackedAccountMethodTypes from '../../../imports/api/profiles/methods/trackedAccountMethodTypes'
+
 
 /**
  * TODO: once the user model is correctly wire up and implemented, we'll 
@@ -27,7 +30,7 @@ describe('Profiles collection API', function () {
             labelTypeGst = faker.random.boolean()
 
         Meteor.call(
-            'profiles.active.insert.labelType',
+            labelMethodTypes.PROFILE_INSERT_LABELTYPE,
             { name: labelTypeName, gst: labelTypeGst }
         )
 
@@ -51,7 +54,7 @@ describe('Profiles collection API', function () {
         let labelTypeToDeleteId = profile.labelTypes[0]._id
 
         Meteor.call(
-            'profiles.active.delete.labelType',
+            labelMethodTypes.PROFILE_DELETE_LABELTYPE,
             { _id: labelTypeToDeleteId }
         )
 
