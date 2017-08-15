@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo'
 
 import AccountSchema from './accountSchema'
+import { initializeFactory } from './accountsFactory'
 
 class AccountsCollection extends Mongo.Collection {
     insert(account, callback) {
@@ -46,5 +47,7 @@ Accounts.helpers({
     //     return transactions.find({ account: this.address }, { sort: { createdAt: -1 } });
     // }
 })
+
+initializeFactory(Accounts)
 
 export default Accounts;

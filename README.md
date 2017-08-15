@@ -16,3 +16,13 @@ Information for developers.
 ```meteor npm install```
 * Run the meteor backend and frontend
 ```meteor run```
+
+
+#### Testing the solution
+The project currently uses mocha + chai integrated with the meteor testing environment.
+
+```npm run test```
+
+This will run the meteor test environment. After the tests have run, results can be viewed in the browser at ```localhost:3000```. The test environment uses the same ports as ```meteor run``` so make sure to close that process first.
+
+The tests run on an alternative instance of the MongoDB database so will not disrupt your development or staged data.
