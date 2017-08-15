@@ -1,3 +1,4 @@
 export const SET_ACCOUNTS = 'SET_ACCOUNTS'
 
 export const SET_ACTIVE_PROFILE = 'SET_ACTIVE_PROFILE'
+export const SET_LANGUAGE='SET_LANGUAGE'
