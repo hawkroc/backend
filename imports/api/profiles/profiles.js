@@ -2,6 +2,8 @@ import { Mongo } from 'meteor/mongo'
 
 import ProfileSchema from './schemas/profileSchema'
 
+import { initializeFactory } from './profilesFactory'
+
 import './methods/labelMethods'
 import './methods/trackedAccountMethods'
 
@@ -16,7 +18,7 @@ Profiles.deny({
     remove() { return true; }
 })
 
-Profiles.attachSchema(ProfileSchema)
+//Profiles.attachSchema(ProfileSchema)
 
 // Fields of the collection items that are made available to the client.
 Profiles.publicFields = {
@@ -37,4 +39,6 @@ Profiles.helpers({
     
 })
 
-export default Profiles;
+initializeFactory(Profiles)
+
+export default Profiles

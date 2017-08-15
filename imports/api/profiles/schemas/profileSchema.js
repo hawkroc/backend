@@ -12,8 +12,7 @@ import LabelSchema from './labelSchema'
  */
 const ProfileSchema = new SimpleSchema({
     _id: { 
-        type: String, 
-        regEx: SimpleSchema.RegEx.Id 
+        type: String
     },
 
     info: { type: InfoSchema },
