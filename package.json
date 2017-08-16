@@ -2,7 +2,8 @@
   "name": "blockkeeper",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "test": "meteor test --driver-package practicalmeteor:mocha"
   },
   "dependencies": {
     "antd": "^2.11.2",
@@ -22,5 +23,8 @@
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0"
   }
 }

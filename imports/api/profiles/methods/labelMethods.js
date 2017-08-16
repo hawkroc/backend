@@ -1,3 +1,5 @@
+import * as methodTypes from './labelMethodTypes' 
+
 import Profiles from '../../../api/profiles/profiles'
 import Accounts from '../../../api/accounts/accounts'
 
@@ -8,7 +10,7 @@ Meteor.methods({
      * 
      * @param {*Insert} param0 
      */
-    'profiles.active.insert.labelType' ({name, gst}) {
+    [methodTypes.PROFILE_INSERT_LABELTYPE] ({name, gst}) {
 
         let activeProfile = Profiles.active();
 
@@ -29,7 +31,7 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-    'profiles.active.update.labelType' ({_id, name, gst}) {
+    [methodTypes.PROFILE_UPDATE_LABELTYPE] ({_id, name, gst}) {
         // TODO: VALIDATION! of user vs profile.
         //let activeProfile = Profiles.active();
         
@@ -50,7 +52,7 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-    'profiles.active.delete.labelType' ({ _id }) {
+    [methodTypes.PROFILE_DELETE_LABELTYPE] ({ _id }) {
         let activeProfile = Profiles.active();
 
         // Remove all transaction labels from the user profile corresponding
@@ -79,7 +81,7 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-    'profiles.active.update.label' ({txId, labelTypeId}) {
+    [methodTypes.PROFILE_UPDATE_LABEL] ({txId, labelTypeId}) {
         let activeProfile = Profiles.active();
 
         // Pull all exising labels for provided transaction ID.
