@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
+
 import TransactionsGridComponent from '../components/transactions/transactionsGrid'
 
 const View = ({
@@ -63,7 +65,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, state) => {
     return {
         onLabelUpdated: ({txId, labelTypeId}) => {
-            Meteor.call('profiles.active.update.label', {
+            Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABEL, {
                 txId,
                 labelTypeId
             })
