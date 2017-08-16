@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { LocaleProvider } from 'antd'
 import HeaderContentLayout from '../layouts/headerContent'
 import BodyContentLayout from '../layouts/bodyContent'
-import RootComponents from '../components/rootComponents'
+
 const View = ({
     language
 }) => {
- console.log("this is language "+JSON.stringify(language));
+
     return (
    
        <LocaleProvider locale={language}>
