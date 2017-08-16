@@ -8,11 +8,5 @@ describe('Accounts collection API', function () {
         resetDatabase()
     })
 
-    it('Test success condition', function () {
-        chai.assert.equal(true, true)
-    })
-
-    it('Test second success condition', function () {
-        chai.assert.equal(1, 1.0)
-    })
+    
 })

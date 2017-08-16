@@ -50,21 +50,19 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-    [methodTypes.PROFILE_UPDATE_TRACKEDACCOUNT] ({_id, alias, accountId}) {
+    [methodTypes.PROFILE_UPDATE_TRACKEDACCOUNT] ({_id, alias}) {
         // TODO: VALIDATION! of user vs profile.
 
-        // Accounts.insert({
-        //    address: updatedAccount.address,
-        //    ...
-        // })
+        let activeProfile = Profiles.active()
 
         Profiles.update(
             {
+                _is: activeProfile._id,
                 'trackedAccounts._id': _id
             }, {
                 $set: {
                     'trackedAccounts.$.alias': alias,
-                    'trackedAccounts.$.accountId': accountId
+                    //'trackedAccounts.$.accountId': accountId
                 }
             }
         )

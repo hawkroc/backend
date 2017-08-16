@@ -7,7 +7,6 @@ import faker from 'faker'
 import Profiles from '../../../imports/api/profiles/profiles'
 
 import labelMethodTypes from '../../../imports/api/profiles/methods/labelMethodTypes'
-import trackedAccountMethodTypes from '../../../imports/api/profiles/methods/trackedAccountMethodTypes'
 
 
 /**
@@ -16,7 +15,7 @@ import trackedAccountMethodTypes from '../../../imports/api/profiles/methods/tra
  * 
  */
 
-describe('Profiles collection API', function () {
+describe('Profiles: labels', function () {
     beforeEach(function () {
         resetDatabase();
     })

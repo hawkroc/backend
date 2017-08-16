@@ -1,5 +1,7 @@
 import { Factory } from 'meteor/dburles:factory';
 
+import faker from 'faker'
+
 const createId = () => {
     return new Meteor.Collection.ObjectID().toHexString();
 }
@@ -30,4 +32,21 @@ export const initializeFactory = (profilesCollection) => {
 
         labels: [ ]
     })
+
+    Factory.define('profile.with.trackedAccounts', profilesCollection, 
+        Factory.extend('profile', {
+            trackedAccounts: [
+                {
+                    _id: createId(),
+                    accountId: createId(),
+                    alias: faker.lorem.sentence()
+                },
+                {
+                    _id: createId(),
+                    accountId: createId(),
+                    alias: faker.lorem.sentence()
+                }
+            ]
+        })
+    )
 }
