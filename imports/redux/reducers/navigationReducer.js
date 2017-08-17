@@ -6,7 +6,7 @@ const initialState = {
      * Is there currently a filter active over the transactions.
      */
     filterActive: false,
-    language:enUS,
+    language: enUS,
 
     /**
      * If filtering - the current timespan filter range.
@@ -19,11 +19,14 @@ const initialState = {
 
 const reducer = (state = initialState, payload) => {
     switch (payload.type) {
-        case actionTypes.SET_LANGUAGE:          
-                return Object.assign({}, state, { language: payload.value })
-          
+        case actionTypes.SET_LANGUAGE:
+            return Object.assign({}, state, {language: payload.value})
+
+        case actionTypes.SET_EXCHANGE:
+            return Object.assign({}, state, {usdExchangeRate: payload.value})
+
         default:
-       
+
             return state;
     }
 };
