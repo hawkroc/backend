@@ -2,9 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
 import TransactionsGridComponent from '../components/transactions/transactionsGrid'
-//import {GetExchange} from '../../api/remoteDataSource/fetchJson'
 import { getExchangeData } from '../../redux/actions/navigationActions'
-import {setExchange} from '../../redux/actions/navigationActions'
+
+import TransactionsExportComponent from '../components/transactions/transactionsExport'
 
 const View = ({
     dataReady,
@@ -20,9 +20,16 @@ const View = ({
 }) => (dataReady
     ? (
         <div>
-
-            <TransactionsGridComponent
-                {...{accounts, addressAliasLookup, usdExchangeRate, labelTypes, onLabelUpdated, transactionLabels,getExchange}}/>
+            <TransactionsExportComponent {...{ accounts }} />
+            <TransactionsGridComponent {...{
+                accounts, 
+                addressAliasLookup, 
+                usdExchangeRate, 
+                labelTypes, 
+                onLabelUpdated, 
+                getExchange,
+                transactionLabels
+            }} />
         </div>
     )
     : <p>"Loading data"</p>)
