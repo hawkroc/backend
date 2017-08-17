@@ -1,6 +1,5 @@
 import { createStore,applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk';
-import promise from 'redux-promise'
 import rootReducer from  './reducers/rootReducer'
 
 /**
@@ -12,7 +11,6 @@ export default store = createStore(
   //defaultState,
   applyMiddleware(
     thunkMiddleware,
-    promise
   )
 );
 

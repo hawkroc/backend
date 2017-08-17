@@ -2,8 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
 import TransactionsGridComponent from '../components/transactions/transactionsGrid'
-import { getExchangeData } from '../../redux/actions/navigationActions'
-
+import {getExchangeData} from '../../redux/actions/navigationActions'
 import TransactionsExportComponent from '../components/transactions/transactionsExport'
 
 const View = ({
@@ -20,16 +19,9 @@ const View = ({
 }) => (dataReady
     ? (
         <div>
-            <TransactionsExportComponent {...{ accounts }} />
-            <TransactionsGridComponent {...{
-                accounts, 
-                addressAliasLookup, 
-                usdExchangeRate, 
-                labelTypes, 
-                onLabelUpdated, 
-                getExchange,
-                transactionLabels
-            }} />
+            <TransactionsExportComponent {...{ accounts }}/>
+            <TransactionsGridComponent
+                {...{ accounts, addressAliasLookup, usdExchangeRate, labelTypes, onLabelUpdated, getExchange, transactionLabels }}/>
         </div>
     )
     : <p>"Loading data"</p>)
@@ -67,25 +59,41 @@ const mapStateToProps = (state) => {
                     dataReady, accounts, addressAliasLookup, labelTypes,
 
                     // TODO: from API.
-                    usdExchangeRate:state.navigation.usdExchangeRate?state.navigation.usdExchangeRate:1,
+                    usdExchangeRate: state.navigation.usdExchangeRate
+                        ? state.navigation.usdExchangeRate
+                        : 1,
                     transactionLabels
                 }
             }
-
+            //this.props.getEx
             const mapDispatchToProps = (dispatch, state) => {
                 return {
                     onLabelUpdated: ({txId, labelTypeId}) => {
                         Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABEL, {txId, labelTypeId})
                     },
-                    getExchange: ()=> {
-                        
-                              dispatch(getExchangeData(100));
+                    getExchange: () => {
+
+                        dispatch(getExchangeData());
                     }
-                    
+
                 }
 
             }
 
-        
+            class TransactionsViewer extends React.Component {
+             componentDidMount(){
+       
+                 this.props.getExchange;
+             }
+                render() {
+                    return (
+                        <div>
+                            <View/>
+                        </div>
+                    );
 
-            export default connect(mapStateToProps, mapDispatchToProps,null,{pure:false})(View)
+                }
+
+            }
+
+            export default connect(mapStateToProps, mapDispatchToProps, null, {pure: false})(TransactionsViewer)
