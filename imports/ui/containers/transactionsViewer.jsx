@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
 import TransactionsGridComponent from '../components/transactions/transactionsGrid'
-import {getExchangeData} from '../../redux/actions/navigationActions'
+import {getExchangeData} from '../../redux/actions/accountActions'
 import TransactionsExportComponent from '../components/transactions/transactionsExport'
 
 class TransactionsViewer extends React.Component {
@@ -11,7 +11,7 @@ class TransactionsViewer extends React.Component {
     }
 
     render() {
-
+ 
         const {
             dataReady,
             usdExchangeRate,
@@ -28,8 +28,9 @@ class TransactionsViewer extends React.Component {
         return (
             dataReady
             ? (
+                 
                 <div>
-                     <div className="exchange">1 ETH = {usdExchangeRate}USD
+                     <div className="exchange">1 ETH = {usdExchangeRate} USD
                          </div>
                     <TransactionsExportComponent {...{ accounts }}/>
                     <TransactionsGridComponent
@@ -74,20 +75,19 @@ let dataReady = !!trackedAccounts
         dataReady, accounts, addressAliasLookup, labelTypes,
 
         // TODO: from API.
-        usdExchangeRate: state.navigation.usdExchangeRate
-            ? state.navigation.usdExchangeRate
-            : 1,
+        usdExchangeRate: state.accounts.usdExchangeRate,
         transactionLabels
     }
 }
-//this.props.getEx
+
 const mapDispatchToProps = (dispatch, state) => {
     return {
         onLabelUpdated: ({txId, labelTypeId}) => {
             Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABEL, {txId, labelTypeId})
         },
         getExchange: () => {
-            dispatch(getExchangeData());
+    
+           return dispatch(getExchangeData());
         }
     }
 }

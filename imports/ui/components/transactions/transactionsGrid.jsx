@@ -27,8 +27,9 @@ import { buildColumns } from './transactionsGridColumns'
         onLabelUpdated, 
         transactionLabels
     });
-
+ 
     return (
+      
         <div>
         <div className="tableList">
             <Table 

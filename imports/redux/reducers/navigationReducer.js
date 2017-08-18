@@ -22,9 +22,6 @@ const reducer = (state = initialState, payload) => {
         case actionTypes.SET_LANGUAGE:
             return Object.assign({}, state, {language: payload.value})
 
-        case actionTypes.SET_EXCHANGE:
-            return Object.assign({}, state, {usdExchangeRate: payload.value})
-
         default:
 
             return state;
