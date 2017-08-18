@@ -1,11 +1,7 @@
 import * as types from '../constants/actionTypes'
-
 /**
  * Set available language.
- * @param {*} value 
- * 
+ * @param {*} value
+ *
  */
-export const setLanguage = (value) => ({
-    type: types.SET_LANGUAGE,
-    value
-})
+export const setLanguage = (value) => ({type: types.SET_LANGUAGE, value})

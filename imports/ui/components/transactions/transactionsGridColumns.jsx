@@ -118,7 +118,7 @@ export const buildColumns = ({
             render: (text, record) => {
 
                 let labelTypeId = findTransactionLabel(record._id)
-
+              
                 return(
                     <div>
                         <Select 
