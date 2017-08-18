@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  runtime:
+    build: 
+      context: . 
+      dockerfile: ./ci/docker/package/Dockerfile
+
+    command: npm start
+
+    ports:
+      - "3000:3000"
+      - "3001:3001"
