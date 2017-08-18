@@ -5,26 +5,39 @@ import TransactionsGridComponent from '../components/transactions/transactionsGr
 import {getExchangeData} from '../../redux/actions/navigationActions'
 import TransactionsExportComponent from '../components/transactions/transactionsExport'
 
-const View = ({
-    dataReady,
-    usdExchangeRate,
+class TransactionsViewer extends React.Component {
+    componentDidMount(){
+        this.props.getExchange();
+    }
 
-    accounts,
-    addressAliasLookup,
+    render() {
 
-    labelTypes,
-    transactionLabels,
-    getExchange,
-    onLabelUpdated
-}) => (dataReady
-    ? (
-        <div>
-            <TransactionsExportComponent {...{ accounts }}/>
-            <TransactionsGridComponent
-                {...{ accounts, addressAliasLookup, usdExchangeRate, labelTypes, onLabelUpdated, getExchange, transactionLabels }}/>
-        </div>
-    )
-    : <p>"Loading data"</p>)
+        const {
+            dataReady,
+            usdExchangeRate,
+        
+            accounts,
+            addressAliasLookup,
+        
+            labelTypes,
+            transactionLabels,
+            getExchange,
+            onLabelUpdated
+        } = this.props;
+
+        return (
+            dataReady
+            ? (
+                <div>
+                    <TransactionsExportComponent {...{ accounts }}/>
+                    <TransactionsGridComponent
+                        {...{ accounts, addressAliasLookup, usdExchangeRate, labelTypes, onLabelUpdated, getExchange, transactionLabels }}/>
+                </div>
+            )
+            : <p>"Loading data"</p>
+        )
+    }
+}
 
 const mapStateToProps = (state) => {
 
@@ -32,68 +45,49 @@ const mapStateToProps = (state) => {
     // collections before rendering top-level components.
 
     let accounts = state.accounts.items
-        let trackedAccounts = state.profiles.active
-                ? state.profiles.active.trackedAccounts
-                : null
+let trackedAccounts = state.profiles.active
+    ? state.profiles.active.trackedAccounts
+    : null
 
-            let dataReady = !!trackedAccounts
+let dataReady = !!trackedAccounts
 
-                // Create an address->alias lookup.
-                let addressAliasLookup = null,
-                    labelTypes = [],
-                    transactionLabels = {};
+    // Create an address->alias lookup.
+    let addressAliasLookup = null,
+        labelTypes = [],
+        transactionLabels = {};
 
-                if (dataReady) {
-                    addressAliasLookup = accounts.map(a => ({
-                        _id: a._id,
-                        address: a.address,
-                        trackedAccount: trackedAccounts.find(tracked => tracked.accountId === a._id)
-                    }))
+    if (dataReady) {
+        addressAliasLookup = accounts.map(a => ({
+            _id: a._id,
+            address: a.address,
+            trackedAccount: trackedAccounts.find(tracked => tracked.accountId === a._id)
+        }))
 
-                    labelTypes = state.profiles.active.labelTypes
+        labelTypes = state.profiles.active.labelTypes
 
-                    transactionLabels = state.profiles.active.labels
-                }
+        transactionLabels = state.profiles.active.labels
+    }
 
-                return {
-                    dataReady, accounts, addressAliasLookup, labelTypes,
+    return {
+        dataReady, accounts, addressAliasLookup, labelTypes,
 
-                    // TODO: from API.
-                    usdExchangeRate: state.navigation.usdExchangeRate
-                        ? state.navigation.usdExchangeRate
-                        : 1,
-                    transactionLabels
-                }
-            }
-            //this.props.getEx
-            const mapDispatchToProps = (dispatch, state) => {
-                return {
-                    onLabelUpdated: ({txId, labelTypeId}) => {
-                        Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABEL, {txId, labelTypeId})
-                    },
-                    getExchange: () => {
+        // TODO: from API.
+        usdExchangeRate: state.navigation.usdExchangeRate
+            ? state.navigation.usdExchangeRate
+            : 1,
+        transactionLabels
+    }
+}
+//this.props.getEx
+const mapDispatchToProps = (dispatch, state) => {
+    return {
+        onLabelUpdated: ({txId, labelTypeId}) => {
+            Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABEL, {txId, labelTypeId})
+        },
+        getExchange: () => {
+            dispatch(getExchangeData());
+        }
+    }
+}
 
-                        dispatch(getExchangeData());
-                    }
-
-                }
-
-            }
-
-            class TransactionsViewer extends React.Component {
-             componentDidMount(){
-       
-                 this.props.getExchange;
-             }
-                render() {
-                    return (
-                        <div>
-                            <View/>
-                        </div>
-                    );
-
-                }
-
-            }
-
-            export default connect(mapStateToProps, mapDispatchToProps, null, {pure: false})(TransactionsViewer)
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionsViewer)
