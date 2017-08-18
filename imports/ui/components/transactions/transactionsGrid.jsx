@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Table,Button } from 'antd'
+import { Table } from 'antd'
 
 import { buildColumns } from './transactionsGridColumns'
 /**
@@ -30,9 +30,6 @@ import { buildColumns } from './transactionsGridColumns'
 
     return (
         <div>
-        <div className="exchange">1 ETH = {usdExchangeRate}USD
-       <Button onClick={getExchange}>Primary</Button>
-       </div>
         <div className="tableList">
             <Table 
                 columns={gridColumns}

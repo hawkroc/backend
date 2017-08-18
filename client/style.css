@@ -152,10 +152,12 @@
   background-color: #108ee9;
 }
 .exchange{
+  display: inline;
+  float: right;
    color: green;
   font-style:normal;
   display: inline;
-  margin-left: 1em;
+  margin-right: 2em;
 }
 
 

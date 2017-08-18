@@ -29,6 +29,8 @@ class TransactionsViewer extends React.Component {
             dataReady
             ? (
                 <div>
+                     <div className="exchange">1 ETH = {usdExchangeRate}USD
+                         </div>
                     <TransactionsExportComponent {...{ accounts }}/>
                     <TransactionsGridComponent
                         {...{ accounts, addressAliasLookup, usdExchangeRate, labelTypes, onLabelUpdated, getExchange, transactionLabels }}/>
