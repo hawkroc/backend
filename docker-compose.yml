@@ -26,13 +26,14 @@ services:
         source: meteor-package
         target: /mnt
 
-    # TODO: commands untested.
-    command: [ "ls -l ./mnt", "cd ./bundle", "node main.js" ]
+    # Start the built meteor server.
+    command: bash -c "cd /mnt/bundle; node main.js"
 
     ports:
       - 3000:3000
 
   # Production runtime service.
+
 
 volumes:
   meteor-package:

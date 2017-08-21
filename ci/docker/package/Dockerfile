@@ -16,7 +16,15 @@ RUN apt-get --assume-yes install curl
 RUN curl https://install.meteor.com/ | sh
 
 WORKDIR /opt/working
-COPY . .
+
+# Copy over project dependencies explicitly.
+# Any unrequired subfolders should be specified in the .dockerignore file.
+COPY ./\.meteor ./\.meteor
+COPY ./client ./client
+COPY ./imports ./imports
+COPY ./public ./public
+COPY ./server ./server
+COPY ./package.json .
 
 RUN meteor npm install
 
@@ -28,8 +36,10 @@ ENV METEOR_PROFILE 100
 ENV METEOR_DEBUG_BUILD 1
 
 # Seems to be a known issue where the build process runs out of memory.
+# Also ran into memory issues using the --directory flag.
 # https://github.com/meteor/meteor/issues/8157
 RUN meteor build ../package
 
 # Unpackage the tarball ready to deploy.
+RUN mkdir ../deployment
 RUN tar -xzf ../package/working.tar.gz -C ../deployment
