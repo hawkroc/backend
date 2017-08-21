@@ -1,13 +1,38 @@
-version: '3'
+#
+# Package, deploy, serve meteor application.
+#   usage:
+#     development: `docker-compose up packager dev-runtime` from root directory.
+#     production: `docker-compose up packager prod-runtime` from root directory.
+#
+
+version: '3.2'
 
 services:
-  runtime:
+  # Building and packaging service.
+  packager:
     build: 
       context: . 
       dockerfile: ./ci/docker/package/Dockerfile
+      
+    volumes:
+      - meteor-package:/opt/deployment
 
-    command: npm start
+  # Development runtime service.
+  runtime:
+    image: node:0.10.41-slim
+
+    volumes:
+      - type: volume
+        source: meteor-package
+        target: /mnt
+
+    # TODO: commands untested.
+    command: [ "ls -l ./mnt", "cd ./bundle", "node main.js" ]
 
     ports:
-      - "3000:3000"
-      - "3001:3001"
+      - 3000:3000
+
+  # Production runtime service.
+
+volumes:
+  meteor-package:
