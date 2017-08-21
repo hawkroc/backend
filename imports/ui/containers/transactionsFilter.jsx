@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {ChangeTimeToBlockNumber} from '../../utility/utility'
+// import {ChangeTimeToLocal} from '../../utility/utility'
 import TimespanSelectorComponent from '../components/timespanSelector'
-import { setSearchBlock } from '../../redux/actions/navigationActions'
+import { setSearchTime } from '../../redux/actions/navigationActions'
 const View = ({
     onTimespanSelected
 }) => {
@@ -22,8 +22,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onTimespanSelected: (dates) => {
-            alert("Handle timestamp selected change"+JSON.stringify(ChangeTimeToBlockNumber(dates[0])))
-            dispatch(setSearchBlock({'from':ChangeTimeToBlockNumber(dates[0]),'to':ChangeTimeToBlockNumber(dates[1])}));
+            // alert("Handle timestamp selected change"+JSON.stringify(dates[0]))
+            dispatch(setSearchTime({'from':dates[0],'to':dates[1]}));
         
         }
     }

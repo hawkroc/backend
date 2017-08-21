@@ -6,4 +6,4 @@ import * as types from '../constants/actionTypes'
  */
 export const setLanguage = (value) => ({type: types.SET_LANGUAGE, value})
 //timestamp: { from, to } 
-export const setSearchBlock = (value) => ({type: types.SET_SEARCH_BLOCK, value})
+export const setSearchTime = (value) => ({type: types.SET_SEARCH_TIME, value})

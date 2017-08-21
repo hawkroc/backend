@@ -19,7 +19,7 @@ const { RangePicker } = DatePicker
             <RangePicker
                 onChange={(dates) => onTimespanSelected(dates)}
                 size='large'
-                format='YYYY-MM-DD HH:mm:ss'
+                format='YYYY-MM-DD'
             />
         </div>
      )
