@@ -21,7 +21,8 @@ const reducer = (state = initialState, payload) => {
     switch (payload.type) {
         case actionTypes.SET_LANGUAGE:
             return Object.assign({}, state, {language: payload.value})
-
+        case actionTypes.SET_SEARCH_BLOCK:
+            return Object.assign({}, state, {filterTimespan: payload.value})
         default:
 
             return state;

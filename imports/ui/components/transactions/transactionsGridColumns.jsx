@@ -1,5 +1,6 @@
 import React from 'react'
 import { Select } from 'antd'
+import {ChangeRate} from '../../../utility/utility'
 
 export const buildColumns = ({
     addressAliasLookup, 
@@ -76,8 +77,8 @@ export const buildColumns = ({
 
             render: (text, record) => {
                 return (
-                    text * Math.pow(10, -18) * record.gasPrice
-                ).toFixed(8);
+                    ChangeRate(text  * record.gasPrice)
+                );
             },
         },
         {
@@ -87,9 +88,8 @@ export const buildColumns = ({
             width: "6%",
 
             render: (text, record) => {
-                return (
-                    (text * Math.pow(10, -18) * record.gas)
-                        .toFixed(8) * usdExchangeRate
+                return (                
+                    ChangeRate(text  * record.gas) * usdExchangeRate
                     ).toFixed(2)
             }
         },

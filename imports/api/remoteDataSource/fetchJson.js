@@ -16,3 +16,4 @@ export const GetExchange = (type = 'USD') => {
       throw(error);
     });
 }
+
