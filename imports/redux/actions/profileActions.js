@@ -6,6 +6,6 @@ import * as types from '../constants/actionTypes'
  * @param {*} value 
  */
 export const setActiveProfile = (value) => ({
-    type: types.SET_ACTIVE_PROFILE,
+    type: types.PROFILES_ACTIVE_RECEIVED,
     value
 })

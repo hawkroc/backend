@@ -17,9 +17,9 @@ const initialState = {
 
 const reducer = (state = initialState, payload) => {
     switch (payload.type) {
-        case actionTypes.SET_ACCOUNTS:
+        case actionTypes.ACCOUNTS_RECEIVED:
             return Object.assign({}, state, {items: payload.value})
-        case actionTypes.SET_EXCHANGE:
+        case actionTypes.ACCOUNTS_EXCHANGERATE_RECEIVED:
             return Object.assign({}, state, {usdExchangeRate: payload.value})
         default:
             return state;

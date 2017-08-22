@@ -1,6 +1,7 @@
 import React from 'react'
 import { Select } from 'antd'
-import {ChangeRate} from '../../../utility/utility'
+
+const weiToEther = (value) => (value * Math.pow(10, -18)).toFixed(8)
 
 export const buildColumns = ({
     addressAliasLookup, 
@@ -77,7 +78,7 @@ export const buildColumns = ({
 
             render: (text, record) => {
                 return (
-                    ChangeRate(text  * record.gasPrice)
+                    weiToEther(text  * record.gasPrice)
                 );
             },
         },
@@ -89,7 +90,7 @@ export const buildColumns = ({
 
             render: (text, record) => {
                 return (                
-                    ChangeRate(text  * record.gas) * usdExchangeRate
+                    weiToEther(text  * record.gas) * usdExchangeRate
                     ).toFixed(2)
             }
         },

@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
 import TransactionsGridComponent from '../components/transactions/transactionsGrid'
-import {getExchangeData} from '../../redux/actions/accountActions'
+import {fetchEtherExchangeRate} from '../../redux/actions/accountActions'
 import TransactionsExportComponent from '../components/transactions/transactionsExport'
 
 class TransactionsViewer extends React.Component {
@@ -87,7 +87,7 @@ const mapDispatchToProps = (dispatch, state) => {
         },
         getExchange: () => {
     
-           return dispatch(getExchangeData());
+           return dispatch(fetchEtherExchangeRate());
         }
     }
 }
