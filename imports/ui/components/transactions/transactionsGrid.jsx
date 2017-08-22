@@ -12,14 +12,13 @@ import { buildColumns } from './transactionsGridColumns'
     addressAliasLookup,
     usdExchangeRate,
     labelTypes,
-    getExchange,
     transactionLabels,
     onLabelUpdated
  }) => {
 
     // Flatten transactions for all our tracked accounts.
-
     const gridDataSource = [].concat.apply([], accounts.map(a => a.transactions))
+
     const gridColumns = buildColumns({
         addressAliasLookup, 
         usdExchangeRate, 
@@ -29,16 +28,13 @@ import { buildColumns } from './transactionsGridColumns'
     });
  
     return (
-      
-        <div>
         <div className="tableList">
             <Table 
                 columns={gridColumns}
                 dataSource={gridDataSource}
                 rowKey={transaction => transaction._id}
-                pagination={{ pageSize: 7 }}
+                pagination={{ pageSize: 6 }}
             />
-        </div>
         </div>
     )
  }

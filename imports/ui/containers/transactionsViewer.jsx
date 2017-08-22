@@ -1,13 +1,13 @@
-import React from 'react';
-import {connect} from 'react-redux';
+import React from 'react'
+import { connect } from 'react-redux'
 import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
 import TransactionsGridComponent from '../components/transactions/transactionsGrid'
-import {fetchEtherExchangeRate} from '../../redux/actions/accountActions'
+import { fetchEtherExchangeRate } from '../../redux/actions/accountActions'
 import TransactionsExportComponent from '../components/transactions/transactionsExport'
 
 class TransactionsViewer extends React.Component {
     componentDidMount(){
-        this.props.getExchange();
+        this.props.fetchExchangeRate();
     }
 
     render() {
@@ -21,20 +21,24 @@ class TransactionsViewer extends React.Component {
         
             labelTypes,
             transactionLabels,
-            getExchange,
             onLabelUpdated
         } = this.props;
 
         return (
-            dataReady
-            ? (
-                 
+            dataReady ? (
                 <div>
-                     <div className="exchange">1 ETH = {usdExchangeRate} USD
-                         </div>
+                    <div className="exchange">
+                        <span style={{ color: "black", fontStyle: "italic" }}>Current exchange rate:</span> 1 ETH = {usdExchangeRate} USD
+                    </div>
                     <TransactionsExportComponent {...{ accounts }}/>
-                    <TransactionsGridComponent
-                        {...{ accounts, addressAliasLookup, usdExchangeRate, labelTypes, onLabelUpdated, getExchange, transactionLabels }}/>
+                    <TransactionsGridComponent {...{ 
+                        accounts, 
+                        addressAliasLookup, 
+                        usdExchangeRate, 
+                        labelTypes, 
+                        onLabelUpdated, 
+                        transactionLabels 
+                    }}/>
                 </div>
             )
             : <p>"Loading data"</p>
@@ -85,8 +89,7 @@ const mapDispatchToProps = (dispatch, state) => {
         onLabelUpdated: ({txId, labelTypeId}) => {
             Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABEL, {txId, labelTypeId})
         },
-        getExchange: () => {
-    
+        fetchExchangeRate: () => {
            return dispatch(fetchEtherExchangeRate());
         }
     }
