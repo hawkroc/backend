@@ -1,5 +1,5 @@
 import React from 'react'
-import {Select} from 'antd';
+import { Select } from 'antd';
 
 const Option = Select.Option;
 
@@ -9,20 +9,14 @@ const Option = Select.Option;
  */
 const View = ({
     // When language has changed.
-    onLanguageSelected,
-
-    // language to display in page.
-    languageSwitch
+    onLanguageSelected
 }) => {
     return (
-        <div>
-            <Select defaultValue='en' onChange={onLanguageSelected}>
-                <Option value='en'>English</Option>
-                 <Option value='cn'>Chinese</Option>
-                <Option value='de'>German</Option> 
-            </Select>
-
-        </div>
+        <Select defaultValue='en' onChange={onLanguageSelected}>
+            <Option value='en'>English</Option>
+            <Option value='cn'>Chinese</Option>
+            <Option value='de'>German</Option> 
+        </Select>
     )
 }
 

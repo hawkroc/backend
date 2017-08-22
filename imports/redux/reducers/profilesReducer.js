@@ -18,7 +18,7 @@ const initialState = {
 
 const reducer = (state = initialState, payload) => {
     switch (payload.type) {
-        case actionTypes.SET_ACTIVE_PROFILE:
+        case actionTypes.PROFILES_ACTIVE_RECEIVED:
             return Object.assign({}, state, { active: payload.value })
 
         default:

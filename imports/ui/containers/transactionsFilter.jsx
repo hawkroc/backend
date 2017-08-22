@@ -1,7 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from 'react'
+import { connect } from 'react-redux'
 
 import TimespanSelectorComponent from '../components/timespanSelector'
+import { setTxTimestampFilter } from '../../redux/actions/navigationActions'
 
 const View = ({
     onTimespanSelected
@@ -21,10 +22,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onTimespanSelected: () => {
-            alert("Handle timestamp selected change")
+        onTimespanSelected: (dates) => {
+            dispatch(setTxTimestampFilter({'from':dates[0],'to':dates[1]}))
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps,null,{pure:false})(View)
+export default connect(mapStateToProps, mapDispatchToProps, null,
+    // For ANTD sub-component locale updates
+    { pure: false }
+)(View)
