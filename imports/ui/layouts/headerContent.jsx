@@ -23,7 +23,7 @@ const Layout = () => {
                         <TransactionsFilterContainer/>
                     </Col>
 
-                    <Col offset={4} span={2}>
+                    <Col offset={7} span={2}>
                         <SwitchLanguageSettings/>
                     </Col>
 

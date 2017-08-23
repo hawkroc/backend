@@ -42,9 +42,8 @@ class TransactionsExport extends React.Component {
     handleFieldChange (value) { this.setState({exportFieldSelected: value}) }
 
     handleDownload () {
-        console.log("handle download")
-
         let csvData = []
+        
         this.state.transactions.forEach(t => {
             csvData.push(_.pick(t, this.state.exportFieldSelected))
         })
