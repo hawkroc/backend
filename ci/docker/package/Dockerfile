@@ -3,7 +3,7 @@
 #   usage: `docker build --file ./ci/docker/package/Dockerfile .` from root project folder.
 #
 
-FROM node:0.10.41-slim
+FROM node:4.8.2-slim
 
 # Install Meteor build system.
 # From instructions: https://www.meteor.com/install.
@@ -24,8 +24,8 @@ COPY ./client ./client
 COPY ./imports ./imports
 COPY ./public ./public
 COPY ./server ./server
-COPY ./package.json .
 
+COPY ./package.json .
 RUN meteor npm install
 
 # Allow-superuser flag for CI process, otherwise meteor build will fail.
@@ -43,3 +43,7 @@ RUN meteor build ../package
 # Unpackage the tarball ready to deploy.
 RUN mkdir ../deployment
 RUN tar -xzf ../package/working.tar.gz -C ../deployment
+
+# Fetch the required production dependencies for the Meteor server.
+WORKDIR /opt/deployment/bundle/programs/server
+RUN npm install --production

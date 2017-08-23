@@ -13,27 +13,49 @@ services:
     build: 
       context: . 
       dockerfile: ./ci/docker/package/Dockerfile
-      
+
     volumes:
       - meteor-package:/opt/deployment
 
   # Development runtime service.
   runtime:
-    image: node:0.10.41-slim
+    image: node:4.8.2-slim
 
     volumes:
       - type: volume
         source: meteor-package
         target: /mnt
 
+    environment:
+      - MONGO_URL=mongodb://database:27017/meteor
+      - ROOT_URL=http://localhost
+      - PORT=80
+
     # Start the built meteor server.
-    command: bash -c "cd /mnt/bundle; node main.js"
+    command: >
+      bash -c "
+              cd /mnt/bundle/programs/server &&
+              npm install --production &&
+              cd /mnt/bundle &&
+              node main.js"
+    
+    # Link a hostname alias to our database server for use in
+    # our connection strings.
+    links:
+      - "mongodb:database"
 
     ports:
-      - 3000:3000
+      - "80:80"
+
+  # Database service.
+  mongodb:
+    image: mongo:3.4
+    ports:
+      - "27017:27017"
 
   # Production runtime service.
 
 
 volumes:
+  # To contain the production build packaged application.
   meteor-package:
