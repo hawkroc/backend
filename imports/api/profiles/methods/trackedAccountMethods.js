@@ -57,7 +57,7 @@ Meteor.methods({
 
         Profiles.update(
             {
-                _is: activeProfile._id,
+                _id: activeProfile._id,
                 'trackedAccounts._id': _id
             }, {
                 $set: {
