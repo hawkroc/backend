@@ -1,4 +1,5 @@
 import axios from 'axios';
+import config from '../../config/config'
 
 /**
  * get Exchange from cryptocompare the default type is USD
@@ -13,6 +14,21 @@ export const GetExchange = (type = 'USD') => {
      return  response;
     })
     .catch(error => {
+      throw(error);
+    });
+}
+
+
+const balanceUrl="https://api.etherscan.io/api?module=account&action=balance&tag=latest"+config.key+"&address=";
+
+export const GetBalance = (address) => {
+  let final = balanceUrl+address;
+  console.log(final);
+   return axios.get(final).then(
+    (response) =>{  
+    
+      return response;
+    }).catch(error => {
       throw(error);
     });
 }

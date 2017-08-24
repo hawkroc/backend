@@ -4,6 +4,7 @@ export const initializeFactory = (accountsCollection) => {
     Factory.define('account', accountsCollection, {
         address: () => "0xaaaaaaaaaabbbbbbbbbbccccccccccdddddddddd",
         transactions: () => [ ],
-        latestMinedBlock: () => 0
+        latestMinedBlock: () => 0,
+        balance:()=>0,
     });
 }

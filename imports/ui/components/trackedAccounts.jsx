@@ -55,7 +55,7 @@ class TrackedAccountsComponent extends React.Component {
         const {
             // Collection of accounts to display.
             trackedAccounts,
-
+            idToAddressBalance,
             // Called when the UI requests a change to account information.
             onUpdateTrackedAccount,
             onInsertTrackedAccount,
@@ -64,7 +64,7 @@ class TrackedAccountsComponent extends React.Component {
         } = this.props
 
         // Build the column set for this table.
-        const columns = buildColumns({onUpdateTrackedAccount, onDeleteTrackedAccount})
+        const columns = buildColumns({onUpdateTrackedAccount, onDeleteTrackedAccount,idToAddressBalance})
 
         return (
             <div>
