@@ -12,7 +12,7 @@ pipeline {
   }
 
   stages {
-    stage('Package') {
+    stage('Environment setup') {
       environment {
         GEMFURY_MIRROR_URL = credentials('GEMFURY_MIRROR_URL')
       }

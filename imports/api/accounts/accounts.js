@@ -37,7 +37,8 @@ Accounts.allow({
 Accounts.publicFields = {
     address: 1,
     transactions: 1,
-    latestMinedBlock: 1
+    latestMinedBlock: 1,
+    balance:1
 }
 
 // Attach helpers to the collection object.

@@ -1,14 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
 import { Row, Col, Button, notification } from 'antd'
+import {fetchEtherBalance} from '../../redux/actions/profileActions.js'
 
 import TrackedAccounts from '../components/trackedAccounts'
 import TransactionLabels from '../components/transactionLabels'
-
 import Accounts from '../../api/accounts/accounts'
 import Profiles from '../../api/profiles/profiles'
-
 import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
 import trackedAccountMethodTypes from '../../api/profiles/methods/trackedAccountMethodTypes'
 
@@ -17,32 +15,48 @@ import trackedAccountMethodTypes from '../../api/profiles/methods/trackedAccount
  * Container for configuring high-level application settings.
  * 
  */
-const View = ({
-    trackedAccounts,
-    labelTypes,
+class ApplicationSettings extends React.Component{
+    componentDidMount=()=>{
+      
+    this.props.onFetchBalance(this.props.idToAddressBalance,this.props.trackedAccounts,this.props.accountsItems);
 
-    onInsertTrackedAccount,
-    onUpdateTrackedAccount,
-    onDeleteTrackedAccount,
-    onInsertLabelType,
-    onUpdateLabelType,
-    onDeleteLabelType
-}) => (
-    <div>
+    }
+    render(){
+    const    {
+            trackedAccounts,
+            accountsItems,
+            idToAddressBalance,
+            labelTypes,      
+            onInsertTrackedAccount,
+            onUpdateTrackedAccount,
+            onDeleteTrackedAccount,
+            onInsertLabelType,
+            onUpdateLabelType,
+            onDeleteLabelType
+    }=this.props;
+    return(
+        <div>
         <Row>
             <Col offset={1} span={10}>
-                <TrackedAccounts {...{trackedAccounts, onInsertTrackedAccount, onUpdateTrackedAccount, onDeleteTrackedAccount}} />
+                <TrackedAccounts {...{accountsItems,idToAddressBalance,trackedAccounts, onInsertTrackedAccount, onUpdateTrackedAccount, onDeleteTrackedAccount}} />
             </Col>
             <Col offset={1} span={9}>
                 <TransactionLabels {...{labelTypes, onInsertLabelType, onUpdateLabelType, onDeleteLabelType}} />
             </Col>
         </Row>
     </div>
-)
+    )
+    }
+}
+
+
+
 
 const mapStateToProps = (state) => {
 
-    return {
+   return {
+       accountsItems:state.accounts.items,
+        idToAddressBalance:state.profiles.idToAddressBalance,
         trackedAccounts: state.profiles.active.trackedAccounts,
         labelTypes: state.profiles.active.labelTypes
     }
@@ -88,8 +102,14 @@ const mapDispatchToProps = (dispatch, state) => {
             Meteor.call(labelMethodTypes.PROFILE_DELETE_LABELTYPE, {
                 _id: label._id
             })
-        }
-    }
+            
+        },
+
+        onFetchBalance :(idToAddressBalance,trackedAccounts,accountsItems)=>{      
+        
+         return  dispatch(fetchEtherBalance(idToAddressBalance,trackedAccounts,accountsItems))
+         } 
+    }   
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(View)
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationSettings)

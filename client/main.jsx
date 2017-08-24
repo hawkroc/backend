@@ -18,17 +18,14 @@ import store from '../imports/redux/store'
 
 import HeaderContentLayout from '../imports/ui/layouts/headerContent'
 import BodyContentLayout from '../imports/ui/layouts/bodyContent'
+import RootContainer from '../imports/ui/containers/rootContainer'
 
  
 Meteor.startup(() => {
+
     render(
       <Provider store={store}>
-        <LocaleProvider locale={enUS}>
-          <div className="list">
-            <HeaderContentLayout />
-            <BodyContentLayout />
-          </div>
-        </LocaleProvider>
+        <RootContainer/>
       </Provider>,
 
       document.getElementById('react-root')

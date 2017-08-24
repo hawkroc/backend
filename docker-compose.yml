@@ -1,0 +1,85 @@
+#
+# Package, deploy, serve meteor application.
+#
+#   service workflows:
+#      - testing: environment -> testing + mongodb (--abort-on-container-exit)
+#      - development: environment -> testing -> packager -> runtime + mongodb
+#      - production: environment -> packager -> runtime (prod configs)
+#
+
+version: '3.2'
+
+services:
+  # Meteor framework service and complete build context on node.
+  environment:
+    build:
+      context: .
+      dockerfile: ./ci/docker/environment.dockerfile
+
+  # Test runner service.
+  testing:
+    image: blockeeper_environment
+
+    environment:
+      - MONGO_URL=mongodb://database:27017/meteor
+      # No client testing yet - will need browser drivers etc set up.
+      - TEST_CLIENT=0
+
+    command: >
+      bash -c "
+        cd /opt/working &&
+        npm run test:once"
+
+    # Link a hostname alias to our database server for use in
+    # our connection strings.
+    links:
+      - "mongodb:database"
+
+  # Building and packaging service.
+  packager:
+    build:
+      context: . 
+      dockerfile: ./ci/docker/packager.dockerfile
+
+    volumes:
+      - meteor-package:/opt/deployment
+
+  # Development runtime service.
+  runtime:
+    image: node:4.8.2-slim
+ 
+    volumes:
+      - type: volume
+        source: meteor-package
+        target: /mnt
+
+    environment:
+      - MONGO_URL=mongodb://database:27017/meteor
+      - ROOT_URL=http://localhost
+      - PORT=80
+
+    # Start the built meteor server.
+    command: >
+      bash -c "
+        cd /mnt/bundle/programs/server &&
+        npm install --production &&
+        cd /mnt/bundle &&
+        node main.js"
+    
+    # Link a hostname alias to our database server for use in
+    # our connection strings.
+    links:
+      - "mongodb:database"
+
+    ports:
+      - "80:80"
+
+  # Database service.
+  mongodb:
+    image: mongo:3.4
+    ports:
+      - "27017:27017"
+
+volumes:
+  # To contain the production build packaged application.
+  meteor-package:

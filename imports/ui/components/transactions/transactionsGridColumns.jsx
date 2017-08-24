@@ -1,5 +1,7 @@
 import React from 'react'
-import { Select } from 'antd'
+import { Select, Icon } from 'antd'
+
+const weiToEther = (value) => (value * Math.pow(10, -18)).toFixed(8)
 
 export const buildColumns = ({
     addressAliasLookup, 
@@ -54,7 +56,18 @@ export const buildColumns = ({
             width: "12%",
 
             render: (text, record) => (
-                accountAliasMask(text)
+                <div className="editable-cell">
+                    <div className="editable-cell-text-wrapper">
+                        {accountAliasMask(text)}
+                        <Icon
+                            style={{ fontSize: 16 }}
+                            title="Copy address to clipboard"
+                            type="copy"
+                            className="editable-cell-icon"
+                            onClick={() => alert("Address copied to clipboard!")}
+                        />
+                    </div>
+                </div>
             ),
         },
 
@@ -65,7 +78,18 @@ export const buildColumns = ({
             width: "12%",
 
             render: (text, record) => (
-                accountAliasMask(text)
+                <div className="editable-cell">
+                    <div className="editable-cell-text-wrapper">
+                        {accountAliasMask(text)}
+                        <Icon
+                            style={{ fontSize: 16 }}
+                            title="Copy address to clipboard"
+                            type="copy"
+                            className="editable-cell-icon"
+                            onClick={() => alert("Address copied to clipboard!")}
+                        />
+                    </div>
+                </div>
             )
         },
         {
@@ -76,8 +100,8 @@ export const buildColumns = ({
 
             render: (text, record) => {
                 return (
-                    text * Math.pow(10, -18) * record.gasPrice
-                ).toFixed(8);
+                    weiToEther(text  * record.gasPrice)
+                );
             },
         },
         {
@@ -87,10 +111,9 @@ export const buildColumns = ({
             width: "6%",
 
             render: (text, record) => {
-                return (
-                    (text * Math.pow(10, -18) * record.gas)
-                        .toFixed(8) * usdExchangeRate
-                    ).toFixed(2)
+                return (                
+                    weiToEther(text  * record.gas) * usdExchangeRate
+                ).toFixed(2)
             }
         },
         {
@@ -118,7 +141,7 @@ export const buildColumns = ({
             render: (text, record) => {
 
                 let labelTypeId = findTransactionLabel(record._id)
-
+              
                 return(
                     <div>
                         <Select 

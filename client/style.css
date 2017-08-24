@@ -1,4 +1,9 @@
 @import 'antd.min.css';
+
+body {
+    overflow: hidden
+}
+
 .table-operations {
     margin-bottom: 16px;
 }
@@ -27,9 +32,6 @@
     border: solid red;*/
   /*  border: 1px solid red;*/
 }
-
-
-
 
 .style-one {
    height: 6px;
@@ -151,11 +153,13 @@
   margin-left: 79%;
   background-color: #108ee9;
 }
-.exchangeDiv{
+.exchange{
+  display: inline;
+  float: right;
    color: green;
   font-style:normal;
   display: inline;
-  margin-left: 1em;
+  margin-right: 2em;
 }
 
 

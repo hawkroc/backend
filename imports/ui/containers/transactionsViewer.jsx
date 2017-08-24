@@ -1,45 +1,70 @@
-import React from 'react';
-import { connect } from 'react-redux';
-
+import React from 'react'
+import { connect } from 'react-redux'
 import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
-
 import TransactionsGridComponent from '../components/transactions/transactionsGrid'
+import { fetchEtherExchangeRate } from '../../redux/actions/accountActions'
+import TransactionsExportComponent from '../components/transactions/transactionsExport'
 
-const View = ({
-    dataReady,
-    usdExchangeRate,
+class TransactionsViewer extends React.Component {
+    componentDidMount(){
+        this.props.fetchExchangeRate();
+    }
 
-    accounts,
-    addressAliasLookup,
-    
-    labelTypes,
-    transactionLabels,
-    onLabelUpdated
-}) => (
-    dataReady ? (
-        <div>
-            <TransactionsGridComponent {...{accounts, addressAliasLookup, usdExchangeRate, labelTypes, onLabelUpdated, transactionLabels}} />
-        </div>
-    ) : <p>"Loading data"</p>
-)
+    render() {
+ 
+        const {
+            dataReady,
+            usdExchangeRate,
+        
+            accounts,
+            addressAliasLookup,
+        
+            labelTypes,
+            transactionLabels,
+            onLabelUpdated
+        } = this.props;
+
+        return (
+            dataReady ? (
+                <div>
+                    <div className="exchange">
+                        <span style={{ color: "black", fontStyle: "italic" }}>Current exchange rate:</span> 1 ETH = {usdExchangeRate} USD
+                    </div>
+                    <TransactionsExportComponent {...{ accounts }}/>
+                    <TransactionsGridComponent {...{ 
+                        accounts, 
+                        addressAliasLookup, 
+                        usdExchangeRate, 
+                        labelTypes, 
+                        onLabelUpdated, 
+                        transactionLabels 
+                    }}/>
+                </div>
+            )
+            : <p>"Loading data"</p>
+        )
+    }
+}
 
 const mapStateToProps = (state) => {
 
-    // TODO: need to figure out how to wait for initial state from
-    // meteor collections before rendering top-level components.
+    // TODO: need to figure out how to wait for initial state from meteor
+    // collections before rendering top-level components.
 
     let accounts = state.accounts.items
-    let trackedAccounts = state.profiles.active ? 
-        state.profiles.active.trackedAccounts
-        : null
+let trackedAccounts = state.profiles.active
+    ? state.profiles.active.trackedAccounts
+    : null
 
-    let dataReady = !!trackedAccounts
+let dataReady = !!trackedAccounts
 
     // Create an address->alias lookup.
-    let addressAliasLookup = null, labelTypes = [], transactionLabels = {};
+    let addressAliasLookup = null,
+        labelTypes = [],
+        transactionLabels = {};
 
-    if(dataReady) {
-        addressAliasLookup = accounts.map(a => ({ 
+    if (dataReady) {
+        addressAliasLookup = accounts.map(a => ({
             _id: a._id,
             address: a.address,
             trackedAccount: trackedAccounts.find(tracked => tracked.accountId === a._id)
@@ -51,13 +76,10 @@ const mapStateToProps = (state) => {
     }
 
     return {
-        dataReady,
-        accounts,
-        addressAliasLookup,
-        labelTypes,
+        dataReady, accounts, addressAliasLookup, labelTypes,
 
         // TODO: from API.
-        usdExchangeRate: 1,
+        usdExchangeRate: state.accounts.usdExchangeRate,
         transactionLabels
     }
 }
@@ -65,12 +87,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, state) => {
     return {
         onLabelUpdated: ({txId, labelTypeId}) => {
-            Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABEL, {
-                txId,
-                labelTypeId
-            })
+            Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABEL, {txId, labelTypeId})
+        },
+        fetchExchangeRate: () => {
+           return dispatch(fetchEtherExchangeRate());
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(View)
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionsViewer)
