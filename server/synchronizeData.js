@@ -42,6 +42,21 @@ const getdataFromApi = (startblock, endblock, address) => {
 };
 
 /**
+ * get balance from api only if there new transactions  it be invoked
+ */
+const balanceUrl="https://api.etherscan.io/api?module=account&action=balance&tag=latest"+config.key+"&address=";
+export const GetBalance = (address) => {
+  let final = balanceUrl+address;
+   return axios.get(final).then(
+    (response) =>{   
+      return response;
+    }).catch(error => {
+      throw(error);
+    });
+}
+
+
+/**
  * Fetch data up to the latest block.
  * 
  */
@@ -72,6 +87,16 @@ synchronizeDataFromApi = () => {
 						// No new data.
 						return true;
 					}
+			 //if there new Transactions we will update the balance
+			 GetBalance(account.address).then((response)=>{
+				Accounts.update(account._id, {
+						$set: {
+							// TODO: should this be latest block from API call?
+							'balance': response.data.result
+						}
+					})
+			 })
+
 
 					// Filter out duplicate transactions
 					// TODO: this could be done better by making sure the mining process never overlaps.
@@ -100,6 +125,9 @@ synchronizeDataFromApi = () => {
 							'latestMinedBlock': res.slice(-1)[0].blockNumber
 						}
 					})
+
+                  
+
 
 					return true;
 
