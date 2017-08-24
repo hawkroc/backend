@@ -24,8 +24,8 @@ mikowals:batch-insert
 aldeed:simple-schema
 aldeed:collection2
 dburles:collection-helpers
-practicalmeteor:mocha
 dburles:factory
 xolvio:cleaner
 practicalmeteor:chai
 underscore
+dispatch:mocha
