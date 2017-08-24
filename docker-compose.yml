@@ -1,18 +1,25 @@
 #
 # Package, deploy, serve meteor application.
-#   usage:
-#     development: `docker-compose up packager dev-runtime` from root directory.
-#     production: `docker-compose up packager prod-runtime` from root directory.
+#
+#   service workflows:
+#      - development: environment -> testing -> packager -> runtime + mongodb
+#      - production: environment -> packager -> runtime (prod configs)
 #
 
 version: '3.2'
 
 services:
+  # Meteor framework service and build context on node.
+  environment:
+    build:
+      context: .
+      dockerfile: ./ci/docker/environment.dockerfile
+
   # Building and packaging service.
   packager:
-    build: 
+    build:
       context: . 
-      dockerfile: ./ci/docker/package/Dockerfile
+      dockerfile: ./ci/docker/packager.dockerfile
 
     volumes:
       - meteor-package:/opt/deployment
@@ -52,9 +59,6 @@ services:
     image: mongo:3.4
     ports:
       - "27017:27017"
-
-  # Production runtime service.
-
 
 volumes:
   # To contain the production build packaged application.
