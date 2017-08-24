@@ -2,6 +2,7 @@
 # Package, deploy, serve meteor application.
 #
 #   service workflows:
+#      - testing: environment -> testing + mongodb (--abort-on-container-exit)
 #      - development: environment -> testing -> packager -> runtime + mongodb
 #      - production: environment -> packager -> runtime (prod configs)
 #
@@ -9,14 +10,30 @@
 version: '3.2'
 
 services:
-  # Meteor framework service and build context on node.
+  # Meteor framework service and complete build context on node.
   environment:
     build:
       context: .
       dockerfile: ./ci/docker/environment.dockerfile
 
-  # TODO: testing service (when meteor test --once flag bug is fixed).
-  #testing:
+  # Test runner service.
+  testing:
+    image: blockeeper_environment
+
+    environment:
+      - MONGO_URL=mongodb://database:27017/meteor
+      # No client testing yet - will need browser drivers etc set up.
+      - TEST_CLIENT=0
+
+    command: >
+      bash -c "
+        cd /opt/working &&
+        npm run test:once"
+
+    # Link a hostname alias to our database server for use in
+    # our connection strings.
+    links:
+      - "mongodb:database"
 
   # Building and packaging service.
   packager:
@@ -30,7 +47,7 @@ services:
   # Development runtime service.
   runtime:
     image: node:4.8.2-slim
-
+ 
     volumes:
       - type: volume
         source: meteor-package
@@ -44,10 +61,10 @@ services:
     # Start the built meteor server.
     command: >
       bash -c "
-              cd /mnt/bundle/programs/server &&
-              npm install --production &&
-              cd /mnt/bundle &&
-              node main.js"
+        cd /mnt/bundle/programs/server &&
+        npm install --production &&
+        cd /mnt/bundle &&
+        node main.js"
     
     # Link a hostname alias to our database server for use in
     # our connection strings.
