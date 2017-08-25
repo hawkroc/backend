@@ -1,0 +1,25 @@
+{
+  "Transaction_Export": "Export data",
+  "Transactions_title": "Transactions",
+  "Reporting_title": "Reporting",
+  "Settings_title": "Setting",
+  "Add_Account":"Add account",
+  "Save":"Save",
+  "Tracked_accounts":"Tracked accounts",
+  "Transaction_labels":"Transaction labels",
+  "Track_new_account":"Track new account",
+  "Account_alias": "Account alias",
+  "Transaction_labels" :"Transaction labels",
+  "Account_address":"Account address",
+  "New_label":"New label",
+  "Delete":"Delete",
+  "Add_label":"Add label",
+  "Stop_tracking":"Are you sure you want to stop tracking this account",
+  "Alias":"Alias",
+  "Address":"Address",
+  "Balance":"Balance",
+  "Name":"Name",
+  "GST":"GST",
+  "Operation":"operation"
+
+}
