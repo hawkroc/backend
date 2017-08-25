@@ -16,7 +16,7 @@ export const buildColumns = ({
     return [
         // Human readable alias of account.
         {
-            title: 'Alias',
+            title: language_config.Alias,
             dataIndex: 'alias',
             width: '40%',
 
@@ -27,7 +27,7 @@ export const buildColumns = ({
                 onUpdateTrackedAccount(record)
             }}/>)
         }, {
-            title: 'Address',
+            title: language_config.Address,
             dataIndex: 'accountId',
             width: '30%',
 
@@ -42,7 +42,7 @@ export const buildColumns = ({
                 return null;
             }
         }, {
-            title: 'Balance',
+            title: language_config.Balance,
             dataIndex: 'balance',
             width: '15%',
             render: (text, record, index) => {
@@ -56,7 +56,7 @@ export const buildColumns = ({
                 return null;
             }
         }, {
-            title: '',
+            title: language_config.Operation,
             dataIndex: 'operation',
             render: (text, record, index) => {
                 return (

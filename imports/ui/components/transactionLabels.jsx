@@ -19,7 +19,7 @@ import { buildColumns } from './transactionLabelsColumns'
     onDeleteLabelType
  }) => {
 
-    const columns = buildColumns({onUpdateLabelType, onDeleteLabelType});
+    const columns = buildColumns({language_config,onUpdateLabelType, onDeleteLabelType});
 
      return (
         <div>
