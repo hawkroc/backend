@@ -7,6 +7,11 @@ import { setLanguage } from '../../redux/actions/navigationActions'
 import enUS from 'antd/lib/locale-provider/en_US'
 import deDE from 'antd/lib/locale-provider/de_DE'
 import zhTW from 'antd/lib/locale-provider/zh_TW'
+import jaJP from 'antd/lib/locale-provider/ja_JP'
+ import en from '../../../public/language/en'
+ import zh from '../../../public/language/zh'
+ import de from '../../../public/language/de'
+ import ja from '../../../public/language/ja'
 
 
 const View = ({
@@ -31,15 +36,17 @@ const mapDispatchToProps = (dispatch) => {
 
             switch(value){          
                 case 'cn':
-                    lg = Object.assign({}, zhTW)
+                    lg = Object.assign({}, {language:zhTW,language_config:zh})
                     break;
 
                 case 'de':         
-                    lg = Object.assign({}, deDE)
+                    lg = Object.assign({}, {language:deDE,language_config:de})
                     break;
-
+                case 'jp':         
+                    lg = Object.assign({}, {language:jaJP,language_config:ja})
+                    break;
                 default:
-                    lg = Object.assign({}, enUS)
+                lg = Object.assign({}, {language:enUS,language_config:en})
             }
 
             dispatch(setLanguage(lg))

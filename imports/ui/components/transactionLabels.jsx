@@ -10,9 +10,10 @@ import { buildColumns } from './transactionLabelsColumns'
  *  TODO: editable cells.
  */
  const View = ({
+    //language config
+    language_config,
     // Collection of existing transaction labels to display.
     labelTypes,
-
     onUpdateLabelType,
     onInsertLabelType,
     onDeleteLabelType
@@ -22,14 +23,14 @@ import { buildColumns } from './transactionLabelsColumns'
 
      return (
         <div>
-            <h2>Transaction labels</h2>
+            <h2>{language_config.Transaction_labels}</h2>
             <br />
             <Table bordered 
                 rowKey={label => label._id}
                 dataSource={labelTypes} 
                 columns={columns} />
             <Button className="editable-add-btn"
-                onClick={() => onInsertLabelType({ name: "New label", gst: false })}>Add label</Button>
+                onClick={() => onInsertLabelType({ name: language_config.New_label, gst: false })}> {language_config.Add_label}</Button>
         </div>
      )
  }

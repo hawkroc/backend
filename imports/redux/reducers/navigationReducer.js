@@ -2,6 +2,7 @@ import * as actions from '../actions/navigationActions'
 import * as actionTypes from '../constants/actionTypes'
 
 import enUS from 'antd/lib/locale-provider/en_US'
+import en from '../../../public/language/en'
 
 const initialState = {
     /**
@@ -9,6 +10,7 @@ const initialState = {
      */
     filterActive: false,
     language: enUS,
+    language_config:en,
 
     /**
      * If filtering - the current timespan filter range.
@@ -22,7 +24,7 @@ const initialState = {
 const reducer = (state = initialState, payload) => {
     switch (payload.type) {
         case actionTypes.NAVIGATION_LOCALE_CHANGED:
-            return Object.assign({ }, state, {language: payload.value})
+            return Object.assign({ }, state, {language: payload.value.language,language_config:payload.value.language_config})
 
         case actionTypes.NAVIGATION_TXFILTER_CHANGED:
             return Object.assign({ }, state, {filterTimespan: payload.value})
