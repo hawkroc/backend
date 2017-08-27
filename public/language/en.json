@@ -20,6 +20,7 @@
     "Balance":"Balance",
     "Name":"Name",
     "GST":"GST",
-    "Operation":"operation"
+    "Operation":"operation",
+    "Current":"Current exchange rate"
 
   }
