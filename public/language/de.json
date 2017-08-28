@@ -1,0 +1,25 @@
+{
+  "Transaction_Export": "Daten Export",
+  "Transactions_title": "Transaktionen",
+  "Reporting_title": "Reporting",
+  "Settings_title": "Einstellung",
+  "Add_Account":"Konto hinzufügen",
+  "Save":"Speichern",
+  "Tracked_accounts":"Überwachte Konten",
+  "Transaction_labels":"Transaktion Etiketten",
+  "Track_new_account":"Neues Konto nachverfolgen",
+  "Account_alias": "Account-Alias",
+  "Account_address":"Konto-Adresse",
+  "New_label":"Neues Etikett",
+  "Delete":"Löschen",
+  "Add_label":"Etikett hinzufügen",
+  "Stop_tracking":"Sind Sie sicher, dass Sie die Verfolgung dieses Kontos beenden möchten",
+  "Alias":"Alias",
+  "Address":"Adresse",
+  "Balance":"Gleichgewicht",
+  "Name":"Namen",
+  "GST":"GST",
+  "Operation":"Betrieb",
+  "Current":"Aktueller Wechselkurs"
+
+}
