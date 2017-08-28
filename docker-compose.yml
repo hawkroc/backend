@@ -16,7 +16,17 @@ services:
       context: .
       dockerfile: ./ci/docker/environment.dockerfile
 
+  #
+  # Database service.
+  #
+  mongodb:
+    image: mongo:3.4
+    ports:
+      - "27017:27017"
+
+  #
   # Test runner service.
+  #
   testing:
     image: blockeeper_environment
 
@@ -35,23 +45,39 @@ services:
     links:
       - "mongodb:database"
 
+  #
   # Building and packaging service.
+  #
   packager:
+    # Named so we can retrieve copied artifacts before bringing down manually.
+    container_name: blockeeper_packager-artifacts
+
     build:
       context: . 
       dockerfile: ./ci/docker/packager.dockerfile
 
+    # Mount host directory to retrieve our build artifacts.
     volumes:
-      - meteor-package:/opt/deployment
+      - ./artifacts/:/artifacts
 
-  # Development runtime service.
+    # Copy our package artifacts back to our host. Working directory should
+    # be reset to root.
+    command: >
+      bash -c "
+        cp --recursive ./opt/deployment/bundle/. ./artifacts
+        exit 0"
+
+  #
+  # Node runtime service. Based on the "deployment" sevice image.
+  #
   runtime:
-    image: node:4.8.2-slim
- 
-    volumes:
-      - type: volume
-        source: meteor-package
-        target: /mnt
+    build:
+      context: .
+      dockerfile: ./ci/docker/runtime.dockerfile
+
+    # Container name required by CI pipeline scripts. The default values
+    # for environment vars are set in the configured .env file.
+    container_name: ${IMAGE_NAME}
 
     environment:
       - MONGO_URL=mongodb://database:27017/meteor
@@ -61,9 +87,7 @@ services:
     # Start the built meteor server.
     command: >
       bash -c "
-        cd /mnt/bundle/programs/server &&
-        npm install --production &&
-        cd /mnt/bundle &&
+        cd /artifacts &&
         node main.js"
     
     # Link a hostname alias to our database server for use in
@@ -73,13 +97,3 @@ services:
 
     ports:
       - "80:80"
-
-  # Database service.
-  mongodb:
-    image: mongo:3.4
-    ports:
-      - "27017:27017"
-
-volumes:
-  # To contain the production build packaged application.
-  meteor-package:

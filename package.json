@@ -4,7 +4,7 @@
   "scripts": {
     "start": "meteor run",
     "start:docker:dev": "docker-compose up",
-    "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha",
+    "test:watch": "meteor test --driver-package=practicalmeteor:mocha",
     "test:once": "meteor test --allow-superuser --once --driver-package dispatch:mocha"
   },
   "dependencies": {

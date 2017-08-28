@@ -30,3 +30,4 @@ xolvio:cleaner
 practicalmeteor:chai
 underscore
 dispatch:mocha
+practicalmeteor:mocha
