@@ -19,6 +19,10 @@
   "Balance":"余额",
   "Name":"名称",
   "GST":"是否含税",
+<<<<<<< HEAD
   "Operation":"操作",
   "Current":"现在汇率"
+=======
+  "Operation":"操作"
+>>>>>>> refs/remotes/origin/ui-tidyup-redux
 }

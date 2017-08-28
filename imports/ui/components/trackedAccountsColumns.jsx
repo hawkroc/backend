@@ -6,6 +6,8 @@ import EditableCell from './common/editableCell'
 import Accounts from '../../api/accounts/accounts'
 
 export const buildColumns = ({
+    //language_config
+    language_config,
     // Callback for updating an account.
     idToAddressBalance,
     onUpdateTrackedAccount,
@@ -14,7 +16,7 @@ export const buildColumns = ({
     return [
         // Human readable alias of account.
         {
-            title: 'Alias',
+            title: language_config.Alias,
             dataIndex: 'alias',
             width: '40%',
 
@@ -25,7 +27,7 @@ export const buildColumns = ({
                 onUpdateTrackedAccount(record)
             }}/>)
         }, {
-            title: 'Address',
+            title: language_config.Address,
             dataIndex: 'accountId',
             width: '30%',
 
@@ -40,7 +42,7 @@ export const buildColumns = ({
                 return null;
             }
         }, {
-            title: 'Balance',
+            title: language_config.Balance,
             dataIndex: 'balance',
             width: '15%',
             render: (text, record, index) => {
@@ -54,12 +56,12 @@ export const buildColumns = ({
                 return null;
             }
         }, {
-            title: '',
+            title: language_config.Operation,
             dataIndex: 'operation',
             render: (text, record, index) => {
                 return (
                     <Popconfirm
-                        title="Are you sure you want to stop tracking this account?"
+                        title={language_config.Stop_tracking}
                         onConfirm={() => onDeleteTrackedAccount(record)}>
                         <a href="#">Remove</a>
                     </Popconfirm>

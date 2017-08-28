@@ -3,10 +3,11 @@ import React from "react";
 import { Popconfirm, Select } from "antd";
 import EditableCell from "./common/editableCell";
 
-export const buildColumns = ({ onUpdateLabelType, onDeleteLabelType }) => {
+export const buildColumns = ({
+  language_config,onUpdateLabelType, onDeleteLabelType }) => {
   return [
     {
-      title: "Name",
+      title: language_config.Name,
       dataIndex: "name",
       width: "50%",
 
@@ -20,7 +21,7 @@ export const buildColumns = ({ onUpdateLabelType, onDeleteLabelType }) => {
         />
     },
     {
-      title: "GST",
+      title: language_config.GST,
       dataIndex: "gst",
       width: "35%",
 
@@ -44,7 +45,7 @@ export const buildColumns = ({ onUpdateLabelType, onDeleteLabelType }) => {
       }
     },
     {
-      title: "",
+      title: language_config.Operation,
       dataIndex: "operation",
 
       render: (text, record, index) => {
