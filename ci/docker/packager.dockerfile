@@ -13,12 +13,11 @@ ENV METEOR_DEBUG_BUILD 1
 # Seems to be a known issue where the build process runs out of memory.
 # Also ran into memory issues using the --directory flag.
 # https://github.com/meteor/meteor/issues/8157
-RUN meteor build ../package
+RUN meteor build ../package && \
 
-# Unpackage the tarball ready to deploy.
-RUN mkdir ../deployment
-RUN tar -xzf ../package/working.tar.gz -C ../deployment
+    # Unpackage the tarball ready to deploy.
+    mkdir ../deployment && \
+    tar -xzf ../package/working.tar.gz -C ../deployment
 
-# Fetch the required production dependencies for the Meteor server.
-WORKDIR /opt/deployment/bundle/programs/server
-RUN npm install --production
+# Reset the working directory for running external compose commands.
+WORKDIR /

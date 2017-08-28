@@ -135,6 +135,18 @@ describe('Profiles: tracked accounts', function () {
         chai.assert.equal(tas.filter(ta => ta._id == targetId), 0, "No tracked account with the target ID remains")
     })
 
+    it('Does not allow a profile to track an account multiple times', function () {
+        // Meteor.call returns an error?
+
+        chai.assert.equal(true, false, "Test not yet implemented")
+
+    })
+
+    it('Retains the Account document after one of many referencing tracked accounts is removed', function () {
+        chai.assert.equal(true, false, "Test not yet implemented")
+
+    })
+
     it('Removes the Account document if the last referencing tracked account is removed', function () {
         chai.assert.equal(true, false, "Test not yet implemented")
 
