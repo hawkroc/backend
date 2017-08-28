@@ -10,7 +10,7 @@ const AccountSchema = new SimpleSchema({
     latestMinedBlock: { type: Number },
     balance: {type: Number},
     transactions: {
-        type: [TransactionSchema]
+        type: [{TransactionSchema}]
     }
 
 })

@@ -56,7 +56,7 @@ export const buildColumns = ({
                 return null;
             }
         }, {
-            title: language_config.Operation,
+            title: '',
             dataIndex: 'operation',
             render: (text, record, index) => {
                 return (
