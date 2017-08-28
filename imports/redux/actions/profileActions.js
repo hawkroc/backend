@@ -14,15 +14,6 @@ export const fetchEtherBalance = (value, trackedAccounts, accountsItems) => {
     return (dispatch) => {
 
         value = getIdToAddressBalance(trackedAccounts, accountsItems);
-        // value.map((t) => {
-          
-        //     GetBalance(t.address).then((response) => {
-        //         t.balance = response.data.result
-        //         console.log("response.data.result "+response.data.result)
-        //       return  dispatch(setActiveBalance(value));
-        //     })
-
-        // })
         return  dispatch(setActiveBalance(value));
     }
 }

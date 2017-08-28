@@ -16,6 +16,7 @@ const View = ({
             <Option value='en'>English</Option>
             <Option value='cn'>Chinese</Option>
             <Option value='de'>German</Option> 
+            <Option value='jp'>Japanese</Option> 
         </Select>
     )
 }

@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Button, notification } from 'antd'
 import {fetchEtherBalance} from '../../redux/actions/profileActions.js'
-
 import TrackedAccounts from '../components/trackedAccounts'
 import TransactionLabels from '../components/transactionLabels'
 import Accounts from '../../api/accounts/accounts'
@@ -23,6 +22,7 @@ class ApplicationSettings extends React.Component{
     }
     render(){
     const    {
+            language_config,
             trackedAccounts,
             accountsItems,
             idToAddressBalance,
@@ -38,17 +38,16 @@ class ApplicationSettings extends React.Component{
         <div>
         <Row>
             <Col offset={1} span={10}>
-                <TrackedAccounts {...{accountsItems,idToAddressBalance,trackedAccounts, onInsertTrackedAccount, onUpdateTrackedAccount, onDeleteTrackedAccount}} />
+                <TrackedAccounts {...{language_config,accountsItems,idToAddressBalance,trackedAccounts, onInsertTrackedAccount, onUpdateTrackedAccount, onDeleteTrackedAccount}} />
             </Col>
             <Col offset={1} span={9}>
-                <TransactionLabels {...{labelTypes, onInsertLabelType, onUpdateLabelType, onDeleteLabelType}} />
+                <TransactionLabels {...{language_config,labelTypes, onInsertLabelType, onUpdateLabelType, onDeleteLabelType}} />
             </Col>
         </Row>
     </div>
     )
     }
 }
-
 
 
 
@@ -112,4 +111,4 @@ const mapDispatchToProps = (dispatch, state) => {
     }   
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationSettings)
+export default connect(mapStateToProps, mapDispatchToProps )(ApplicationSettings)

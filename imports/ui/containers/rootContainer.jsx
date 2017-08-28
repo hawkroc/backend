@@ -5,7 +5,8 @@ import HeaderContentLayout from '../layouts/headerContent'
 import BodyContentLayout from '../layouts/bodyContent'
 
 const View = ({
-    language
+    language,
+    language_config
 }) => {
 
     return (
@@ -13,7 +14,7 @@ const View = ({
        <LocaleProvider locale={language}>
           <div className="list">
             <HeaderContentLayout />
-            <BodyContentLayout />
+            <BodyContentLayout {...{ language_config,language }}/> 
           </div>
         </LocaleProvider>
      //   <RootComponents  {...{language}}/>
@@ -22,7 +23,8 @@ const View = ({
 
 const mapStateToProps = (state) => {
     return {
-        language: state.navigation.language
+        language: state.navigation.language,
+        language_config: state.navigation.language_config
     }
 }
 
