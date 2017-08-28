@@ -9,10 +9,6 @@
     "Transaction_labels":"Transaction labels",
     "Track_new_account":"Track new account",
     "Account_alias": "Account alias",
-<<<<<<< HEAD
-=======
-    "Transaction_labels" :"Transaction labels",
->>>>>>> refs/remotes/origin/ui-tidyup-redux
     "Account_address":"Account address",
     "New_label":"New label",
     "Delete":"Delete",
