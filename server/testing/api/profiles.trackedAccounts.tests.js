@@ -137,9 +137,27 @@ describe('Profiles: tracked accounts', function () {
 
     it('Does not allow a profile to track an account multiple times', function () {
         // Meteor.call returns an error?
+        let profile = Factory.create('profile.with.trackedAccounts')
+        let initialTACount = profile.trackedAccounts.length
+        let firstTAAlias = faker.lorem.sentence(),
+            firstTAAddress = faker.random.alphaNumeric(40)
+        let secondTAAlias=faker.lorem.sentence(),
+            secondTAAddress=firstTAAddress  //asign the same address
 
-        chai.assert.equal(true, false, "Test not yet implemented")
+        Meteor.call(
+            trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT,
+            { alias: firstTAAlias, address: firstTAAddress }
+        )
+        let firstTACount = Profiles.active().trackedAccounts.length;
+        Meteor.call( 
+            trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT,
+            { alias: secondTAAlias, address: secondTAAddress }
+        )
 
+         let secondTACount =Profiles.active().trackedAccounts.length// profile.trackedAccounts.length
+       
+        chai.assert.equal(firstTACount, secondTACount, "the first and second have same address if insert mutil times ")
+        
     })
 
     it('Retains the Account document after one of many referencing tracked accounts is removed', function () {
