@@ -1,5 +1,4 @@
 import * as types from '../constants/actionTypes'
-import { GetBalance } from '../../api/remoteDataSource/fetchJson'
 
 /**
  * Set current user profile.

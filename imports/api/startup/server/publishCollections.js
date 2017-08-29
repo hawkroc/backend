@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor'
+
 import Accounts from '../../accounts/accounts'
 import Profiles from '../../profiles/profiles'
 

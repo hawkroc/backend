@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor'
+
 import Accounts from '../imports/api/accounts/accounts'
 import Profiles from '../imports/api/profiles/profiles'
 
@@ -7,14 +9,6 @@ import Profiles from '../imports/api/profiles/profiles'
  * Keep these up to date with the relevant schemas.
  * 
  */
-export default {
-	apply: () => {
-		Meteor.startup(() => {
-			pushAccountFixtures()
-			pushProfileFixtures()
-		})
-	}
-}
 
 const pushProfileFixtures = () => {
 	// Don't add fixtures if we already have data.
@@ -88,4 +82,13 @@ const pushAccountFixtures = () => {
 	data.forEach((account) => {
 		Accounts.insert(account)
 	})
+}
+
+export default {
+	apply: () => {
+		Meteor.startup(() => {
+			pushAccountFixtures()
+			pushProfileFixtures()
+		})
+	}
 }

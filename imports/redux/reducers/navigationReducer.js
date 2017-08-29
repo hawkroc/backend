@@ -1,4 +1,3 @@
-import * as actions from '../actions/navigationActions'
 import * as actionTypes from '../constants/actionTypes'
 
 import enUS from 'antd/lib/locale-provider/en_US'

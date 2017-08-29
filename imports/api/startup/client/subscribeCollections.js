@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor'
+
 /**
  * Client only - subscribe to published collections.
  * 

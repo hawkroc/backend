@@ -50,7 +50,7 @@
       /**
        * Best practices
        */
-      "consistent-return": 2,          // http://eslint.org/docs/rules/consistent-return
+      "consistent-return": 0,          // http://eslint.org/docs/rules/consistent-return
       "curly": [2, "multi-line"],      // http://eslint.org/docs/rules/curly
       "default-case": 2,               // http://eslint.org/docs/rules/default-case
       "dot-notation": [2, {            // http://eslint.org/docs/rules/dot-notation
@@ -106,7 +106,7 @@
         2, "single", "avoid-escape"    // http://eslint.org/docs/rules/quotes
       ],
       "camelcase": [2, {               // http://eslint.org/docs/rules/camelcase
-        "properties": "never"
+        "properties": "always"
       }],
       "comma-spacing": [2, {           // http://eslint.org/docs/rules/comma-spacing
         "before": false,

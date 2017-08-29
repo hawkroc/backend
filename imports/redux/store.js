@@ -1,12 +1,13 @@
 import { createStore, applyMiddleware } from 'redux'
+
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from  './reducers/rootReducer'
 
 /**
- * add react-thunk and promise
+ * The global state container.
+ * 
  */
-
-export default store = createStore(
+const store =  createStore(
 	rootReducer,
 	// defaultState,
 	applyMiddleware(
@@ -14,3 +15,4 @@ export default store = createStore(
 	)
 )
 
+export default store

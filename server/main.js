@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor'
+
 import databaseFixtures from './databaseFixtures'
 import publishCollections from '../imports/api/startup/server/publishCollections'
 
