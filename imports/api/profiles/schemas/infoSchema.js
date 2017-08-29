@@ -1,4 +1,3 @@
-import { Mongo } from 'meteor/mongo'
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 /**
@@ -6,8 +5,8 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema'
  * 
  */
 const InfoSchema = new SimpleSchema({
-    _id: { type: String },
-    username: { type: String } 
+	_id: { type: String },
+	username: { type: String }
 })
 
 export default InfoSchema

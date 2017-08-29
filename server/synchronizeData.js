@@ -1,11 +1,11 @@
-const base = "http://api.etherscan.io/api?"
-const accountUrl = "module=account&action=txlist&address=";
-const currentBlock = "module=proxy&action=eth_blockNumber";
+const base = 'http://api.etherscan.io/api?'
+const accountUrl = 'module=account&action=txlist&address='
+const currentBlock = 'module=proxy&action=eth_blockNumber'
 
-const config = require('../imports/config/config');
-const axios = require('axios');
+const config = require('../imports/config/config')
+const axios = require('axios')
 
-import Accounts from '../imports/api/accounts/accounts';
+import Accounts from '../imports/api/accounts/accounts'
 
 
 /**
@@ -13,15 +13,15 @@ import Accounts from '../imports/api/accounts/accounts';
  * 
  */
 const getCurrentBlock = () => {
-	let final = base + currentBlock + config.key;
-	
+	let final = base + currentBlock + config.key
+
 	return axios
 		.get(final)
 		.then((response) => {
-			response.data.result = parseInt(response.data.result, 16);
-			
-			return response;
-		});
+			response.data.result = parseInt(response.data.result, 16)
+
+			return response
+		})
 }
 
 /** 
@@ -29,30 +29,30 @@ const getCurrentBlock = () => {
  * 
  */
 const getdataFromApi = (startblock, endblock, address) => {
-	let final = base + accountUrl + address + "&startblock=" + startblock + 
-		"&endblock=" + endblock + "&sort=asc" + config.key;
+	let final = base + accountUrl + address + '&startblock=' + startblock +
+		'&endblock=' + endblock + '&sort=asc' + config.key
 
-	console.log("synchronizeData: Fetching remote data:", final);
+	console.log('synchronizeData: Fetching remote data:', final)
 
 	return axios
 		.get(final)
 		.then((response) => {
-			return response;
+			return response
 		})
-};
+}
 
 /**
  * get balance from api only if there new transactions  it be invoked
  */
-const balanceUrl="https://api.etherscan.io/api?module=account&action=balance&tag=latest"+config.key+"&address=";
+const balanceUrl = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' + config.key + '&address='
 export const GetBalance = (address) => {
-  let final = balanceUrl+address;
-   return axios.get(final).then(
-    (response) =>{   
-      return response;
-    }).catch(error => {
-      throw(error);
-    });
+	let final = balanceUrl + address
+	return axios.get(final).then(
+		(response) =>{
+			return response
+		}).catch(error => {
+		throw(error)
+	})
 }
 
 
@@ -61,40 +61,38 @@ export const GetBalance = (address) => {
  * 
  */
 synchronizeDataFromApi = () => {
-
 	getCurrentBlock().then((response) => {
-		let endBlock = response.data.result;
+		let endBlock = response.data.result
 
 		// Pull a list of unique addresses.
 		let accountsList = Accounts.find()
 			.map(a => ({ _id: a._id, address: a.address, latestMinedBlock: a.latestMinedBlock }))
 
-		console.log("synchronizeData: Mining account data for", accountsList.length, "accounts.")
+		console.log('synchronizeData: Mining account data for', accountsList.length, 'accounts.')
 
 		for (let account of accountsList) {
-			console.log("synchronizeData: Mining account data for account with _id", account._id,
-				"with address", account.address);
+			console.log('synchronizeData: Mining account data for account with _id', account._id,
+				'with address', account.address)
 
 			getdataFromApi(account.latestMinedBlock + 1, endBlock, account.address)
 				.then((response) => {
-
 					// TODO: validation and error checking.
 
-					let res = response.data.result;
-					console.log("synchronizeData: Remote fetch returned", res.length, "records.");
+					let res = response.data.result
+					console.log('synchronizeData: Remote fetch returned', res.length, 'records.')
 
 					if (res.length === 0) {
 						// No new data.
-						return true;
+						return true
 					}
-			 //if there new Transactions we will update the balance
+			 // if there new Transactions we will update the balance
 			 GetBalance(account.address).then((response)=>{
-				Accounts.update(account._id, {
-						$set: {
+						Accounts.update(account._id, {
+							$set: {
 							// TODO: should this be latest block from API call?
-							'balance': response.data.result
-						}
-					})
+								'balance': response.data.result
+							}
+						})
 			 })
 
 
@@ -105,7 +103,7 @@ synchronizeDataFromApi = () => {
 					// Attach an object ID to each transaction.
 					res.forEach(t => {
 						t._id = new Meteor.Collection.ObjectID().toHexString()
-					});
+					})
 
 					// Push the new transcations to the account.
 					// TODO: we should do some validation checking to make sure we don't duplicate any
@@ -122,22 +120,18 @@ synchronizeDataFromApi = () => {
 					Accounts.update(account._id, {
 						$set: {
 							// TODO: should this be latest block from API call?
-							'latestMinedBlock': res.slice(-1)[0].blockNumber
+							'latestMinedBlock': res.slice(-1)[ 0 ].blockNumber
 						}
 					})
 
-                  
 
-
-					return true;
-
+					return true
 				}).catch((e) => {
-					console.log("synchronizeData:", e);
-					return false;
-
+					console.log('synchronizeData:', e)
+					return false
 				}).finally(() => {
-					console.log("synchronizeData: Remote fetch completed.")
-				});
+					console.log('synchronizeData: Remote fetch completed.')
+				})
 		}
-	});
+	})
 }

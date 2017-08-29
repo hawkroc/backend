@@ -1,18 +1,20 @@
+import { Meteor } from 'meteor/meteor'
+
 import databaseFixtures from './databaseFixtures'
 import publishCollections from '../imports/api/startup/server/publishCollections'
 
-const schedule = require('./schedule');
+const schedule = require('./schedule')
 
 Meteor.startup(() => {
-    console.log("Meteor server has started.");
+	console.log('Meteor server has started.')
 
-    // Conditionally load the database fixtures.
-    //  TODO: there should probably also be a dev/prod flag check for this.
-    databaseFixtures.apply();
+	// Conditionally load the database fixtures.
+	//  TODO: there should probably also be a dev/prod flag check for this.
+	databaseFixtures.apply()
 
-    // Publish our API collections for use client-side.
-    publishCollections.apply();
+	// Publish our API collections for use client-side.
+	publishCollections.apply()
 
-    // Start the mining schedule for accessing transaction information.
-    scheduleCronstyle();
-});
+	// Start the mining schedule for accessing transaction information.
+	scheduleCronstyle()
+})
