@@ -14,7 +14,7 @@ const View = ({
        <LocaleProvider locale={language}>
           <div className="list">
             <HeaderContentLayout />
-            <BodyContentLayout {...{ languageConfig,language }}/> 
+            <BodyContentLayout {...{ languageConfig,language}}/> 
           </div>
         </LocaleProvider>
      //   <RootComponents  {...{language}}/>
