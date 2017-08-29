@@ -75,10 +75,10 @@ synchronizeDataFromApi = () => {
 				'with address', account.address)
 
 			getdataFromApi(account.latestMinedBlock + 1, endBlock, account.address)
-				.then((response) => {
+				.then((responseFromApi) => {
 					// TODO: validation and error checking.
 
-					let res = response.data.result
+					let res = responseFromApi.data.result
 					console.log('synchronizeData: Remote fetch returned', res.length, 'records.')
 
 					if (res.length === 0) {
@@ -86,11 +86,11 @@ synchronizeDataFromApi = () => {
 						return true
 					}
 			 // if there new Transactions we will update the balance
-			 GetBalance(account.address).then((response)=>{
+			 GetBalance(account.address).then((responseBalance)=>{
 						Accounts.update(account._id, {
 							$set: {
 							// TODO: should this be latest block from API call?
-								'balance': response.data.result
+								'balance': responseBalance.data.result
 							}
 						})
 			 })

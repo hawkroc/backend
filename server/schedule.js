@@ -1,9 +1,9 @@
 
 const schedule = require('node-schedule')
-const synData = require('./synchronizeData')
 const config = require('../imports/config/config')
+const synchronizeDataFromApi = require('./synchronizeData')
 
-scheduleCronstyle = () => {
+const scheduleCronstyle = () => {
 	schedule.scheduleJob(config.schedule, () => {
 		console.log('schedule: Data sync job has started.')
 		synchronizeDataFromApi()

@@ -10,12 +10,12 @@ import Accounts from '../../../imports/api/accounts/accounts'
 import trackedAccountMethodTypes from '../../../imports/api/profiles/methods/trackedAccountMethodTypes'
 
 
-describe('Profiles: tracked accounts', function () {
-	beforeEach(function () {
+describe('Profiles: tracked accounts', function() {
+	beforeEach(function() {
 		resetDatabase()
 	})
 
-	it('Adds a new tracked account to the active profile', function () {
+	it('Adds a new tracked account to the active profile', function() {
 		let profile = Factory.create('profile.with.trackedAccounts')
 		let initialTACount = profile.trackedAccounts.length
 
@@ -40,7 +40,7 @@ describe('Profiles: tracked accounts', function () {
 		chai.assert.equal(newTADetailCount, 1, 'Only one tracked account mateches any of the added details')
 	})
 
-	it('Creates new Account document if new tracked account is unknown', function () {
+	it('Creates new Account document if new tracked account is unknown', function() {
 		let profile = Factory.create('profile')
 
 		let newAccountAddress = faker.random.alphaNumeric(40)
@@ -55,7 +55,7 @@ describe('Profiles: tracked accounts', function () {
 		chai.assert.equal(newAcCount, 1, 'There is exactly one Accounts document to match the added tracked account')
 	})
 
-	it('Does not create new Account document if new tracked account is known', function () {
+	it('Does not create new Account document if new tracked account is known', function() {
 		let profile = Factory.create('profile')
 
 		let newAccountAddress = faker.random.alphaNumeric(40)
@@ -74,7 +74,7 @@ describe('Profiles: tracked accounts', function () {
 		chai.assert.equal(initialAccCount, initialAccCount, 'No Account document was created because tracked account is known')
 	})
 
-	it('Updates the correct tracked account alias', function () {
+	it('Updates the correct tracked account alias', function() {
 		let profile = Factory.create('profile.with.trackedAccounts')
 		let initialTrackedAccountCount = profile.trackedAccounts.length
 
@@ -83,7 +83,7 @@ describe('Profiles: tracked accounts', function () {
 		// Choose a random tracked account to update.
 		let targetIndex = faker.random.number({
 			'min': 0,
-			'max': initialTrackedAccountCount -1
+			'max': initialTrackedAccountCount - 1
 		})
 
 		let targetId = profile.trackedAccounts[ targetIndex ]._id
@@ -99,18 +99,18 @@ describe('Profiles: tracked accounts', function () {
 
 		chai.assert.equal(
 			updatedTAs.length,
-			1, 
+			1,
 			'Exactly one tracked account has the updated alias.'
 		)
 
 		chai.assert.equal(
 			updatedTAs[ 0 ]._id,
-			targetId, 
+			targetId,
 			'The targeted tracked account was the updated account.'
 		)
 	})
 
-	it('Removes the correct tracked account from the active profile', function () {
+	it('Removes the correct tracked account from the active profile', function() {
 		let profile = Factory.create('profile.with.trackedAccounts')
 		let initialTrackedAccountCount = profile.trackedAccounts.length
 
@@ -119,7 +119,7 @@ describe('Profiles: tracked accounts', function () {
 		// Choose a random tracked account to update.
 		let targetIndex = faker.random.number({
 			'min': 0,
-			'max': initialTrackedAccountCount -1
+			'max': initialTrackedAccountCount - 1
 		})
 
 		let targetId = profile.trackedAccounts[ targetIndex ]._id
@@ -135,20 +135,17 @@ describe('Profiles: tracked accounts', function () {
 		chai.assert.equal(tas.filter(ta => ta._id == targetId), 0, 'No tracked account with the target ID remains')
 	})
 
-	it('Does not allow a profile to track an account multiple times', function () {
+	it('Does not allow a profile to track an account multiple times', function() {
 		// Meteor.call returns an error?
 
 		chai.assert.equal(true, false, 'Test not yet implemented')
-
 	})
 
-	it('Retains the Account document after one of many referencing tracked accounts is removed', function () {
+	it('Retains the Account document after one of many referencing tracked accounts is removed', function() {
 		chai.assert.equal(true, false, 'Test not yet implemented')
-
 	})
 
-	it('Removes the Account document if the last referencing tracked account is removed', function () {
+	it('Removes the Account document if the last referencing tracked account is removed', function() {
 		chai.assert.equal(true, false, 'Test not yet implemented')
-
 	})
 })
