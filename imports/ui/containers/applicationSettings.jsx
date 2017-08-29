@@ -22,7 +22,7 @@ class ApplicationSettings extends React.Component{
     }
     render(){
     const    {
-            language_config,
+            languageConfig,
             trackedAccounts,
             accountsItems,
             idToAddressBalance,
@@ -38,10 +38,10 @@ class ApplicationSettings extends React.Component{
         <div>
         <Row>
             <Col offset={1} span={10}>
-                <TrackedAccounts {...{language_config,accountsItems,idToAddressBalance,trackedAccounts, onInsertTrackedAccount, onUpdateTrackedAccount, onDeleteTrackedAccount}} />
+                <TrackedAccounts {...{languageConfig,accountsItems,idToAddressBalance,trackedAccounts, onInsertTrackedAccount, onUpdateTrackedAccount, onDeleteTrackedAccount}} />
             </Col>
             <Col offset={1} span={9}>
-                <TransactionLabels {...{language_config,labelTypes, onInsertLabelType, onUpdateLabelType, onDeleteLabelType}} />
+                <TransactionLabels {...{languageConfig,labelTypes, onInsertLabelType, onUpdateLabelType, onDeleteLabelType}} />
             </Col>
         </Row>
     </div>

@@ -12,22 +12,22 @@ import ApplicationSettings from '../containers/applicationSettings'
  * Body row layout for display of content.
  * 
  */
- const Layout = ({language_config}) => {
+ const Layout = ({languageConfig}) => {
 
      return (
         <div>
            
             <Tabs defaultActiveKey="0" >
-                <TabPane tab={language_config.Transactions_title} key="0">
+                <TabPane tab={languageConfig.Transactions_title} key="0">
                     <TransactionsViewer />
                     {/* <TransactionList promise={this.state.promise} config={this.state.config}/> */}
                 </TabPane>
-                <TabPane tab={language_config.Reporting_title} key="1">
-                    <TransactionsReporting {...{language_config}} />
+                <TabPane tab={languageConfig.Reporting_title} key="1">
+                    <TransactionsReporting {...{languageConfig}} />
                     {/* <LineChart /> */}
                 </TabPane>
-                <TabPane tab={language_config.Settings_title} key="2"> 
-                    <ApplicationSettings  {...{language_config}} />
+                <TabPane tab={languageConfig.Settings_title} key="2"> 
+                    <ApplicationSettings  {...{languageConfig}} />
                     {/* <SetAll changeConfig={this.changeConfig} config={this.state.config}/> */}
                 </TabPane>
             </Tabs>

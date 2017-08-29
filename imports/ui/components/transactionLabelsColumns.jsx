@@ -4,10 +4,10 @@ import { Popconfirm, Select } from "antd";
 import EditableCell from "./common/editableCell";
 
 export const buildColumns = ({
-  language_config,onUpdateLabelType, onDeleteLabelType }) => {
+  languageConfig,onUpdateLabelType, onDeleteLabelType }) => {
   return [
     {
-      title: language_config.Name,
+      title: languageConfig.Name,
       dataIndex: "name",
       width: "50%",
 
@@ -21,7 +21,7 @@ export const buildColumns = ({
         />
     },
     {
-      title: language_config.GST,
+      title: languageConfig.GST,
       dataIndex: "gst",
       width: "35%",
 

@@ -54,7 +54,7 @@ class TrackedAccountsComponent extends React.Component {
     render() {
         const {
             //language
-            language_config,
+            languageConfig,
             // Collection of accounts to display.
             trackedAccounts,
             idToAddressBalance,
@@ -66,11 +66,11 @@ class TrackedAccountsComponent extends React.Component {
         } = this.props
 
         // Build the column set for this table.
-        const columns = buildColumns({language_config,onUpdateTrackedAccount, onDeleteTrackedAccount,idToAddressBalance})
+        const columns = buildColumns({languageConfig,onUpdateTrackedAccount, onDeleteTrackedAccount,idToAddressBalance})
 
         return (
             <div>
-                <h2>{language_config.Tracked_accounts}</h2>
+                <h2>{languageConfig.Tracked_accounts}</h2>
                 <br />
                 <Table bordered 
                     rowKey={account => account._id}
@@ -78,21 +78,21 @@ class TrackedAccountsComponent extends React.Component {
                     columns={columns}
                 />
                 <Button className="editable-add-btn" 
-                    onClick={() => this.showAddModal()}>{language_config.Add_Account}
+                    onClick={() => this.showAddModal()}>{languageConfig.Add_Account}
                 </Button>
                 <Modal
-                    title={language_config.Track_new_account}
+                    title={languageConfig.Track_new_account}
                     visible={this.state.addModalVisible}
 
                     onOk={() => this.submitAdd()}
                     onCancel={() => this.hideAddModal()}
                 >
-                    <h3 style={{marginBottom: "8px"}}>{language_config.Account_alias}</h3>
+                    <h3 style={{marginBottom: "8px"}}>{languageConfig.Account_alias}</h3>
                     <Input size="large" placeholder="My new account" 
                         value={this.state.addAlias} onChange={this.handleAddAliasChange} />
                     <br />
 
-                    <h3>{language_config.Account_address}</h3>
+                    <h3>{languageConfig.Account_address}</h3>
                     <Input size="large" placeholder="0x..." 
                         value={this.state.addAddress} onChange={this.handleAddAddressChange} />
                 </Modal>

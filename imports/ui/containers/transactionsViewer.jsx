@@ -15,7 +15,7 @@ class TransactionsViewer extends React.Component {
         const {
             dataReady,
             usdExchangeRate,
-            language_config,
+            languageConfig,
             accounts,
             addressAliasLookup,
         
@@ -28,7 +28,7 @@ class TransactionsViewer extends React.Component {
             dataReady ? (
                 <div>
                     <div className="exchange">
-                        <span style={{ color: "black", fontStyle: "italic" }}>{language_config.Current}:</span> 1 ETH = {usdExchangeRate} USD
+                        <span style={{ color: "black", fontStyle: "italic" }}>{languageConfig.Current}:</span> 1 ETH = {usdExchangeRate} USD
                     </div>
                     <TransactionsExportComponent {...{ accounts }}/>
                     <TransactionsGridComponent {...{ 
@@ -79,7 +79,7 @@ let dataReady = !!trackedAccounts
 
         // TODO: from API.
         usdExchangeRate: state.accounts.usdExchangeRate,
-        language_config :state.navigation.language_config,
+        languageConfig :state.navigation.languageConfig,
         transactionLabels
     }
 }

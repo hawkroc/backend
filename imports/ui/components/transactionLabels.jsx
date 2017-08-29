@@ -11,7 +11,7 @@ import { buildColumns } from './transactionLabelsColumns'
  */
  const View = ({
     //language config
-    language_config,
+    languageConfig,
     // Collection of existing transaction labels to display.
     labelTypes,
     onUpdateLabelType,
@@ -19,18 +19,18 @@ import { buildColumns } from './transactionLabelsColumns'
     onDeleteLabelType
  }) => {
 
-    const columns = buildColumns({language_config,onUpdateLabelType, onDeleteLabelType});
+    const columns = buildColumns({languageConfig,onUpdateLabelType, onDeleteLabelType});
 
      return (
         <div>
-            <h2>{language_config.Transaction_labels}</h2>
+            <h2>{languageConfig.Transaction_labels}</h2>
             <br />
             <Table bordered 
                 rowKey={label => label._id}
                 dataSource={labelTypes} 
                 columns={columns} />
             <Button className="editable-add-btn"
-                onClick={() => onInsertLabelType({ name: language_config.New_label, gst: false })}> {language_config.Add_label}</Button>
+                onClick={() => onInsertLabelType({ name: languageConfig.New_label, gst: false })}> {languageConfig.Add_label}</Button>
         </div>
      )
  }

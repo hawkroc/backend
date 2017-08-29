@@ -9,12 +9,6 @@ export const setActiveProfile = (value) => ({ type: types.PROFILES_ACTIVE_RECEIV
 
 export const setActiveBalance = (value) => ({ type: types.PROFILES_BALANCE_RECEIVED, value })
 
-export const fetchEtherBalance = (value, trackedAccounts, accountsItems) => {
-	return (dispatch) => {
-		value = getIdToAddressBalance(trackedAccounts, accountsItems)
-		return  dispatch(setActiveBalance(value))
-	}
-}
 
 const getIdToAddressBalance = (trackedAccounts, items) => {
 	let idToAddressBalance = []
@@ -28,4 +22,10 @@ const getIdToAddressBalance = (trackedAccounts, items) => {
 	}
 
 	return idToAddressBalance
+}
+
+export const fetchEtherBalance = (value, trackedAccounts, accountsItems) => {
+	return (dispatch) => {
+		return  dispatch(setActiveBalance(getIdToAddressBalance(trackedAccounts, accountsItems)))
+	}
 }

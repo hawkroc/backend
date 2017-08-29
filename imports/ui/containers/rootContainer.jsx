@@ -6,7 +6,7 @@ import BodyContentLayout from '../layouts/bodyContent'
 
 const View = ({
     language,
-    language_config
+    languageConfig
 }) => {
 
     return (
@@ -14,7 +14,7 @@ const View = ({
        <LocaleProvider locale={language}>
           <div className="list">
             <HeaderContentLayout />
-            <BodyContentLayout {...{ language_config,language }}/> 
+            <BodyContentLayout {...{ languageConfig,language }}/> 
           </div>
         </LocaleProvider>
      //   <RootComponents  {...{language}}/>
@@ -24,7 +24,7 @@ const View = ({
 const mapStateToProps = (state) => {
     return {
         language: state.navigation.language,
-        language_config: state.navigation.language_config
+        languageConfig: state.navigation.languageConfig
     }
 }
 
