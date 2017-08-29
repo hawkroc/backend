@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor'
+
 import * as methodTypes from './trackedAccountMethodTypes'
 
 import Profiles from '../../../api/profiles/profiles'
@@ -10,7 +12,7 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-	[ methodTypes.PROFILE_INSERT_TRACKEDACCOUNT ] ({ alias, address }) {
+	[ methodTypes.PROFILE_INSERT_TRACKEDACCOUNT ]({ alias, address }) {
 		// TODO: VALIDATION! of user vs profile.
 		// TODO: address validation!
 		// TODO: profile collection factories!
@@ -36,7 +38,7 @@ Meteor.methods({
 				'trackedAccounts': {
 					// TODO: best way to do IDs?
 					_id: new Meteor.Collection.ObjectID().toHexString(),
-					alias, 
+					alias,
 					accountId
 				}
 			}
@@ -50,7 +52,7 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-	[ methodTypes.PROFILE_UPDATE_TRACKEDACCOUNT ] ({ _id, alias }) {
+	[ methodTypes.PROFILE_UPDATE_TRACKEDACCOUNT ]({ _id, alias }) {
 		// TODO: VALIDATION! of user vs profile.
 
 		let activeProfile = Profiles.active()
@@ -62,7 +64,7 @@ Meteor.methods({
 			}, {
 				$set: {
 					'trackedAccounts.$.alias': alias,
-					//'trackedAccounts.$.accountId': accountId
+					// 'trackedAccounts.$.accountId': accountId
 				}
 			}
 		)
@@ -73,7 +75,7 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-	[ methodTypes.PROFILE_DELETE_TRACKEDACCOUNT ] ({ _id }) {
+	[ methodTypes.PROFILE_DELETE_TRACKEDACCOUNT ]({ _id }) {
 		let activeProfile = Profiles.active()
 
 		let toDelete = activeProfile.trackedAccounts
@@ -89,8 +91,8 @@ Meteor.methods({
 
 			// If this is the last user tracking an account in our Accounts collection,
 			// remove the account from the collection also.
-			let trackerCount = Profiles.find({ 'trackedAccounts.accountId': { 
-				$eq: toDelete.accountId 
+			let trackerCount = Profiles.find({ 'trackedAccounts.accountId': {
+				$eq: toDelete.accountId
 			}}).count()
 
 			if (trackerCount === 0) {

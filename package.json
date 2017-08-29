@@ -4,7 +4,7 @@
   "scripts": {
     "start": "meteor run",
     "start:docker:dev": "docker-compose up",
-    "lint": "eslint .",
+    "lint": "eslint . --ignore-pattern **/*.tests.js",
     "test:watch": "meteor test --driver-package=practicalmeteor:mocha",
     "test:once": "meteor test --allow-superuser --once --driver-package dispatch:mocha"
   },

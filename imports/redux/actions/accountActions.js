@@ -13,7 +13,7 @@ export const setAccounts = (value) => ({
 })
 
 export const setEtherExchangeRate = (value) => ({
-	type: types.ACCOUNTS_EXCHANGERATE_RECEIVED, 
+	type: types.ACCOUNTS_EXCHANGERATE_RECEIVED,
 	value
 })
 

@@ -13,7 +13,7 @@ export default {
 				ta => ta.accountId
 			)
 
-			return Accounts.find({ 
+			return Accounts.find({
 				_id: {
 					$in: accountIds
 				}

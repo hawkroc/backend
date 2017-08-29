@@ -1,7 +1,7 @@
-import * as methodTypes from './labelMethodTypes' 
+import { Meteor } from 'meteor/meteor'
+import * as methodTypes from './labelMethodTypes'
 
 import Profiles from '../../../api/profiles/profiles'
-import Accounts from '../../../api/accounts/accounts'
 
 Meteor.methods({
 
@@ -10,8 +10,7 @@ Meteor.methods({
      * 
      * @param {*Insert} param0 
      */
-	[ methodTypes.PROFILE_INSERT_LABELTYPE ] ({ name, gst }) {
-
+	[ methodTypes.PROFILE_INSERT_LABELTYPE ]({ name, gst }) {
 		let activeProfile = Profiles.active()
 
 		Profiles.update(activeProfile._id, {
@@ -19,7 +18,7 @@ Meteor.methods({
 				'labelTypes': {
 					// TODO: best way to do IDs?
 					_id: new Meteor.Collection.ObjectID().toHexString(),
-					name, 
+					name,
 					gst
 				}
 			}
@@ -31,10 +30,10 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-	[ methodTypes.PROFILE_UPDATE_LABELTYPE ] ({ _id, name, gst }) {
+	[ methodTypes.PROFILE_UPDATE_LABELTYPE ]({ _id, name, gst }) {
 		// TODO: VALIDATION! of user vs profile.
-		//let activeProfile = Profiles.active();
-        
+		// let activeProfile = Profiles.active();
+
 		Profiles.update(
 			{
 				'labelTypes._id': _id
@@ -52,7 +51,7 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-	[ methodTypes.PROFILE_DELETE_LABELTYPE ] ({ _id }) {
+	[ methodTypes.PROFILE_DELETE_LABELTYPE ]({ _id }) {
 		let activeProfile = Profiles.active()
 
 		// Remove all transaction labels from the user profile corresponding
@@ -81,7 +80,7 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-	[ methodTypes.PROFILE_UPDATE_LABEL ] ({ txId, labelTypeId }) {
+	[ methodTypes.PROFILE_UPDATE_LABEL ]({ txId, labelTypeId }) {
 		let activeProfile = Profiles.active()
 
 		// Pull all exising labels for provided transaction ID.
@@ -90,7 +89,7 @@ Meteor.methods({
 			'labels.transactionId': txId
 		}, {
 			$pull: {
-				'labels': { 
+				'labels': {
 					transactionId: txId
 				}
 			},
@@ -101,7 +100,7 @@ Meteor.methods({
 			_id: activeProfile._id
 		}, {
 			$push: {
-				'labels': { 
+				'labels': {
 					transactionId: txId,
 					labelTypeId
 				}

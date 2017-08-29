@@ -1,4 +1,3 @@
-import { Mongo } from 'meteor/mongo'
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 import InfoSchema from './infoSchema'
@@ -11,12 +10,12 @@ import LabelSchema from './labelSchema'
  * 
  */
 const ProfileSchema = new SimpleSchema({
-	_id: { 
+	_id: {
 		type: String
 	},
 
 	info: { type: InfoSchema },
-  
+
 	// User's linked accounts.
 	trackedAccounts: {
 		type: [ TrackedAccountSchema ]

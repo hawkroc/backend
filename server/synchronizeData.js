@@ -14,12 +14,12 @@ import Accounts from '../imports/api/accounts/accounts'
  */
 const getCurrentBlock = () => {
 	let final = base + currentBlock + config.key
-	
+
 	return axios
 		.get(final)
 		.then((response) => {
 			response.data.result = parseInt(response.data.result, 16)
-			
+
 			return response
 		})
 }
@@ -29,7 +29,7 @@ const getCurrentBlock = () => {
  * 
  */
 const getdataFromApi = (startblock, endblock, address) => {
-	let final = base + accountUrl + address + '&startblock=' + startblock + 
+	let final = base + accountUrl + address + '&startblock=' + startblock +
 		'&endblock=' + endblock + '&sort=asc' + config.key
 
 	console.log('synchronizeData: Fetching remote data:', final)
@@ -44,11 +44,11 @@ const getdataFromApi = (startblock, endblock, address) => {
 /**
  * get balance from api only if there new transactions  it be invoked
  */
-const balanceUrl='https://api.etherscan.io/api?module=account&action=balance&tag=latest'+config.key+'&address='
+const balanceUrl = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' + config.key + '&address='
 export const GetBalance = (address) => {
-	let final = balanceUrl+address
+	let final = balanceUrl + address
 	return axios.get(final).then(
-		(response) =>{   
+		(response) =>{
 			return response
 		}).catch(error => {
 		throw(error)
@@ -61,7 +61,6 @@ export const GetBalance = (address) => {
  * 
  */
 synchronizeDataFromApi = () => {
-
 	getCurrentBlock().then((response) => {
 		let endBlock = response.data.result
 
@@ -77,7 +76,6 @@ synchronizeDataFromApi = () => {
 
 			getdataFromApi(account.latestMinedBlock + 1, endBlock, account.address)
 				.then((response) => {
-
 					// TODO: validation and error checking.
 
 					let res = response.data.result
@@ -87,7 +85,7 @@ synchronizeDataFromApi = () => {
 						// No new data.
 						return true
 					}
-			 //if there new Transactions we will update the balance
+			 // if there new Transactions we will update the balance
 			 GetBalance(account.address).then((response)=>{
 						Accounts.update(account._id, {
 							$set: {
@@ -126,15 +124,11 @@ synchronizeDataFromApi = () => {
 						}
 					})
 
-                  
-
 
 					return true
-
 				}).catch((e) => {
 					console.log('synchronizeData:', e)
 					return false
-
 				}).finally(() => {
 					console.log('synchronizeData: Remote fetch completed.')
 				})

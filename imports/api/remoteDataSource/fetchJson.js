@@ -10,7 +10,6 @@ export const GetExchange = (type = 'USD') => {
 	return axios
 		.get(final)
 		.then((response) => {
-      
 			return  response
 		})
 		.catch(error => {
@@ -19,14 +18,13 @@ export const GetExchange = (type = 'USD') => {
 }
 
 
-const balanceUrl='https://api.etherscan.io/api?module=account&action=balance&tag=latest'+config.key+'&address='
+const balanceUrl = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' + config.key + '&address='
 
 export const GetBalance = (address) => {
-	let final = balanceUrl+address
-	console.log(final)
+	let final = balanceUrl + address
+
 	return axios.get(final).then(
-		(response) =>{  
-    
+		(response) => {
 			return response
 		}).catch(error => {
 		throw(error)

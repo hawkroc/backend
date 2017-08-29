@@ -1,4 +1,3 @@
-import { Mongo } from 'meteor/mongo'
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 /**
@@ -6,7 +5,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema'
  * 
  */
 const LabelSchema = new SimpleSchema({
-    
+
 	// References Accounts.transactions._id
 	transactionId: { type: String },
 

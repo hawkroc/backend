@@ -1,4 +1,3 @@
-import { Mongo } from 'meteor/mongo'
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 /**
@@ -9,7 +8,7 @@ const LabelTypeSchema = new SimpleSchema({
 	_id: { type: String },
 
 	name: { type: String },
-    
+
 	// Data associated with label. Should be nested into a data[] subdoc
 	// when we need to add more data types.
 	gst: { type: Boolean }

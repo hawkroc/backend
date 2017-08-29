@@ -4,66 +4,66 @@
  * 
  */
 
-import React from 'react';
-import { Input, Icon } from 'antd';
+import React from 'react'
+import { Input, Icon } from 'antd'
 
 class EditableCell extends React.Component {
-  // Manage own internal state.
-  state = {
-    value: this.props.value,
+	// Manage own internal state.
+		state = {
+			value: this.props.value,
 
-    // Function to transform the value for masking.
-    valueMask: this.props.valueMask ? this.props.valueMask : v => v,
-    editable: false,
-  }
+			// Function to transform the value for masking.
+			valueMask: this.props.valueMask ? this.props.valueMask : v => v,
+			editable: false,
+		}
 
-  handleChange = (e) => {
-    const value = e.target.value;
-    this.setState({ value });
-  }
+		handleChange = (e) => {
+			const value = e.target.value
+			this.setState({ value })
+		}
 
-  check = () => {
-    this.setState({ editable: false });
-    if (this.props.onChangeConfirmed) {
-      this.props.onChangeConfirmed(this.state.value.trim());
-    }
-  }
+		check = () => {
+			this.setState({ editable: false })
+			if (this.props.onChangeConfirmed) {
+				this.props.onChangeConfirmed(this.state.value.trim())
+			}
+		}
 
-  edit = () => {
-    this.setState({ editable: true });
-  }
-  
-  render() {
-    const { value, valueMask, editable } = this.state;
-    return (
-      <div className="editable-cell">
-        {
-          editable ?
-            <div className="editable-cell-input-wrapper">
-              <Input
-                value={value}
-                onChange={this.handleChange}
-                onPressEnter={() => this.check()}
-              />
-              <Icon
-                type="check"
-                className="editable-cell-icon-check"
-                onClick={() => this.check()}
-              />
-            </div>
-            :
-            <div className="editable-cell-text-wrapper">
-              {valueMask(value) || ' '}
-              <Icon
-                type="edit"
-                className="editable-cell-icon"
-                onClick={this.edit}
-              />
-            </div>
-        }
-      </div>
-    );
-  }
+		edit = () => {
+			this.setState({ editable: true })
+		}
+
+		render() {
+			const { value, valueMask, editable } = this.state
+			return (
+				<div className="editable-cell">
+					{
+						editable ?
+							<div className="editable-cell-input-wrapper">
+								<Input
+									value={value}
+									onChange={this.handleChange}
+									onPressEnter={() => this.check()}
+								/>
+								<Icon
+									type="check"
+									className="editable-cell-icon-check"
+									onClick={() => this.check()}
+								/>
+							</div>
+							:
+							<div className="editable-cell-text-wrapper">
+								{valueMask(value) || ' '}
+								<Icon
+									type="edit"
+									className="editable-cell-icon"
+									onClick={this.edit}
+								/>
+							</div>
+					}
+				</div>
+			)
+		}
 }
 
-export default EditableCell;
+export default EditableCell

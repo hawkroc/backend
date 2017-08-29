@@ -1,4 +1,3 @@
-import { Mongo } from 'meteor/mongo'
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 /**
@@ -7,7 +6,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema'
  */
 const TrackedAccountSchema = new SimpleSchema({
 	_id: { type: String },
-    
+
 	// References Accounts._id
 	accountId: { type: String },
 

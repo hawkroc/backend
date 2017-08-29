@@ -19,15 +19,15 @@ const initialState = {
 
 const reducer = (state = initialState, payload) => {
 	switch (payload.type) {
-	case actionTypes.PROFILES_ACTIVE_RECEIVED:
-		return Object.assign({ }, state, { active: payload.value })
-	case actionTypes.PROFILES_BALANCE_RECEIVED:
-		return  Object.assign({ }, state, { idToAddressBalance: payload.value })
-	default:
-		return state
+		case actionTypes.PROFILES_ACTIVE_RECEIVED:
+			return Object.assign({ }, state, { active: payload.value })
+		case actionTypes.PROFILES_BALANCE_RECEIVED:
+			return  Object.assign({ }, state, { idToAddressBalance: payload.value })
+		default:
+			return state
 	}
 }
-  
+
 // Every change to the profile in question will trigger a dispatch.
 // TODO: need to test and make sure this doesn't fire when ANY profile changes.
 Meteor.startup(() => {

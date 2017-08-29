@@ -18,7 +18,7 @@ Profiles.deny({
 	remove() { return true }
 })
 
-//Profiles.attachSchema(ProfileSchema)
+// Profiles.attachSchema(ProfileSchema)
 
 // Fields of the collection items that are made available to the client.
 Profiles.publicFields = {
@@ -36,7 +36,7 @@ Profiles.active = () => {
 
 // Attach helpers to the collection object.
 Profiles.helpers({
-    
+
 })
 
 initializeFactory(Profiles)

@@ -7,7 +7,7 @@ import * as types from '../constants/actionTypes'
  *
  */
 export const setLanguage = (value) => ({
-	type: types.NAVIGATION_LOCALE_CHANGED, 
+	type: types.NAVIGATION_LOCALE_CHANGED,
 	value
 })
 
@@ -19,6 +19,6 @@ export const setLanguage = (value) => ({
  * 
  */
 export const setTxTimestampFilter = (value) => ({
-	type: types.NAVIGATION_TXFILTER_CHANGED, 
+	type: types.NAVIGATION_TXFILTER_CHANGED,
 	value
 })

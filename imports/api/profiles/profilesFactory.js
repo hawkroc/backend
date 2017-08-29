@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor'
 import { Factory } from 'meteor/dburles:factory'
 
 import faker from 'faker'
@@ -33,7 +34,7 @@ export const initializeFactory = (profilesCollection) => {
 		labels: [ ]
 	})
 
-	Factory.define('profile.with.trackedAccounts', profilesCollection, 
+	Factory.define('profile.with.trackedAccounts', profilesCollection,
 		Factory.extend('profile', {
 			trackedAccounts: [
 				{

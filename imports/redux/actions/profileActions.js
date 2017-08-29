@@ -12,7 +12,6 @@ export const setActiveBalance = (value) => ({ type: types.PROFILES_BALANCE_RECEI
 
 export const fetchEtherBalance = (value, trackedAccounts, accountsItems) => {
 	return (dispatch) => {
-
 		value = getIdToAddressBalance(trackedAccounts, accountsItems)
 		return  dispatch(setActiveBalance(value))
 	}
