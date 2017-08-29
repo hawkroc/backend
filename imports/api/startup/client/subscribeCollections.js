@@ -3,8 +3,8 @@
  * 
  */
 export default {
-    apply: () => {
-        Meteor.subscribe('accounts')
-        Meteor.subscribe('profiles')
-    }
+	apply: () => {
+		Meteor.subscribe('accounts')
+		Meteor.subscribe('profiles')
+	}
 }

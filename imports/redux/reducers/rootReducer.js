@@ -9,9 +9,9 @@ import profilesReducer from './profilesReducer'
  * 
  */
 const rootReducer = combineReducers({
-    accounts: accountsReducer,
-    navigation: navigationReducer,
-    profiles: profilesReducer
-});
+	accounts: accountsReducer,
+	navigation: navigationReducer,
+	profiles: profilesReducer
+})
 
-export default rootReducer;
+export default rootReducer

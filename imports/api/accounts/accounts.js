@@ -4,18 +4,18 @@ import AccountSchema from './accountSchema'
 import { initializeFactory } from './accountsFactory'
 
 class AccountsCollection extends Mongo.Collection {
-    insert(account, callback) {
-        // TODO: We could use this to trigger a call to retrieve transactions for the
-        // newly added account. Also to validate if the account if possible.
+	insert(account, callback) {
+		// TODO: We could use this to trigger a call to retrieve transactions for the
+		// newly added account. Also to validate if the account if possible.
 
-        return super.insert(account, callback);
-    }
+		return super.insert(account, callback)
+	}
 
-    remove(selector, callback) {
-        // TODO: should probably check and not remove account if at least one user is
-        // referencing it.
-        return super.remove(selector, callback);
-    }
+	remove(selector, callback) {
+		// TODO: should probably check and not remove account if at least one user is
+		// referencing it.
+		return super.remove(selector, callback)
+	}
 }
 
 const Accounts = new AccountsCollection('accounts')
@@ -25,30 +25,30 @@ const Accounts = new AccountsCollection('accounts')
 // Allow and deny rules for operations against this collection.
 // Return 'true' to allow/deny based on authorization logic.
 Accounts.deny({
-    insert() { return true; },
-    remove() { return true; }
+	insert() { return true },
+	remove() { return true }
 })
 
 Accounts.allow({
-    update() { return true; },
+	update() { return true },
 })
 
 // Fields of the collection items that are made available to the client.
 Accounts.publicFields = {
-    address: 1,
-    transactions: 1,
-    latestMinedBlock: 1,
-    balance:1
+	address: 1,
+	transactions: 1,
+	latestMinedBlock: 1,
+	balance:1
 }
 
 // Attach helpers to the collection object.
 Accounts.helpers({
-    // TODO:
-    // transactions () {
-    //     return transactions.find({ account: this.address }, { sort: { createdAt: -1 } });
-    // }
+	// TODO:
+	// transactions () {
+	//     return transactions.find({ account: this.address }, { sort: { createdAt: -1 } });
+	// }
 })
 
 initializeFactory(Accounts)
 
-export default Accounts;
+export default Accounts

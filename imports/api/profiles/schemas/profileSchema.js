@@ -11,26 +11,26 @@ import LabelSchema from './labelSchema'
  * 
  */
 const ProfileSchema = new SimpleSchema({
-    _id: { 
-        type: String
-    },
+	_id: { 
+		type: String
+	},
 
-    info: { type: InfoSchema },
+	info: { type: InfoSchema },
   
-    // User's linked accounts.
-    trackedAccounts: {
-        type: [TrackedAccountSchema]
-    },
+	// User's linked accounts.
+	trackedAccounts: {
+		type: [ TrackedAccountSchema ]
+	},
 
-    // User-defined labels for tagging transactions.
-    labelTypes: {
-        type: [LabelTypeSchema]
-    },
+	// User-defined labels for tagging transactions.
+	labelTypes: {
+		type: [ LabelTypeSchema ]
+	},
 
-    // User's assignment of labels to transactions.
-    labels: {
-        type: [LabelSchema]
-    }
+	// User's assignment of labels to transactions.
+	labels: {
+		type: [ LabelSchema ]
+	}
 })
 
 export default ProfileSchema

@@ -8,19 +8,19 @@ import { GetExchange } from '../../api/remoteDataSource/fetchJson'
  * 
  */
 export const setAccounts = (value) => ({
-    type: types.ACCOUNTS_RECEIVED,
-    value
+	type: types.ACCOUNTS_RECEIVED,
+	value
 })
 
 export const setEtherExchangeRate = (value) => ({
-    type: types.ACCOUNTS_EXCHANGERATE_RECEIVED, 
-    value
+	type: types.ACCOUNTS_EXCHANGERATE_RECEIVED, 
+	value
 })
 
 export const fetchEtherExchangeRate = () => {
-    return (dispatch) => {
-        GetExchange().then((response) => {
-            dispatch(setEtherExchangeRate(response.data.USD));
-        })
-    }
+	return (dispatch) => {
+		GetExchange().then((response) => {
+			dispatch(setEtherExchangeRate(response.data.USD))
+		})
+	}
 }
