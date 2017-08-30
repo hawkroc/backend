@@ -67,7 +67,7 @@ export const GetBalance = address => {
  * Fetch data up to the latest block.
  * 
  */
-const synchronizeDataFromApi = () => {
+synchronizeDataFromApi : () => {
 	getCurrentBlock().then(response => {
 		let endBlock = response.data.result
 
