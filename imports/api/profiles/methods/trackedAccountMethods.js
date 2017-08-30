@@ -11,11 +11,12 @@ Meteor.methods({
      * @param {*} param0 
      */
     [methodTypes.PROFILE_INSERT_TRACKEDACCOUNT] ({ alias, address }) {
-        // TODO: VALIDATION! of user vs profile.
+        // TODO: VALIDATION! of user vs ptrackedAccountMethodTypesrofile.
         // TODO: address validation!
         // TODO: profile collection factories!
         let activeProfile = Profiles.active();
 
+        
         // If the user is tracking an account that does not yet exist in our system,
         // create it.
         let account = Accounts.findOne({ address });

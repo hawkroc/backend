@@ -28,10 +28,18 @@ Profiles.publicFields = {
     labels: 1
 }
 
+let activeProfile= null;
 // TODO: This needs to fetch the actual user profile. Not just any.
 // TODO: Should probably be published on "profiles.active".
 Profiles.active = () => {
-    return Profiles.findOne();
+    
+    return activeProfile?activeProfile:Profiles.findOne();  //activeProfile;
+}
+
+Profiles.setActive=(profile)=>{
+
+ return   activeProfile=profile;
+
 }
 
 // Attach helpers to the collection object.
