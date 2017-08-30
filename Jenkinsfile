@@ -12,12 +12,6 @@ pipeline {
   }
 
   stages {
-    stage('Build environment') {
-      steps {
-        // Build the meteor packaging environment.
-        docker-compose build environment
-      }
-    }
 
     stage('Package application') {
       steps {

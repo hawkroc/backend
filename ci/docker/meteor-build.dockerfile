@@ -19,21 +19,3 @@ RUN apt-get update && \
     curl https://install.meteor.com/ | \ 
     # Replace the tar command with bsdtar before running.
     sed 's/tar /bsdtar /g' | sh
-    
-
-# Set-up the application from our repository build context.
-
-WORKDIR /opt/working
-
-# Copy over project dependencies explicitly.
-# Any unrequired subfolders should be specified in the .dockerignore file.
-COPY ./\.meteor ./\.meteor
-COPY ./\.tools ./\.tools
-
-COPY ./client ./client
-COPY ./imports ./imports
-COPY ./public ./public
-COPY ./server ./server
-
-COPY ./package.json .
-RUN meteor npm install

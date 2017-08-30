@@ -1,20 +1,19 @@
 #
 # Package, deploy, serve meteor application.
 #
-#   service workflows:
-#      - testing: environment -> testing + mongodb (--abort-on-container-exit)
-#      - development: environment -> testing -> packager -> runtime + mongodb
-#      - production: environment -> packager -> runtime (prod configs)
+#   The packaging service requires centrality/meteor-build. Pull this image from
+#     from the centrality docker registry, or build it:
+#       `docker build --file ./ci/docker/meteor-build.dockerfile --tag centrality/meteor-build .`
+#
+#   Service workflows:
+#      - testing: meteor-build -> testing + mongodb (--abort-on-container-exit)
+#      - development: meteor-build -> testing -> packager -> runtime + mongodb
+#      - production: meteor-build -> packager -> runtime (prod configs)
 #
 
 version: '3.2'
 
 services:
-  # Meteor framework service and complete build context on node.
-  environment:
-    build:
-      context: .
-      dockerfile: ./ci/docker/environment.dockerfile
 
   #
   # Database service.
@@ -49,8 +48,6 @@ services:
   # Building and packaging service.
   #
   packager:
-    # Named so we can retrieve copied artifacts before bringing down manually.
-    container_name: blockeeper_packager-artifacts
 
     build:
       context: . 
