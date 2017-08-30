@@ -2,7 +2,7 @@
 # Meteor runtime container and build context.
 #
 
-FROM node:4.8.2-slim
+FROM node:4.8.4-slim
 
 # Install Meteor build system.
 # From instructions: https://www.meteor.com/install.
@@ -28,6 +28,8 @@ WORKDIR /opt/working
 # Copy over project dependencies explicitly.
 # Any unrequired subfolders should be specified in the .dockerignore file.
 COPY ./\.meteor ./\.meteor
+COPY ./\.tools ./\.tools
+
 COPY ./client ./client
 COPY ./imports ./imports
 COPY ./public ./public

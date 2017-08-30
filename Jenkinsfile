@@ -15,14 +15,14 @@ pipeline {
     stage('Build environment') {
       steps {
         // Build the meteor packaging environment.
-        docker-compose up environment
+        docker-compose build environment
       }
     }
 
     stage('Package application') {
       steps {
         // Bring up the packaging container to build the meteor application.
-        docker-compose up -d packager
+        docker-compose up packager
       }
     }
 
@@ -30,8 +30,6 @@ pipeline {
       steps {
         // Build the runtime service into a deployable image.
         docker-compose build runtime
-        // Bring down the packager container since we now have all the runtime artifacts.
-        docker stop blockeeper_packager-artifacts
         // Tag the local image with the environment image name for automated publishing.
         docker tag blockeeper_runtime ${IMAGE_NAME}
       }

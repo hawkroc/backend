@@ -11,13 +11,9 @@ ENV METEOR_PROFILE 100
 ENV METEOR_DEBUG_BUILD 1
 
 # Seems to be a known issue where the build process runs out of memory.
-# Also ran into memory issues using the --directory flag.
 # https://github.com/meteor/meteor/issues/8157
-RUN meteor build ../package && \
-
-    # Unpackage the tarball ready to deploy.
-    mkdir ../deployment && \
-    tar -xzf ../package/working.tar.gz -C ../deployment
+# Using the directory flag and compressing the bundle manually to save memory.
+RUN meteor build --directory ../deployment
 
 # Reset the working directory for running external compose commands.
 WORKDIR /

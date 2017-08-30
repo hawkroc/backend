@@ -60,12 +60,22 @@ services:
     volumes:
       - ./artifacts/:/artifacts
 
-    # Copy our package artifacts back to our host. Working directory should
-    # be reset to root.
+    # Copy our package artifacts back to our host. 
+    # - working directory should be reset to root (/ build context).
+    # - use our minifier tool to compress the source.
+    # - bundle the artifacts into a tarball for fast copying to host
+    # - copy to host
     command: >
       bash -c "
-        cp --recursive ./opt/deployment/bundle/. ./artifacts
-        exit 0"
+        set -ex &&
+
+        cd /opt/deployment/bundle/programs/web.browser/app &&
+        node /opt/working/.tools/minify-app.js &&
+
+        cd /opt/deployment/bundle/ &&
+        tar -zcf build-artifacts.tar.gz * &&
+
+        cp build-artifacts.tar.gz /artifacts/"
 
   #
   # Node runtime service. Based on the "deployment" sevice image.
@@ -74,10 +84,6 @@ services:
     build:
       context: .
       dockerfile: ./ci/docker/runtime.dockerfile
-
-    # Container name required by CI pipeline scripts. The default values
-    # for environment vars are set in the configured .env file.
-    container_name: ${IMAGE_NAME}
 
     environment:
       - MONGO_URL=mongodb://database:27017/meteor
