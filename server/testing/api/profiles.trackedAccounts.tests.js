@@ -206,7 +206,7 @@ describe("Profiles: tracked accounts", function() {
     //can not use Factory.creat again, it will get duplicate key error
     let secondProfile = firstProfile;
     //change the _id
-    secondProfile._id = firstProfile._id.split("").reverse().join("")
+    secondProfile._id = firstProfile._id.split("").reverse().join("");
 
     Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
       alias: newTAAlias,
@@ -220,60 +220,63 @@ describe("Profiles: tracked accounts", function() {
     Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
       alias: newTAAlias,
       address: newTAAddress
-    }); 
+    });
 
-  //  console.log('beforeDel '+JSON.stringify(Profiles.find().fetch() ))
-    let beforeDeleAccountNumber=Accounts.find().fetch().length
-    
-   let delProfile=  Profiles.findOne()
-   Profiles.setActive(delProfile);
-   
-   //delete the second proifle track account 
-   Meteor.call(trackedAccountMethodTypes.PROFILE_DELETE_TRACKEDACCOUNT, {
-    _id: delProfile.trackedAccounts[0]._id
-  });
+    //  console.log('beforeDel '+JSON.stringify(Profiles.find().fetch() ))
+    let beforeDeleAccountNumber = Accounts.find().fetch().length;
 
- // console.log('afterDel '+JSON.stringify(Profiles.find().fetch() ))
-  let afterDeleAccountNumber=Accounts.find().fetch().length
+    let delProfile = Profiles.findOne();
+    Profiles.setActive(delProfile);
 
-    chai.assert.equal(beforeDeleAccountNumber, afterDeleAccountNumber, "Test not yet implemented");
+    //delete the second proifle track account
+    Meteor.call(trackedAccountMethodTypes.PROFILE_DELETE_TRACKEDACCOUNT, {
+      _id: delProfile.trackedAccounts[0]._id
+    });
+
+    // console.log('afterDel '+JSON.stringify(Profiles.find().fetch() ))
+    let afterDeleAccountNumber = Accounts.find().fetch().length;
+
+    chai.assert.equal(
+      beforeDeleAccountNumber,
+      afterDeleAccountNumber,
+      "Test not yet implemented"
+    );
   });
 
   it("Removes the Account document if the last referencing tracked account is removed", function() {
-    
     let firstProfile = Factory.create("profile");
-    
-        let newTAAlias = faker.lorem.sentence(),
-          newTAAddress = faker.random.alphaNumeric(40);
-        //can not use Factory.creat again, it will get duplicate key error
-        let secondProfile = firstProfile;
-        //change the _id
-        secondProfile._id = firstProfile._id.split("").reverse().join("")
-    
-        Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
-          alias: newTAAlias,
-          address: newTAAddress
-        });
-    
-        //save in DB . there are two profiles in DB
-        Profiles.insert(secondProfile);
-        //set the second secondProfile
-        Profiles.setActive(secondProfile);
-        Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
-          alias: newTAAlias,
-          address: newTAAddress
-        }); 
-    
-       // delet all the track account 
-        let profileAll=Profiles.find().fetch()
-        for(let delProfile of profileAll){
-            Profiles.setActive(delProfile);
-            Meteor.call(trackedAccountMethodTypes.PROFILE_DELETE_TRACKEDACCOUNT, {
-                _id: delProfile.trackedAccounts[0]._id
-              });
-        }
 
-      let afterDeleAccountNumber=Accounts.find().fetch().length
+    let newTAAlias = faker.lorem.sentence(),
+      newTAAddress = faker.random.alphaNumeric(40);
+    //can not use Factory.creat again, it will get duplicate key error
+    let secondProfile = firstProfile;
+    //change the _id
+    secondProfile._id = firstProfile._id.split("").reverse().join("");
+
+    Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
+      alias: newTAAlias,
+      address: newTAAddress
+    });
+
+    //save in DB . there are two profiles in DB
+    Profiles.insert(secondProfile);
+    //set the second secondProfile
+    Profiles.setActive(secondProfile);
+    Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
+      alias: newTAAlias,
+      address: newTAAddress
+    });
+
+    // delet all the track account
+    let profileAll = Profiles.find().fetch();
+    for (let delProfile of profileAll) {
+      Profiles.setActive(delProfile);
+      Meteor.call(trackedAccountMethodTypes.PROFILE_DELETE_TRACKEDACCOUNT, {
+        _id: delProfile.trackedAccounts[0]._id
+      });
+    }
+
+    let afterDeleAccountNumber = Accounts.find().fetch().length;
     chai.assert.equal(afterDeleAccountNumber, 0, "Test not yet implemented");
   });
 });
