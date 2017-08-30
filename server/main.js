@@ -11,5 +11,5 @@ Meteor.startup(() => {
 	// Publish our API collections for use client-side.
 	publishCollections.apply()
 	// Start the mining schedule for accessing transaction information.
-	scheduleCronstyle()
+	scheduleCronstyle
 })
