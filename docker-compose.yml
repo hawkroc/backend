@@ -6,7 +6,7 @@
 #       `docker build --file ./ci/docker/meteor-build.dockerfile --tag centrality/meteor-build .`
 #
 #   Service workflows:
-#      - testing: meteor-build -> testing + mongodb (--abort-on-container-exit)
+#      - testing (TODO): meteor-build -> testing + mongodb (--abort-on-container-exit)
 #      - development: meteor-build -> testing -> packager -> runtime + mongodb
 #      - production: meteor-build -> packager -> runtime (prod configs)
 #
@@ -57,22 +57,11 @@ services:
     volumes:
       - ./artifacts/:/artifacts
 
-    # Copy our package artifacts back to our host. 
-    # - working directory should be reset to root (/ build context).
-    # - use our minifier tool to compress the source.
-    # - bundle the artifacts into a tarball for fast copying to host
-    # - copy to host
+    # Copy our build artifacts back to our host.
+    # - assume artifact is in our current WORKDIR from dockerfile.
+    # - use compose BUILD to create the artifact, use UP to copy it to host.
     command: >
-      bash -c "
-        set -ex &&
-
-        cd /opt/deployment/bundle/programs/web.browser/app &&
-        node /opt/working/.tools/minify-app.js &&
-
-        cd /opt/deployment/bundle/ &&
-        tar -zcf build-artifacts.tar.gz * &&
-
-        cp build-artifacts.tar.gz /artifacts/"
+      bash -c "cp build-artifacts.tar.gz /artifacts/"
 
   #
   # Node runtime service. Based on the "deployment" sevice image.

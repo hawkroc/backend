@@ -1,4 +1,12 @@
 #!groovy
+
+/**
+  Jenkins build pipeline definition.
+
+  Deployed at:
+    https://jenkins.centrality.ai/jenkins/job/blockeeper/
+    
+*/
 pipeline {
   agent {
     label 'linux'
@@ -16,16 +24,16 @@ pipeline {
     stage('Package application') {
       steps {
         // Bring up the packaging container to build the meteor application.
-        docker-compose up packager
+        sh 'docker-compose up packager'
       }
     }
 
     stage('Build deployment image') {
       steps {
         // Build the runtime service into a deployable image.
-        docker-compose build runtime
+        sh 'docker-compose build runtime'
         // Tag the local image with the environment image name for automated publishing.
-        docker tag blockeeper_runtime ${IMAGE_NAME}
+        sh 'docker tag blockeeper_runtime ${IMAGE_NAME}'
       }
     }
 

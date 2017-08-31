@@ -1,5 +1,5 @@
 # NodeJS runtime.
-FROM node:4.8.4-slim
+FROM node:4.8.4-alpine
 
 # Assume our build artifacts are available on the host from previous
 # container services.
