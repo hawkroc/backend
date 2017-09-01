@@ -28,10 +28,8 @@ metadata:
     app: blockeeper-service
 spec:
   ports:
-  - port: 3000
+  - port: 80
     name: frontend
-  - port: 3001
-    name: backend
   selector:
     app: blockeeper-service
 ---

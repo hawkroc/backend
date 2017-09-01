@@ -22,8 +22,6 @@ COPY ./server ./server
 COPY ./package.json .
 RUN meteor npm install
 
-WORKDIR /opt/working
-
 # Allow-superuser flag for CI process, otherwise meteor build will fail.
 ENV METEOR_ALLOW_SUPERUSER 1
 

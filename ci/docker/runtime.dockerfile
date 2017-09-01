@@ -1,5 +1,8 @@
 # NodeJS runtime.
-FROM node:4.8.4-alpine
+FROM node:4.8.4-slim
+
+ENV ROOT_URL http://localhost
+ENV PORT 80
 
 # Assume our build artifacts are available on the host from previous
 # container services.
@@ -9,5 +12,6 @@ WORKDIR ./artifacts
 
 # Unpack the build artifacts and install the npm dependencies.
 RUN tar -xzf build-artifacts.tar.gz && \
-    cd ./programs/server && \
-    npm install
+    npm install --production --prefix ./programs/server
+
+ENTRYPOINT ["node", "main.js"]

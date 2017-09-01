@@ -28,6 +28,12 @@ pipeline {
       }
     }
 
+    stage('Test application') {
+      steps {
+        sh 'docker-compose up testing'
+      }
+    }
+
     stage('Build deployment image') {
       steps {
         // Build the runtime service into a deployable image.
@@ -48,9 +54,12 @@ pipeline {
 
     stage('Dev deployment') {
       environment {
-        ENV = 'dev'
+        TENANT = 'ea23b9ad-a3ca-4936-8613-68446bd85dde'
+        SERVICE_PRINCIPAL = credentials('SERVICE_PRINCIPAL')
         SUBSCRIPTION_ID = '93a8e567-e173-4154-93fc-5b60248c8706'
-        CLUSTER_URL = 'https://centrality-dev-master.australiasoutheast.cloudapp.azure.com'
+        KUBERNETES_KEY = credentials('kubernetes-rsa')
+        CLUSTER_URL = 'https://centrality-dev-master-0.australiasoutheast.cloudapp.azure.com'
+        ENV = 'dev'
       }
       steps {
         sh './centrality.deploy/deploy.sh'

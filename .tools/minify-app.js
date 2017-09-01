@@ -3,9 +3,7 @@
  * minifier in order to reduce time/memory consumed in the meteor
  * build process.
  * 
- * Scripts callable with node from project root.
- * 
- * TODO: the app source file path should be supplied to this script.
+ *  TODO: the app source file path should be supplied to this script.
  * 
  */
 
