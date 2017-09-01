@@ -13,6 +13,19 @@ spec:
       containers:
       - name: blockeeper-service
         image: centralitycontainerregistry-on.azurecr.io/centrality/blockeeper:1.0.<number>
+        env:
+          - name: ROOT_URL
+            value: "https://blockeeper-dev.centrality.ai"
+          - name: MONGO_URL
+            valueFrom:
+              secretKeyRef:
+                key: mongo
+                name: blockeeper-secret
+          - name: METEOR_SETTINGS
+            valueFrom:
+              configMapKeyRef:
+                key: appsettings.json
+                name: blockeeper-settings
         resources:
           requests:
             cpu: 100m

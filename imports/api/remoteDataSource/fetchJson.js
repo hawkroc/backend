@@ -1,5 +1,6 @@
+import { Meteor } from 'meteor/meteor'
+
 import axios from 'axios'
-import config from '../../config/config'
 
 /**
  * get Exchange from cryptocompare the default type is USD
@@ -18,10 +19,11 @@ export const GetExchange = (type = 'USD') => {
 }
 
 
-const balanceUrl = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' + config.key + '&address='
+const balanceUrl = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' + 
+	`&apikey=${Meteor.settings.third_party.ether_scan.api_key}`
 
 export const GetBalance = (address) => {
-	let final = balanceUrl + address
+	let final = balanceUrl + `&address=${address}`
 
 	return axios.get(final).then(
 		(response) => {

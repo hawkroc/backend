@@ -1,25 +1,21 @@
-const base = 'http://api.etherscan.io/api?'
-const accountUrl = 'module=account&action=txlist&address='
-const currentBlock = 'module=proxy&action=eth_blockNumber'
-
-const config = require('../imports/config/config')
-const axios = require('axios')
-
+import { Meteor } from 'meteor/meteor'
 import Accounts from '../imports/api/accounts/accounts'
 
+const axios = require('axios')
+
+const QUERY_CURRENT_BLOCK = Meteor.settings.third_party.ether_scan.base_url + 
+	'module=proxy&action=eth_blockNumber' + 
+	`&apikey=${Meteor.settings.third_party.ether_scan.api_key}`
 
 /**
  * Query API for the current head block.
  * 
  */
 const getCurrentBlock = () => {
-	let final = base + currentBlock + config.key
-
 	return axios
-		.get(final)
+		.get(QUERY_CURRENT_BLOCK)
 		.then((response) => {
 			response.data.result = parseInt(response.data.result, 16)
-
 			return response
 		})
 }
@@ -29,8 +25,9 @@ const getCurrentBlock = () => {
  * 
  */
 const getdataFromApi = (startblock, endblock, address) => {
-	let final = base + accountUrl + address + '&startblock=' + startblock +
-		'&endblock=' + endblock + '&sort=asc' + config.key
+	let final = Meteor.settings.third_party.ether_scan.base_url +
+		`module=account&action=txlist&address=${address}&startblock=${startblock}` +
+		`&endblock=${endblock}&sort=asc&apiKey=${Meteor.settings.third_party.ether_scan.api_key}`
 
 	console.log('synchronizeData: Fetching remote data:', final)
 
@@ -44,9 +41,11 @@ const getdataFromApi = (startblock, endblock, address) => {
 /**
  * get balance from api only if there new transactions  it be invoked
  */
-const balanceUrl = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' + config.key + '&address='
+const QUERY_BALANCE = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' + 
+	`&apiKey=${Meteor.settings.third_party.ether_scan.api_key}`
+	
 export const GetBalance = (address) => {
-	let final = balanceUrl + address
+	let final = QUERY_BALANCE + `&address=${address}`
 	return axios.get(final).then(
 		(response) =>{
 			return response
@@ -54,7 +53,6 @@ export const GetBalance = (address) => {
 		throw(error)
 	})
 }
-
 
 /**
  * Fetch data up to the latest block.

@@ -2,7 +2,7 @@
   "name": "blockkeeper",
   "private": true,
   "scripts": {
-    "start": "meteor run",
+    "start": "meteor run --settings ./settings/appsettings.json",
     "start:docker:dev": "docker-compose up",
     "lint": "eslint . --ignore-pattern **/*.tests.js",
     "test:watch": "meteor test --driver-package=practicalmeteor:mocha",
