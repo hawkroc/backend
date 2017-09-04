@@ -20,8 +20,8 @@ export const fetchCurrencies = Meteor.bindEnvironment(() => {
 	for (let currency of currenciesList) {
 		let since = currency ? currency.latestDate : 0
 		getHistoryExchange(
-			(currency.bitCoin = 'ETH'),
-			(currency.fiatCurrency = 'USD'),
+			currency.bitCoin,
+			currency.fiatCurrency,
 			since
 		).then(response => {
 			Currencies.update(currency._id, {

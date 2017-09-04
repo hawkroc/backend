@@ -101,9 +101,14 @@ const pushCurrencyFixtures = () => {
 			fiatCurrency: 'USD',
 			latestDate: 0,
 			// this hard code only for test before synchronize currency from api
-			hisCurrency: [
-
-			]
+			hisCurrency: []
+		},
+		{
+			bitCoin: 'BTC',
+			fiatCurrency: 'USD',
+			latestDate: 0,
+			// this hard code only for test before synchronize currency from api
+			hisCurrency: []
 		}
 	]
 

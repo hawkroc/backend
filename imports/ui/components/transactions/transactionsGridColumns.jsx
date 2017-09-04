@@ -37,7 +37,7 @@ export const buildColumns = ({
       title: "Time",
       dataIndex: "timeStamp",
       key: "timeStamp",
-      width: "10%",
+      width: "4%",
       sortOrder: "descend",
 
       render: text => {
@@ -128,12 +128,22 @@ export const buildColumns = ({
 
       }
     },
+    {
+      title: "ETH/BTC",
+      dataIndex: "gasPrice",
+      key: "gasPriceBTC",
+      width: "6%",
+
+      render: (text, record) => {
+        return 0
+      }
+    },
 
     {
       title: "Internal",
       dataIndex: "contractAddress",
       key: "contractAddress",
-      width: "6%",
+      width: "4%",
 
       render: text => {
         return text === "" ? "" : "Internal";
