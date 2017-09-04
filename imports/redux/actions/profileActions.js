@@ -6,7 +6,10 @@ import * as types from '../constants/actionTypes'
  * @param {*} value
  */
 export const setActiveProfile = (value) => ({ type: types.PROFILES_ACTIVE_RECEIVED, value })
-
+export const setActiveCurrency = (value) => ({
+	type: types.CURRENCY_ACTIVE_RECEIVED,
+	value
+})
 export const setActiveBalance = (value) => ({ type: types.PROFILES_BALANCE_RECEIVED, value })
 
 

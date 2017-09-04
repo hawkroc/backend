@@ -10,6 +10,7 @@ let config = {
 	key: '&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV',
 	baseUrlDev: 'http://blockeeper-api.centrality.ai/api/', // http://127.0.0.1:3001/api/
 	// baseUrl_dev:'http://127.0.0.1:3001/api/',
+	historyCurrency: 'https://apiv2.bitcoinaverage.com/indices/global/history/ETHUSD?period=alltime&?format=json',
 	timeDiff: 16000
 }
 module.exports = config

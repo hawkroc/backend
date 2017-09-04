@@ -1,98 +1,108 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
-import TransactionsGridComponent from '../components/transactions/transactionsGrid'
-import { fetchEtherExchangeRate } from '../../redux/actions/accountActions'
-import TransactionsExportComponent from '../components/transactions/transactionsExport'
+import React from "react";
+import { connect } from "react-redux";
+import labelMethodTypes from "../../api/profiles/methods/labelMethodTypes";
+import TransactionsGridComponent from "../components/transactions/transactionsGrid";
+import { fetchEtherExchangeRate } from "../../redux/actions/accountActions";
+import TransactionsExportComponent from "../components/transactions/transactionsExport";
 
 class TransactionsViewer extends React.Component {
-    componentDidMount(){
-        this.props.fetchExchangeRate();
-    }
+  componentDidMount() {
+    this.props.fetchExchangeRate();
+  }
 
-    render() {
- 
-        const {
-            dataReady,
-            usdExchangeRate,
-            languageConfig,
-            accounts,
-            addressAliasLookup,
-        
-            labelTypes,
-            transactionLabels,
-            onLabelUpdated
-        } = this.props;
+  render() {
+    const {
+      dataReady,
+      usdExchangeRate,
+      languageConfig,
+      accounts,
+      addressAliasLookup,
+      labelTypes,
+      transactionLabels,
+      currencies,
+      onLabelUpdated
+    } = this.props;
 
-        return (
-            dataReady ? (
-                <div>
-                    <div className="exchange">
-                        <span style={{ color: "black", fontStyle: "italic" }}>{languageConfig.Current}:</span> 1 ETH = {usdExchangeRate} USD
-                    </div>
-                    <TransactionsExportComponent {...{ accounts }}/>
-                    <TransactionsGridComponent {...{ 
-                        accounts, 
-                        addressAliasLookup, 
-                        usdExchangeRate, 
-                        labelTypes, 
-                        onLabelUpdated, 
-                        transactionLabels 
-                    }}/>
-                </div>
-            )
-            : <p>"Loading data"</p>
-        )
-    }
+    return dataReady
+      ? <div>
+          <div className="exchange">
+            <span style={{ color: "black", fontStyle: "italic" }}>
+              {languageConfig.Current}:
+            </span>{" "}
+            1 ETH = {usdExchangeRate} USD
+          </div>
+          <TransactionsExportComponent {...{ accounts }} />
+          <TransactionsGridComponent
+            {...{
+              accounts,
+              addressAliasLookup,
+              usdExchangeRate,
+              labelTypes,
+              onLabelUpdated,
+              currencies,
+              transactionLabels
+            }}
+          />
+        </div>
+      : <p>"Loading data"</p>;
+  }
 }
 
-const mapStateToProps = (state) => {
 
-    // TODO: need to figure out how to wait for initial state from meteor
-    // collections before rendering top-level components.
+const mapStateToProps = state => {
+  // TODO: need to figure out how to wait for initial state from meteor
+  // collections before rendering top-level components.
 
-    let accounts = state.accounts.items
-let trackedAccounts = state.profiles.active
+let accounts=state.accounts.items;
+
+
+  let trackedAccounts = state.profiles.active
     ? state.profiles.active.trackedAccounts
-    : null
+    : null;
 
-let dataReady = !!trackedAccounts
+  let dataReady = !!trackedAccounts;
 
-    // Create an address->alias lookup.
-    let addressAliasLookup = null,
-        labelTypes = [],
-        transactionLabels = {};
+  // Create an address->alias lookup.
+  // console.log('state.profiles.currencies'+JSON.stringify(state.profiles.currencies));
+  let addressAliasLookup = null,
+    labelTypes = [],
+    transactionLabels = {};
 
-    if (dataReady) {
-        addressAliasLookup = accounts.map(a => ({
-            _id: a._id,
-            address: a.address,
-            trackedAccount: trackedAccounts.find(tracked => tracked.accountId === a._id)
-        }))
+  if (dataReady) {
+    addressAliasLookup = accounts.map(a => ({
+      _id: a._id,
+      address: a.address,
+      trackedAccount: trackedAccounts.find(
+        tracked => tracked.accountId === a._id
+      )
+    }));
 
-        labelTypes = state.profiles.active.labelTypes
+    labelTypes = state.profiles.active.labelTypes;
 
-        transactionLabels = state.profiles.active.labels
-    }
-    return {
-        dataReady, accounts, addressAliasLookup, labelTypes,
-
-        // TODO: from API.
-        usdExchangeRate: state.accounts.usdExchangeRate,
-        languageConfig :state.navigation.languageConfig,
-        transactionLabels
-    }
-}
+    transactionLabels = state.profiles.active.labels;
+  }
+  return {
+    dataReady,
+    accounts,
+    addressAliasLookup,
+    labelTypes,
+    currencies:state.profiles.currencies,
+    // TODO: from API.
+    usdExchangeRate: state.accounts.usdExchangeRate,
+    languageConfig: state.navigation.languageConfig,
+    transactionLabels
+  };
+};
 
 const mapDispatchToProps = (dispatch, state) => {
-    return {
-        onLabelUpdated: ({txId, labelTypeId}) => {
-            Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABEL, {txId, labelTypeId})
-        },
-        fetchExchangeRate: () => {
-           return dispatch(fetchEtherExchangeRate());
-        }
+  return {
+    onLabelUpdated: ({ txId, labelTypeId }) => {
+      Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABEL, { txId, labelTypeId });
+    },
+    fetchExchangeRate: () => {
+      return dispatch(fetchEtherExchangeRate());
     }
-}
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransactionsViewer)
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionsViewer);

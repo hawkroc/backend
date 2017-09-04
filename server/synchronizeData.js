@@ -1,11 +1,10 @@
+import axios from 'axios'
+import Accounts from '../imports/api/accounts/accounts'
 const base = 'http://api.etherscan.io/api?'
 const accountUrl = 'module=account&action=txlist&address='
 const currentBlock = 'module=proxy&action=eth_blockNumber'
-
 const config = require('../imports/config/config')
-const axios = require('axios')
 
-import Accounts from '../imports/api/accounts/accounts'
 /* global Meteor, Session */
 /**
  * Query API for the current head block.
@@ -51,7 +50,7 @@ const balanceUrl =
 		'https://api.etherscan.io/api?module=account&action=balance&tag=latest' +
 		config.key +
 		'&address='
-export const GetBalance = address => {
+export const getBalance = address => {
 	let final = balanceUrl + address
 	return axios
 		.get(final)
@@ -67,7 +66,7 @@ export const GetBalance = address => {
  * Fetch data up to the latest block.
  * 
  */
-synchronizeDataFromApi : () => {
+export const synchronizeDataFromApi = () => {
 	getCurrentBlock().then(response => {
 		let endBlock = response.data.result
 
@@ -108,7 +107,7 @@ synchronizeDataFromApi : () => {
 						return true
 					}
 					// if there new Transactions we will update the balance
-					GetBalance(account.address).then(responseBalance => {
+					getBalance(account.address).then(responseBalance => {
 						Accounts.update(account._id, {
 							$set: {
 								// TODO: should this be latest block from API call?

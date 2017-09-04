@@ -8,5 +8,6 @@ export default {
 	apply: () => {
 		Meteor.subscribe('accounts')
 		Meteor.subscribe('profiles')
+		Meteor.subscribe('currencies')
 	}
 }
