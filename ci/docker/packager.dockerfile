@@ -4,7 +4,7 @@
 
 # Available from Centrality ACR.
 # Alternatively local build from: https://bitbucket.org/centralitydev/meteor
-FROM centrality/meteor-build-1.5.1:latest
+FROM centralitycontainerregistry-on.azurecr.io/centrality/meteor-build-1.5.1:latest
 
 # Set-up the application from our repository build context.
 WORKDIR /opt/working
