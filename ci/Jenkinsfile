@@ -39,7 +39,7 @@ pipeline {
         // Build the runtime service into a deployable image.
         sh '/usr/local/bin/docker-compose build runtime'
         // Tag the local image with the environment image name for automated publishing.
-        sh 'docker tag blockeeper_runtime ${IMAGE_NAME}'
+        sh 'docker tag blockeeper_runtime "centrality/${SERVICE_NAME}:1.0.${BUILD_NUMBER}"'
       }
     }
 
