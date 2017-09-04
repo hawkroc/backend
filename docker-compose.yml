@@ -66,7 +66,7 @@ services:
     environment:
       # Default for running containers locally. Deployed container environments
       # should be configured with secrets in the k8-config file.
-      - MONGO_URL=mongodb://database:27017/meteor
+      - MONGO_URL=mongodb://localhost:27017/meteor
 
     ports:
       - "80:80"
