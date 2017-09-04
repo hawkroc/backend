@@ -17,9 +17,9 @@ spec:
           - name: ROOT_URL
             value: "https://<env_prefix>blockeeper.centrality.ai"
           - name: PORT
-            value: 8080
+            value: "8080"
           - name: MONGO_URL
-            value: mongodb://mongo/blockeeper
+            value: "mongodb://mongo/blockeeper"
           - name: METEOR_SETTINGS
             valueFrom:
               configMapKeyRef:
