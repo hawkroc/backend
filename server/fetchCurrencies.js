@@ -1,18 +1,52 @@
 import axios from 'axios'
-
 import { Meteor } from 'meteor/meteor'
 import Currencies from '../imports/api/currency/currency'
-export const fetchCurrencies = Meteor.wrapAsync(() => {
-	let  currenciesList = getCurrenciesFromLocal()
-	console.log('currenciesList' + JSON.stringify(currenciesList))
-	getHistoryExchange('ETH', 'USD', null).then(response => {
-		return response
-	})
+
+
+const getCurrenciesFromLocal = () => {
+	let currenciesList = Currencies.find().map(a => ({
+		_id: a._id,
+		bitCoin: a.bitCoin,
+		fiatCurrency: a.fiatCurrency,
+		latestDate: a.latestDate,
+		hisCurrency: a.hisCurrency
+	}))
+	return currenciesList
+}
+
+
+export const fetchCurrencies = Meteor.bindEnvironment(() => {
+	let currenciesList = getCurrenciesFromLocal()
+	for (let currency of currenciesList) {
+		let since = currency ? currency.latestDate : 0
+		getHistoryExchange(
+			(currency.bitCoin = 'ETH'),
+			(currency.fiatCurrency = 'USD'),
+			since
+		).then(response => {
+			Currencies.update(currency._id, {
+				$push: {
+					hisCurrency: {
+						$each: response
+					}
+				}
+			})
+
+			Currencies.update(currency._id, {
+				$set: {
+					// TODO: should this be latest block from API call?
+					latestDate: response[0].time
+				}
+			})
+
+			return response
+		})
+	}
 })
 
 /**
  * get historyCurrency from api only if there new transactions  it be invoked
- * // 
+ * 
  */
 
 // only for development static data
@@ -25,18 +59,17 @@ const getHistoryExchange = (bitCoin, fiatCurrency, since) => {
 	return axios
 		.get(final)
 		.then(res => {
-			return res.data.filter(a => {
-				return a.time > '2017-08-30 00:00:00'
-			})
+			return res.data
+				.map(t => {
+					t.time = Date.parse(new Date(t.time))
+					return t
+				})
+				.filter(a => {
+					return a.time > since
+				})
 		})
 		.catch(error => {
 			throw error
 		})
 }
 
-const getCurrenciesFromLocal = ()=>{
-	let currenciesList = Currencies.find().map(a => ({
-		_id: a._id,
-	}))
-	return currenciesList.fetch()
-}

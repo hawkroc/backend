@@ -102,38 +102,8 @@ const pushCurrencyFixtures = () => {
 			latestDate: 0,
 			// this hard code only for test before synchronize currency from api
 			hisCurrency: [
-				{
-					'high': 390.05,
-					'average': 379.65,
-					'time': Date.parse(new Date('2017-08-20 00:00:00')),
-					'open': 372.04,
-					'low': 367.60,
-					'volume': 565192.00746302
-				},
-				{
-					'high': 374.90,
-					'average': 360.77,
-					'time': Date.parse(new Date('2017-08-16 00:00:00')),
-					'open': 347.68,
-					'low': 347.68,
-					'volume': 586027.29686727
-				},
-				{
-					'high': 349.97,
-					'average': 343.55,
-					'time': Date.parse(new Date('2017-08-15 00:00:00')),
-					'open': 347.92,
-					'low': 336.38,
-					'volume': 392176.46916394
-				},
-				{
-					'high': 347.92,
-					'average': 336.50,
-					'time': Date.parse(new Date('2017-08-03 00:00:00')),
-					'open': 332.77,
-					'low': 332.77,
-					'volume': 275313.68714527
-				}]
+
+			]
 		}
 	]
 
