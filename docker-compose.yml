@@ -67,6 +67,8 @@ services:
       # Default for running containers locally. Deployed container environments
       # should be configured with secrets in the k8-config file.
       - MONGO_URL=mongodb://localhost:27017/meteor
+      - ROOT_URL=http://localhost
+      - PORT=8080
 
     ports:
-      - "80:80"
+      - "8080:8080"
