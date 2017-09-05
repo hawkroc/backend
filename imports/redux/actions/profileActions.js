@@ -6,15 +6,12 @@ import * as types from '../constants/actionTypes'
  * @param {*} value
  */
 export const setActiveProfile = (value) => ({ type: types.PROFILES_ACTIVE_RECEIVED, value })
-
+export const setActiveCurrency = (value) => ({
+	type: types.CURRENCY_ACTIVE_RECEIVED,
+	value
+})
 export const setActiveBalance = (value) => ({ type: types.PROFILES_BALANCE_RECEIVED, value })
 
-export const fetchEtherBalance = (value, trackedAccounts, accountsItems) => {
-	return (dispatch) => {
-		value = getIdToAddressBalance(trackedAccounts, accountsItems)
-		return  dispatch(setActiveBalance(value))
-	}
-}
 
 const getIdToAddressBalance = (trackedAccounts, items) => {
 	let idToAddressBalance = []
@@ -28,4 +25,10 @@ const getIdToAddressBalance = (trackedAccounts, items) => {
 	}
 
 	return idToAddressBalance
+}
+
+export const fetchEtherBalance = (value, trackedAccounts, accountsItems) => {
+	return (dispatch) => {
+		return  dispatch(setActiveBalance(getIdToAddressBalance(trackedAccounts, accountsItems)))
+	}
 }

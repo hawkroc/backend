@@ -9,7 +9,7 @@ const initialState = {
      */
 	filterActive: false,
 	language: enUS,
-	language_config: en,
+	languageConfig: en,
 
 	/**
      * If filtering - the current timespan filter range.
@@ -23,7 +23,7 @@ const initialState = {
 const reducer = (state = initialState, payload) => {
 	switch (payload.type) {
 		case actionTypes.NAVIGATION_LOCALE_CHANGED:
-			return Object.assign({ }, state, { language: payload.value.language, language_config: payload.value.language_config })
+			return Object.assign({ }, state, { language: payload.value.language, languageConfig: payload.value.languageConfig })
 
 		case actionTypes.NAVIGATION_TXFILTER_CHANGED:
 			return Object.assign({ }, state, { filterTimespan: payload.value })

@@ -36,17 +36,17 @@ const mapDispatchToProps = (dispatch) => {
 
             switch(value){          
                 case 'cn':
-                    lg = Object.assign({}, {language:zhTW,language_config:zh})
+                    lg = Object.assign({}, {language:zhTW,languageConfig:zh})
                     break;
 
                 case 'de':         
-                    lg = Object.assign({}, {language:deDE,language_config:de})
+                    lg = Object.assign({}, {language:deDE,languageConfig:de})
                     break;
                 case 'jp':         
-                    lg = Object.assign({}, {language:jaJP,language_config:ja})
+                    lg = Object.assign({}, {language:jaJP,languageConfig:ja})
                     break;
                 default:
-                lg = Object.assign({}, {language:enUS,language_config:en})
+                lg = Object.assign({}, {language:enUS,languageConfig:en})
             }
 
             dispatch(setLanguage(lg))

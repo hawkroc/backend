@@ -3,10 +3,8 @@ import { resetDatabase } from 'meteor/xolvio:cleaner'
 
 import { chai } from 'meteor/practicalmeteor:chai'
 
-describe('Accounts collection API', function () {
-	beforeEach(function () {
+describe('Accounts collection API', function() {
+	beforeEach(function() {
 		resetDatabase()
 	})
-
-    
 })

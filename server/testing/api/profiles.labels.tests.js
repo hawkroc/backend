@@ -15,13 +15,12 @@ import labelMethodTypes from '../../../imports/api/profiles/methods/labelMethodT
  * 
  */
 
-describe('Profiles: labels', function () {
-	beforeEach(function () {
+describe('Profiles: labels', function() {
+	beforeEach(function() {
 		resetDatabase()
 	})
 
-	it('Adds a new label type to active profile', function () {
-
+	it('Adds a new label type to active profile', function() {
 		let profile = Factory.create('profile')
 		let initialLabelTypeCount = profile.labelTypes.length
 
@@ -44,7 +43,7 @@ describe('Profiles: labels', function () {
 		chai.assert.equal(newLabelTypeDetailCount, 1, 'Only one label type has our specified details')
 	})
 
-	it('Removes an existing label type from the active profile', function () {
+	it('Removes an existing label type from the active profile', function() {
 		let profile = Factory.create('profile')
 		let initialLabelTypeCount = profile.labelTypes.length
 
@@ -52,7 +51,7 @@ describe('Profiles: labels', function () {
 
 		let targetIndex = faker.random.number({
 			'min': 0,
-			'max': initialLabelTypeCount -1
+			'max': initialLabelTypeCount - 1
 		})
 
 		let labelTypeToDeleteId = profile.labelTypes[ targetIndex ]._id
@@ -74,7 +73,7 @@ describe('Profiles: labels', function () {
 		chai.assert.equal(newLabelTypeDetailCount, 0, 'We deleted the correct label type')
 	})
 
-	it('Removes labels associated with deleted label type', function () {
+	it('Removes labels associated with deleted label type', function() {
 		let profile = Factory.create('profile')
 		let initialLabelTypeCount = profile.labelTypes.length
 
@@ -82,7 +81,7 @@ describe('Profiles: labels', function () {
 
 		let targetIndex = faker.random.number({
 			'min': 0,
-			'max': initialLabelTypeCount -1
+			'max': initialLabelTypeCount - 1
 		})
 
 		let targetLabelTypeId = profile.labelTypes[ targetIndex ]._id
@@ -115,13 +114,13 @@ describe('Profiles: labels', function () {
 		chai.assert.equal(targetLabelCount, 0, 'Labels corresponding to deleted label type have been removed')
 	})
 
-	it('Updates an existing label type in the active profile', function () {
+	it('Updates an existing label type in the active profile', function() {
 		let profile = Factory.create('profile')
 		let initialLabelTypeCount = profile.labelTypes.length
 
 		let targetIndex = faker.random.number({
 			'min': 0,
-			'max': initialLabelTypeCount -1
+			'max': initialLabelTypeCount - 1
 		})
 
 		chai.assert.isAbove(initialLabelTypeCount, 1, 'At least 2 initial label types exist to attempt to update')

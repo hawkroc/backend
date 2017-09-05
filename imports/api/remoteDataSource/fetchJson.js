@@ -1,3 +1,10 @@
+/**
+ * TODO: get rid of all of this. All account/transaction related data sould be mined and
+ * obtained from OUR serverside collections.
+ * 
+ */
+
+
 import { Meteor } from 'meteor/meteor'
 
 import axios from 'axios'
@@ -20,7 +27,7 @@ export const GetExchange = (type = 'USD') => {
 
 
 const balanceUrl = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' + 
-	`&apikey=${Meteor.settings.third_party.ether_scan.api_key}`
+	`&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV`
 
 export const GetBalance = (address) => {
 	let final = balanceUrl + `&address=${address}`

@@ -1,7 +1,4 @@
 import { Mongo } from 'meteor/mongo'
-
-import ProfileSchema from './schemas/profileSchema'
-
 import { initializeFactory } from './profilesFactory'
 
 import './methods/labelMethods'
@@ -31,7 +28,7 @@ Profiles.publicFields = {
 // TODO: This needs to fetch the actual user profile. Not just any.
 // TODO: Should probably be published on "profiles.active".
 Profiles.active = () => {
-	return Profiles.findOne()
+    return Profiles.findOne()
 }
 
 // Attach helpers to the collection object.

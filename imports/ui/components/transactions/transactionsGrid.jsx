@@ -13,6 +13,7 @@ import { buildColumns } from './transactionsGridColumns'
     usdExchangeRate,
     labelTypes,
     transactionLabels,
+    currencies,
     onLabelUpdated
  }) => {
 
@@ -24,6 +25,7 @@ import { buildColumns } from './transactionsGridColumns'
         usdExchangeRate, 
         labelTypes, 
         onLabelUpdated, 
+        currencies,
         transactionLabels
     });
  

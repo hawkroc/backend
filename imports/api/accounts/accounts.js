@@ -1,6 +1,4 @@
 import { Mongo } from 'meteor/mongo'
-
-import AccountSchema from './accountSchema'
 import { initializeFactory } from './accountsFactory'
 
 class AccountsCollection extends Mongo.Collection {

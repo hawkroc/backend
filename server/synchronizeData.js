@@ -31,11 +31,9 @@ const getdataFromApi = (startblock, endblock, address) => {
 
 	console.log('synchronizeData: Fetching remote data:', final)
 
-	return axios
-		.get(final)
-		.then((response) => {
-			return response
-		})
+	return axios.get(final).then(response => {
+		return response
+	})
 }
 
 /**
@@ -46,53 +44,67 @@ const QUERY_BALANCE = 'https://api.etherscan.io/api?module=account&action=balanc
 	
 export const GetBalance = (address) => {
 	let final = QUERY_BALANCE + `&address=${address}`
-	return axios.get(final).then(
-		(response) =>{
+	return axios.get(final).then(response => {
 			return response
-		}).catch(error => {
-		throw(error)
-	})
+		})
+		.catch(error => {
+			throw error
+		})
 }
 
 /**
  * Fetch data up to the latest block.
  * 
  */
-synchronizeDataFromApi = () => {
-	getCurrentBlock().then((response) => {
+export const synchronizeDataFromApi = () => {
+	getCurrentBlock().then(response => {
 		let endBlock = response.data.result
 
 		// Pull a list of unique addresses.
-		let accountsList = Accounts.find()
-			.map(a => ({ _id: a._id, address: a.address, latestMinedBlock: a.latestMinedBlock }))
+		let accountsList = Accounts.find().map(a => ({
+			_id: a._id,
+			address: a.address,
+			latestMinedBlock: a.latestMinedBlock
+		}))
 
-		console.log('synchronizeData: Mining account data for', accountsList.length, 'accounts.')
+		console.log(
+			'synchronizeData: Mining account data for',
+			accountsList.length,
+			'accounts.'
+		)
 
 		for (let account of accountsList) {
-			console.log('synchronizeData: Mining account data for account with _id', account._id,
-				'with address', account.address)
+			console.log(
+				'synchronizeData: Mining account data for account with _id',
+				account._id,
+				'with address',
+				account.address
+			)
 
 			getdataFromApi(account.latestMinedBlock + 1, endBlock, account.address)
-				.then((response) => {
+				.then(responseFromApi => {
 					// TODO: validation and error checking.
 
-					let res = response.data.result
-					console.log('synchronizeData: Remote fetch returned', res.length, 'records.')
+					let res = responseFromApi.data.result
+					console.log(
+						'synchronizeData: Remote fetch returned',
+						res.length,
+						'records.'
+					)
 
 					if (res.length === 0) {
 						// No new data.
 						return true
 					}
-			 // if there new Transactions we will update the balance
-			 GetBalance(account.address).then((response)=>{
+					// if there new Transactions we will update the balance
+					getBalance(account.address).then(responseBalance => {
 						Accounts.update(account._id, {
 							$set: {
-							// TODO: should this be latest block from API call?
-								'balance': response.data.result
+								// TODO: should this be latest block from API call?
+								balance: responseBalance.data.result
 							}
 						})
-			 })
-
+					})
 
 					// Filter out duplicate transactions
 					// TODO: this could be done better by making sure the mining process never overlaps.
@@ -108,7 +120,7 @@ synchronizeDataFromApi = () => {
 					// transactions. This would also be achieved through robust error handling too.
 					Accounts.update(account._id, {
 						$push: {
-							'transactions': {
+							transactions: {
 								$each: res
 							}
 						}
@@ -118,16 +130,17 @@ synchronizeDataFromApi = () => {
 					Accounts.update(account._id, {
 						$set: {
 							// TODO: should this be latest block from API call?
-							'latestMinedBlock': res.slice(-1)[ 0 ].blockNumber
+							latestMinedBlock: res.slice(-1)[0].blockNumber
 						}
 					})
 
-
 					return true
-				}).catch((e) => {
+				})
+				.catch(e => {
 					console.log('synchronizeData:', e)
 					return false
-				}).finally(() => {
+				})
+				.finally(() => {
 					console.log('synchronizeData: Remote fetch completed.')
 				})
 		}
