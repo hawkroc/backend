@@ -44,7 +44,7 @@ const QUERY_BALANCE = 'https://api.etherscan.io/api?module=account&action=balanc
 	
 export const GetBalance = (address) => {
 	let final = QUERY_BALANCE + `&address=${address}`
-	return axios.get(final).then(
+	return axios.get(final).then(response => {
 			return response
 		})
 		.catch(error => {
