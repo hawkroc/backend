@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 
 import Accounts from '../imports/api/accounts/accounts'
 import Profiles from '../imports/api/profiles/profiles'
+import Currency from '../imports/api/currency/currency'
 
 /**
  * Pushes an initial set of data collections for testing purposes.
@@ -84,11 +85,45 @@ const pushAccountFixtures = () => {
 	})
 }
 
+
+const pushCurrencyFixtures = () => {
+	// Don't add fixtures if we already have data.
+	if (Currency.find().count() !== 0) {
+		console.log('databaseFixtures: Found existing Currency data. No Currency fixtures added.')
+		return []
+	}
+
+	console.log('databaseFixtures: No existing Currency data. Adding test fixtures.')
+
+	let data = [
+		{
+			bitCoin: 'ETH',
+			fiatCurrency: 'USD',
+			latestDate: 0,
+			// this hard code only for test before synchronize currency from api
+			hisCurrency: []
+		},
+		{
+			bitCoin: 'BTC',
+			fiatCurrency: 'USD',
+			latestDate: 0,
+			// this hard code only for test before synchronize currency from api
+			hisCurrency: []
+		}
+	]
+
+	data.forEach((currency) => {
+		Currency.insert(currency)
+	})
+}
+
+
 export default {
 	apply: () => {
 		Meteor.startup(() => {
 			pushAccountFixtures()
 			pushProfileFixtures()
+			pushCurrencyFixtures()
 		})
 	}
 }

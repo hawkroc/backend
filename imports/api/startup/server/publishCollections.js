@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 
 import Accounts from '../../accounts/accounts'
 import Profiles from '../../profiles/profiles'
+import Currencies from '../../currency/currency'
 
 /**
  * Serverside only - publish collections to clients.
@@ -28,6 +29,13 @@ export default {
 			// This will eventually be selected based on the logged in user.
 			return Profiles.find({ }, {
 				fields: Profiles.publicFields
+			})
+		})
+
+		Meteor.publish('currencies', () => {
+			// Return the Currencies ETH-USD. if need we can extends base on use's profile	
+			return Currencies.find({ }, {
+				fields: Currencies.publicFields
 			})
 		})
 	}
