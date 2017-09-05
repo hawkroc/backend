@@ -26,10 +26,17 @@ Currencies.publicFields = {
 	hisCurrency: 1
 }
 
-Currencies.active = () => {
-	// TODO can get currency base on differnt config e.g(from:ETH,to:USD)
 
-	return Currencies.findOne()
+Currencies.active = () => {
+	let currenciesList = Currencies.find({}).map(a => ({
+		_id: a._id,
+		bitCoin: a.bitCoin,
+		fiatCurrency: a.fiatCurrency,
+		latestDate: a.latestDate,
+		hisCurrency: a.hisCurrency
+	}))
+
+	return currenciesList
 }
 // Attach helpers to the collection object.
 Currencies.helpers({

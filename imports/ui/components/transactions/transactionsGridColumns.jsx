@@ -22,6 +22,20 @@ export const buildColumns = ({
       return address.substring(0, 12) + "...";
     }
   };
+  //get that day's rate
+  const getExchangeDataCurrency = (date, currencyCollection) => {
+    return currencyCollection.hisCurrency.filter(a => {
+      let time = new Date(parseInt(a.time)).toLocaleDateString();
+      return time === date;
+    });
+  };
+  // get the rate list base on different bitCoin name
+  const getCurrencyBaseOnChoose = (bitCoin, currencies) => {
+    let currency = currencies.filter(a => {
+      return a.bitCoin === bitCoin;
+    });
+    return currency[0];
+  };
 
   const findTransactionLabel = txId => {
     let label = transactionLabels.find(l => l.transactionId == txId);
@@ -52,7 +66,7 @@ export const buildColumns = ({
       key: "from",
       width: "9%",
 
-      render: (text, record) =>
+      render: (text, record) => (
         <div className="editable-cell">
           <div className="editable-cell-text-wrapper">
             {accountAliasMask(text)}
@@ -65,6 +79,7 @@ export const buildColumns = ({
             />
           </div>
         </div>
+      )
     },
 
     {
@@ -73,7 +88,7 @@ export const buildColumns = ({
       key: "to",
       width: "9%",
 
-      render: (text, record) =>
+      render: (text, record) => (
         <div className="editable-cell">
           <div className="editable-cell-text-wrapper">
             {accountAliasMask(text)}
@@ -86,6 +101,7 @@ export const buildColumns = ({
             />
           </div>
         </div>
+      )
     },
     {
       title: "ETH",
@@ -119,23 +135,45 @@ export const buildColumns = ({
         ).toLocaleDateString();
         let rate = [];
         if (currencies) {
-          rate = currencies.hisCurrency.filter(a => {
-            let time = new Date(parseInt(a.time)).toLocaleDateString();
-            return time === tp;
-          });
+          let currency = getCurrencyBaseOnChoose("ETH", currencies);
+          if (currency) {
+            rate = getExchangeDataCurrency(tp, currency);
+          }
         }
-       return  (weiToEther(text * record.gas) * (rate[0] ? rate[0].average : 0)).toFixed(2);
-
+        return (weiToEther(text * record.gas) *
+          (rate[0] ? rate[0].average : 0)).toFixed(2);
       }
     },
     {
-      title: "ETH/BTC",
+      title: "ETH/mBTC",
       dataIndex: "gasPrice",
       key: "gasPriceBTC",
       width: "6%",
 
       render: (text, record) => {
-        return 0
+        let tp = new Date(
+          parseInt(record.timeStamp) * 1000
+        ).toLocaleDateString();
+        let rate = 0;
+        let rateETH = [];
+        let rateBTC = [];
+        if (currencies) {
+           let currencyETH= getCurrencyBaseOnChoose('ETH',currencies)
+           if(currencyETH){
+            rateETH = getExchangeDataCurrency(tp, currencyETH);
+           }
+          let currencyBTC = getCurrencyBaseOnChoose("BTC", currencies);
+          if (currencyBTC) {
+            rateBTC = getExchangeDataCurrency(tp, currencyBTC);
+            if (rateBTC) {
+              // console.log('rateETH'+JSON.stringify(rateETH[0]));
+              rate = rateETH[0].average/rateBTC[0].average;
+            }
+          }
+        }
+        return (weiToEther(text * record.gas) *
+        rate*1000).toFixed(12);
+
       }
     },
 
