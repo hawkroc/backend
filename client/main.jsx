@@ -9,7 +9,7 @@ import { LocaleProvider } from 'antd'
 import enUS from 'antd/lib/locale-provider/en_US'
 
 // Subscribe the client to all of our API collections.
-import subscribeCollections from '../imports/api/startup/client/subscribeCollections'
+import subscribeCollections from '../imports/client/subscribeCollections'
 subscribeCollections.apply();
 
 import './style.css'

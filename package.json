@@ -2,7 +2,7 @@
   "name": "blockkeeper",
   "private": true,
   "scripts": {
-    "start": "meteor run",
+    "start": "meteor run --settings ./settings/appsettings.json",
     "start:docker:dev": "docker-compose up",
     "lint": "eslint . --ignore-pattern **/*.tests.js",
     "test:watch": "meteor test --driver-package=practicalmeteor:mocha",
@@ -20,6 +20,7 @@
     "indexof": "0.0.1",
     "json2csv": "^3.8.0",
     "meteor-node-stubs": "~0.2.4",
+    "node-minify": "^2.3.0",
     "node-schedule": "^1.2.3",
     "react": "^15.6.1",
     "react-addons-pure-render-mixin": "^15.6.0",

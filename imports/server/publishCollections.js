@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor'
 
-import Accounts from '../../accounts/accounts'
-import Profiles from '../../profiles/profiles'
-import Currencies from '../../currency/currency'
+import Accounts from '../api/accounts/accounts'
+import Profiles from '../api/profiles/profiles'
+import Currencies from '../api/currency/currency'
 
 /**
  * Serverside only - publish collections to clients.

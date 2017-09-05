@@ -7,32 +7,40 @@ const createId = () => {
 	return new Meteor.Collection.ObjectID().toHexString()
 }
 
-export const initializeFactory = (profilesCollection) => {
-	Factory.define('profile', profilesCollection, {
+const createProfileFixture = () => ({
+	_id: createId(),
+
+	info: {
 		_id: createId(),
+		username: 'text-fixture@centrality.ai'
+	},
 
-		info: {
+	trackedAccounts: [ ],
+
+	labelTypes: [
+		{
 			_id: createId(),
-			username: 'text-fixture@centrality.ai'
+			name: 'Test fixture label 1',
+			gst: false
 		},
+		{
+			_id: createId(),
+			name: 'Test fixture label 2',
+			gst: true
+		}
+	],
 
-		trackedAccounts: [ ],
+	labels: [ ]
+})
 
-		labelTypes: [
-			{
-				_id: createId(),
-				name: 'Test fixture label 1',
-				gst: false
-			},
-			{
-				_id: createId(),
-				name: 'Test fixture label 2',
-				gst: true
-			}
-		],
+export const initializeFactory = (profilesCollection) => {
+	// TODO: Once this PR is merged into dburles:factory, we can use
+	// _id: () => createId() to generate new ids every call. For now
+	// just override IDs on creation to avoid dup key errors.
+	//      https://github.com/versolearning/meteor-factory/pull/28
 
-		labels: [ ]
-	})
+	Factory.define('profile', profilesCollection, createProfileFixture())
+	Factory.define('profile.2', profilesCollection, createProfileFixture())
 
 	Factory.define('profile.with.trackedAccounts', profilesCollection,
 		Factory.extend('profile', {

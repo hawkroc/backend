@@ -1,0 +1,84 @@
+#!groovy
+
+/**
+  Jenkins build pipeline definition.
+
+  Deployed at:
+    https://jenkins.centrality.ai/jenkins/job/blockeeper/
+    
+*/
+pipeline {
+  agent {
+    label 'linux'
+  }
+
+  environment {
+    SERVICE_NAME = 'blockeeper'
+    TENANT = 'ea23b9ad-a3ca-4936-8613-68446bd85dde'
+    SERVICE_PRINCIPAL = credentials('SERVICE_PRINCIPAL')
+    KUBERNETES_KEY = credentials('kubernetes-rsa')
+  }
+
+  stages {
+
+    stage('Package application') {
+      steps {
+        // Bring up the packaging container to build the meteor application.
+        sh '/usr/local/bin/docker-compose build --no-cache packager'
+        sh '/usr/local/bin/docker-compose up packager'
+      }
+    }
+
+    stage('Test application') {
+      steps {
+        sh '/usr/local/bin/docker-compose build --no-cache testing'
+        sh '/usr/local/bin/docker-compose up testing'
+      }
+    }
+
+    stage('Build deployment image') {
+      steps {
+        // Build the runtime service into a deployable image.
+        sh '/usr/local/bin/docker-compose build --no-cache runtime'
+        // Tag the local image with the environment image name for automated publishing.
+        sh 'docker tag blockeeper_runtime "centrality/${SERVICE_NAME}:1.0.${BUILD_NUMBER}"'
+      }
+    }
+
+    stage('Publish image') {
+      environment {
+        ACR = credentials('AzureDockerRegistry')
+      }
+      steps {
+        sh './centrality.deploy/publish.sh'
+      }
+    }
+
+    stage('Dev Conf Setup') {
+      environment {
+        ENV = 'dev'
+        SCRIPT = 'config'
+        SUBSCRIPTION_ID = '93a8e567-e173-4154-93fc-5b60248c8706'
+        CLUSTER_URL = 'https://centrality-dev-master.australiasoutheast.cloudapp.azure.com'
+      }
+      steps {
+        sh './centrality.deploy/deploy.sh'
+      }
+    }
+
+    stage('Dev deployment') {
+      environment {
+        TENANT = 'ea23b9ad-a3ca-4936-8613-68446bd85dde'
+        SERVICE_PRINCIPAL = credentials('SERVICE_PRINCIPAL')
+        SUBSCRIPTION_ID = '93a8e567-e173-4154-93fc-5b60248c8706'
+        KUBERNETES_KEY = credentials('kubernetes-rsa')
+        CLUSTER_URL = 'https://centrality-dev-master-0.australiasoutheast.cloudapp.azure.com'
+        ENV = 'dev'
+      }
+      steps {
+        sh './centrality.deploy/deploy.sh'
+      }
+    }
+    
+  }
+}

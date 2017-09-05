@@ -1,56 +1,43 @@
 #
 # Package, deploy, serve meteor application.
 #
-#   service workflows:
-#      - testing: environment -> testing + mongodb (--abort-on-container-exit)
-#      - development: environment -> testing -> packager -> runtime + mongodb
-#      - production: environment -> packager -> runtime (prod configs)
+#   The packaging service requires centrality/meteor-build. Pull this image from
+#     from the centrality docker registry, or build it:
+#       `docker build --file ./ci/docker/meteor-build.dockerfile --tag centrality/meteor-build .`
+#
+#   Service workflows:
+#      - development: meteor-build -> packager -> testing -> runtime (dev configs)
+#      - production: meteor-build -> packager -> runtime (prod configs)
 #
 
 version: '3.2'
 
 services:
-  # Meteor framework service and complete build context on node.
-  environment:
-    build:
-      context: .
-      dockerfile: ./ci/docker/environment.dockerfile
-
-  #
-  # Database service.
-  #
-  mongodb:
-    image: mongo:3.4
-    ports:
-      - "27017:27017"
 
   #
   # Test runner service.
   #
   testing:
-    image: blockeeper_environment
+    image: blockeeper_packager
 
     environment:
-      - MONGO_URL=mongodb://database:27017/meteor
       # No client testing yet - will need browser drivers etc set up.
       - TEST_CLIENT=0
 
+      # Unsetting build profiling for dev build.
+      - METEOR_PROFILE=
+      - METEOR_DEBUG_BUILD=
+
     command: >
       bash -c "
+        set -ex &&
         cd /opt/working &&
-        npm run test:once"
-
-    # Link a hostname alias to our database server for use in
-    # our connection strings.
-    links:
-      - "mongodb:database"
+        meteor npm run test:once"
 
   #
   # Building and packaging service.
   #
   packager:
-    # Named so we can retrieve copied artifacts before bringing down manually.
-    container_name: blockeeper_packager-artifacts
 
     build:
       context: . 
@@ -60,40 +47,28 @@ services:
     volumes:
       - ./artifacts/:/artifacts
 
-    # Copy our package artifacts back to our host. Working directory should
-    # be reset to root.
+    # Copy our build artifacts back to our host.
+    # - assume artifact is in our current WORKDIR from dockerfile.
+    # - use compose BUILD to create the artifact, use UP to copy it to host.
     command: >
       bash -c "
-        cp --recursive ./opt/deployment/bundle/. ./artifacts
-        exit 0"
+        set -ex &&
+        cp build-artifacts.tar.gz /artifacts/"
 
   #
-  # Node runtime service. Based on the "deployment" sevice image.
+  # Node runtime service.
   #
   runtime:
     build:
       context: .
       dockerfile: ./ci/docker/runtime.dockerfile
 
-    # Container name required by CI pipeline scripts. The default values
-    # for environment vars are set in the configured .env file.
-    container_name: ${IMAGE_NAME}
-
     environment:
-      - MONGO_URL=mongodb://database:27017/meteor
+      # Default for running containers locally. Deployed container environments
+      # should be configured with secrets in the k8-config file.
+      - MONGO_URL=mongodb://localhost:27017/meteor
       - ROOT_URL=http://localhost
-      - PORT=80
-
-    # Start the built meteor server.
-    command: >
-      bash -c "
-        cd /artifacts &&
-        node main.js"
-    
-    # Link a hostname alias to our database server for use in
-    # our connection strings.
-    links:
-      - "mongodb:database"
+      - PORT=8080
 
     ports:
-      - "80:80"
+      - "8080:8080"

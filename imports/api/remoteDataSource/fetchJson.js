@@ -1,5 +1,10 @@
+/**
+ * TODO: get rid of all of this. All account/transaction related data sould be mined and
+ * obtained from OUR serverside collections.
+ * 
+ */
+
 import axios from 'axios'
-import config from '../../config/config'
 
 /**
  * get Exchange from cryptocompare the default type is USD
@@ -18,10 +23,11 @@ export const GetExchange = (type = 'USD') => {
 }
 
 
-const balanceUrl = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' + config.key + '&address='
+const balanceUrl = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' +
+	'&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV'
 
 export const GetBalance = (address) => {
-	let final = balanceUrl + address
+	let final = balanceUrl + `&address=${address}`
 
 	return axios.get(final).then(
 		(response) => {
