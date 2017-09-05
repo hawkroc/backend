@@ -20,8 +20,11 @@ export default {
 				_id: {
 					$in: accountIds
 				}
-			}, { fields: Accounts.publicFields }
-			)
+			},
+			// Options 
+			{ 
+				fields: Accounts.publicFields 
+			})
 		})
 
 		Meteor.publish('profiles', () => {

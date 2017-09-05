@@ -53,29 +53,29 @@ const mapStateToProps = state => {
   // TODO: need to figure out how to wait for initial state from meteor
   // collections before rendering top-level components.
 
-let accounts=state.accounts.items;
-
+  let accounts = state.accounts.items
 
   let trackedAccounts = state.profiles.active
     ? state.profiles.active.trackedAccounts
-    : null;
+    : null
 
-  let dataReady = !!trackedAccounts;
+  let dataReady = !!trackedAccounts
 
-  // Create an address->alias lookup.
-  // console.log('state.profiles.currencies'+JSON.stringify(state.profiles.currencies));
+  // Create an account->tracked account lookup.
   let addressAliasLookup = null,
     labelTypes = [],
-    transactionLabels = {};
+    transactionLabels = {}
 
   if (dataReady) {
-    addressAliasLookup = accounts.map(a => ({
-      _id: a._id,
-      address: a.address,
-      trackedAccount: trackedAccounts.find(
-        tracked => tracked.accountId === a._id
-      )
-    }));
+    addressAliasLookup = accounts.map(
+      a => ({
+        _id: a._id,
+        address: a.address,
+        trackedAccount: trackedAccounts.find(
+          tracked => tracked.accountId === a._id
+        )
+      })
+    )
 
     labelTypes = state.profiles.active.labelTypes;
 

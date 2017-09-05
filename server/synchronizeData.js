@@ -41,7 +41,7 @@ const getdataFromApi = (startblock, endblock, address) => {
  */
 const QUERY_BALANCE = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' +
 	`&apiKey=${Meteor.settings.third_party.ether_scan.api_key}`
-
+	
 export const getBalance = (address) => {
 	let final = QUERY_BALANCE + `&address=${address}`
 	return axios.get(final).then(response => {
