@@ -7,47 +7,56 @@ const createId = () => {
 	return new Meteor.Collection.ObjectID().toHexString()
 }
 
+const createProfileFixture = () => ({
+    _id: createId(),
+
+    info: {
+        _id: createId(),
+        username: "text-fixture@centrality.ai"
+    },
+
+    trackedAccounts: [ ],
+
+    labelTypes: [
+        {
+            _id: createId(),
+            name: "Test fixture label 1",
+            gst: false
+        },
+        {
+            _id: createId(),
+            name: "Test fixture label 2",
+            gst: true
+        }
+    ],
+
+    labels: [ ]
+})
+
 export const initializeFactory = (profilesCollection) => {
-	Factory.define('profile', profilesCollection, {
-		_id: createId(),
 
-		info: {
-			_id: createId(),
-			username: 'text-fixture@centrality.ai'
-		},
+    // TODO: Once this PR is merged into dburles:factory, we can use
+    // _id: () => createId() to generate new ids every call. For now
+    // just override IDs on creation to avoid dup key errors.
+    //      https://github.com/versolearning/meteor-factory/pull/28
 
-		trackedAccounts: [ ],
+    Factory.define('profile', profilesCollection, createProfileFixture())
+    Factory.define('profile.2', profilesCollection, createProfileFixture())
 
-		labelTypes: [
-			{
-				_id: createId(),
-				name: 'Test fixture label 1',
-				gst: false
-			},
-			{
-				_id: createId(),
-				name: 'Test fixture label 2',
-				gst: true
-			}
-		],
-
-		labels: [ ]
-	})
-
-	Factory.define('profile.with.trackedAccounts', profilesCollection,
-		Factory.extend('profile', {
-			trackedAccounts: [
-				{
-					_id: createId(),
-					accountId: createId(),
-					alias: faker.lorem.sentence()
-				},
-				{
-					_id: createId(),
-					accountId: createId(),
-					alias: faker.lorem.sentence()
-				}
-			]
-		})
-	)
+    Factory.define('profile.with.trackedAccounts', profilesCollection, 
+        Factory.extend('profile', {
+            trackedAccounts: [
+                {
+                    _id: createId(),
+                    accountId: createId(),
+                    alias: faker.lorem.sentence()
+                },
+                {
+                    _id: createId(),
+                    accountId: createId(),
+                    alias: faker.lorem.sentence()
+                }
+            ]
+        })
+    )
 }

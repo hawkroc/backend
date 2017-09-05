@@ -37,9 +37,6 @@ describe("Profiles: tracked accounts", function() {
       ta => ta.alias == newTAAlias || ta.address == newTAAddress
     ).length;
 
-    // TODO: Should we be checking across profiles? Or just have separate tests ensuring
-    // that Profiles.active() is correct?
-
     chai.assert.equal(
       newTADetailCount,
       1,
@@ -77,7 +74,7 @@ describe("Profiles: tracked accounts", function() {
       address: newAccountAddress
     });
 
-    let initialAccCount = Accounts.find().count;
+    let initialAccCount = Accounts.find().count();
 
     Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
       alias: faker.lorem.sentence(),
@@ -86,7 +83,7 @@ describe("Profiles: tracked accounts", function() {
 
     chai.assert.equal(
       initialAccCount,
-      initialAccCount,
+      Accounts.find().count(),
       "No Account document was created because tracked account is known"
     );
   });
@@ -171,21 +168,20 @@ describe("Profiles: tracked accounts", function() {
 
   it("Does not allow a profile to track an account multiple times", function() {
     // Meteor.call returns an error?
-    let profile = Factory.create("profile.with.trackedAccounts");
-    let initialTACount = profile.trackedAccounts.length;
-    let firstTAAlias = faker.lorem.sentence(),
-      firstTAAddress = faker.random.alphaNumeric(40);
-    let secondTAAlias = faker.lorem.sentence(),
-      secondTAAddress = firstTAAddress; //asign the same address
+    let profile = Factory.create("profile");
+    let targetAccountAddress = faker.random.alphaNumeric(40)
 
     Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
-      alias: firstTAAlias,
-      address: firstTAAddress
+      alias: faker.lorem.sentence(),
+      address: targetAccountAddress
     });
-    let firstTACount = Profiles.active().trackedAccounts.length;
+
+    let firstTACount = Profiles.active().trackedAccounts.length
+
     Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
-      alias: secondTAAlias,
-      address: secondTAAddress
+      alias: faker.lorem.sentence(),
+      // Attempt to track the same address again.
+      address: targetAccountAddress
     });
 
     let secondTACount = Profiles.active().trackedAccounts.length; // profile.trackedAccounts.length
@@ -193,90 +189,63 @@ describe("Profiles: tracked accounts", function() {
     chai.assert.equal(
       firstTACount,
       secondTACount,
-      "the first and second have same address if insert mutil times "
+      "No extra tracked account entry was added when attempting to attract same address"
     );
   });
 
   it("Retains the Account document after one of many referencing tracked accounts is removed", function() {
     //add two different user to DB
-    let firstProfile = Factory.create("profile");
+    Factory.create("profile")
+    Factory.create("profile.2")
 
-    let newTAAlias = faker.lorem.sentence(),
-      newTAAddress = faker.random.alphaNumeric(40);
-    //can not use Factory.creat again, it will get duplicate key error
-    let secondProfile = firstProfile;
-    //change the _id
-    secondProfile._id = firstProfile._id.split("").reverse().join("");
+    const nonActiveProfile = Profiles.findOne({ _id: { $ne: Profiles.active()._id }})
+    const targetAddress = faker.random.alphaNumeric(40)
 
     Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
-      alias: newTAAlias,
-      address: newTAAddress
+      alias: faker.lorem.sentence(),
+      address: targetAddress
     });
 
-    //save in DB . there are two profiles in DB
-    Profiles.insert(secondProfile);
-    //set the second secondProfile
-    Profiles.setActive(secondProfile);
-    Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
-      alias: newTAAlias,
-      address: newTAAddress
-    });
+    // Manually push the tracked account since we don't have a good handle on other
+    // 'non-active' accounts yet.
+    Profiles.update(nonActiveProfile._id, {
+      $push: {
+        'trackedAccounts': {
+            _id: new Meteor.Collection.ObjectID().toHexString(),
+            alias: faker.lorem.sentence(), 
+            accountId: Accounts.findOne()._id
+        }
+      }
+    })
 
-    //  console.log('beforeDel '+JSON.stringify(Profiles.find().fetch() ))
-    let beforeDeleAccountNumber = Accounts.find().fetch().length;
+    chai.assert(Accounts.find().count(), 1, "There is exactly one Account document tracked by two profiles")
 
-    let delProfile = Profiles.findOne();
-    Profiles.setActive(delProfile);
-
-    //delete the second proifle track account
+    // Delete the tracked account on the active profile.
     Meteor.call(trackedAccountMethodTypes.PROFILE_DELETE_TRACKEDACCOUNT, {
-      _id: delProfile.trackedAccounts[0]._id
+      _id: Profiles.active().trackedAccounts[0]._id
     });
 
-    // console.log('afterDel '+JSON.stringify(Profiles.find().fetch() ))
-    let afterDeleAccountNumber = Accounts.find().fetch().length;
-
-    chai.assert.equal(
-      beforeDeleAccountNumber,
-      afterDeleAccountNumber,
-      "Test not yet implemented"
-    );
+    chai.assert.equal(Accounts.find().count(), 1, "The account was not removed due to other tracking profile");
   });
 
   it("Removes the Account document if the last referencing tracked account is removed", function() {
-    let firstProfile = Factory.create("profile");
+    let profile = Factory.create("profile");
+    
+    let newAccountAddress = faker.random.alphaNumeric(40);
 
-    let newTAAlias = faker.lorem.sentence(),
-      newTAAddress = faker.random.alphaNumeric(40);
-    //can not use Factory.creat again, it will get duplicate key error
-    let secondProfile = firstProfile;
-    //change the _id
-    secondProfile._id = firstProfile._id.split("").reverse().join("");
+    chai.assert.equal(Accounts.find().count(), 0, "No accounts currently exist")
 
     Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
-      alias: newTAAlias,
-      address: newTAAddress
+      alias: faker.lorem.sentence(),
+      address: newAccountAddress
     });
 
-    //save in DB . there are two profiles in DB
-    Profiles.insert(secondProfile);
-    //set the second secondProfile
-    Profiles.setActive(secondProfile);
-    Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
-      alias: newTAAlias,
-      address: newTAAddress
+    chai.assert.equal(Accounts.find().count(), 1, "One account exists corresponding to added tracked account")
+
+    Meteor.call(trackedAccountMethodTypes.PROFILE_DELETE_TRACKEDACCOUNT, {
+      _id: Profiles.active().trackedAccounts[0]._id
     });
 
-    // delet all the track account
-    let profileAll = Profiles.find().fetch();
-    for (let delProfile of profileAll) {
-      Profiles.setActive(delProfile);
-      Meteor.call(trackedAccountMethodTypes.PROFILE_DELETE_TRACKEDACCOUNT, {
-        _id: delProfile.trackedAccounts[0]._id
-      });
-    }
-
-    let afterDeleAccountNumber = Accounts.find().fetch().length;
-    chai.assert.equal(afterDeleAccountNumber, 0, "Test not yet implemented");
+    chai.assert.equal(Accounts.find().count(), 0, "Account corresponding to last tracked account was removed")
   });
 });
