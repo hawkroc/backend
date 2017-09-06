@@ -16,41 +16,41 @@ Meteor.methods({
 		// TODO: profile collection factories!
 		let activeProfile = Profiles.active()
 
-        console.log(`PROFILE_INSERT_TRACKEDACCOUNT: profile ${activeProfile._id} wishes to track ${address}`)
-        
-        // If the user is tracking an account that does not yet exist in our system,
-        // create it.
-        let account = Accounts.findOne({ address });
-        let accountId = null;
+		console.log(`PROFILE_INSERT_TRACKEDACCOUNT: profile ${activeProfile._id} wishes to track ${address}`)
 
-        if (!account) {
-            console.log(`PROFILE_INSERT_TRACKEDACCOUNT: account ${address} does not exist. Creating and linking...`)
-
-            // TODO: use factory.
-            accountId = Accounts.insert({
-                address,
-                transactions: [ ],
-                latestMinedBlock: 0
-            })
-        } else {
-            console.log(`PROFILE_INSERT_TRACKEDACCOUNT: account ${address} alreading exists. Linking...`)
-
-            accountId = account._id
-            //if this accountid already in profile trackAddress will return "you already track this address"
-           if(activeProfile.trackedAccounts.filter(
-               ta => ta.accountId == accountId
-            ).length > 0) {
-                // throw new Meteor.Error("you already track this address ");
-                return null;
-            }
-        }
+		// If the user is tracking an account that does not yet exist in our system,
+		// create it.
+		let account = Accounts.findOne({ address })
+		let accountId = null
 
 		if (!account) {
-			// accountId = Accounts.insert({
-			// 	address,
-			// 	transactions: [ ],
-			// 	latestMinedBlock: 0
-			// })
+			console.log(`PROFILE_INSERT_TRACKEDACCOUNT: account ${address} does not exist. Creating and linking...`)
+
+			// TODO: use factory.
+			accountId = Accounts.insert({
+				address,
+				transactions: [ ],
+				latestMinedBlock: 0
+			})
+		} else {
+			console.log(`PROFILE_INSERT_TRACKEDACCOUNT: account ${address} alreading exists. Linking...`)
+
+			accountId = account._id
+			// if this accountid already in profile trackAddress will return "you already track this address"
+			if(activeProfile.trackedAccounts.filter(
+				ta => ta.accountId === accountId
+			).length > 0) {
+				// throw new Meteor.Error("you already track this address ");
+				return null
+			}
+		}
+
+		if (!account) {
+			accountId = Accounts.insert({
+				address,
+				transactions: [ ],
+				latestMinedBlock: 0
+			})
 		} else {
 			accountId = account._id
 			// if this accountid already in profile trackAddress will return "you already track this address"

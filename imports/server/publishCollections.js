@@ -22,8 +22,8 @@ export default {
 				}
 			},
 			// Options 
-			{ 
-				fields: Accounts.publicFields 
+			{
+				fields: Accounts.publicFields
 			})
 		})
 

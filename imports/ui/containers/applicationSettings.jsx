@@ -15,11 +15,6 @@ import trackedAccountMethodTypes from '../../api/profiles/methods/trackedAccount
  * 
  */
 class ApplicationSettings extends React.Component{
-    // componentDidMount=()=>{
-    //  //   console.log('this.props.idToAddressBalance'+JSON.stringify(this.props.idToAddressBalance))
-    // //this.props.onFetchBalance(this.props.idToAddressBalance,this.props.trackedAccounts,this.props.accountsItems);
-
-    // }
     render(){
     const    {
             languageConfig,
@@ -120,10 +115,6 @@ const mapDispatchToProps = (dispatch, state) => {
             
         }
 
-        // onFetchBalance :(idToAddressBalance,trackedAccounts,accountsItems)=>{      
-        
-      //   return  dispatch(fetchEtherBalance(idToAddressBalance,trackedAccounts,accountsItems))
-        //  } 
     }   
 }
 
