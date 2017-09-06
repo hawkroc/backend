@@ -15,9 +15,9 @@ export const buildColumns = ({
   // Otherwise default to its address.
   const accountAliasMask = address => {
     let mapping = addressAliasLookup.find(a => a.address === address);
-
     if (mapping) {
-      return mapping.trackedAccount.alias;
+     // console.log('mapping'+JSON.stringify(mapping.trackedAccount)) 
+      return mapping.trackedAccount? mapping.trackedAccount.alias:null;
     } else {
       return address.substring(0, 12) + "...";
     }
@@ -165,9 +165,11 @@ export const buildColumns = ({
           let currencyBTC = getCurrencyBaseOnChoose("BTC", currencies);
           if (currencyBTC) {
             rateBTC = getExchangeDataCurrency(tp, currencyBTC);
-            if (rateBTC) {
-              // console.log('rateETH'+JSON.stringify(rateETH[0]));
-              rate = rateETH[0].average/rateBTC[0].average;
+            if (rateBTC.length!==0&&rateETH.length!==0) {
+              if(rateETH){
+                rate = rateETH[0].average/rateBTC[0].average;
+              }
+           
             }
           }
         }

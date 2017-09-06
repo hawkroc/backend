@@ -43,6 +43,7 @@ class TrackedAccountsComponent extends React.Component {
     }
 
     submitAdd = () => {
+      
         this.props.onInsertTrackedAccount({
             alias: this.state.addAlias, 
             address: this.state.addAddress

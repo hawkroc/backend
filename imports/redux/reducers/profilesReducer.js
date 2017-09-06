@@ -16,7 +16,7 @@ import Currencies from '../../api/currency/currency'
 const initialState = {
 	// The currently active user profile. For structure, see profileSchema.js.
 	active: null,
-	idToAddressBalance: null,
+
 	currencies: null,
 }
 
@@ -24,8 +24,6 @@ const reducer = (state = initialState, payload) => {
 	switch (payload.type) {
 		case actionTypes.PROFILES_ACTIVE_RECEIVED:
 			return Object.assign({ }, state, { active: payload.value })
-		case actionTypes.PROFILES_BALANCE_RECEIVED:
-			return  Object.assign({ }, state, { idToAddressBalance: payload.value })
 		case actionTypes.CURRENCY_ACTIVE_RECEIVED:
 			return  Object.assign({ }, state, { currencies: payload.value })
 		default:

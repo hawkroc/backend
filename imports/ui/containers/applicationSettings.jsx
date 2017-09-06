@@ -15,11 +15,11 @@ import trackedAccountMethodTypes from '../../api/profiles/methods/trackedAccount
  * 
  */
 class ApplicationSettings extends React.Component{
-    componentDidMount=()=>{
-      
-    this.props.onFetchBalance(this.props.idToAddressBalance,this.props.trackedAccounts,this.props.accountsItems);
+    // componentDidMount=()=>{
+    //  //   console.log('this.props.idToAddressBalance'+JSON.stringify(this.props.idToAddressBalance))
+    // //this.props.onFetchBalance(this.props.idToAddressBalance,this.props.trackedAccounts,this.props.accountsItems);
 
-    }
+    // }
     render(){
     const    {
             languageConfig,
@@ -49,13 +49,27 @@ class ApplicationSettings extends React.Component{
     }
 }
 
+const getIdToAddressBalance = (trackedAccounts, items) => {
+	let idToAddressBalance = [] 
+	for (let trackedAccount of trackedAccounts) {
+		for (let item of items) {        
+			if (item._id === trackedAccount.accountId) {
+                idToAddressBalance.push({ id: trackedAccount.accountId, address: item.address, balance: item.balance })
+				break 
+			}
+		}
+	}
 
+	return idToAddressBalance
+}
 
 const mapStateToProps = (state) => {
+  let   idToAddressBalance=getIdToAddressBalance(state.profiles.active.trackedAccounts,state.accounts.items)
+
 
    return {
        accountsItems:state.accounts.items,
-        idToAddressBalance:state.profiles.idToAddressBalance,
+        idToAddressBalance:idToAddressBalance,  
         trackedAccounts: state.profiles.active.trackedAccounts,
         labelTypes: state.profiles.active.labelTypes
     }
@@ -75,7 +89,9 @@ const mapDispatchToProps = (dispatch, state) => {
         onInsertTrackedAccount: (newAccount) => {
             Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
                 ...newAccount
-            })
+            }) 
+
+          
         },
 
         onDeleteTrackedAccount: (trackedAccount) => {
@@ -102,12 +118,12 @@ const mapDispatchToProps = (dispatch, state) => {
                 _id: label._id
             })
             
-        },
+        }
 
-        onFetchBalance :(idToAddressBalance,trackedAccounts,accountsItems)=>{      
+        // onFetchBalance :(idToAddressBalance,trackedAccounts,accountsItems)=>{      
         
-         return  dispatch(fetchEtherBalance(idToAddressBalance,trackedAccounts,accountsItems))
-         } 
+      //   return  dispatch(fetchEtherBalance(idToAddressBalance,trackedAccounts,accountsItems))
+        //  } 
     }   
 }
 

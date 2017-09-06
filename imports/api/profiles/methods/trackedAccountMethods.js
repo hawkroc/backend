@@ -46,11 +46,11 @@ Meteor.methods({
         }
 
 		if (!account) {
-			accountId = Accounts.insert({
-				address,
-				transactions: [ ],
-				latestMinedBlock: 0
-			})
+			// accountId = Accounts.insert({
+			// 	address,
+			// 	transactions: [ ],
+			// 	latestMinedBlock: 0
+			// })
 		} else {
 			accountId = account._id
 			// if this accountid already in profile trackAddress will return "you already track this address"

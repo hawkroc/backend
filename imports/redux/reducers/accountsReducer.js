@@ -31,7 +31,7 @@ const reducer = (state = initialState, payload) => {
 // Every change to the accounts collection will trigger a dispatch.
 Meteor.startup(() => {
 	Tracker.autorun(() => {
-		store.dispatch(setAccounts(Accounts.find().fetch()))
+		store.dispatch(setAccounts(Accounts.active()))
 	})
 })
 

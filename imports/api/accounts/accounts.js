@@ -31,6 +31,17 @@ Accounts.allow({
 	update() { return true },
 })
 
+Accounts.active=()=>{
+	let test =Accounts.find().fetch() 
+
+		console.log('t.test  '+test.length)
+	
+	return  test  // activeProfile;
+}
+
+
+
+
 // Fields of the collection items that are made available to the client.
 Accounts.publicFields = {
 	address: 1,
