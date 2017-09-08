@@ -30,7 +30,6 @@ let activeProfile = null
 // TODO: Should probably be published on "profiles.active".
 Profiles.active = () => {
 	let temp = Profiles.findOne()
-	// console.log('profile  '+JSON.stringify(temp)) 
 	return activeProfile ? activeProfile : temp  // activeProfile;
 }
 
