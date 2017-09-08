@@ -5,7 +5,9 @@ import store from '../store'
 import * as actionTypes from '../constants/actionTypes'
 import { setActiveProfile } from '../actions/profileActions'
 import { setActiveCurrency } from '../actions/profileActions'
+import {setAccounts} from '../actions/accountActions'
 import Profiles from '../../api/profiles/profiles'
+import Accounts from '../../api/accounts/accounts'
 import Currencies from '../../api/currency/currency'
 
 /**
@@ -36,10 +38,16 @@ const reducer = (state = initialState, payload) => {
 // TODO: need to test and make sure this doesn't fire when ANY profile changes.
 Meteor.startup(() => {
 	Tracker.autorun(() => {
+
 		(
+			
 			store.dispatch(
 				setActiveProfile(Profiles.active())
 			),
+			store.dispatch(
+				setAccounts(Accounts.active())
+			),
+
 			store.dispatch(
 				setActiveCurrency(Currencies.active())
 			)

@@ -85,7 +85,7 @@ const mapDispatchToProps = (dispatch, state) => {
             Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
                 ...newAccount
             }) 
-
+           
           
         },
 
