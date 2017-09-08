@@ -2,6 +2,10 @@
     "scheduling": {
         "transaction_miner_expression": "0 * * * * *"
     },
+    
+    "azure": {
+        "app_insights_key": false
+    },
 
     "third_party": {
         "ether_scan": {
