@@ -32,9 +32,7 @@ Accounts.allow({
 })
 
 Accounts.active = ()=>{
-	let test = Accounts.find().fetch()
-	console.log('t.test  ' + test.length)
-	return  test  // activeProfile;
+	return   Accounts.find().fetch()
 }
 
 
