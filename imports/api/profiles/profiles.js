@@ -29,7 +29,7 @@ let activeProfile = null
 // TODO: This needs to fetch the actual user profile. Not just any.
 // TODO: Should probably be published on "profiles.active".
 Profiles.active = () => {
-	let temp=Profiles.findOne()
+	let temp = Profiles.findOne()
 	// console.log('profile  '+JSON.stringify(temp)) 
 	return activeProfile ? activeProfile : temp  // activeProfile;
 }

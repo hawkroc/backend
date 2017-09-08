@@ -8,12 +8,11 @@ import schedule from './schedule'
 
 // Azure application insights init.
 if (!!Meteor.settings.azure.app_insights_key) {
-	console.log("Starting Azure application insights")
+	console.log('Starting Azure application insights')
 	appInsights.setup(Meteor.settings.azure.app_insights_key)
 	appInsights.start()
-} 
-else {
-	console.log("Azure application insights is disabled - no key found")
+} else {
+	console.log('Azure application insights is disabled - no key found')
 }
 
 Meteor.startup(() => {

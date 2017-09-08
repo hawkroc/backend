@@ -38,9 +38,8 @@ const reducer = (state = initialState, payload) => {
 // TODO: need to test and make sure this doesn't fire when ANY profile changes.
 Meteor.startup(() => {
 	Tracker.autorun(() => {
-
 		(
-			
+
 			store.dispatch(
 				setActiveProfile(Profiles.active())
 			),
