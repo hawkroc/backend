@@ -1,10 +1,24 @@
 import { Meteor } from 'meteor/meteor'
 
+import * as appInsights from 'applicationinsights'
+
 import databaseFixtures from './databaseFixtures'
 import publishCollections from '../imports/server/publishCollections'
 import schedule from './schedule'
+
+// Azure application insights init.
+if (!!Meteor.settings.azure.app_insights_key) {
+	console.log("Starting Azure application insights")
+	appInsights.setup(Meteor.settings.azure.app_insights_key)
+	appInsights.start()
+} 
+else {
+	console.log("Azure application insights is disabled - no key found")
+}
+
 Meteor.startup(() => {
 	console.log('Meteor server has started.')
+
 	// Conditionally load the database fixtures.
 	//  TODO: there should probably also be a dev/prod flag check for this.
 	databaseFixtures.apply()
