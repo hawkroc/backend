@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor'
 import Currencies from '../imports/api/currency/currency'
 
 export const fetchExchangeRates = Meteor.bindEnvironment(() => {
-
 	let currenciesList = Currencies.find().map(a => ({
 		_id: a._id,
 		bitCoin: a.bitCoin,
@@ -45,7 +44,7 @@ export const fetchExchangeRates = Meteor.bindEnvironment(() => {
  */
 
 const fetchHistoricalExchangeRates = (bitCoin, fiatCurrency, since) => {
-	let final = 'https://apiv2.bitcoinaverage.com/indices/global/history/' 
+	let final = 'https://apiv2.bitcoinaverage.com/indices/global/history/'
 		+ bitCoin + fiatCurrency + '?period=daily&?format=json'
 
 	console.log('Fetching historical exchange data:', final)
