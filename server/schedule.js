@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-
-const schedule = require('node-schedule')
+import schedule from 'node-schedule'
 
 import { fetchExchangeRates } from './fetchExchangeRates'
 import { synchronizeDataFromApi } from './synchronizeData'
