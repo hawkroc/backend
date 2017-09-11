@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 
 const schedule = require('node-schedule')
 
-import { fetchCurrencies } from './fetchCurrencies'
+import { fetchExchangeRates } from './fetchExchangeRates'
 import { synchronizeDataFromApi } from './synchronizeData'
 const scheduleCronstyle = () => {
 	schedule.scheduleJob(Meteor.settings.scheduling.transaction_miner_expression, () => {
@@ -12,9 +12,9 @@ const scheduleCronstyle = () => {
 }
 
 const scheduleGetCurrencies = () => {
-	schedule.scheduleJob(Meteor.settings.scheduling.transaction_miner_expression, () => {
+	schedule.scheduleJob(Meteor.settings.scheduling.exchangerate_miner_expression, () => {
 		console.log('schedule: Currencies job has started.')
-		fetchCurrencies()
+		fetchExchangeRates()
 	})
 }
 
