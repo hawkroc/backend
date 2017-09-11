@@ -1,6 +1,8 @@
 import { Mongo } from 'meteor/mongo'
 import { initializeFactory } from './accountsFactory'
 
+import AccountSchema from './schemas/accountSchema'
+
 class AccountsCollection extends Mongo.Collection {
 	insert(account, callback) {
 		// TODO: We could use this to trigger a call to retrieve transactions for the
@@ -18,23 +20,15 @@ class AccountsCollection extends Mongo.Collection {
 
 const Accounts = new AccountsCollection('accounts')
 // TODO: why is schema validation so slow...
-// Accounts.attachSchema(AccountSchema)
+Accounts.attachSchema(AccountSchema)
 
 // Allow and deny rules for operations against this collection.
 // Return 'true' to allow/deny based on authorization logic.
 Accounts.deny({
 	insert() { return true },
+	update() { return true },
 	remove() { return true }
 })
-
-Accounts.allow({
-	update() { return true },
-})
-
-Accounts.active = ()=>{
-	return   Accounts.find().fetch()
-}
-
 
 // Fields of the collection items that are made available to the client.
 Accounts.publicFields = {

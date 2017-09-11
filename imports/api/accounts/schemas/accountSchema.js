@@ -1,6 +1,6 @@
-import { SimpleSchema } from 'meteor/aldeed:simple-schema'
+import SimpleSchema  from 'simpl-schema'
 
-import TransactionSchema from '../transactions/transactionSchema'
+import TransactionSchema from './transactionSchema'
 
 const AccountSchema = new SimpleSchema({
 	_id: { type: String },
@@ -8,10 +8,13 @@ const AccountSchema = new SimpleSchema({
 	address: { type: String },
 	latestMinedBlock: { type: Number },
 	balance: { type: Number },
+	
 	transactions: {
-		type: [ TransactionSchema ]
+		type: Array
+	},
+	'transactions.$': {
+		type: TransactionSchema
 	}
-
 })
 
 export default AccountSchema

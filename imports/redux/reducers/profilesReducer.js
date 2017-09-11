@@ -37,16 +37,13 @@ const reducer = (state = initialState, payload) => {
 // TODO: Set different current base on profiles
 // TODO: need to test and make sure this doesn't fire when ANY profile changes.
 Meteor.startup(() => {
-	Tracker.autorun(() => {
-		(
-
+	Tracker.autorun(() => {(
 			store.dispatch(
 				setActiveProfile(Profiles.active())
 			),
 			store.dispatch(
-				setAccounts(Accounts.active())
+				setAccounts(Accounts.find().fetch())
 			),
-
 			store.dispatch(
 				setActiveCurrency(Currencies.active())
 			)

@@ -124,7 +124,10 @@ export const synchronizeDataFromApi = () => {
 								$each: res
 							}
 						}
-					})
+					}, 
+					// Validating even a few hundred transactions is VERY slow. Bypass validation for this
+					// trusted serverside update.
+					{ bypassCollection2: true })
 
 					// Successful transaction import? Update latest block.
 					Accounts.update(account._id, {

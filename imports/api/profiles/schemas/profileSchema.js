@@ -1,4 +1,4 @@
-import { SimpleSchema } from 'meteor/aldeed:simple-schema'
+import SimpleSchema from 'simpl-schema'
 
 import InfoSchema from './infoSchema'
 import LabelTypeSchema from './labelTypeSchema'
@@ -18,17 +18,26 @@ const ProfileSchema = new SimpleSchema({
 
 	// User's linked accounts.
 	trackedAccounts: {
-		type: [ TrackedAccountSchema ]
+		type: Array
+	},
+	'trackedAccounts.$': {
+		type: TrackedAccountSchema
 	},
 
 	// User-defined labels for tagging transactions.
 	labelTypes: {
-		type: [ LabelTypeSchema ]
+		type: Array
+	},
+	'labelTypes.$': {
+		type: LabelTypeSchema
 	},
 
 	// User's assignment of labels to transactions.
 	labels: {
-		type: [ LabelSchema ]
+		type: Array
+	},
+	'labels.$': {
+		type: LabelSchema
 	}
 })
 
