@@ -1,6 +1,11 @@
 {
+    "database": {
+        "fixtures_environment": "production"
+    },
+
     "scheduling": {
-        "transaction_miner_expression": "0 * * * * *"
+        "transaction_miner_expression": "0 * * * * *",
+        "exchangerate_miner_expression": "0 0 0 * * *"
     },
     
     "azure": {

@@ -1,6 +1,6 @@
 import React from "react";
-import { Select, Icon } from "antd";
-
+import { Select } from "antd";
+import ClickCopyCell from "../common/clickCopyCell"
 const weiToEther = value => (value * Math.pow(10, -18)).toFixed(8);
 
 export const buildColumns = ({
@@ -16,8 +16,7 @@ export const buildColumns = ({
   const accountAliasMask = address => {
     let mapping = addressAliasLookup.find(a => a.address === address);
     if (mapping) {
-     // console.log('mapping'+JSON.stringify(mapping.trackedAccount)) 
-      return mapping.trackedAccount? mapping.trackedAccount.alias:null;
+      return mapping.trackedAccount ? mapping.trackedAccount.alias : null;
     } else {
       return address.substring(0, 12) + "...";
     }
@@ -68,15 +67,10 @@ export const buildColumns = ({
 
       render: (text, record) => (
         <div className="editable-cell">
-          <div className="editable-cell-text-wrapper">
+          <div className="editable-cell-text-wrapper" id={record._id}>
             {accountAliasMask(text)}
-            <Icon
-              style={{ fontSize: 16 }}
-              title="Copy address to clipboard"
-              type="copy"
-              className="editable-cell-icon"
-              onClick={() => alert("Address copied to clipboard!")}
-            />
+
+          <ClickCopyCell text={text}/>
           </div>
         </div>
       )
@@ -90,15 +84,9 @@ export const buildColumns = ({
 
       render: (text, record) => (
         <div className="editable-cell">
-          <div className="editable-cell-text-wrapper">
+          <div className="editable-cell-text-wrapper" id={record._id}>
             {accountAliasMask(text)}
-            <Icon
-              style={{ fontSize: 16 }}
-              title="Copy address to clipboard"
-              type="copy"
-              className="editable-cell-icon"
-              onClick={() => alert("Address copied to clipboard!")}
-            />
+            <ClickCopyCell text={text}/>
           </div>
         </div>
       )
@@ -158,24 +146,21 @@ export const buildColumns = ({
         let rateETH = [];
         let rateBTC = [];
         if (currencies) {
-           let currencyETH= getCurrencyBaseOnChoose('ETH',currencies)
-           if(currencyETH){
+          let currencyETH = getCurrencyBaseOnChoose("ETH", currencies);
+          if (currencyETH) {
             rateETH = getExchangeDataCurrency(tp, currencyETH);
-           }
+          }
           let currencyBTC = getCurrencyBaseOnChoose("BTC", currencies);
           if (currencyBTC) {
             rateBTC = getExchangeDataCurrency(tp, currencyBTC);
-            if (rateBTC.length!==0&&rateETH.length!==0) {
-              if(rateETH){
-                rate = rateETH[0].average/rateBTC[0].average;
+            if (rateBTC.length !== 0 && rateETH.length !== 0) {
+              if (rateETH) {
+                rate = rateETH[0].average / rateBTC[0].average;
               }
-           
             }
           }
         }
-        return (weiToEther(text * record.gas) *
-        rate*1000).toFixed(12);
-
+        return (weiToEther(text * record.gas) * rate * 1000).toFixed(12);
       }
     },
 

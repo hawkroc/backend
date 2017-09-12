@@ -20,8 +20,6 @@ react-meteor-data
 accounts-ui@1.1.9
 accounts-password@1.4.0
 mikowals:batch-insert
-aldeed:simple-schema
-aldeed:collection2
 dburles:collection-helpers
 dburles:factory
 xolvio:cleaner
@@ -29,3 +27,4 @@ practicalmeteor:chai
 underscore@1.0.10
 dispatch:mocha
 practicalmeteor:mocha
+aldeed:collection2-core

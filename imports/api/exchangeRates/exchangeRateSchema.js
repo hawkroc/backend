@@ -1,8 +1,8 @@
-import { SimpleSchema } from 'meteor/aldeed:simple-schema'
+import SimpleSchema  from 'simpl-schema'
 
 import HistoricalSchema from '../historicalSchema'
 
-const CurrencySchema = new SimpleSchema({
+const ExchangeRateSchema = new SimpleSchema({
 	_id: { type: String },
 
 	bitCoin: { type: String },
@@ -13,4 +13,4 @@ const CurrencySchema = new SimpleSchema({
 	}
 })
 
-export default CurrencySchema
+export default ExchangeRateSchema

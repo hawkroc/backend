@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo'
-import { initializeFactory } from './currenciesFactory'
+import { initializeFactory } from './exchangeRateFactory'
 
-class CurrenciesCollection extends Mongo.Collection {
+class ExchangeRatesCollection extends Mongo.Collection {
 	insert(currency, callback) {
 		return super.insert(currency, callback)
 	}
@@ -11,15 +11,15 @@ class CurrenciesCollection extends Mongo.Collection {
 	}
 }
 
-const Currencies = new CurrenciesCollection('currencies')
+const ExchangeRates = new ExchangeRatesCollection('exchangeRates')
 
-Currencies.deny({
+ExchangeRates.deny({
 	insert() { return true },
 	remove() { return true }
 })
 
 // Fields of the collection items that are made available to the client.
-Currencies.publicFields = {
+ExchangeRates.publicFields = {
 	bitCoin: 1,
 	fiatCurrency: 1,
 	latestDate: 1,
@@ -27,8 +27,8 @@ Currencies.publicFields = {
 }
 
 
-Currencies.active = () => {
-	let currenciesList = Currencies.find({}).map(a => ({
+ExchangeRates.active = () => {
+	let exchangeRatesList = ExchangeRates.find({}).map(a => ({
 		_id: a._id,
 		bitCoin: a.bitCoin,
 		fiatCurrency: a.fiatCurrency,
@@ -36,13 +36,13 @@ Currencies.active = () => {
 		hisCurrency: a.hisCurrency
 	}))
 
-	return currenciesList
+	return exchangeRatesList
 }
 // Attach helpers to the collection object.
-Currencies.helpers({
+ExchangeRates.helpers({
 
 })
 
-initializeFactory(Currencies)
+initializeFactory(ExchangeRates)
 
-export default Currencies
+export default ExchangeRates
