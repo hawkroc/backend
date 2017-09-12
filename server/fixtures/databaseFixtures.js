@@ -2,9 +2,9 @@ import { Meteor } from 'meteor/meteor'
 
 const { fixtures_environment } = Meteor.settings.database
 
-import devProfileFixtures from "./environments/development/profileFixtures"
-import devAccountFixtures from "./environments/development/accountFixtures"
-import devExchangeRateFixtures from "./environments/development/exchangeRateFixtures"
+import devProfileFixtures from './environments/development/profileFixtures'
+import devAccountFixtures from './environments/development/accountFixtures'
+import devExchangeRateFixtures from './environments/development/exchangeRateFixtures'
 
 import Accounts from '../../imports/api/accounts/accounts'
 import Profiles from '../../imports/api/profiles/profiles'
@@ -59,13 +59,12 @@ const pushExchangeRateFixtures = () => {
 export default {
 	apply: () => {
 		Meteor.startup(() => {
-
 			if (!!fixtures_environment && fixtures_environment === 'development') {
 				pushAccountFixtures()
 				pushProfileFixtures()
 				pushExchangeRateFixtures()
 			} else {
-				console.warn("databaseFixtures: No fixtures configured for environment.")
+				console.warn('databaseFixtures: No fixtures configured for environment.')
 			}
 		})
 	}

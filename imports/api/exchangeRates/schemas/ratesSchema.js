@@ -1,6 +1,6 @@
 import SimpleSchema  from 'simpl-schema'
 
-const HistoricalSchema = new SimpleSchema({
+const Rate = new SimpleSchema({
 	_id: { type: String },
 
 	high: {
@@ -29,4 +29,4 @@ const HistoricalSchema = new SimpleSchema({
 	}
 })
 
-export default HistoricalSchema
+export default Rate

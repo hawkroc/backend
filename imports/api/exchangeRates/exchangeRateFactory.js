@@ -2,10 +2,10 @@ import { Factory } from 'meteor/dburles:factory'
 
 export const initializeFactory = (exchangeRateCollection) => {
 	Factory.define('exchangeRate', exchangeRateCollection, {
-		bitCoin: () => 'ETH',
+		digitalCurrency: () => 'ETH',
 		fiatCurrency: () => 'USD',
-		latestDate: () => 0,
-		hisCurrency: () => [],
+		latestMinedDate: () => 0,
+		rates: () => [],
 
 
 	})

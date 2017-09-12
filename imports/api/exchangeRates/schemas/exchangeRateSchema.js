@@ -1,15 +1,18 @@
 import SimpleSchema  from 'simpl-schema'
 
-import HistoricalSchema from '../historicalSchema'
+import Rate from './ratesSchema'
 
 const ExchangeRateSchema = new SimpleSchema({
 	_id: { type: String },
 
-	bitCoin: { type: String },
+	digitalCurrency: { type: String },
 	fiatCurrency: { type: String },
-	latestDate: { type: Number },
-	hisCurrency: {
-		type: [HistoricalSchema]
+	latestMinedDate: { type: Number },
+	rates: {
+		type: [Rate]
+	},
+	'rates.$': {
+		type: Rate
 	}
 })
 

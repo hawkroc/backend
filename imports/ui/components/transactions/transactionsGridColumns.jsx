@@ -23,15 +23,15 @@ export const buildColumns = ({
   };
   //get that day's rate
   const getExchangeDataCurrency = (date, currencyCollection) => {
-    return currencyCollection.hisCurrency.filter(a => {
+    return currencyCollection.rates.filter(a => {
       let time = new Date(parseInt(a.time)).toLocaleDateString();
       return time === date;
     });
   };
-  // get the rate list base on different bitCoin name
-  const getCurrencyBaseOnChoose = (bitCoin, currencies) => {
+  // get the rate list base on different digitalCurrency name
+  const getCurrencyBaseOnChoose = (digitalCurrency, currencies) => {
     let currency = currencies.filter(a => {
-      return a.bitCoin === bitCoin;
+      return a.digitalCurrency === digitalCurrency;
     });
     return currency[0];
   };
