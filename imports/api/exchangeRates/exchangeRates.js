@@ -14,26 +14,27 @@ class ExchangeRatesCollection extends Mongo.Collection {
 const ExchangeRates = new ExchangeRatesCollection('exchangeRates')
 
 ExchangeRates.deny({
+	update() { return true },
 	insert() { return true },
 	remove() { return true }
 })
 
 // Fields of the collection items that are made available to the client.
 ExchangeRates.publicFields = {
-	bitCoin: 1,
+	digitalCurrency: 1,
 	fiatCurrency: 1,
-	latestDate: 1,
-	hisCurrency: 1
+	latestMinedDate: 1,
+	rates: 1
 }
 
 
 ExchangeRates.active = () => {
 	let exchangeRatesList = ExchangeRates.find({}).map(a => ({
 		_id: a._id,
-		bitCoin: a.bitCoin,
+		digitalCurrency: a.digitalCurrency,
 		fiatCurrency: a.fiatCurrency,
-		latestDate: a.latestDate,
-		hisCurrency: a.hisCurrency
+		latestMinedDate: a.latestMinedDate,
+		rates: a.rates
 	}))
 
 	return exchangeRatesList

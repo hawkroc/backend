@@ -97,18 +97,18 @@ const pushExchangeRatesFixtures = () => {
 
 	let data = [
 		{
-			bitCoin: 'ETH',
+			digitalCurrency: 'ETH',
 			fiatCurrency: 'USD',
-			latestDate: 0,
+			latestMinedDate: 0,
 			// this hard code only for test before synchronize ExchangeRates from api
-			hisCurrency: []
+			rates: []
 		},
 		{
-			bitCoin: 'BTC',
+			digitalCurrency: 'BTC',
 			fiatCurrency: 'USD',
-			latestDate: 0,
+			latestMinedDate: 0,
 			// this hard code only for test before synchronize ExchangeRates from api
-			hisCurrency: []
+			rates: []
 		}
 	]
 

@@ -6,10 +6,10 @@ import ExchangeRate from '../imports/api/exchangeRates/exchangeRates'
 const getExchangeRateFromLocal = () => {
 	let exchangeRateList = ExchangeRate.find().map(a => ({
 		_id: a._id,
-		bitCoin: a.bitCoin,
+		digitalCurrency: a.digitalCurrency,
 		fiatCurrency: a.fiatCurrency,
-		latestDate: a.latestDate,
-		hisCurrency: a.hisCurrency
+		latestMinedDate: a.latestMinedDate,
+		rates: a.rates
 	}))
 	return exchangeRateList
 }
@@ -18,15 +18,15 @@ const getExchangeRateFromLocal = () => {
 export const fetchExchangeRates = Meteor.bindEnvironment(() => {
 	let exchangeRateList = getExchangeRateFromLocal()
 	for (let currency of exchangeRateList) {
-		let since = currency ? currency.latestDate : 0
+		let since = currency ? currency.latestMinedDate : 0
 		fetchHistoricalExchangeRates(
-			currency.bitCoin,
+			currency.digitalCurrency,
 			currency.fiatCurrency,
 			since
 		).then(response => {
 			ExchangeRate.update(currency._id, {
 				$push: {
-					hisCurrency: {
+					rates: {
 						$each: response
 					}
 				}
@@ -35,7 +35,7 @@ export const fetchExchangeRates = Meteor.bindEnvironment(() => {
 			ExchangeRate.update(currency._id, {
 				$set: {
 					// TODO: should this be latest block from API call?
-					latestDate: response[0].time
+					latestMinedDate: response[0].time
 				}
 			})
 
@@ -49,9 +49,9 @@ export const fetchExchangeRates = Meteor.bindEnvironment(() => {
  * 
  */
 
-const fetchHistoricalExchangeRates = (bitCoin, fiatCurrency, since) => {
-	let final = 'https://apiv2.bitcoinaverage.com/indices/global/history/'
-		+ bitCoin + fiatCurrency + '?period=daily&?format=json'
+const fetchHistoricalExchangeRates = (digitalCurrency, fiatCurrency, since) => {
+	let final = 'https://apiv2.digitalCurrencyaverage.com/indices/global/history/'
+		+ digitalCurrency + fiatCurrency + '?period=daily&?format=json'
 
 	console.log('Fetching historical exchange data:', final)
 
