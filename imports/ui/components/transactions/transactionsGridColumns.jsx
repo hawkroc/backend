@@ -1,6 +1,6 @@
 import React from "react";
-import { Select, Icon, Tooltip } from "antd";
-import CopyToClipboard from "react-copy-to-clipboard";
+import { Select } from "antd";
+import ClickCopyCell from "../common/clickCopyCell"
 const weiToEther = value => (value * Math.pow(10, -18)).toFixed(8);
 
 export const buildColumns = ({
@@ -70,16 +70,7 @@ export const buildColumns = ({
           <div className="editable-cell-text-wrapper" id={record._id}>
             {accountAliasMask(text)}
 
-            <CopyToClipboard text={text}>
-            <Tooltip title="Address copied to clipboard!" trigger="click">
-              <Icon
-                style={{ fontSize: 16 }}
-                title="Copy address to clipboard"
-                type="copy"
-                className="editable-cell-icon"
-              />
-              </Tooltip>
-            </CopyToClipboard>
+          <ClickCopyCell text={text}/>
           </div>
         </div>
       )
@@ -95,16 +86,7 @@ export const buildColumns = ({
         <div className="editable-cell">
           <div className="editable-cell-text-wrapper" id={record._id}>
             {accountAliasMask(text)}
-            <CopyToClipboard text={text}>
-              <Tooltip title="Address copied to clipboard!" trigger="click">
-                <Icon
-                  style={{ fontSize: 16 }}
-                  title="Copy address to clipboard"
-                  type="copy"
-                  className="editable-cell-icon"
-                />
-              </Tooltip>
-            </CopyToClipboard>
+            <ClickCopyCell text={text}/>
           </div>
         </div>
       )
