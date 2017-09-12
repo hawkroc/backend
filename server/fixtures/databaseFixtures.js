@@ -8,7 +8,7 @@ import devExchangeRateFixtures from "./environments/development/exchangeRateFixt
 
 import Accounts from '../../imports/api/accounts/accounts'
 import Profiles from '../../imports/api/profiles/profiles'
-import Currency from '../../imports/api/currency/currency'
+import Currency from '../../imports/api/exchangeRates/exchangeRates'
 
 
 const pushProfileFixtures = () => {
