@@ -8,7 +8,7 @@ import { setActiveCurrency } from '../actions/profileActions'
 import {setAccounts} from '../actions/accountActions'
 import Profiles from '../../api/profiles/profiles'
 import Accounts from '../../api/accounts/accounts'
-import Currencies from '../../api/currency/currency'
+import ExchangeRates from '../../api/exchangeRates/exchangeRates'
 
 /**
  * Handles state changes for profile related information.
@@ -37,7 +37,8 @@ const reducer = (state = initialState, payload) => {
 // TODO: Set different current base on profiles
 // TODO: need to test and make sure this doesn't fire when ANY profile changes.
 Meteor.startup(() => {
-	Tracker.autorun(() => {(
+	Tracker.autorun(() => {
+		(
 			store.dispatch(
 				setActiveProfile(Profiles.active())
 			),
@@ -45,7 +46,7 @@ Meteor.startup(() => {
 				setAccounts(Accounts.find().fetch())
 			),
 			store.dispatch(
-				setActiveCurrency(Currencies.active())
+				setActiveCurrency(ExchangeRates.active())
 			)
 		)
 	})

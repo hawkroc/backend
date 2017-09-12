@@ -2,7 +2,7 @@ import SimpleSchema  from 'simpl-schema'
 
 const TransactionSchema = new SimpleSchema({
 	_id: { type: String },
-	
+
 	contractAddress: {
 		type: String
 	},

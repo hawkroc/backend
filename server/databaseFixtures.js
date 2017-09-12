@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 
 import Accounts from '../imports/api/accounts/accounts'
 import Profiles from '../imports/api/profiles/profiles'
-import Currency from '../imports/api/currency/currency'
+import ExchangeRates from '../imports/api/exchangeRates/exchangeRates'
 
 /**
  * Pushes an initial set of data collections for testing purposes.
@@ -86,34 +86,34 @@ const pushAccountFixtures = () => {
 }
 
 
-const pushCurrencyFixtures = () => {
+const pushExchangeRatesFixtures = () => {
 	// Don't add fixtures if we already have data.
-	if (Currency.find().count() !== 0) {
-		console.log('databaseFixtures: Found existing Currency data. No Currency fixtures added.')
+	if (ExchangeRates.find().count() !== 0) {
+		console.log('databaseFixtures: Found existing ExchangeRates data. No ExchangeRates fixtures added.')
 		return []
 	}
 
-	console.log('databaseFixtures: No existing Currency data. Adding test fixtures.')
+	console.log('databaseFixtures: No existing ExchangeRates data. Adding test fixtures.')
 
 	let data = [
 		{
 			bitCoin: 'ETH',
 			fiatCurrency: 'USD',
 			latestDate: 0,
-			// this hard code only for test before synchronize currency from api
+			// this hard code only for test before synchronize ExchangeRates from api
 			hisCurrency: []
 		},
 		{
 			bitCoin: 'BTC',
 			fiatCurrency: 'USD',
 			latestDate: 0,
-			// this hard code only for test before synchronize currency from api
+			// this hard code only for test before synchronize ExchangeRates from api
 			hisCurrency: []
 		}
 	]
 
-	data.forEach((currency) => {
-		Currency.insert(currency)
+	data.forEach((exchangeRate) => {
+		ExchangeRates.insert(exchangeRate)
 	})
 }
 
@@ -123,7 +123,7 @@ export default {
 		Meteor.startup(() => {
 			pushAccountFixtures()
 			pushProfileFixtures()
-			pushCurrencyFixtures()
+			pushExchangeRatesFixtures()
 		})
 	}
 }

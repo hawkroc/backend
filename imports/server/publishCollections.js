@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 
 import Accounts from '../api/accounts/accounts'
 import Profiles from '../api/profiles/profiles'
-import Currencies from '../api/currency/currency'
+import ExchangeRates from '../api/exchangeRates/exchangeRates'
 
 /**
  * Serverside only - publish collections to clients.
@@ -36,10 +36,10 @@ export default {
 			})
 		})
 
-		Meteor.publish('currencies', () => {
-			// Return the Currencies ETH-USD. if need we can extends base on use's profile	
-			return Currencies.find({ }, {
-				fields: Currencies.publicFields
+		Meteor.publish('exchangeRates', () => {
+			// Return the ExchangeRates ETH-USD. if need we can extends base on use's profile	
+			return ExchangeRates.find({ }, {
+				fields: ExchangeRates.publicFields
 			})
 		})
 	}

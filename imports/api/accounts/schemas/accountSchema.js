@@ -8,7 +8,7 @@ const AccountSchema = new SimpleSchema({
 	address: { type: String },
 	latestMinedBlock: { type: Number },
 	balance: { type: Number },
-	
+
 	transactions: {
 		type: Array
 	},
