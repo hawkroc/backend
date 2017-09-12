@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 
 import * as appInsights from 'applicationinsights'
 
-import databaseFixtures from './databaseFixtures'
+import databaseFixtures from './fixtures/databaseFixtures'
 import publishCollections from '../imports/server/publishCollections'
 import schedule from './schedule'
 

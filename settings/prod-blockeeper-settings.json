@@ -1,4 +1,8 @@
 {
+    "database": {
+        "fixtures_environment": "production"
+    },
+
     "scheduling": {
         "transaction_miner_expression": "0 * * * * *"
     },
