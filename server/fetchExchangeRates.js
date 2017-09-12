@@ -19,7 +19,7 @@ export const fetchExchangeRates = Meteor.bindEnvironment(() => {
 	let exchangeRateList = getExchangeRateFromLocal()
 	for (let currency of exchangeRateList) {
 		let since = currency ? currency.latestDate : 0
-		getHistoryExchange(
+		fetchHistoricalExchangeRates(
 			currency.bitCoin,
 			currency.fiatCurrency,
 			since
@@ -49,12 +49,11 @@ export const fetchExchangeRates = Meteor.bindEnvironment(() => {
  * 
  */
 
-// only for development static data
-const historyCurrencyUrl = 'http://127.0.0.1/fakeData/'
-// "https://apiv2.bitcoinaverage.com/indices/global/history/";
-const getHistoryExchange = (bitCoin, fiatCurrency, since) => {
-	let final = historyCurrencyUrl + bitCoin + fiatCurrency + '.json'
-	console.log('final ' + final)
+const fetchHistoricalExchangeRates = (bitCoin, fiatCurrency, since) => {
+	let final = 'https://apiv2.bitcoinaverage.com/indices/global/history/'
+		+ bitCoin + fiatCurrency + '?period=daily&?format=json'
+
+	console.log('Fetching historical exchange data:', final)
 
 	return axios
 		.get(final)

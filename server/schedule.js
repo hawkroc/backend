@@ -10,7 +10,7 @@ const scheduleCronstyle = () => {
 }
 
 const scheduleGetCurrencies = () => {
-	schedule.scheduleJob(Meteor.settings.scheduling.transaction_miner_expression, () => {
+	schedule.scheduleJob(Meteor.settings.scheduling.exchangerate_miner_expression, () => {
 		console.log('schedule: Currencies job has started.')
 		fetchExchangeRates()
 	})
