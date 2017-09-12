@@ -5,6 +5,9 @@ import LabelTypeSchema from './labelTypeSchema'
 import TrackedAccountSchema from './trackedAccountSchema'
 import LabelSchema from './labelSchema'
 
+import TransactionDataTypesSchema from './transactionDataTypesSchema'
+import TransactionDatumSchema from './transactionDatumSchema'
+
 /**
  * User profile related data such as preferences and linked accounts.
  * 
@@ -24,20 +27,15 @@ const ProfileSchema = new SimpleSchema({
 		type: TrackedAccountSchema
 	},
 
-	// User-defined labels for tagging transactions.
-	labelTypes: {
-		type: Array
-	},
-	'labelTypes.$': {
-		type: LabelTypeSchema
+	transactionDataTypes: {
+		type: TransactionDataTypesSchema
 	},
 
-	// User's assignment of labels to transactions.
-	labels: {
+	transactionData: {
 		type: Array
 	},
-	'labels.$': {
-		type: LabelSchema
+	'transactionData.$': {
+		type: TransactionDatumSchema
 	}
 })
 
