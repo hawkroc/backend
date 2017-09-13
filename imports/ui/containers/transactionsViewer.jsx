@@ -24,6 +24,9 @@ class TransactionsViewer extends React.Component {
 			onLabelUpdated
 		} = this.props
 
+		const transactions = [].concat
+			.apply([], accounts.map(a => a.transactions))
+
 		return (
 			<div>
 				<div className="exchange">
@@ -32,7 +35,7 @@ class TransactionsViewer extends React.Component {
 					</span>{' '}
                     1 ETH = {usdExchangeRate} USD
 				</div>
-				<TransactionsExportComponent {...{ accounts }} />
+				<TransactionsExportComponent {...{ transactions }} />
 				<TransactionsGridComponent
 					{...{
 						accounts,

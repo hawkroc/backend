@@ -12,24 +12,9 @@ class TransactionsExport extends React.Component {
 	constructor(...args) {
 		super(...args)
 
-		const transactions = [].concat
-			.apply([], this.props.accounts.map(a => a.transactions))
-
-		let exportFieldOptions = [ ]
-
-		if (transactions && transactions.length > 0) {
-			let t = transactions[0]
-
-			Object.keys(t).forEach(k => {
-				exportFieldOptions.push(k)
-			})
-		}
-
 		// Using local state for simple transitions.
 		this.state = {
-			transactions,
 			modalVisible: false,
-			exportFieldOptions,
 			exportFieldSelected: ['timeStamp', 'from', 'to', 'value'],
 			csvData: []
 		}
@@ -43,7 +28,7 @@ class TransactionsExport extends React.Component {
 	handleDownload() {
 		let csvData = []
 
-		this.state.transactions.forEach(t => {
+		this.props.transactions.forEach(t => {
 			csvData.push(_.pick(t, this.state.exportFieldSelected))
 		})
 
@@ -52,6 +37,16 @@ class TransactionsExport extends React.Component {
 	}
 
 	render() {
+		let exportFieldOptions = [ ]
+
+		if (!!this.props.transactions && this.props.transactions.length > 0) {
+			let t = this.props.transactions[0]
+
+			Object.keys(t).forEach(k => {
+				exportFieldOptions.push(k)
+			})
+		}
+
 		return (
 			<div className="tableList">
 				<Button onClick={() => this.openModal()}>
@@ -60,6 +55,7 @@ class TransactionsExport extends React.Component {
 				<Modal
 					title="Export transaction data"
 					visible={this.state.modalVisible}
+					onCancel={() => this.closeModal()}
 
 					footer={[
 						<Button
@@ -92,7 +88,7 @@ class TransactionsExport extends React.Component {
 						onChange={(value) => this.handleFieldChange(value)}
 					>
 						{
-							this.state.exportFieldOptions.map(f => {
+							exportFieldOptions.map(f => {
 								return (
 									<Select.Option key={f}>{f}</Select.Option>
 								)
