@@ -1,6 +1,3 @@
-import { Meteor } from 'meteor/meteor'
-import { Tracker } from 'meteor/tracker'
-
 import * as actionTypes from '../constants/actionTypes'
 
 const initialState = {
@@ -22,12 +19,5 @@ const reducer = (state = initialState, payload) => {
 			return state
 	}
 }
-
-// Every change to the accounts collection will trigger a dispatch.
-Meteor.startup(() => {
-	Tracker.autorun(() => {
-		// return store.dispatch(setAccounts(Accounts.find().fetch()))
-	})
-})
 
 export default reducer
