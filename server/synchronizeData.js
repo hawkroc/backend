@@ -91,7 +91,7 @@ export const synchronizeDataFromApi = () => {
 						res.length,
 						'records.'
 					)
-					
+
 					console.log(
 						'synchronizeData: This time fetch end block number ',
 						endBlock,
@@ -100,7 +100,7 @@ export const synchronizeDataFromApi = () => {
 					Accounts.update(account._id, {
 						$set: {
 							// every time the endBlock will be store and next time from this begin
-							latestMinedBlock:endBlock
+							latestMinedBlock: endBlock
 						}
 					})
 

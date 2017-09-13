@@ -10,27 +10,27 @@ import SwitchLanguageSettings from '../containers/switchLanguageSettings'
  *
  */
 const Layout = () => {
-    return (
-        <div>
-            <div className="inputSearch ">
-                <Row>
-                    <Col offset={1} span={2}>
-                        <div>
-                            <img role="presentation" src="/img/blockeeper_Blue.png" className="logo"/>
-                        </div>
-                    </Col>
-                    <Col offset={6} span={6}>
-                        <TransactionsFilterContainer/>
-                    </Col>
+	return (
+		<div>
+			<div className="inputSearch ">
+				<Row>
+					<Col offset={1} span={2}>
+						<div>
+							<img role="presentation" src="/img/blockeeper_Blue.png" className="logo"/>
+						</div>
+					</Col>
+					<Col offset={6} span={6}>
+						<TransactionsFilterContainer/>
+					</Col>
 
-                    <Col offset={7} span={2}>
-                        <SwitchLanguageSettings/>
-                    </Col>
+					<Col offset={7} span={2}>
+						<SwitchLanguageSettings/>
+					</Col>
 
-                </Row>
-            </div>
-        </div>
-    )
+				</Row>
+			</div>
+		</div>
+	)
 }
 
-export default Layout;
+export default Layout

@@ -7,22 +7,22 @@ const { RangePicker } = DatePicker
  * Presents a timespan selctor for temporal filtering.
  * 
  */
- const View = ({
-    // When timespan data has changed.
-    onTimespanSelected,
+const View = ({
+	// When timespan data has changed.
+	onTimespanSelected,
 
-    // Timespan to display in picker.
-    timespan
- }) => {
-     return (
-        <div>
-            <RangePicker
-                onChange={(dates) => onTimespanSelected(dates)}
-                size='large'
-                format='YYYY-MM-DD'
-            />
-        </div>
-     )
- }
+	// Timespan to display in picker.
+	timespan
+}) => {
+	return (
+		<div>
+			<RangePicker
+				onChange={(dates) => onTimespanSelected(dates)}
+				size="large"
+				format="YYYY-MM-DD"
+			/>
+		</div>
+	)
+}
 
- export default View;
+export default View

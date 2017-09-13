@@ -13,9 +13,9 @@ export default {
 		Meteor.publish('accounts', () => {
 			// Get the user's currently tracked accounts only.
 
-			let accountIds = Profiles.active().trackedAccounts.map(
-				ta => ta.accountId
-			)
+			// let accountIds = Profiles.active().trackedAccounts.map(
+			// 	ta => ta.accountId
+			// )
 
 			return Accounts.find({
 				// _id: { 

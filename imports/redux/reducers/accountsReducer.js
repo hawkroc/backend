@@ -1,12 +1,7 @@
 import { Meteor } from 'meteor/meteor'
-
 import { Tracker } from 'meteor/tracker'
 
-import store from '../store'
 import * as actionTypes from '../constants/actionTypes'
-import { setAccounts } from '../actions/accountActions'
-
-import Accounts from '../../api/accounts/accounts'
 
 const initialState = {
 	/**

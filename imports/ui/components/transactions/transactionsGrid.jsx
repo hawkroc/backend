@@ -8,36 +8,36 @@ import { buildColumns } from './transactionsGridColumns'
  * 
  */
 const View = ({
-    accounts,
-    addressAliasLookup,
-    usdExchangeRate,
-    labelTypes,
-    transactionLabels,
-    currencies,
-    onLabelUpdated
+	accounts,
+	addressAliasLookup,
+	usdExchangeRate,
+	labelTypes,
+	transactionLabels,
+	currencies,
+	onLabelUpdated
 }) => {
-    // Flatten transactions for all our tracked accounts.
-    const gridDataSource = [].concat.apply([], accounts.map(a => a.transactions))
+	// Flatten transactions for all our tracked accounts.
+	const gridDataSource = [].concat.apply([], accounts.map(a => a.transactions))
 
-    const gridColumns = buildColumns({
-        addressAliasLookup, 
-        usdExchangeRate, 
-        labelTypes, 
-        onLabelUpdated, 
-        currencies,
-        transactionLabels
-    });
- 
-    return (
-        <div className="tableList">
-            <Table 
-                columns={ gridColumns }
-                dataSource={ gridDataSource }
-                rowKey={ transaction => transaction._id }
-                pagination={{ pageSize: 6 }}
-            />
-        </div>
-    )
+	const gridColumns = buildColumns({
+		addressAliasLookup,
+		usdExchangeRate,
+		labelTypes,
+		onLabelUpdated,
+		currencies,
+		transactionLabels
+	})
+
+	return (
+		<div className="tableList">
+			<Table
+				columns={ gridColumns }
+				dataSource={ gridDataSource }
+				rowKey={ transaction => transaction._id }
+				pagination={{ pageSize: 6 }}
+			/>
+		</div>
+	)
 }
 
 export default View

@@ -67,8 +67,8 @@ Meteor.methods({
 		// Remove the label type.
 		Profiles.update(activeProfile._id, {
 			$pull: {
-				'transactionDataTypes.gstLabels.items': { 
-					_id 
+				'transactionDataTypes.gstLabels.items': {
+					_id
 				}
 			}
 		})

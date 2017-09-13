@@ -1,24 +1,24 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from 'react'
+import { connect } from 'react-redux'
 
 import TransactionsChartComponent from '../components/transactions/transactionsChart'
 
 const View = () => (
-    <div>
-        <TransactionsChartComponent />
-    </div>
+	<div>
+		<TransactionsChartComponent />
+	</div>
 )
 
 const mapStateToProps = (state) => {
-    return {
-        
-    }
+	return {
+
+	}
 }
 
 const mapDispatchToProps = (dispatch, state) => {
-    return {
+	return {
 
-    }
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(View)
