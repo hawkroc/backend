@@ -141,15 +141,6 @@ export const synchronizeDataFromApi = () => {
 					// Validating even a few hundred transactions is VERY slow. Bypass validation for this
 					// trusted serverside update.
 					{ bypassCollection2: true })
-
-					// Successful transaction import? Update latest block.
-					// Accounts.update(account._id, {
-					// 	$set: {
-					// 		// TODO: should this be latest block from API call?
-					// 		latestMinedBlock: res.slice(-1)[0].blockNumber
-					// 	}
-					// })
-
 					return true
 				})
 				.catch(e => {
