@@ -9,7 +9,7 @@ export default {
 			{
 				_id: new Meteor.Collection.ObjectID().toHexString(),
 				accountId: a._id,
-				alias: `Demo account ${i}`
+				alias: `Demo account ${i + 1}`
 			}
 		))
 
@@ -22,25 +22,30 @@ export default {
 
 				trackedAccounts,
 
-				labelTypes: [
-					{
-						_id: new Meteor.Collection.ObjectID().toHexString(),
-						name: 'Staff salary',
-						gst: false
-					},
-					{
-						_id: new Meteor.Collection.ObjectID().toHexString(),
-						name: 'Travel expense',
-						gst: true
-					},
-					{
-						_id: new Meteor.Collection.ObjectID().toHexString(),
-						name: 'Rent',
-						gst: true
+				transactionDataTypes: {
+					gstLabels: {
+						name: 'gst-labels',
+						items: [
+							{
+								_id: new Meteor.Collection.ObjectID().toHexString(),
+								label: 'Staff salary',
+								gst: false
+							},
+							{
+								_id: new Meteor.Collection.ObjectID().toHexString(),
+								label: 'Travel expense',
+								gst: true
+							},
+							{
+								_id: new Meteor.Collection.ObjectID().toHexString(),
+								label: 'Rent',
+								gst: true
+							}
+						]
 					}
-				],
+				},
 
-				labels: [ ]
+				transactionData: [ ]
 			},
 		]
 

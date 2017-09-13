@@ -13,10 +13,8 @@ import ApplicationSettings from '../containers/applicationSettings'
  * 
  */
  const Layout = ({languageConfig}) => {
-
      return (
         <div>
-           
             <Tabs defaultActiveKey="0" >
                 <TabPane tab={languageConfig.Transactions_title} key="0">
                     <TransactionsViewer />
@@ -36,4 +34,4 @@ import ApplicationSettings from '../containers/applicationSettings'
      )
  }
 
- export default Layout;
+ export default Layout

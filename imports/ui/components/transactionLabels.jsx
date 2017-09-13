@@ -30,7 +30,7 @@ import { buildColumns } from './transactionLabelsColumns'
                 dataSource={labelTypes} 
                 columns={columns} />
             <Button className="editable-add-btn"
-                onClick={() => onInsertLabelType({ name: languageConfig.New_label, gst: false })}> {languageConfig.Add_label}</Button>
+                onClick={() => onInsertLabelType({ label: languageConfig.New_label, gst: false })}> {languageConfig.Add_label}</Button>
         </div>
      )
  }

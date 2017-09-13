@@ -8,14 +8,14 @@ export const buildColumns = ({
   return [
     {
       title: languageConfig.Name,
-      dataIndex: "name",
+      dataIndex: "label",
       width: "50%",
 
       render: (text, record, index) =>
         <EditableCell
           value={text}
           onChangeConfirmed={newValue => {
-            record["name"] = newValue;
+            record["label"] = newValue;
             onUpdateLabelType(record);
           }}
         />

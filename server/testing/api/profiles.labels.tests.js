@@ -29,14 +29,14 @@ describe('Profiles: labels', function() {
 
 		Meteor.call(
 			labelMethodTypes.PROFILE_INSERT_LABELTYPE,
-			{ name: labelTypeName, gst: labelTypeGst }
+			{ label: labelTypeName, gst: labelTypeGst }
 		)
 
 		let newLabelTypeCount = Profiles.active().labelTypes.length
 		chai.assert.equal(newLabelTypeCount, initialLabelTypeCount + 1, 'There is exactly one more label type available')
 
 		let newLabelTypeDetailCount = Profiles.active().labelTypes
-			.filter(lt => lt.name == labelTypeName && lt.gst == labelTypeGst)
+			.filter(lt => lt.label == labelTypeName && lt.gst == labelTypeGst)
 			.length
 
 		// Ensure only one label has these details.
@@ -132,7 +132,7 @@ describe('Profiles: labels', function() {
 
 		Meteor.call(
 			labelMethodTypes.PROFILE_UPDATE_LABELTYPE,
-			{ _id: labelTypeToUpdateId, name: updatedLabelTypeName, gst: !labelTypeInitialGst }
+			{ _id: labelTypeToUpdateId, label: updatedLabelTypeName, gst: !labelTypeInitialGst }
 		)
 
 		let newLabelTypeCount = Profiles.active().labelTypes.length
@@ -147,8 +147,8 @@ describe('Profiles: labels', function() {
 		chai.assert.isObject(updatedLabelType, 'Our updated label type still exists')
 
 		// Make sure the correct label was updated.
-		chai.assert.equal(updatedLabelType.name, updatedLabelTypeName, 'The target label type name was updated')
+		chai.assert.equal(updatedLabelType.label, updatedLabelTypeName, 'The target label type name was updated')
 		chai.assert.equal(updatedLabelType.gst, !labelTypeInitialGst, 'The target label type GST value was updated')
-		chai.assert.notEqual(miscLabelType.name, updatedLabelTypeName, 'Other label type name was not updated')
+		chai.assert.notEqual(miscLabelType.label, updatedLabelTypeName, 'Other label type name was not updated')
 	})
 })

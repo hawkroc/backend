@@ -1,7 +1,7 @@
 import React from "react";
 import { Select } from "antd";
 import ClickCopyCell from "../common/clickCopyCell"
-const weiToEther = value => (value * Math.pow(10, -18)).toFixed(8);
+const weiToEther = value => value * Math.pow(10, -18);
 
 export const buildColumns = ({
   addressAliasLookup,
@@ -39,7 +39,7 @@ export const buildColumns = ({
   const findTransactionLabel = txId => {
     let label = transactionLabels.find(l => l.transactionId == txId);
     if (label) {
-      return label.labelTypeId;
+      return label.itemId;
     }
 
     return undefined;
@@ -204,7 +204,7 @@ export const buildColumns = ({
               {labelTypes.map(lt => {
                 return (
                   <Select.Option value={lt._id} key={lt._id}>
-                    {lt.name}
+                    {lt.label}
                   </Select.Option>
                 );
               })}
