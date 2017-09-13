@@ -1,10 +1,7 @@
 import SimpleSchema from 'simpl-schema'
 
 import InfoSchema from './infoSchema'
-import LabelTypeSchema from './labelTypeSchema'
 import TrackedAccountSchema from './trackedAccountSchema'
-import LabelSchema from './labelSchema'
-
 import TransactionDataTypesSchema from './transactionDataTypesSchema'
 import TransactionDatumSchema from './transactionDatumSchema'
 

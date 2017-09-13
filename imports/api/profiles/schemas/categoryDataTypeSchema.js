@@ -5,19 +5,19 @@ import SimpleSchema  from 'simpl-schema'
  * 
  */
 const schema = new SimpleSchema({
-    // Name of the data type. Core types can specify 'allowedValues'
-    // on extension of this schema.
-    name: { 
-        type: String,
-        optional: false 
-    },
+	// Name of the data type. Core types can specify 'allowedValues'
+	// on extension of this schema.
+	name: {
+		type: String,
+		optional: false
+	},
 
-    items: {
-        type: Array
-    },
-    'items.$': { type: Object },
-    'items.$._id': { type: String },
-    'items.$.label': { type: String },
+	items: {
+		type: Array
+	},
+	'items.$': { type: Object },
+	'items.$._id': { type: String },
+	'items.$.label': { type: String },
 })
 
 export default schema

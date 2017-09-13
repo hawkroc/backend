@@ -65,7 +65,7 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-	[methodTypes.PROFILE_UPDATE_TRACKEDACCOUNT]({_id, alias}) {
+	[methodTypes.PROFILE_UPDATE_TRACKEDACCOUNT]({ _id, alias }) {
 		// TODO: VALIDATION! of user vs profile.
 
 		let activeProfile = Profiles.active()

@@ -1,13 +1,13 @@
 import React from 'react'
-
 import { Table } from 'antd'
 
 import { buildColumns } from './transactionsGridColumns'
+
 /**
  * Presents a grid showing transaction information.
  * 
  */
- const View = ({
+const View = ({
     accounts,
     addressAliasLookup,
     usdExchangeRate,
@@ -15,8 +15,7 @@ import { buildColumns } from './transactionsGridColumns'
     transactionLabels,
     currencies,
     onLabelUpdated
- }) => {
-
+}) => {
     // Flatten transactions for all our tracked accounts.
     const gridDataSource = [].concat.apply([], accounts.map(a => a.transactions))
 
@@ -32,17 +31,13 @@ import { buildColumns } from './transactionsGridColumns'
     return (
         <div className="tableList">
             <Table 
-                columns={gridColumns}
-                dataSource={gridDataSource}
-                rowKey={transaction => transaction._id}
+                columns={ gridColumns }
+                dataSource={ gridDataSource }
+                rowKey={ transaction => transaction._id }
                 pagination={{ pageSize: 6 }}
             />
         </div>
     )
- }
+}
 
-
-
-
-
- export default View;
+export default View

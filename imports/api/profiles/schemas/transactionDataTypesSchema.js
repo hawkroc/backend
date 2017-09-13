@@ -3,13 +3,14 @@ import SimpleSchema  from 'simpl-schema'
 import CategoryDataTypeSchema from './categoryDataTypeSchema'
 
 const GstLabelsSchema = new SimpleSchema({
-    // Specify only a single name for this core data type.
-    name: {
-        allowedValues: ['gst-labels']
-    },
+	// Specify only a single name for this core data type.
+	name: {
+		type: String,
+		allowedValues: ['gst-labels']
+	},
 
-    // Extend the category items with a GST value.
-    'items.$.gst': { type: Boolean }
+	// Extend the category items with a GST value.
+	'items.$.gst': { type: Boolean }
 })
 
 GstLabelsSchema.extend(CategoryDataTypeSchema)
@@ -19,11 +20,11 @@ GstLabelsSchema.extend(CategoryDataTypeSchema)
  * 
  */
 const schema = new SimpleSchema({
-    gstLabels: {
-        type: GstLabelsSchema
-    }
+	gstLabels: {
+		type: GstLabelsSchema
+	}
 
-    // TODO: more flexible custom data-types.
+	// TODO: more flexible custom data-types.
 })
 
 export default schema

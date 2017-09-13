@@ -9,7 +9,7 @@ export default {
 			{
 				_id: new Meteor.Collection.ObjectID().toHexString(),
 				accountId: a._id,
-				alias: `Demo account ${i+1}`
+				alias: `Demo account ${i + 1}`
 			}
 		))
 
@@ -24,7 +24,7 @@ export default {
 
 				transactionDataTypes: {
 					gstLabels: {
-						name: "gst-labels",
+						name: 'gst-labels',
 						items: [
 							{
 								_id: new Meteor.Collection.ObjectID().toHexString(),

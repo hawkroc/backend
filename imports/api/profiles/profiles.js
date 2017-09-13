@@ -23,8 +23,8 @@ Profiles.attachSchema(ProfileSchema)
 Profiles.publicFields = {
 	info: 1,
 	trackedAccounts: 1,
-	labelTypes: 1,
-	labels: 1
+	transactionDataTypes: 1,
+	transactionData: 1
 }
 
 // TODO: This needs to fetch the actual user profile. Not just any.

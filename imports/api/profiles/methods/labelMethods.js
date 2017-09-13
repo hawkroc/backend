@@ -10,15 +10,15 @@ Meteor.methods({
      * 
      * @param {*Insert} param0 
      */
-	[ methodTypes.PROFILE_INSERT_LABELTYPE ]({ name, gst }) {
+	[ methodTypes.PROFILE_INSERT_LABELTYPE ]({ label, gst }) {
 		let activeProfile = Profiles.active()
 
 		Profiles.update(activeProfile._id, {
 			$push: {
-				'labelTypes': {
+				'transactionDataTypes.gstLabels.items': {
 					// TODO: best way to do IDs?
 					_id: new Meteor.Collection.ObjectID().toHexString(),
-					name,
+					label,
 					gst
 				}
 			}
@@ -30,17 +30,17 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-	[ methodTypes.PROFILE_UPDATE_LABELTYPE ]({ _id, name, gst }) {
+	[ methodTypes.PROFILE_UPDATE_LABELTYPE ]({ _id, label, gst }) {
 		// TODO: VALIDATION! of user vs profile.
 		// let activeProfile = Profiles.active();
 
 		Profiles.update(
 			{
-				'labelTypes._id': _id
+				'transactionDataTypes.gstLabels.items._id': _id
 			}, {
 				$set: {
-					'labelTypes.$.name': name,
-					'labelTypes.$.gst': gst
+					'transactionDataTypes.gstLabels.items.$.label': label,
+					'transactionDataTypes.gstLabels.items.$.gst': gst
 				}
 			}
 		)
@@ -56,13 +56,10 @@ Meteor.methods({
 
 		// Remove all transaction labels from the user profile corresponding
 		// to this label type.
-		Profiles.update({
-			_id: activeProfile._id,
-			'labels.labelTypeId': _id
-		}, {
+		Profiles.update(activeProfile._id, {
 			$pull: {
-				'labels': {
-					labelTypeId: _id
+				'transactionData': {
+					itemId: _id
 				}
 			}
 		})
@@ -70,7 +67,9 @@ Meteor.methods({
 		// Remove the label type.
 		Profiles.update(activeProfile._id, {
 			$pull: {
-				'labelTypes': { _id }
+				'transactionDataTypes.gstLabels.items': { 
+					_id 
+				}
 			}
 		})
 	},
@@ -83,13 +82,15 @@ Meteor.methods({
 	[ methodTypes.PROFILE_UPDATE_LABEL ]({ txId, labelTypeId }) {
 		let activeProfile = Profiles.active()
 
+		// TODO: validate label type with existing types.
+
 		// Pull all exising labels for provided transaction ID.
 		Profiles.update({
 			_id: activeProfile._id,
-			'labels.transactionId': txId
+			'transactionData.dataTypeName': 'gst-labels'
 		}, {
 			$pull: {
-				'labels': {
+				'transactionData': {
 					transactionId: txId
 				}
 			},
@@ -100,11 +101,13 @@ Meteor.methods({
 			_id: activeProfile._id
 		}, {
 			$push: {
-				'labels': {
+				'transactionData': {
 					transactionId: txId,
-					labelTypeId
+					dataTypeName: 'gst-labels',
+					itemId: labelTypeId,
+					value: 0
 				}
-			},
+			}
 		})
 	}
 })
