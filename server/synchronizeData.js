@@ -91,6 +91,19 @@ export const synchronizeDataFromApi = () => {
 						res.length,
 						'records.'
 					)
+					
+					console.log(
+						'synchronizeData: This time fetch end block number ',
+						endBlock,
+						'.'
+					)
+					Accounts.update(account._id, {
+						$set: {
+							// every time the endBlock will be store and next time from this begin
+							latestMinedBlock:endBlock
+						}
+					})
+
 
 					if (res.length === 0) {
 						// No new data.
@@ -130,12 +143,12 @@ export const synchronizeDataFromApi = () => {
 					{ bypassCollection2: true })
 
 					// Successful transaction import? Update latest block.
-					Accounts.update(account._id, {
-						$set: {
-							// TODO: should this be latest block from API call?
-							latestMinedBlock: res.slice(-1)[0].blockNumber
-						}
-					})
+					// Accounts.update(account._id, {
+					// 	$set: {
+					// 		// TODO: should this be latest block from API call?
+					// 		latestMinedBlock: res.slice(-1)[0].blockNumber
+					// 	}
+					// })
 
 					return true
 				})
