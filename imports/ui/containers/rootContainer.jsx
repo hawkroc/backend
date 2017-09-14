@@ -5,33 +5,33 @@ import HeaderContentLayout from '../layouts/headerContent'
 import BodyContentLayout from '../layouts/bodyContent'
 
 const View = ({
-    language,
-    languageConfig
+	stateIsReady,
+	language,
+	languageConfig
 }) => {
-
-    return (
-   
-       <LocaleProvider locale={language}>
-          <div className="list">
-            <HeaderContentLayout />
-            <BodyContentLayout {...{ languageConfig,language}}/> 
-          </div>
-        </LocaleProvider>
-     //   <RootComponents  {...{language}}/>
-    )
+	return (
+		<LocaleProvider locale={language}>
+			<div className="list">
+				<HeaderContentLayout />
+				{stateIsReady ? <BodyContentLayout {...{ languageConfig, language }}/>  : null}
+			</div>
+		</LocaleProvider>
+	)
 }
 
 const mapStateToProps = (state) => {
-    return {
-        language: state.navigation.language,
-        languageConfig: state.navigation.languageConfig
-    }
+	let activeProfile = state.profiles.active
+
+	// Initial state is ready when the active profile is available.
+	let stateIsReady = !!activeProfile
+								&& Object.keys(activeProfile).length !== 0
+								&& activeProfile.constructor !== Object
+
+	return {
+		stateIsReady,
+		language: state.navigation.language,
+		languageConfig: state.navigation.languageConfig
+	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-      
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(View)
+export default connect(mapStateToProps)(View)

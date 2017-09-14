@@ -1,7 +1,16 @@
 {
-    "scheduling": {
-        "transaction_miner_expression": "0 * * * * *"
+    "database": {
+        "fixtures_environment": "development"
     },
+    
+    "scheduling": {
+        "transaction_miner_expression": "0 * * * * *",
+        "exchangerate_miner_expression": "0 0 0 * * *"
+    },
+    
+    "azure": {
+        "app_insights_key": "045fb4ec-9e7c-44d9-8ba0-a5b15c44610f"
+    },    
 
     "third_party": {
         "ether_scan": {

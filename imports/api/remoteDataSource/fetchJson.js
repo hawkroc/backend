@@ -4,9 +4,6 @@
  * 
  */
 
-
-import { Meteor } from 'meteor/meteor'
-
 import axios from 'axios'
 
 /**
@@ -26,8 +23,8 @@ export const GetExchange = (type = 'USD') => {
 }
 
 
-const balanceUrl = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' + 
-	`&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV`
+const balanceUrl = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' +
+	'&apikey=E9MYVKUN5TNUBH6P4E5IWEUHAXGZCXQSNV'
 
 export const GetBalance = (address) => {
 	let final = balanceUrl + `&address=${address}`

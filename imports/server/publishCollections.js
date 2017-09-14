@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 
 import Accounts from '../api/accounts/accounts'
 import Profiles from '../api/profiles/profiles'
-import Currencies from '../api/currency/currency'
+import ExchangeRates from '../api/exchangeRates/exchangeRates'
 
 /**
  * Serverside only - publish collections to clients.
@@ -12,16 +12,20 @@ export default {
 	apply: () => {
 		Meteor.publish('accounts', () => {
 			// Get the user's currently tracked accounts only.
-			let accountIds = Profiles.active().trackedAccounts.map(
-				ta => ta.accountId
-			)
+
+			// let accountIds = Profiles.active().trackedAccounts.map(
+			// 	ta => ta.accountId
+			// )
 
 			return Accounts.find({
-				_id: {
-					$in: accountIds
-				}
-			}, { fields: Accounts.publicFields }
-			)
+				// _id: { 
+				// 	$in: accountIds
+				// }
+			},
+			// Options 
+			{
+				fields: Accounts.publicFields
+			})
 		})
 
 		Meteor.publish('profiles', () => {
@@ -32,10 +36,10 @@ export default {
 			})
 		})
 
-		Meteor.publish('currencies', () => {
-			// Return the Currencies ETH-USD. if need we can extends base on use's profile	
-			return Currencies.find({ }, {
-				fields: Currencies.publicFields
+		Meteor.publish('exchangeRates', () => {
+			// Return the ExchangeRates ETH-USD. if need we can extends base on use's profile	
+			return ExchangeRates.find({ }, {
+				fields: ExchangeRates.publicFields
 			})
 		})
 	}

@@ -3,8 +3,8 @@ import Accounts from '../imports/api/accounts/accounts'
 
 const axios = require('axios')
 
-const QUERY_CURRENT_BLOCK = Meteor.settings.third_party.ether_scan.base_url + 
-	'module=proxy&action=eth_blockNumber' + 
+const QUERY_CURRENT_BLOCK = Meteor.settings.third_party.ether_scan.base_url +
+	'module=proxy&action=eth_blockNumber' +
 	`&apikey=${Meteor.settings.third_party.ether_scan.api_key}`
 
 /**
@@ -39,14 +39,14 @@ const getdataFromApi = (startblock, endblock, address) => {
 /**
  * get balance from api only if there new transactions  it be invoked
  */
-const QUERY_BALANCE = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' + 
+const QUERY_BALANCE = 'https://api.etherscan.io/api?module=account&action=balance&tag=latest' +
 	`&apiKey=${Meteor.settings.third_party.ether_scan.api_key}`
-	
-export const GetBalance = (address) => {
+
+export const getBalance = (address) => {
 	let final = QUERY_BALANCE + `&address=${address}`
 	return axios.get(final).then(response => {
-			return response
-		})
+		return response
+	})
 		.catch(error => {
 			throw error
 		})
@@ -92,6 +92,19 @@ export const synchronizeDataFromApi = () => {
 						'records.'
 					)
 
+					console.log(
+						'synchronizeData: This time fetch end block number ',
+						endBlock,
+						'.'
+					)
+					Accounts.update(account._id, {
+						$set: {
+							// every time the endBlock will be store and next time from this begin
+							latestMinedBlock: endBlock
+						}
+					})
+
+
 					if (res.length === 0) {
 						// No new data.
 						return true
@@ -124,16 +137,10 @@ export const synchronizeDataFromApi = () => {
 								$each: res
 							}
 						}
-					})
-
-					// Successful transaction import? Update latest block.
-					Accounts.update(account._id, {
-						$set: {
-							// TODO: should this be latest block from API call?
-							latestMinedBlock: res.slice(-1)[0].blockNumber
-						}
-					})
-
+					},
+					// Validating even a few hundred transactions is VERY slow. Bypass validation for this
+					// trusted serverside update.
+					{ bypassCollection2: true })
 					return true
 				})
 				.catch(e => {

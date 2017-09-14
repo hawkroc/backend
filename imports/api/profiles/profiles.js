@@ -4,6 +4,8 @@ import { initializeFactory } from './profilesFactory'
 import './methods/labelMethods'
 import './methods/trackedAccountMethods'
 
+import ProfileSchema from './schemas/profileSchema'
+
 class ProfilesCollection extends Mongo.Collection { }
 const Profiles = new ProfilesCollection('profiles')
 
@@ -15,20 +17,20 @@ Profiles.deny({
 	remove() { return true }
 })
 
-// Profiles.attachSchema(ProfileSchema)
+Profiles.attachSchema(ProfileSchema)
 
 // Fields of the collection items that are made available to the client.
 Profiles.publicFields = {
 	info: 1,
 	trackedAccounts: 1,
-	labelTypes: 1,
-	labels: 1
+	transactionDataTypes: 1,
+	transactionData: 1
 }
 
 // TODO: This needs to fetch the actual user profile. Not just any.
 // TODO: Should probably be published on "profiles.active".
 Profiles.active = () => {
-    return Profiles.findOne()
+	return Profiles.findOne()
 }
 
 // Attach helpers to the collection object.
