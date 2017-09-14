@@ -29,12 +29,12 @@ pipeline {
       }
     }
 
-    stage('Test application') {
-      steps {
-        sh '/usr/local/bin/docker-compose build --no-cache testing'
-        sh '/usr/local/bin/docker-compose up testing'
-      }
-    }
+    // stage('Test application') {
+    //   steps {
+    //     sh '/usr/local/bin/docker-compose build --no-cache testing'
+    //     sh '/usr/local/bin/docker-compose up testing'
+    //   }
+    // }
 
     stage('Build deployment image') {
       steps {

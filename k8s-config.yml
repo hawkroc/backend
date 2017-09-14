@@ -19,7 +19,7 @@ spec:
           - name: PORT
             value: "8080"
           - name: MONGO_URL
-            value: "mongodb://mongodb/blockeeper"
+            value: "mongodb://mongodb/<env_prefix>blockeeper"
           - name: METEOR_SETTINGS
             valueFrom:
               configMapKeyRef:
