@@ -5,6 +5,8 @@ import TrackedAccountSchema from './trackedAccountSchema'
 import TransactionDataTypesSchema from './transactionDataTypesSchema'
 import TransactionDatumSchema from './transactionDatumSchema'
 
+import TaxationModuleSchema from '../../../modules/taxation/taxationModuleSchema'
+
 /**
  * User profile related data such as preferences and linked accounts.
  * 
@@ -22,6 +24,16 @@ const ProfileSchema = new SimpleSchema({
 	},
 	'trackedAccounts.$': {
 		type: TrackedAccountSchema
+	},
+
+	modules: {
+		type: Array
+	},
+	'modules.$': {
+		// Add further valid module defs here.
+		type: SimpleSchema.oneOf(
+			TaxationModuleSchema
+		)
 	},
 
 	transactionDataTypes: {

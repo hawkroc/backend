@@ -22,6 +22,50 @@ export default {
 
 				trackedAccounts,
 
+				modules: [
+					{
+						name: "taxation",
+						metadata: {
+							version: "swiss-vat-1.0-alpha",
+							enabled: true,
+							dependencies: [ ]
+						},
+						
+						taxCodes: {
+							items: [
+								{
+									_id: new Meteor.Collection.ObjectID().toHexString(),
+									codeId: 'S',
+									label: 'Standard',
+									rate: 0.08
+								},
+								{
+									_id: new Meteor.Collection.ObjectID().toHexString(),
+									codeId: 'F',
+									label: 'Foodstuffs (2.5%)',
+									rate: 0.025
+								},
+								{
+									_id: new Meteor.Collection.ObjectID().toHexString(),
+									codeId: 'H',
+									label: 'Hotels (3.8%)',
+									rate: 0.038
+								},
+								{
+									_id: new Meteor.Collection.ObjectID().toHexString(),
+									codeId: 'Z',
+									label: 'Exempt',
+									rate: 0.0
+								},
+							]
+						},
+
+						processed: [
+
+						]
+					}
+				],
+
 				transactionDataTypes: {
 					gstLabels: {
 						name: 'gst-labels',
