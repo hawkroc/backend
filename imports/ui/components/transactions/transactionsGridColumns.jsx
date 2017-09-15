@@ -23,12 +23,11 @@ export const buildColumns = ({
 	// get that day's rate
 	const getExchangeDataCurrency = (date, currencyCollection) => {
 		return currencyCollection.rates.filter(a => {
-			let time = new Date(parseInt(a.time)).toLocaleDateString()
-			return time === date
+			return date === new Date(a.time).toLocaleDateString()
 		})
 	}
 	// get the rate list base on different digitalCurrency name
-	const getCurrencyBaseOnChoose = (digitalCurrency) => {
+	const getCurrencyBaseOnChoose = digitalCurrency => {
 		let currency = currencies.filter(a => {
 			return a.digitalCurrency === digitalCurrency
 		})
@@ -69,7 +68,7 @@ export const buildColumns = ({
 					<div className="editable-cell-text-wrapper" id={record._id}>
 						{accountAliasMask(text)}
 
-						<ClickCopyCell text={text}/>
+						<ClickCopyCell text={text} />
 					</div>
 				</div>
 			)
@@ -85,7 +84,7 @@ export const buildColumns = ({
 				<div className="editable-cell">
 					<div className="editable-cell-text-wrapper" id={record._id}>
 						{accountAliasMask(text)}
-						<ClickCopyCell text={text}/>
+						<ClickCopyCell text={text} />
 					</div>
 				</div>
 			)
@@ -121,6 +120,7 @@ export const buildColumns = ({
 					parseInt(record.timeStamp) * 1000
 				).toLocaleDateString()
 				let rate = []
+
 				if (currencies) {
 					let currency = getCurrencyBaseOnChoose('ETH')
 					if (currency) {
@@ -191,8 +191,7 @@ export const buildColumns = ({
 							showSearch
 							value={labelTypeId}
 							onChange={ltId =>
-								onLabelUpdated({ txId: record._id, labelTypeId: ltId })
-							}
+								onLabelUpdated({ txId: record._id, labelTypeId: ltId })}
 							style={{ width: '100%' }}
 							placeholder="Select a label"
 							optionFilterProp="name"
@@ -201,15 +200,13 @@ export const buildColumns = ({
 									.toLowerCase()
 									.indexOf(input.toLowerCase()) >= 0}
 						>
-							{
-								labelTypes.map(lt => {
-									return (
-										<Select.Option value={lt._id} key={lt._id}>
-											{lt.label}
-										</Select.Option>
-									)
-								})
-							}
+							{labelTypes.map(lt => {
+								return (
+									<Select.Option value={lt._id} key={lt._id}>
+										{lt.label}
+									</Select.Option>
+								)
+							})}
 						</Select>
 					</div>
 				)

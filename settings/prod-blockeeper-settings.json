@@ -7,7 +7,7 @@
         "transaction_miner_expression": "0 * * * * *",
         "exchangerate_miner_expression": "0 0 0 * * *"
     },
-    
+     
     "azure": {
         "app_insights_key": false
     },
@@ -20,6 +20,9 @@
     },
 
     "public": {
-        
+        "input_validation":{
+            "account_address":"/^0x[a-zA-Z0-9]{40}$/",
+            "transaction_timestamp":"1230721200"
+            }
     }
 }

@@ -29,16 +29,17 @@ const rootReducer = combineReducers({
 // TODO: Set different current base on profiles
 // TODO: need to test and make sure this doesn't fire when ANY profile changes.
 Meteor.startup(() => {
-	Tracker.autorun(() => {(
-		store.dispatch(
-			setActiveProfile(Profiles.active())
-		),
-		store.dispatch(
-			setAccounts(Accounts.find().fetch())
-		),
-		store.dispatch(
-			setActiveCurrency(ExchangeRates.active())
-		))
+	Tracker.autorun(() => {
+		(
+			store.dispatch(
+				setActiveProfile(Profiles.active())
+			),
+			store.dispatch(
+				setAccounts(Accounts.find().fetch())
+			),
+			store.dispatch(
+				setActiveCurrency(ExchangeRates.active())
+			))
 	})
 })
 
