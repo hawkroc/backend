@@ -13,16 +13,26 @@ Meteor.methods({
 	[ methodTypes.PROFILE_INSERT_LABELTYPE ]({ label, gst }) {
 		let activeProfile = Profiles.active()
 
-		Profiles.update(activeProfile._id, {
+		// Test module is enabled on profile.
+		if (!activeProfile.isModuleEnabled('transaction-labelling')) {
+			console.warn("Attempted top interact with disabled module")
+			return
+		}
+
+		Profiles.update({ 
+			_id: activeProfile._id,
+			'modules.name': 'transaction-labelling' 
+		}, {
 			$push: {
-				'transactionDataTypes.gstLabels.items': {
-					// TODO: best way to do IDs?
+				'modules.$.labelTypes.items': {
 					_id: new Meteor.Collection.ObjectID().toHexString(),
 					label,
 					gst
 				}
 			}
-		})
+		// TODO: once bug is fixed, remove bypass flag.
+		// https://github.com/aldeed/node-simple-schema/issues/112
+		}, { bypassCollection2: true })
 	},
 
 	/**
@@ -32,18 +42,35 @@ Meteor.methods({
      */
 	[ methodTypes.PROFILE_UPDATE_LABELTYPE ]({ _id, label, gst }) {
 		// TODO: VALIDATION! of user vs profile.
-		// let activeProfile = Profiles.active();
+		let activeProfile = Profiles.active();
 
-		Profiles.update(
-			{
-				'transactionDataTypes.gstLabels.items._id': _id
-			}, {
-				$set: {
-					'transactionDataTypes.gstLabels.items.$.label': label,
-					'transactionDataTypes.gstLabels.items.$.gst': gst
+		Profiles.update({
+			_id: activeProfile._id,
+			'modules.name': 'transaction-labelling'
+		}, {
+			$pull: {
+				'modules.$.labelTypes.items': {
+					_id
 				}
 			}
-		)
+		// TODO: once bug is fixed, remove bypass flag.
+		// https://github.com/aldeed/node-simple-schema/issues/112
+		}, { bypassCollection2: true })
+
+		Profiles.update({
+			_id: activeProfile._id,
+			'modules.name': 'transaction-labelling'
+		}, {
+			$push: {
+				'modules.$.labelTypes.items': {
+					_id,
+					label,
+					gst
+				}
+			}
+		// TODO: once bug is fixed, remove bypass flag.
+		// https://github.com/aldeed/node-simple-schema/issues/112
+		}, { bypassCollection2: true })
 	},
 
 	/**
@@ -54,24 +81,40 @@ Meteor.methods({
 	[ methodTypes.PROFILE_DELETE_LABELTYPE ]({ _id }) {
 		let activeProfile = Profiles.active()
 
+		// Test module is enabled on profile.
+		if (!activeProfile.isModuleEnabled('transaction-labelling')) {
+			console.warn("Attempted top interact with disabled module")
+			return
+		}
+
 		// Remove all transaction labels from the user profile corresponding
 		// to this label type.
-		Profiles.update(activeProfile._id, {
+		Profiles.update({
+			_id: activeProfile._id,
+			'modules.name': 'transaction-labelling'
+		}, {
 			$pull: {
-				'transactionData': {
-					itemId: _id
+				'modules.$.labelled': {
+					labelTypeId: _id
 				}
 			}
-		})
+		// TODO: once bug is fixed, remove bypass flag.
+		// https://github.com/aldeed/node-simple-schema/issues/112
+		}, { bypassCollection2: true })
 
 		// Remove the label type.
-		Profiles.update(activeProfile._id, {
+		Profiles.update({
+			_id: activeProfile._id,
+			'modules.name': 'transaction-labelling'
+		}, {
 			$pull: {
-				'transactionDataTypes.gstLabels.items': {
+				'modules.$.labelTypes.items': {
 					_id
 				}
 			}
-		})
+		// TODO: once bug is fixed, remove bypass flag.
+		// https://github.com/aldeed/node-simple-schema/issues/112
+		}, { bypassCollection2: true })
 	},
 
 	/**
@@ -87,27 +130,30 @@ Meteor.methods({
 		// Pull all exising labels for provided transaction ID.
 		Profiles.update({
 			_id: activeProfile._id,
-			'transactionData.dataTypeName': 'gst-labels'
+			'modules.name': 'transaction-labelling'
 		}, {
 			$pull: {
-				'transactionData': {
+				'modules.$.labelled': {
 					transactionId: txId
 				}
 			},
-		})
+		// TODO: once bug is fixed, remove bypass flag.
+		// https://github.com/aldeed/node-simple-schema/issues/112
+		}, { bypassCollection2: true })
 
 		// Push the new label against the account/transaction.
 		Profiles.update({
-			_id: activeProfile._id
+			_id: activeProfile._id,
+			'modules.name': 'transaction-labelling'
 		}, {
 			$push: {
-				'transactionData': {
+				'modules.$.labelled': {
 					transactionId: txId,
-					dataTypeName: 'gst-labels',
-					itemId: labelTypeId,
-					value: 0
+					labelTypeId
 				}
 			}
-		})
+		// TODO: once bug is fixed, remove bypass flag.
+		// https://github.com/aldeed/node-simple-schema/issues/112
+		}, { bypassCollection2: true })
 	}
 })

@@ -21,7 +21,8 @@ class ApplicationSettings extends React.Component {
 			trackedAccounts,
 			accountsItems,
 			idToAddressBalance,
-			labelTypes,
+			transactionLabellingModule,
+
 			onInsertTrackedAccount,
 			onUpdateTrackedAccount,
 			onDeleteTrackedAccount,
@@ -45,13 +46,17 @@ class ApplicationSettings extends React.Component {
 						}} />
 					</Col>
 					<Col offset={1} span={9}>
-						<TransactionLabels {...{
-							languageConfig,
-							labelTypes,
-							onInsertLabelType,
-							onUpdateLabelType,
-							onDeleteLabelType
-						}} />
+						{
+							!!transactionLabellingModule ?
+								<TransactionLabels {...{
+									languageConfig,
+									transactionLabellingModule,
+									onInsertLabelType,
+									onUpdateLabelType,
+									onDeleteLabelType
+								}} />
+							: null
+						}
 					</Col>
 				</Row>
 			</div>
@@ -78,12 +83,15 @@ const mapStateToProps = (state) => {
 		state.profiles.active.trackedAccounts,
 		state.accounts.items
 	)
+	
+	let transactionLabellingModule = state.profiles.active
+		.getModule('transaction-labelling')
 
 	return {
 		accountsItems: state.accounts.items,
 		idToAddressBalance: idToAddressBalance,
 		trackedAccounts: state.profiles.active.trackedAccounts,
-		labelTypes: state.profiles.active.transactionDataTypes.gstLabels.items
+		transactionLabellingModule
 	}
 }
 

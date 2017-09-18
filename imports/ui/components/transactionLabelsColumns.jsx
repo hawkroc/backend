@@ -10,15 +10,18 @@ export const buildColumns = ({
 			title: languageConfig.Name,
 			dataIndex: 'label',
 			width: '50%',
+			sortOrder: 'ascend',
+			sorter: (a, b) => a.label > b.label,
 
-			render: (text, record, index) =>
-				(<EditableCell
-					value={text}
+			render: (value, record, index) => (
+				<EditableCell
+					value={value}
 					onChangeConfirmed={newValue => {
 						record.label = newValue
 						onUpdateLabelType(record)
 					}}
-				/>)
+				/>
+			)
 		},
 		{
 			title: languageConfig.GST,

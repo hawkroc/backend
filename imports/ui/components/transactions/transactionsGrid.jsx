@@ -3,7 +3,9 @@ import { Table } from 'antd'
 
 import { buildColumns } from './transactionsGridColumns'
 import taxationColumns from './transactionsGridTaxationColumns'
+import labellingColumns from './transactionsGridLabellingColumns'
 import { transformTransactions } from './transactionsTaxationTransformer'
+import * as txLabellingTransformer from './transactionsLabellingTransformer'
 
 
 /**
@@ -14,12 +16,8 @@ const View = ({
 	accounts,
 	addressAliasLookup,
 	usdExchangeRate,
-	labelTypes,
-	transactionLabels,
 	currencies,
-	activeProfile,
-
-	onLabelUpdated
+	activeProfile
 }) => {
 	// Flatten transactions for all our tracked accounts.
 	let transactionsDataSource = [].concat.apply([], accounts.map(a => a.transactions))
@@ -27,11 +25,19 @@ const View = ({
 	let columns = buildColumns({
 		addressAliasLookup,
 		usdExchangeRate,
-		labelTypes,
-		onLabelUpdated,
-		currencies,
-		transactionLabels
+		currencies
 	})
+
+	// Same for the labelling module.
+	if (activeProfile.isModuleEnabled('transaction-labelling')) {
+		let transactionLabellingModule = activeProfile.getModule('transaction-labelling')
+		columns = columns.concat(labellingColumns.buildColumns({
+			transactionLabellingModule
+		}))
+
+		transactionsDataSource = txLabellingTransformer
+			.transformTransactions(transactionsDataSource, transactionLabellingModule)
+	}
 
 	// If the taxation module is enabled for this profile - build the extra
 	// required transaction grid columns and appropriately transform the

@@ -43,10 +43,10 @@ const buildColumns = ({
             key: 'taxation_codeId',
             width: '6%',
 
-            render: (text, record) => {
+            render: (value, record) => {
                 return (
                     <Select
-                        value={text}
+                        value={value}
                         onChange={codeId =>
                             onCodeIdUpdated({ transactionId: record._id, taxCodeId: codeId })
                         }

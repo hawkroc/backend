@@ -6,6 +6,7 @@ import TransactionDataTypesSchema from './transactionDataTypesSchema'
 import TransactionDatumSchema from './transactionDatumSchema'
 
 import TaxationModuleSchema from '../../../modules/taxation/taxationModuleSchema'
+import TransactionLabellingModuleSchema from '../../../modules/transaction-labelling/transactionLabellingModuleSchema'
 
 /**
  * User profile related data such as preferences and linked accounts.
@@ -29,23 +30,15 @@ const ProfileSchema = new SimpleSchema({
 	modules: {
 		type: Array
 	},
-	'modules.$': {
+	//'modules.$': {
+		//type: Object
+		// TODO: bug needs fixing for this to work with sub-schemas: https://github.com/aldeed/node-simple-schema/issues/112
 		// Add further valid module defs here.
-		type: SimpleSchema.oneOf(
-			TaxationModuleSchema
-		)
-	},
-
-	transactionDataTypes: {
-		type: TransactionDataTypesSchema
-	},
-
-	transactionData: {
-		type: Array
-	},
-	'transactionData.$': {
-		type: TransactionDatumSchema
-	}
+		// type: SimpleSchema.oneOf(
+		// 	TransactionLabellingModuleSchema,
+		// 	TaxationModuleSchema
+		// )
+	//}
 })
 
 export default ProfileSchema

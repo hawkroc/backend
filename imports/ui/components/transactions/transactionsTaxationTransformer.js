@@ -11,8 +11,9 @@ export const transformTransactions = (transactions, taxationModule) => {
     let transformed = transactions.map(tx => {
 
         // Find the processed entry and add it to the transaction fields.
-        let processedEntry = taxationModule.processed
-            .find(p => p.transactionId === tx._id)
+        let processedEntry = taxationModule.processed.find(
+            p => p.transactionId === tx._id
+        )
 
         tx[`${FIELD_PREFIX}_codeId`] = !!processedEntry
             ? processedEntry.codeId

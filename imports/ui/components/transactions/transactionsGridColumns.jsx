@@ -13,10 +13,7 @@ const maskLongNumberValue = value => {
 export const buildColumns = ({
 	addressAliasLookup,
 	usdExchangeRate,
-	labelTypes,
-	transactionLabels,
-	currencies,
-	onLabelUpdated
+	currencies
 }) => {
 	// Mask an account address with an alias if found.
 	// Otherwise default to its address.
@@ -40,15 +37,6 @@ export const buildColumns = ({
 			return a.digitalCurrency === digitalCurrency
 		})
 		return currency[0]
-	}
-
-	const findTransactionLabel = txId => {
-		let label = transactionLabels.find(l => l.transactionId === txId)
-		if (label) {
-			return label.itemId
-		}
-
-		return undefined
 	}
 
 	return [
@@ -171,43 +159,6 @@ export const buildColumns = ({
 			filters: [{ text: 'No', value: 'No' }, { text: 'Yes', value: 'Yes' }],
 			onFilter: (value, record) => {
 				record.contractAddress.includes(value)
-			}
-		},
-		{
-			title: ' Label',
-			key: 'type',
-			width: '6%',
-			render: (text, record) => {
-				let labelTypeId = findTransactionLabel(record._id)
-
-				return (
-					<div>
-						<Select
-							showSearch
-							value={labelTypeId}
-							onChange={ltId =>
-								onLabelUpdated({ txId: record._id, labelTypeId: ltId })
-							}
-							style={{ width: '100%' }}
-							placeholder="Select a label"
-							optionFilterProp="name"
-							filterOption={(input, option) =>
-								option.props.children
-									.toLowerCase()
-									.indexOf(input.toLowerCase()) >= 0}
-						>
-							{
-								labelTypes.map(lt => {
-									return (
-										<Select.Option value={lt._id} key={lt._id}>
-											{lt.label}
-										</Select.Option>
-									)
-								})
-							}
-						</Select>
-					</div>
-				)
 			}
 		}
 	]

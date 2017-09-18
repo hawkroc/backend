@@ -20,7 +20,9 @@ const pushProfileFixtures = () => {
 	console.log('databaseFixtures: No existing PROFILE data. Adding test fixtures.')
 
 	devProfileFixtures.generate().forEach(p => {
-		Profiles.insert(p)
+		// TODO: once bug is fixed, remove bypass flag.
+		// https://github.com/aldeed/node-simple-schema/issues/112
+		Profiles.insert(p, { bypassCollection2: true })
 	})
 }
 

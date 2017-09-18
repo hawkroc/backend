@@ -24,6 +24,36 @@ export default {
 
 				modules: [
 					{
+						name: "transaction-labelling",
+						metadata: {
+							version: "basic-1.0-alpha",
+							enabled: true,
+							dependencies: [ ]
+						},
+
+						labelTypes: {
+							items: [
+								{
+									_id: new Meteor.Collection.ObjectID().toHexString(),
+									label: 'Staff salary',
+									gst: false
+								},
+								{
+									_id: new Meteor.Collection.ObjectID().toHexString(),
+									label: 'Travel expense',
+									gst: true
+								},
+								{
+									_id: new Meteor.Collection.ObjectID().toHexString(),
+									label: 'Rent',
+									gst: true
+								}
+							]
+						},
+
+						labelled: [ ]
+					},
+					{
 						name: "taxation",
 						metadata: {
 							version: "swiss-vat-1.0-alpha",
@@ -60,36 +90,9 @@ export default {
 							]
 						},
 
-						processed: [
-
-						]
+						processed: [ ]
 					}
-				],
-
-				transactionDataTypes: {
-					gstLabels: {
-						name: 'gst-labels',
-						items: [
-							{
-								_id: new Meteor.Collection.ObjectID().toHexString(),
-								label: 'Staff salary',
-								gst: false
-							},
-							{
-								_id: new Meteor.Collection.ObjectID().toHexString(),
-								label: 'Travel expense',
-								gst: true
-							},
-							{
-								_id: new Meteor.Collection.ObjectID().toHexString(),
-								label: 'Rent',
-								gst: true
-							}
-						]
-					}
-				},
-
-				transactionData: [ ]
+				]
 			},
 		]
 

@@ -62,7 +62,9 @@ Meteor.methods({
 					transactionId
 				}
 			},
-        })
+        // TODO: once bug is fixed, remove bypass flag.
+		// https://github.com/aldeed/node-simple-schema/issues/112
+		}, { bypassCollection2: true })
         
         /**
          * TODO: this should be decoupled through a simple RxJS message
@@ -83,6 +85,8 @@ Meteor.methods({
 			$push: {
                 'modules.$.processed':  entry
 			},
-        })
+        // TODO: once bug is fixed, remove bypass flag.
+		// https://github.com/aldeed/node-simple-schema/issues/112
+		}, { bypassCollection2: true })
     }
 })
