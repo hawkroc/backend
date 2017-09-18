@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import * as methodTypes from './transactionLabellingModuleMethodTypes'
+import * as methodTypes from './moduleMethodTypes'
 
 import Profiles from '../../api/profiles/profiles'
 

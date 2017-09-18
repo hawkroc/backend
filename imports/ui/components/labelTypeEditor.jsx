@@ -3,7 +3,7 @@ import React from 'react'
 import { Table, Button } from 'antd'
 
 import { buildColumns } from './labelTypeEditorColumns'
-import methodTypes from '../../modules/transaction-labelling/transactionLabellingModuleMethodTypes'
+import methodTypes from '../../modules/transaction-labelling/moduleMethodTypes'
 
 const onUpdateLabelType = (updatedLabel) => {
 	// Update the active profile's label.

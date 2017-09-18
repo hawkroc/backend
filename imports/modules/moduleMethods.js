@@ -3,5 +3,5 @@
  * 
  */
 
-import './taxation/taxationModuleMethods'
-import './transaction-labelling/transactionLabellingModuleMethods'
+import './taxation/moduleMethods'
+import './transaction-labelling/moduleMethods'

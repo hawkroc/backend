@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import Profiles from '../../api/profiles/profiles'
 import Accounts from '../../api/accounts/accounts'
 
-import * as methodTypes from './taxationModuleMethodTypes'
+import * as methodTypes from './moduleMethodTypes'
 
 // TODO: decouple.
 const makeProcessedEntry = (transactionId, taxCodeId) => {

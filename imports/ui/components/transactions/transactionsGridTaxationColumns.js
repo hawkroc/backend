@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import React from 'react'
 import { Select } from 'antd'
 
-import * as methodTypes from '../../../modules/taxation/taxationModuleMethodTypes'
+import * as methodTypes from '../../../modules/taxation/moduleMethodTypes'
 
 const weiToEther = value => {
     if (value === null || value === undefined)
