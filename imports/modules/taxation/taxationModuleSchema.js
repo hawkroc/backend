@@ -26,7 +26,7 @@ const schema = new SimpleSchema({
     'processed.$': {
         type: Object
     },
-    'processed.$.taxCodeId': {
+    'processed.$.codeId': {
         type: String
     },
     'processed.$.transactionId': {

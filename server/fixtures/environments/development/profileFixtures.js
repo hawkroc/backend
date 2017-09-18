@@ -36,7 +36,7 @@ export default {
 								{
 									_id: new Meteor.Collection.ObjectID().toHexString(),
 									codeId: 'S',
-									label: 'Standard',
+									label: 'Standard (8.0%)',
 									rate: 0.08
 								},
 								{
@@ -54,7 +54,7 @@ export default {
 								{
 									_id: new Meteor.Collection.ObjectID().toHexString(),
 									codeId: 'Z',
-									label: 'Exempt',
+									label: 'Exempt (0.0%)',
 									rate: 0.0
 								},
 							]

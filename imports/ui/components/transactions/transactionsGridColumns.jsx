@@ -1,7 +1,14 @@
 import React from 'react'
 import { Select } from 'antd'
 import ClickCopyCell from '../common/clickCopyCell'
+
 const weiToEther = value => value * Math.pow(10, -18)
+
+const maskLongNumberValue = value => {
+    return value.toString().length > 8 
+        ? value.toString().substring(0, 8) + '...'
+        : value.toString()
+}
 
 export const buildColumns = ({
 	addressAliasLookup,
@@ -62,7 +69,7 @@ export const buildColumns = ({
 			title: 'From',
 			dataIndex: 'from',
 			key: 'from',
-			width: '9%',
+			width: '7%',
 
 			render: (text, record) => (
 				<div className="editable-cell">
@@ -79,7 +86,7 @@ export const buildColumns = ({
 			title: 'To',
 			dataIndex: 'to',
 			key: 'to',
-			width: '9%',
+			width: '7%',
 
 			render: (text, record) => (
 				<div className="editable-cell">
@@ -92,30 +99,19 @@ export const buildColumns = ({
 		},
 		{
 			title: 'ETH',
-			dataIndex: 'gas',
-			key: 'gas',
+			dataIndex: 'value',
+			key: 'value',
 			width: '6%',
 
 			render: (text, record) => {
-				return weiToEther(text * record.gasPrice)
+				return maskLongNumberValue(weiToEther(text))
 			}
 		},
 		{
-			title: 'USD(Current rate)',
-			dataIndex: 'gasPrice',
-			key: 'gasPrice',
-			width: '6%',
-
-			render: (text, record) => {
-				return (weiToEther(text * record.gas) * usdExchangeRate).toFixed(2)
-			}
-		},
-
-		{
-			title: 'USD(exchange rate)',
-			dataIndex: 'gasPrice',
-			key: 'gasPriceRate',
-			width: '6%',
+			title: 'USD',
+			dataIndex: 'value',
+			key: 'valueUsd',
+			width: '4%',
 			render: (text, record) => {
 				let tp = new Date(
 					parseInt(record.timeStamp) * 1000
@@ -127,15 +123,14 @@ export const buildColumns = ({
 						rate = getExchangeDataCurrency(tp, currency)
 					}
 				}
-				return (weiToEther(text * record.gas) *
-										(rate[0] ? rate[0].average : 0)).toFixed(2)
+				return (weiToEther(text) * (rate[0] ? rate[0].average : 0)).toFixed(2)
 			}
 		},
 		{
-			title: 'ETH/mBTC',
-			dataIndex: 'gasPrice',
-			key: 'gasPriceBTC',
-			width: '6%',
+			title: 'BTC',
+			dataIndex: 'value',
+			key: 'valueBtc',
+			width: '5%',
 
 			render: (text, record) => {
 				let tp = new Date(
@@ -159,7 +154,7 @@ export const buildColumns = ({
 						}
 					}
 				}
-				return (weiToEther(text * record.gas) * rate * 1000).toFixed(12)
+				return maskLongNumberValue(weiToEther(text) * rate * 1000)
 			}
 		},
 
@@ -181,7 +176,7 @@ export const buildColumns = ({
 		{
 			title: ' Label',
 			key: 'type',
-			width: '12%',
+			width: '6%',
 			render: (text, record) => {
 				let labelTypeId = findTransactionLabel(record._id)
 

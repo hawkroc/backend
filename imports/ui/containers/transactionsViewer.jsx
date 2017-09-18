@@ -21,6 +21,8 @@ class TransactionsViewer extends React.Component {
 			labelTypes,
 			transactionLabels,
 			currencies,
+			activeProfile,
+
 			onLabelUpdated
 		} = this.props
 
@@ -42,9 +44,11 @@ class TransactionsViewer extends React.Component {
 						addressAliasLookup,
 						usdExchangeRate,
 						labelTypes,
-						onLabelUpdated,
 						currencies,
-						transactionLabels
+						transactionLabels,
+						activeProfile,
+
+						onLabelUpdated
 					}}
 				/>
 			</div>
@@ -81,6 +85,7 @@ const mapStateToProps = state => {
 		labelTypes,
 		transactionLabels,
 
+		activeProfile: state.profiles.active,
 		currencies: state.profiles.currencies,
 		usdExchangeRate: state.accounts.usdExchangeRate,
 

@@ -1,0 +1,1 @@
+export const PROFILE_MODULE_TAXATION_UPDATETXTAXCODE = 'profiles.active.modules.taxation.updatetxtaxcode'
