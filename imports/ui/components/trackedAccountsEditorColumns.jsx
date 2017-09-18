@@ -44,12 +44,14 @@ export const buildColumns = ({
 						}
 					}
 				}
-				return (<div className="editable-cell">
-					<div className="editable-cell-text-wrapper" id={address}>
-						{address.substring(0, 12) + '...'}
-						<ClickCopyCell text={address}/>
+				return (
+					<div className="editable-cell">
+						<div className="editable-cell-text-wrapper" id={address}>
+							{address.substring(0, 12) + '...'}
+							<ClickCopyCell text={address}/>
+						</div>
 					</div>
-				</div>)
+				)
 			}
 		},
 		{

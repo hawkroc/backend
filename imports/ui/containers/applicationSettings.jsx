@@ -3,10 +3,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Row, Col } from 'antd'
 
-import TrackedAccounts from '../components/trackedAccounts'
-import TransactionLabels from '../components/transactionLabels'
+import TrackedAccountsEditor from '../components/trackedAccountsEditor'
+import LabelTypeEditorComponent from '../components/labelTypeEditor'
 
-import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
 import trackedAccountMethodTypes from '../../api/profiles/methods/trackedAccountMethodTypes'
 
 
@@ -21,21 +20,20 @@ class ApplicationSettings extends React.Component {
 			trackedAccounts,
 			accountsItems,
 			idToAddressBalance,
+
+			transactionLabellingModuleEnabled,
 			transactionLabellingModule,
 
 			onInsertTrackedAccount,
 			onUpdateTrackedAccount,
-			onDeleteTrackedAccount,
-			onInsertLabelType,
-			onUpdateLabelType,
-			onDeleteLabelType
+			onDeleteTrackedAccount
 		} = this.props
 
 		return (
 			<div>
 				<Row>
 					<Col offset={1} span={10}>
-						<TrackedAccounts {...{
+						<TrackedAccountsEditor {...{
 							languageConfig,
 							accountsItems,
 							idToAddressBalance,
@@ -47,13 +45,10 @@ class ApplicationSettings extends React.Component {
 					</Col>
 					<Col offset={1} span={9}>
 						{
-							!!transactionLabellingModule ?
-								<TransactionLabels {...{
+							!!transactionLabellingModuleEnabled ?
+								<LabelTypeEditorComponent {...{
 									languageConfig,
-									transactionLabellingModule,
-									onInsertLabelType,
-									onUpdateLabelType,
-									onDeleteLabelType
+									transactionLabellingModule
 								}} />
 							: null
 						}
@@ -84,6 +79,8 @@ const mapStateToProps = (state) => {
 		state.accounts.items
 	)
 	
+	let transactionLabellingModuleEnabled = state.profiles.active
+		.isModuleEnabled('transaction-labelling')
 	let transactionLabellingModule = state.profiles.active
 		.getModule('transaction-labelling')
 
@@ -91,7 +88,9 @@ const mapStateToProps = (state) => {
 		accountsItems: state.accounts.items,
 		idToAddressBalance: idToAddressBalance,
 		trackedAccounts: state.profiles.active.trackedAccounts,
-		transactionLabellingModule
+
+		transactionLabellingModule,
+		transactionLabellingModuleEnabled
 	}
 }
 
@@ -115,27 +114,7 @@ const mapDispatchToProps = (dispatch, state) => {
 			Meteor.call(trackedAccountMethodTypes.PROFILE_DELETE_TRACKEDACCOUNT, {
 				_id: trackedAccount._id
 			})
-		},
-
-		onUpdateLabelType: (updatedLabel) => {
-			// Update the active profile's label.
-			Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABELTYPE, {
-				...updatedLabel
-			})
-		},
-
-		onInsertLabelType: (newLabel) => {
-			Meteor.call(labelMethodTypes.PROFILE_INSERT_LABELTYPE, {
-				...newLabel
-			})
-		},
-
-		onDeleteLabelType: (label) => {
-			Meteor.call(labelMethodTypes.PROFILE_DELETE_LABELTYPE, {
-				_id: label._id
-			})
 		}
-
 	}
 }
 

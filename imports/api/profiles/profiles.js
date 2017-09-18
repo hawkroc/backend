@@ -1,7 +1,6 @@
 import { Mongo } from 'meteor/mongo'
 import { initializeFactory } from './profilesFactory'
 
-import './methods/labelMethods'
 import './methods/trackedAccountMethods'
 
 import ProfileSchema from './schemas/profileSchema'

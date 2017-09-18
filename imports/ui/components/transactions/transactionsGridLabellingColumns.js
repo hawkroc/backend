@@ -3,10 +3,10 @@ import { Meteor } from 'meteor/meteor'
 import React from 'react'
 import { Select } from 'antd'
 
-import labelMethodTypes from '../../../api/profiles/methods/labelMethodTypes'
+import methodTypes from '../../../modules/transaction-labelling/transactionLabellingModuleMethodTypes'
 
 const onLabelUpdated = ({ txId, labelTypeId }) => {
-    Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABEL, { txId, labelTypeId })
+    Meteor.call(methodTypes.PROFILE_UPDATE_LABEL, { txId, labelTypeId })
 }
 
 /**

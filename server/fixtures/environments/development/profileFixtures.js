@@ -35,18 +35,15 @@ export default {
 							items: [
 								{
 									_id: new Meteor.Collection.ObjectID().toHexString(),
-									label: 'Staff salary',
-									gst: false
+									label: 'Staff salary'
 								},
 								{
 									_id: new Meteor.Collection.ObjectID().toHexString(),
-									label: 'Travel expense',
-									gst: true
+									label: 'Travel expense'
 								},
 								{
 									_id: new Meteor.Collection.ObjectID().toHexString(),
-									label: 'Rent',
-									gst: true
+									label: 'Rent'
 								}
 							]
 						},

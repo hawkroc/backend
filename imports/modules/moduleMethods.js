@@ -4,3 +4,4 @@
  */
 
 import './taxation/taxationModuleMethods'
+import './transaction-labelling/transactionLabellingModuleMethods'

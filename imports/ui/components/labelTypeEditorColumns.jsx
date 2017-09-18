@@ -4,12 +4,15 @@ import { Popconfirm, Select } from 'antd'
 import EditableCell from './common/editableCell'
 
 export const buildColumns = ({
-	languageConfig, onUpdateLabelType, onDeleteLabelType }) => {
+	languageConfig, 
+	onUpdateLabelType,
+	onDeleteLabelType 
+}) => {
 	return [
 		{
 			title: languageConfig.Name,
 			dataIndex: 'label',
-			width: '50%',
+			width: '80%',
 			sortOrder: 'ascend',
 			sorter: (a, b) => a.label > b.label,
 
@@ -22,30 +25,6 @@ export const buildColumns = ({
 					}}
 				/>
 			)
-		},
-		{
-			title: languageConfig.GST,
-			dataIndex: 'gst',
-			width: '35%',
-
-			render: (text, record, index) => {
-				return (
-					<div>
-						<Select
-							value={record.gst ? 'GST' : 'NOGST'}
-							defaultValue={'true'}
-							style={{ width: '100%' }}
-							onChange={newValue => {
-								record.gst = newValue == 'true'
-								onUpdateLabelType(record)
-							}}
-						>
-							<Select.Option value={'true'}>GST</Select.Option>
-							<Select.Option value={'false'}>NOGST</Select.Option>
-						</Select>
-					</div>
-				)
-			}
 		},
 		{
 			title: '',

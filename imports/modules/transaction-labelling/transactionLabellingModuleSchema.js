@@ -3,11 +3,6 @@ import SimpleSchema  from 'simpl-schema'
 import ModuleSchema from '../moduleSchema'
 import CategoryDataTypeSchema from '../common/categoryDataTypeSchema'
 
-const LabelTypesSchema = new SimpleSchema({
-    'items.$.gst': { type: Boolean }
-})
-LabelTypesSchema.extend(CategoryDataTypeSchema)
-
 const schema = new SimpleSchema({
     name: {
         type: String,
@@ -15,7 +10,7 @@ const schema = new SimpleSchema({
     },
 
 	labelTypes: {
-		type: LabelTypesSchema
+		type: CategoryDataTypeSchema
     },
     
     labelled: {
