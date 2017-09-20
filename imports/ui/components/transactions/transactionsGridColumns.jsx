@@ -101,8 +101,9 @@ export const buildColumns = ({
 			key: 'value',
 			width: '6%',
 
-			render: (text, record) => {
-				return maskLongNumberValue(weiToEther(text))
+			render: (value, record) => {
+				if (value == 0) return ''
+				return maskLongNumberValue(weiToEther(value))
 			}
 		},
 		{
@@ -110,9 +111,10 @@ export const buildColumns = ({
 			dataIndex: 'value',
 			key: 'valueUsd',
 			width: '4%',
-			render: (text, record) => {
+			render: (value, record) => {
+				if (value == 0) return ''
 				let rate = getExchangeRate(record.timeStamp, 'ETH')
-				return (weiToEther(text) * rate.value).toFixed(2)
+				return (weiToEther(value) * rate.value).toFixed(2)
 			}
 		},
 		{
@@ -122,6 +124,7 @@ export const buildColumns = ({
 			width: '5%',
 
 			render: (value, record) => {
+				if (value == 0) return ''
 				// TODO: not the place for calcs like this.
 				const ethRate = getExchangeRate(record.timeStamp, 'ETH')
 				const btcRate = getExchangeRate(record.timeStamp, 'BTC')

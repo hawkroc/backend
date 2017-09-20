@@ -44,6 +44,8 @@ const buildColumns = ({
             width: '6%',
 
             render: (value, record) => {
+                if (record.value == 0) return ''
+
                 return (
                     <Select
                         value={value}
