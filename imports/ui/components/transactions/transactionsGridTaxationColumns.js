@@ -13,9 +13,12 @@ const weiToEther = value => {
 }
 
 const maskLongNumberValue = value => {
-    return value.toString().length > 8 
-        ? value.toString().substring(0, 8) + '...'
-        : value.toString()
+    // Fix values to avoid automatic conversion to scientific notation.
+	const fixed = Number(parseFloat(value).toPrecision(16))
+    
+    return fixed.toString().length > 8 
+        ? fixed.toFixed(8) + '...'
+        : fixed.toString()
 }
 
 /**
@@ -74,8 +77,9 @@ const buildColumns = ({
             key: 'taxation_grossTax',
             width: '6%',
 
-            render: (text, record) => {
-                return maskLongNumberValue(weiToEther(text))
+            render: (value, record) => {
+                if (!value || value == 0) return ''
+                return maskLongNumberValue(weiToEther(value))
             }
         },
         {
@@ -84,8 +88,9 @@ const buildColumns = ({
             key: 'taxation_netValue',
             width: '6%',
 
-            render: (text, record) => {
-                return maskLongNumberValue(weiToEther(text))
+            render: (value, record) => {
+                if (!value || value == 0) return ''
+                return maskLongNumberValue(weiToEther(value))
             }
         }
     ]

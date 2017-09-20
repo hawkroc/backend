@@ -6,10 +6,10 @@ const weiToEther = value => (value * Math.pow(10, -18))
 
 const maskLongNumberValue = value => {
 	// Fix values to avoid automatic conversion to scientific notation.
-	const fixed = value.toFixed(16)
+	const fixed = Number(value.toPrecision(16))
 
     return fixed.toString().length > 8 
-        ? fixed.toString().substring(0, 8) + '...'
+        ? fixed.toFixed(8) + '...'
         : fixed.toString()
 }
 
