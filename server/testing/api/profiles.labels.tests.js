@@ -151,4 +151,8 @@ describe('Profiles: labels', function() {
 		chai.assert.equal(updatedLabelType.gst, !labelTypeInitialGst, 'The target label type GST value was updated')
 		chai.assert.notEqual(miscLabelType.label, updatedLabelTypeName, 'Other label type name was not updated')
 	})
+
+	it('Disallows callers to update to a non-existing label type', function() {
+		chai.assert.equal(true, false, "TEST NOT YET IMPLEMENTED")
+	})
 })

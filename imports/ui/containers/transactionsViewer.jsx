@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor'
 import React from 'react'
 import { connect } from 'react-redux'
 
-import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
 import TransactionsGridComponent from '../components/transactions/transactionsGrid'
 import { fetchEtherExchangeRate } from '../../redux/actions/accountActions'
 import TransactionsExportComponent from '../components/transactions/transactionsExport'
@@ -18,10 +17,8 @@ class TransactionsViewer extends React.Component {
 			languageConfig,
 			accounts,
 			addressAliasLookup,
-			labelTypes,
-			transactionLabels,
 			currencies,
-			onLabelUpdated
+			activeProfile
 		} = this.props
 
 		const transactions = [].concat
@@ -41,10 +38,8 @@ class TransactionsViewer extends React.Component {
 						accounts,
 						addressAliasLookup,
 						usdExchangeRate,
-						labelTypes,
-						onLabelUpdated,
 						currencies,
-						transactionLabels
+						activeProfile
 					}}
 				/>
 			</div>
@@ -70,17 +65,11 @@ const mapStateToProps = state => {
 		})
 	)
 
-	let labelTypes = state.profiles.active.transactionDataTypes.gstLabels.items
-	let transactionLabels = state.profiles.active.transactionData
-		.filter(i => i.dataTypeName === 'gst-labels')
-
 	return {
 		accounts,
 		addressAliasLookup,
 
-		labelTypes,
-		transactionLabels,
-
+		activeProfile: state.profiles.active,
 		currencies: state.profiles.currencies,
 		usdExchangeRate: state.accounts.usdExchangeRate,
 
@@ -90,10 +79,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onLabelUpdated: ({ txId, labelTypeId }) => {
-			Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABEL, { txId, labelTypeId })
-		},
-
 		fetchExchangeRate: () => {
 			dispatch(fetchEtherExchangeRate())
 		}

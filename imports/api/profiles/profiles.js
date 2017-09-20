@@ -1,7 +1,6 @@
 import { Mongo } from 'meteor/mongo'
 import { initializeFactory } from './profilesFactory'
 
-import './methods/labelMethods'
 import './methods/trackedAccountMethods'
 
 import ProfileSchema from './schemas/profileSchema'
@@ -22,6 +21,7 @@ Profiles.attachSchema(ProfileSchema)
 // Fields of the collection items that are made available to the client.
 Profiles.publicFields = {
 	info: 1,
+	modules: 1,
 	trackedAccounts: 1,
 	transactionDataTypes: 1,
 	transactionData: 1
@@ -35,7 +35,18 @@ Profiles.active = () => {
 
 // Attach helpers to the collection object.
 Profiles.helpers({
+	isModuleEnabled(moduleName) {
+		if (!this.modules) {
+			return false
+		}
 
+		let module = this.modules.find(m => m.name === moduleName)
+		return !!module && module.metadata.enabled
+	},
+
+	getModule(moduleName) {
+		return this.modules.find(m => m.name === moduleName)
+	}
 })
 
 initializeFactory(Profiles)
