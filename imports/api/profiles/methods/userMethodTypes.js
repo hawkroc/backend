@@ -1,0 +1,1 @@
+export const PROFILE_INSERT_USER = "profiles.active.insert.user"
