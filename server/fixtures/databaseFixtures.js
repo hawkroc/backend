@@ -5,10 +5,12 @@ const { fixtures_environment } = Meteor.settings.database
 import devProfileFixtures from './environments/development/profileFixtures'
 import devAccountFixtures from './environments/development/accountFixtures'
 import devExchangeRateFixtures from './environments/development/exchangeRateFixtures'
+import devUserFixtures from './environments/development/userFixtures'
 
 import Accounts from '../../imports/api/accounts/accounts'
 import Profiles from '../../imports/api/profiles/profiles'
 import Currency from '../../imports/api/exchangeRates/exchangeRates'
+import { Accounts as UserAccounts } from 'meteor/accounts-base'
 
 
 const pushProfileFixtures = () => {
@@ -29,7 +31,7 @@ const pushProfileFixtures = () => {
 const pushAccountFixtures = () => {
 	if (Accounts.find().count() !== 0) {
 		console.log('databaseFixtures: Found existing ACCOUNT data. No ACCOUNT fixtures added.')
-		return []
+		return
 	}
 
 	console.log('databaseFixtures: No existing ACCOUNT data. Adding test fixtures.')
@@ -42,7 +44,7 @@ const pushAccountFixtures = () => {
 const pushExchangeRateFixtures = () => {
 	if (Currency.find().count() !== 0) {
 		console.log('databaseFixtures: Found existing Currency data. No Currency fixtures added.')
-		return []
+		return
 	}
 
 	console.log('databaseFixtures: No existing Currency data. Adding test fixtures.')
@@ -50,6 +52,16 @@ const pushExchangeRateFixtures = () => {
 	devExchangeRateFixtures.generate().forEach(er => {
 		Currency.insert(er)
 	})
+}
+
+const pushUserFixtures = () => {
+	if (UserAccounts.users.find().count() !== 0) {
+		console.log('databaseFixtures: Found existing Users data. No User fixtures added.')
+		return
+	}
+
+	console.log('databaseFixtures: No existing Users data. Adding test fixtures.')
+	devUserFixtures.generate()
 }
 
 /**
@@ -65,6 +77,7 @@ export default {
 				pushAccountFixtures()
 				pushProfileFixtures()
 				pushExchangeRateFixtures()
+				pushUserFixtures()
 			} else {
 				console.warn('databaseFixtures: No fixtures configured for environment.')
 			}
