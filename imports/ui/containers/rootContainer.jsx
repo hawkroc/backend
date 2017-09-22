@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { LocaleProvider } from 'antd'
+
 import HeaderContentLayout from '../layouts/headerContent'
 import BodyContentLayout from '../layouts/bodyContent'
+import LoginContainer from './login'
 
 const View = ({
-	stateIsReady,
+	isProfileLoaded,
 	language,
 	languageConfig
 }) => {
@@ -13,7 +15,13 @@ const View = ({
 		<LocaleProvider locale={language}>
 			<div className="list">
 				<HeaderContentLayout />
-				{stateIsReady ? <BodyContentLayout {...{ languageConfig, language }}/>  : null}
+				{
+					isProfileLoaded 
+						// Display the body conetent once profile is known.
+						? <BodyContentLayout {...{ languageConfig, language }}/>  
+						// Otherwise, prompt user to log in to load appropriate profile.
+						: <LoginContainer />
+				}
 			</div>
 		</LocaleProvider>
 	)
@@ -23,12 +31,12 @@ const mapStateToProps = (state) => {
 	let activeProfile = state.profiles.active
 
 	// Initial state is ready when the active profile is available.
-	let stateIsReady = !!activeProfile
-								&& Object.keys(activeProfile).length !== 0
-								&& activeProfile.constructor !== Object
+	let isProfileLoaded = !!activeProfile
+		&& Object.keys(activeProfile).length !== 0
+		&& activeProfile.constructor !== Object
 
 	return {
-		stateIsReady,
+		isProfileLoaded,
 		language: state.navigation.language,
 		languageConfig: state.navigation.languageConfig
 	}

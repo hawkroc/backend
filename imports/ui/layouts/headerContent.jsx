@@ -1,6 +1,7 @@
 import React from 'react'
+import { Accounts as UserAccounts } from 'meteor/accounts-base'
 
-import {Row, Col} from 'antd'
+import { Row, Col, Button } from 'antd'
 
 import TransactionsFilterContainer from '../containers/transactionsFilter'
 import SwitchLanguageSettings from '../containers/switchLanguageSettings'
@@ -22,11 +23,17 @@ const Layout = () => {
 					<Col offset={6} span={6}>
 						<TransactionsFilterContainer/>
 					</Col>
-
-					<Col offset={7} span={2}>
+					<Col offset={0} span={2} style={{float: "right"}}>
+						<Button 
+								type="primary" 
+								onClick={e => UserAccounts.logout()} 
+								style={{ width: "100px", margin: "3px" }}>
+							Log out
+						</Button>
+					</Col>
+					<Col offset={4} span={2} style={{float: "right"}}>
 						<SwitchLanguageSettings/>
 					</Col>
-
 				</Row>
 			</div>
 		</div>

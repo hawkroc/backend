@@ -3,6 +3,8 @@ import { Accounts as UserAccounts } from 'meteor/accounts-base'
 
 import * as Signing from 'ethereumjs-util'
 
+const ecPartValidator = /^[0-9a-f]{64}$/i
+
 /**
  * Register a 'signed-message' login handler for logging in users based
  * on a message signed by their private key cross referenced with our 
@@ -25,24 +27,35 @@ export function register () {
     //
     UserAccounts.registerLoginHandler(
         'signed-message',
-        ({ signedEcMessage }, options) => {
-
+        (ecSignedMessage, options) => {
             console.log("signedMessageLoginHandler: user attempting to log in...")
 
-            const { v, s, r } = signedEcMessage
+            if (!ecSignedMessage || !ecSignedMessage.v || !ecSignedMessage.r || !ecSignedMessage.v) {
+                console.log("signedMessageLoginHandler: invalid EC signature arg structure { v, r, s }")
+                return null
+            }
+
+            const { v, r, s } = ecSignedMessage
+
+            if ((v != 27 && v != 28) || !ecPartValidator.test(r) || !ecPartValidator.test(s)) {
+                console.log("signedMessageLoginHandler: invalid EC signature part")
+                console.log("v:", v, "r:", r, "s:", s)
+                return null
+            }
 
             // Pull the public key from the signed message.
             const signaturePublicKey = Signing.ecrecover( 
                 new Buffer(Meteor.settings.public.login_key, 'hex'),
-                v, r, s
+                v, 
+                new Buffer(r, 'hex'), 
+                new Buffer(s, 'hex')
             )
 
-            const user = UserAccounts.users.findOne({
-                'services.centrality-blockeeper.publicKey': 
-                    signaturePublicKey.toString('hex').subStr(0, 64)
-            })
+            const trimmedPublicKey = signaturePublicKey.toString('hex').substr(0, 64)
 
-            console.log(user)
+            const user = UserAccounts.users.findOne({
+                'services.centrality-blockeeper.publicKey': trimmedPublicKey
+            })
 
             /**
              * The object returned from this function contains the users document _id
@@ -51,9 +64,12 @@ export function register () {
              * 
              */
             if (!user) {
+                console.log("signedMessageLoginHandler: no user was identified with public key", trimmedPublicKey)
                 return null
             }
 
-            return { userId: user.id }
+            console.log("signedMessageLoginHandler: Successfully resolved user with _id ", user._id)
+
+            return { userId: user._id }
         })
 }

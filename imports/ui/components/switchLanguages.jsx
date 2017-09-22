@@ -12,7 +12,7 @@ const View = ({
 	onLanguageSelected
 }) => {
 	return (
-		<Select defaultValue="en" onChange={onLanguageSelected}>
+		<Select style={{ width: "100px", margin: "3px" }} defaultValue="en" onChange={onLanguageSelected}>
 			<Option value="en">English</Option>
 			<Option value="cn">Chinese</Option>
 			<Option value="de">German</Option>

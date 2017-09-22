@@ -31,6 +31,11 @@ Profiles.publicFields = {
 // TODO: This needs to fetch the actual user profile. Not just any.
 // TODO: Should probably be published on "profiles.active".
 Profiles.active = () => {
+
+	if (!Meteor.userId()) {
+		return null
+	}
+
 	return Profiles.findOne()
 }
 
