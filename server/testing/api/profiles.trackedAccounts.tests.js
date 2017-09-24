@@ -26,14 +26,14 @@ describe("Profiles: tracked accounts", function() {
       address: newTAAddress
     });
 
-    let newTACount = Profiles.active().trackedAccounts.length;
+    let newTACount = Profiles.findOne().trackedAccounts.length;
     chai.assert.equal(
       newTACount,
       initialTACount + 1,
       "There is exactly one more tracked account in the user's active profile"
     );
 
-    let newTADetailCount = Profiles.active().trackedAccounts.filter(
+    let newTADetailCount = Profiles.findOne().trackedAccounts.filter(
       ta => ta.alias == newTAAlias || ta.address == newTAAddress
     ).length;
 
@@ -113,7 +113,7 @@ describe("Profiles: tracked accounts", function() {
       alias: newTargetAlais
     });
 
-    let updatedTAs = Profiles.active().trackedAccounts.filter(
+    let updatedTAs = Profiles.findOne().trackedAccounts.filter(
       ta => ta.alias == newTargetAlais
     );
 
@@ -152,7 +152,7 @@ describe("Profiles: tracked accounts", function() {
       _id: targetId
     });
 
-    let tas = Profiles.active().trackedAccounts;
+    let tas = Profiles.findOne().trackedAccounts;
 
     chai.assert.equal(
       tas.length,
@@ -176,7 +176,7 @@ describe("Profiles: tracked accounts", function() {
       address: targetAccountAddress
     });
 
-    let firstTACount = Profiles.active().trackedAccounts.length
+    let firstTACount = Profiles.findOne().trackedAccounts.length
 
     Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
       alias: faker.lorem.sentence(),
@@ -184,7 +184,7 @@ describe("Profiles: tracked accounts", function() {
       address: targetAccountAddress
     });
 
-    let secondTACount = Profiles.active().trackedAccounts.length; // profile.trackedAccounts.length
+    let secondTACount = Profiles.findOne().trackedAccounts.length; // profile.trackedAccounts.length
 
     chai.assert.equal(
       firstTACount,
@@ -198,7 +198,7 @@ describe("Profiles: tracked accounts", function() {
     Factory.create("profile")
     Factory.create("profile.2")
 
-    const nonActiveProfile = Profiles.findOne({ _id: { $ne: Profiles.active()._id }})
+    const nonActiveProfile = Profiles.findOne({ _id: { $ne: Profiles.findOne()._id }})
     const targetAddress = faker.random.alphaNumeric(40)
 
     Meteor.call(trackedAccountMethodTypes.PROFILE_INSERT_TRACKEDACCOUNT, {
@@ -222,7 +222,7 @@ describe("Profiles: tracked accounts", function() {
 
     // Delete the tracked account on the active profile.
     Meteor.call(trackedAccountMethodTypes.PROFILE_DELETE_TRACKEDACCOUNT, {
-      _id: Profiles.active().trackedAccounts[0]._id
+      _id: Profiles.findOne().trackedAccounts[0]._id
     });
 
     chai.assert.equal(Accounts.find().count(), 1, "The account was not removed due to other tracking profile");
@@ -243,7 +243,7 @@ describe("Profiles: tracked accounts", function() {
     chai.assert.equal(Accounts.find().count(), 1, "One account exists corresponding to added tracked account")
 
     Meteor.call(trackedAccountMethodTypes.PROFILE_DELETE_TRACKEDACCOUNT, {
-      _id: Profiles.active().trackedAccounts[0]._id
+      _id: Profiles.findOne().trackedAccounts[0]._id
     });
 
     chai.assert.equal(Accounts.find().count(), 0, "Account corresponding to last tracked account was removed")

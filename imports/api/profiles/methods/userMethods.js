@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor'
+import { Accounts as UserAccounts } from 'meteor/accounts-base'
 
+import Profiles from '../profiles'
 import * as methodTypes from './userMethodTypes'
 
 Meteor.methods({
@@ -14,11 +16,19 @@ Meteor.methods({
         //     return { error: "You are not logged in" }
         // }
 
+        // Get current user's active profile. This is the only profile they can
+        // currently add another user to.
+        let profileId = Profiles.findOne()._id
         
 
-        Accounts.updateOrCreateUserFromExternalService(
+        UserAccounts.updateOrCreateUserFromExternalService(
             'centrality-blockeeper', 
-            { id: publicKey, publicKey, name }
+            { 
+                id: publicKey, 
+                publicKey, 
+                name,
+                profileId
+            }
         )
         //this.setUserId(thing.userId)
         //console.warn(thing)

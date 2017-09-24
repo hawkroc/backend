@@ -32,7 +32,7 @@ Meteor.startup(() => {
 	Tracker.autorun(() => {
 		(
 			store.dispatch(
-				setActiveProfile(Profiles.active())
+				setActiveProfile(Profiles.findOne())
 			),
 			store.dispatch(
 				setAccounts(Accounts.find().fetch())

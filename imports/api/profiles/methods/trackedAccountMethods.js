@@ -14,7 +14,7 @@ Meteor.methods({
 		// TODO: VALIDATION! of user vs ptrackedAccountMethodTypesrofile.
 		// TODO: address validation!
 		// TODO: profile collection factories!
-		let activeProfile = Profiles.active()
+		let activeProfile = Profiles.findOne()
 
 		console.log(`PROFILE_INSERT_TRACKEDACCOUNT: profile ${activeProfile._id} wishes to track ${address}`)
 
@@ -68,7 +68,7 @@ Meteor.methods({
 	[methodTypes.PROFILE_UPDATE_TRACKEDACCOUNT]({ _id, alias }) {
 		// TODO: VALIDATION! of user vs profile.
 
-		let activeProfile = Profiles.active()
+		let activeProfile = Profiles.findOne()
 
 		Profiles.update(
 			{
@@ -89,7 +89,7 @@ Meteor.methods({
      * @param {*} param0 
      */
 	[methodTypes.PROFILE_DELETE_TRACKEDACCOUNT]({ _id }) {
-		let activeProfile = Profiles.active()
+		let activeProfile = Profiles.findOne()
 
 		let toDelete = activeProfile.trackedAccounts
 			.find(ta => ta._id === _id)

@@ -13,7 +13,7 @@ export default {
 		Meteor.publish('accounts', () => {
 			// Get the user's currently tracked accounts only.
 
-			// let accountIds = Profiles.active().trackedAccounts.map(
+			// let accountIds = Profiles.findOne().trackedAccounts.map(
 			// 	ta => ta.accountId
 			// )
 
@@ -29,10 +29,14 @@ export default {
 		})
 
 		Meteor.publish('profiles', () => {
-			// Return the first profile to the client only for now.
-			// This will eventually be selected based on the logged in user.
-			return Profiles.find({ }, {
-				fields: Profiles.publicFields
+			const activeUser = Meteor.user()
+			
+			if (!activeUser) {
+				return null
+			}
+		
+			return Profiles.find({
+				_id: activeUser.services['centrality-blockeeper'].profileId
 			})
 		})
 

@@ -28,19 +28,10 @@ Profiles.publicFields = {
 	transactionData: 1
 }
 
-// TODO: This needs to fetch the actual user profile. Not just any.
-// TODO: Should probably be published on "profiles.active".
-Profiles.active = () => {
-
-	if (!Meteor.userId()) {
-		return null
-	}
-
-	return Profiles.findOne()
-}
-
 // Attach helpers to the collection object.
 Profiles.helpers({
+
+	// Is a named application module enabled for this profile.
 	isModuleEnabled(moduleName) {
 		if (!this.modules) {
 			return false
@@ -50,6 +41,7 @@ Profiles.helpers({
 		return !!module && module.metadata.enabled
 	},
 
+	// Retrieve the named application module.
 	getModule(moduleName) {
 		return this.modules.find(m => m.name === moduleName)
 	}
