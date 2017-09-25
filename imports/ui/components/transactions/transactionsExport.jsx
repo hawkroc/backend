@@ -48,7 +48,7 @@ class TransactionsExport extends React.Component {
 		}
 
 		return (
-			<div className="tableList">
+			<div style={{ marginLeft: '1em' }}>
 				<Button onClick={() => this.openModal()}>
 					<Icon type="download" />Export data
 				</Button>
