@@ -15,6 +15,16 @@ if (!!Meteor.settings.azure.app_insights_key) {
 	console.log('Azure application insights is disabled - no key found')
 }
 
+
+// Register our custom login handlers.
+import * as signedMessageLoginHandler from './signedMessageLoginHandler'
+signedMessageLoginHandler.register()
+
+/**
+ * Register all module meteor methods.
+ */
+import '../imports/modules/moduleMethods'
+
 Meteor.startup(() => {
 	console.log('Meteor server has started.')
 

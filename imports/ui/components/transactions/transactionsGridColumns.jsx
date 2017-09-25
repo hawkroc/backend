@@ -1,15 +1,28 @@
 import React from 'react'
 import { Select } from 'antd'
 import ClickCopyCell from '../common/clickCopyCell'
-const weiToEther = value => value * Math.pow(10, -18)
+
+const weiToEther = value => (value * Math.pow(10, -18))
+
+// TODO: if we find ourselves doing too much datetime manipulation, use moment.js.
+const monthNames = [
+	"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+]
+
+const maskLongNumberValue = value => {
+	// Fix values to avoid automatic conversion to scientific notation.
+	const fixed = Number(value.toPrecision(16))
+
+    return fixed.toString().length > 8 
+        ? fixed.toFixed(8) + '...'
+        : fixed.toString()
+}
 
 export const buildColumns = ({
 	addressAliasLookup,
 	usdExchangeRate,
-	labelTypes,
-	transactionLabels,
-	currencies,
-	onLabelUpdated
+	currencies
 }) => {
 	// Mask an account address with an alias if found.
 	// Otherwise default to its address.
@@ -20,40 +33,40 @@ export const buildColumns = ({
 		}
 		return address.substring(0, 12) + '...'
 	}
-	// get that day's rate
-	const getExchangeDataCurrency = (date, currencyCollection) => {
-		return currencyCollection.rates.filter(a => {
-			let time = new Date(parseInt(a.time)).toLocaleDateString()
-			return time === date
-		})
-	}
-	// get the rate list base on different digitalCurrency name
-	const getCurrencyBaseOnChoose = (digitalCurrency) => {
-		let currency = currencies.filter(a => {
-			return a.digitalCurrency === digitalCurrency
-		})
-		return currency[0]
-	}
 
-	const findTransactionLabel = txId => {
-		let label = transactionLabels.find(l => l.transactionId === txId)
-		if (label) {
-			return label.itemId
+	// Get the most appropriate exchange rate for the timestamp and currency. 
+	const getExchangeRate = (timestamp, currencyIdentifier) => {
+		
+		let ratesSet = currencies.find(c => c.digitalCurrency === currencyIdentifier)
+		if (!ratesSet) {
+			// TODO: sensible default, such at current exchange rate.
+			return { timestamp, value: 0.0, estimated: true }
 		}
 
-		return undefined
+		const timestampDay = Math.floor(timestamp/86400)
+
+		// Currently our rates are only daily.
+		let rate = ratesSet.rates.find(r => Math.floor(r.timestamp/86400) === timestampDay)
+		if (!rate) {
+			// TODO: sensible default, such at current exchange rate.
+			rate = { timestamp, value: 0.0, estimated: true }
+		}
+
+		return rate
 	}
 
 	return [
 		{
-			title: 'Time',
+			title: 'Timestamp',
 			dataIndex: 'timeStamp',
 			key: 'timeStamp',
-			width: '4%',
+			width: '5%',
 			sortOrder: 'descend',
 
-			render: text => {
-				return new Date(parseInt(text) * 1000).toLocaleDateString()
+			render: value => {
+				let date = new Date(parseInt(value) * 1000)
+				const dateString = `${date.getFullYear()}-${monthNames[date.getMonth()]}-${date.getDate()}`
+				return dateString
 			},
 
 			sorter: (a, b) => a.timeStamp - b.timeStamp
@@ -62,14 +75,14 @@ export const buildColumns = ({
 			title: 'From',
 			dataIndex: 'from',
 			key: 'from',
-			width: '9%',
+			width: '7%',
 
 			render: (text, record) => (
 				<div className="editable-cell">
 					<div className="editable-cell-text-wrapper" id={record._id}>
 						{accountAliasMask(text)}
 
-						<ClickCopyCell text={text}/>
+						<ClickCopyCell text={text} />
 					</div>
 				</div>
 			)
@@ -79,141 +92,76 @@ export const buildColumns = ({
 			title: 'To',
 			dataIndex: 'to',
 			key: 'to',
-			width: '9%',
+			width: '7%',
 
 			render: (text, record) => (
 				<div className="editable-cell">
 					<div className="editable-cell-text-wrapper" id={record._id}>
 						{accountAliasMask(text)}
-						<ClickCopyCell text={text}/>
+						<ClickCopyCell text={text} />
 					</div>
 				</div>
 			)
 		},
 		{
 			title: 'ETH',
-			dataIndex: 'gas',
-			key: 'gas',
+			dataIndex: 'value',
+			key: 'value',
 			width: '6%',
 
-			render: (text, record) => {
-				return weiToEther(text * record.gasPrice)
+			render: (value, record) => {
+				if (value == 0) return ''
+				return maskLongNumberValue(weiToEther(value))
 			}
 		},
 		{
-			title: 'USD(Current rate)',
-			dataIndex: 'gasPrice',
-			key: 'gasPrice',
-			width: '6%',
-
-			render: (text, record) => {
-				return (weiToEther(text * record.gas) * usdExchangeRate).toFixed(2)
-			}
-		},
-
-		{
-			title: 'USD(exchange rate)',
-			dataIndex: 'gasPrice',
-			key: 'gasPriceRate',
-			width: '6%',
-			render: (text, record) => {
-				let tp = new Date(
-					parseInt(record.timeStamp) * 1000
-				).toLocaleDateString()
-				let rate = []
-				if (currencies) {
-					let currency = getCurrencyBaseOnChoose('ETH')
-					if (currency) {
-						rate = getExchangeDataCurrency(tp, currency)
-					}
-				}
-				return (weiToEther(text * record.gas) *
-										(rate[0] ? rate[0].average : 0)).toFixed(2)
-			}
-		},
-		{
-			title: 'ETH/mBTC',
-			dataIndex: 'gasPrice',
-			key: 'gasPriceBTC',
-			width: '6%',
-
-			render: (text, record) => {
-				let tp = new Date(
-					parseInt(record.timeStamp) * 1000
-				).toLocaleDateString()
-				let rate = 0
-				let rateETH = []
-				let rateBTC = []
-				if (currencies) {
-					let currencyETH = getCurrencyBaseOnChoose('ETH', currencies)
-					if (currencyETH) {
-						rateETH = getExchangeDataCurrency(tp, currencyETH)
-					}
-					let currencyBTC = getCurrencyBaseOnChoose('BTC', currencies)
-					if (currencyBTC) {
-						rateBTC = getExchangeDataCurrency(tp, currencyBTC)
-						if (rateBTC.length !== 0 && rateETH.length !== 0) {
-							if (rateETH) {
-								rate = rateETH[0].average / rateBTC[0].average
-							}
-						}
-					}
-				}
-				return (weiToEther(text * record.gas) * rate * 1000).toFixed(12)
-			}
-		},
-
-		{
-			title: 'Internal',
-			dataIndex: 'contractAddress',
-			key: 'contractAddress',
+			title: 'USD',
+			dataIndex: 'value',
+			key: 'valueUsd',
 			width: '4%',
-
-			render: text => {
-				return text === '' ? '' : 'Internal'
-			},
-
-			filters: [{ text: 'No', value: 'No' }, { text: 'Yes', value: 'Yes' }],
-			onFilter: (value, record) => {
-				record.contractAddress.includes(value)
+			render: (value, record) => {
+				if (value == 0) return ''
+				let rate = getExchangeRate(record.timeStamp, 'ETH')
+				return (weiToEther(value) * rate.value).toFixed(2)
 			}
 		},
 		{
-			title: ' Label',
-			key: 'type',
-			width: '12%',
-			render: (text, record) => {
-				let labelTypeId = findTransactionLabel(record._id)
+			title: 'BTC',
+			dataIndex: 'value',
+			key: 'valueBtc',
+			width: '5%',
 
-				return (
-					<div>
-						<Select
-							showSearch
-							value={labelTypeId}
-							onChange={ltId =>
-								onLabelUpdated({ txId: record._id, labelTypeId: ltId })
-							}
-							style={{ width: '100%' }}
-							placeholder="Select a label"
-							optionFilterProp="name"
-							filterOption={(input, option) =>
-								option.props.children
-									.toLowerCase()
-									.indexOf(input.toLowerCase()) >= 0}
-						>
-							{
-								labelTypes.map(lt => {
-									return (
-										<Select.Option value={lt._id} key={lt._id}>
-											{lt.label}
-										</Select.Option>
-									)
-								})
-							}
-						</Select>
-					</div>
-				)
+			render: (value, record) => {
+				if (value == 0) return ''
+				// TODO: not the place for calcs like this.
+				const ethRate = getExchangeRate(record.timeStamp, 'ETH')
+				const btcRate = getExchangeRate(record.timeStamp, 'BTC')
+
+				// TODO: until we get our data integrity on point, don't risk making
+				// silly calculations.
+				if (!!ethRate.estimated || btcRate.estimated) {
+					return "N/A"
+				}
+
+				const ethBtcRate = ethRate.value / btcRate.value
+				return maskLongNumberValue(weiToEther(value) * ethBtcRate)
 			}
-		}
+		},
+		// TODO:
+		// {
+		// 	title: 'Internal',
+		// 	dataIndex: 'contractAddress',
+		// 	key: 'contractAddress',
+		// 	width: '4%',
+
+		// 	render: text => {
+		// 		return text === '' ? '' : 'Internal'
+		// 	},
+
+		// 	filters: [{ text: 'No', value: 'No' }, { text: 'Yes', value: 'Yes' }],
+		// 	onFilter: (value, record) => {
+		// 		record.contractAddress.includes(value)
+		// 	}
+		// }
 	]
 }

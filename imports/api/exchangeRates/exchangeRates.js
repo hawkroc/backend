@@ -1,9 +1,10 @@
 import { Mongo } from 'meteor/mongo'
 import { initializeFactory } from './exchangeRateFactory'
+import ExchangeRateSchema from './schemas/exchangeRateSchema'
 
 class ExchangeRatesCollection extends Mongo.Collection {
-	insert(currency, callback) {
-		return super.insert(currency, callback)
+	insert(exchangeRate, callback) {
+		return super.insert(exchangeRate, callback)
 	}
 
 	remove(selector, callback) {
@@ -12,7 +13,7 @@ class ExchangeRatesCollection extends Mongo.Collection {
 }
 
 const ExchangeRates = new ExchangeRatesCollection('exchangeRates')
-
+ExchangeRates.attachSchema(ExchangeRateSchema)
 ExchangeRates.deny({
 	update() { return true },
 	insert() { return true },
@@ -29,14 +30,13 @@ ExchangeRates.publicFields = {
 
 
 ExchangeRates.active = () => {
-	let exchangeRatesList = ExchangeRates.find({}).map(a => ({
+	let exchangeRatesList = ExchangeRates.find({ }).map(a => ({
 		_id: a._id,
 		digitalCurrency: a.digitalCurrency,
 		fiatCurrency: a.fiatCurrency,
 		latestMinedDate: a.latestMinedDate,
 		rates: a.rates
 	}))
-
 	return exchangeRatesList
 }
 // Attach helpers to the collection object.

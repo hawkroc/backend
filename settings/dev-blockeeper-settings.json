@@ -1,5 +1,6 @@
 {
     "database": {
+        "drop_collections_on_startup": true,
         "fixtures_environment": "development"
     },
     
@@ -7,7 +8,7 @@
         "transaction_miner_expression": "0 * * * * *",
         "exchangerate_miner_expression": "0 0 0 * * *"
     },
-    
+ 
     "azure": {
         "app_insights_key": "045fb4ec-9e7c-44d9-8ba0-a5b15c44610f"
     },    
@@ -20,6 +21,11 @@
     },
 
     "public": {
-        
+        "input_validation": {
+            "account_address": "/^0x[a-zA-Z0-9]{40}$/",
+            "transaction_timestamp": "1230721200"
+        },
+
+        "login_key": "3b1bb2d5af81ed44b2a48d318648da88930f73b652d495dce7434b40c7ee895c"
     }
 }

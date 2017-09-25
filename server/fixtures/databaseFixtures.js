@@ -1,14 +1,16 @@
 import { Meteor } from 'meteor/meteor'
 
-const { fixtures_environment } = Meteor.settings.database
+const { fixtures_environment, drop_collections_on_startup } = Meteor.settings.database
 
 import devProfileFixtures from './environments/development/profileFixtures'
 import devAccountFixtures from './environments/development/accountFixtures'
 import devExchangeRateFixtures from './environments/development/exchangeRateFixtures'
+import devUserFixtures from './environments/development/userFixtures'
 
 import Accounts from '../../imports/api/accounts/accounts'
 import Profiles from '../../imports/api/profiles/profiles'
-import Currency from '../../imports/api/exchangeRates/exchangeRates'
+import ExchangeRates from '../../imports/api/exchangeRates/exchangeRates'
+import { Accounts as UserAccounts } from 'meteor/accounts-base'
 
 
 const pushProfileFixtures = () => {
@@ -20,14 +22,16 @@ const pushProfileFixtures = () => {
 	console.log('databaseFixtures: No existing PROFILE data. Adding test fixtures.')
 
 	devProfileFixtures.generate().forEach(p => {
-		Profiles.insert(p)
+		// TODO: once bug is fixed, remove bypass flag.
+		// https://github.com/aldeed/node-simple-schema/issues/112
+		Profiles.insert(p, { bypassCollection2: true })
 	})
 }
 
 const pushAccountFixtures = () => {
 	if (Accounts.find().count() !== 0) {
 		console.log('databaseFixtures: Found existing ACCOUNT data. No ACCOUNT fixtures added.')
-		return []
+		return
 	}
 
 	console.log('databaseFixtures: No existing ACCOUNT data. Adding test fixtures.')
@@ -38,16 +42,26 @@ const pushAccountFixtures = () => {
 }
 
 const pushExchangeRateFixtures = () => {
-	if (Currency.find().count() !== 0) {
-		console.log('databaseFixtures: Found existing Currency data. No Currency fixtures added.')
-		return []
+	if (ExchangeRates.find().count() !== 0) {
+		console.log('databaseFixtures: Found existing ExchangeRates data. No ExchangeRates fixtures added.')
+		return
 	}
 
-	console.log('databaseFixtures: No existing Currency data. Adding test fixtures.')
+	console.log('databaseFixtures: No existing ExchangeRates data. Adding test fixtures.')
 
 	devExchangeRateFixtures.generate().forEach(er => {
-		Currency.insert(er)
+		ExchangeRates.insert(er)
 	})
+}
+
+const pushUserFixtures = () => {
+	if (UserAccounts.users.find().count() !== 0) {
+		console.log('databaseFixtures: Found existing Users data. No User fixtures added.')
+		return
+	}
+
+	console.log('databaseFixtures: No existing Users data. Adding test fixtures.')
+	devUserFixtures.generate()
 }
 
 /**
@@ -59,10 +73,23 @@ const pushExchangeRateFixtures = () => {
 export default {
 	apply: () => {
 		Meteor.startup(() => {
-			if (!!fixtures_environment && fixtures_environment === 'development') {
+			if (fixtures_environment === 'development') {
+				// TODO: should this be done in-app or in the pipeline?
+				if (!!drop_collections_on_startup) {
+					// Remove ALL collections.
+					console.warn('drop_collections_on_startup flag is set - dropping ALL database collections')
+
+					// Manually drop each collection here.
+					Profiles.rawCollection().drop()
+					UserAccounts.users.rawCollection().drop()
+					Accounts.rawCollection().drop()
+					ExchangeRates.rawCollection().drop()
+				}
+
 				pushAccountFixtures()
 				pushProfileFixtures()
 				pushExchangeRateFixtures()
+				pushUserFixtures()
 			} else {
 				console.warn('databaseFixtures: No fixtures configured for environment.')
 			}

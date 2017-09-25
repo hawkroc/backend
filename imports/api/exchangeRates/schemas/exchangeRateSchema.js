@@ -1,19 +1,24 @@
-import SimpleSchema  from 'simpl-schema'
+import { Meteor } from "meteor/meteor"
+import SimpleSchema from "simpl-schema"
 
-import Rate from './ratesSchema'
+import RatesSchema from "./ratesSchema"
 
-const ExchangeRateSchema = new SimpleSchema({
-	_id: { type: String },
+const schema = new SimpleSchema({
+    _id: { type: String },
 
-	digitalCurrency: { type: String },
-	fiatCurrency: { type: String },
-	latestMinedDate: { type: Number },
-	rates: {
-		type: [Rate]
-	},
-	'rates.$': {
-		type: Rate
-	}
+    digitalCurrency: { type: String },
+    fiatCurrency: { type: String },
+    latestMinedDate: {
+        type: Number,
+        min: Meteor.settings.public.input_validation.transaction_timestamp
+    },
+    
+    rates: {
+        type: Array
+    },
+    "rates.$": {
+        type: RatesSchema
+    }
 })
 
-export default ExchangeRateSchema
+export default schema

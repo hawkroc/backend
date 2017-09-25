@@ -32,10 +32,10 @@ describe('Profiles: labels', function() {
 			{ label: labelTypeName, gst: labelTypeGst }
 		)
 
-		let newLabelTypeCount = Profiles.active().labelTypes.length
+		let newLabelTypeCount = Profiles.findOne().labelTypes.length
 		chai.assert.equal(newLabelTypeCount, initialLabelTypeCount + 1, 'There is exactly one more label type available')
 
-		let newLabelTypeDetailCount = Profiles.active().labelTypes
+		let newLabelTypeDetailCount = Profiles.findOne().labelTypes
 			.filter(lt => lt.label == labelTypeName && lt.gst == labelTypeGst)
 			.length
 
@@ -62,10 +62,10 @@ describe('Profiles: labels', function() {
 		)
 
 		// Make sure we have exactly one less label type.
-		let newLabelTypeCount = Profiles.active().labelTypes.length
+		let newLabelTypeCount = Profiles.findOne().labelTypes.length
 		chai.assert.equal(newLabelTypeCount, initialLabelTypeCount - 1, 'There is exactly one less label type available')
 
-		let newLabelTypeDetailCount = Profiles.active().labelTypes
+		let newLabelTypeDetailCount = Profiles.findOne().labelTypes
 			.filter(lt => lt._id == labelTypeToDeleteId)
 			.length
 
@@ -108,9 +108,9 @@ describe('Profiles: labels', function() {
 			{ _id: targetLabelTypeId }
 		)
 
-		chai.assert.equal(Profiles.active().labels.length, 2, 'Exactly 2 matching labels were removed')
+		chai.assert.equal(Profiles.findOne().labels.length, 2, 'Exactly 2 matching labels were removed')
 
-		let targetLabelCount = Profiles.active().labels.filter(l => l._id === targetLabelTypeId).length
+		let targetLabelCount = Profiles.findOne().labels.filter(l => l._id === targetLabelTypeId).length
 		chai.assert.equal(targetLabelCount, 0, 'Labels corresponding to deleted label type have been removed')
 	})
 
@@ -135,13 +135,13 @@ describe('Profiles: labels', function() {
 			{ _id: labelTypeToUpdateId, label: updatedLabelTypeName, gst: !labelTypeInitialGst }
 		)
 
-		let newLabelTypeCount = Profiles.active().labelTypes.length
+		let newLabelTypeCount = Profiles.findOne().labelTypes.length
 		chai.assert.equal(newLabelTypeCount, initialLabelTypeCount, 'There is no change to the number of label types')
 
-		let updatedLabelType = Profiles.active().labelTypes
+		let updatedLabelType = Profiles.findOne().labelTypes
 			.find(lt => lt._id == labelTypeToUpdateId)
 
-		let miscLabelType = Profiles.active().labelTypes
+		let miscLabelType = Profiles.findOne().labelTypes
 			.find(lt => lt._id != labelTypeToUpdateId)
 
 		chai.assert.isObject(updatedLabelType, 'Our updated label type still exists')
@@ -150,5 +150,9 @@ describe('Profiles: labels', function() {
 		chai.assert.equal(updatedLabelType.label, updatedLabelTypeName, 'The target label type name was updated')
 		chai.assert.equal(updatedLabelType.gst, !labelTypeInitialGst, 'The target label type GST value was updated')
 		chai.assert.notEqual(miscLabelType.label, updatedLabelTypeName, 'Other label type name was not updated')
+	})
+
+	it('Disallows callers to update to a non-existing label type', function() {
+		chai.assert.equal(true, false, "TEST NOT YET IMPLEMENTED")
 	})
 })

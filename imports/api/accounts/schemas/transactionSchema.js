@@ -1,5 +1,5 @@
 import SimpleSchema  from 'simpl-schema'
-
+import { Meteor } from 'meteor/meteor'
 const TransactionSchema = new SimpleSchema({
 	_id: { type: String },
 
@@ -7,10 +7,10 @@ const TransactionSchema = new SimpleSchema({
 		type: String
 	},
 	blockNumber: {
-		type: Number
+		type: Number, min: 0
 	},
 	timeStamp: {
-		type: Number
+		type: Number, min: Meteor.settings.public.input_validation.transaction_timestamp
 	},
 	hash: {
 		type: String
@@ -25,16 +25,16 @@ const TransactionSchema = new SimpleSchema({
 		type: String
 	},
 	from: {
-		type: String
+		type: String, regEx: Meteor.settings.public.input_validation.account_address
 	},
 	to: {
-		type: String
+		type: String, regEx: Meteor.settings.public.input_validation.account_address
 	},
 	gas: {
-		type: Number
+		type: Number, min: 0
 	},
 	gasPrice: {
-		type: Number
+		type: Number, min: 0
 	},
 	gasUsed: {
 		type: String

@@ -7,10 +7,13 @@ import store from '../store'
 import accountsReducer from './accountsReducer'
 import navigationReducer from './navigationReducer'
 import profilesReducer from './profilesReducer'
+import usersReducer from './usersReducer'
 
 import { setActiveProfile, setActiveCurrency } from '../actions/profileActions'
 import { setAccounts } from '../actions/accountActions'
+import { setUsers } from '../actions/userActions'
 
+import { Accounts as UserAccounts } from 'meteor/accounts-base'
 import Profiles from '../../api/profiles/profiles'
 import Accounts from '../../api/accounts/accounts'
 import ExchangeRates from '../../api/exchangeRates/exchangeRates'
@@ -22,7 +25,8 @@ import ExchangeRates from '../../api/exchangeRates/exchangeRates'
 const rootReducer = combineReducers({
 	accounts: accountsReducer,
 	navigation: navigationReducer,
-	profiles: profilesReducer
+	profiles: profilesReducer,
+	users: usersReducer
 })
 
 // Every change to the profile in question will trigger a dispatch.
@@ -31,15 +35,18 @@ const rootReducer = combineReducers({
 Meteor.startup(() => {
 	Tracker.autorun(() => {(
 		store.dispatch(
-			setActiveProfile(Profiles.active())
+			setActiveProfile(Profiles.findOne())
 		),
 		store.dispatch(
 			setAccounts(Accounts.find().fetch())
 		),
 		store.dispatch(
 			setActiveCurrency(ExchangeRates.active())
-		))
-	})
+		),
+		store.dispatch(
+			setUsers(UserAccounts.users.find().fetch())
+		)
+	)})
 })
 
 export default rootReducer
