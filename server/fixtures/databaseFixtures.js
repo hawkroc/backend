@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 
-const { fixtures_environment } = Meteor.settings.database
+const { fixtures_environment, drop_collections_on_startup } = Meteor.settings.database
 
 import devProfileFixtures from './environments/development/profileFixtures'
 import devAccountFixtures from './environments/development/accountFixtures'
@@ -9,7 +9,7 @@ import devUserFixtures from './environments/development/userFixtures'
 
 import Accounts from '../../imports/api/accounts/accounts'
 import Profiles from '../../imports/api/profiles/profiles'
-import Currency from '../../imports/api/exchangeRates/exchangeRates'
+import ExchangeRates from '../../imports/api/exchangeRates/exchangeRates'
 import { Accounts as UserAccounts } from 'meteor/accounts-base'
 
 
@@ -42,15 +42,15 @@ const pushAccountFixtures = () => {
 }
 
 const pushExchangeRateFixtures = () => {
-	if (Currency.find().count() !== 0) {
-		console.log('databaseFixtures: Found existing Currency data. No Currency fixtures added.')
+	if (ExchangeRates.find().count() !== 0) {
+		console.log('databaseFixtures: Found existing ExchangeRates data. No ExchangeRates fixtures added.')
 		return
 	}
 
-	console.log('databaseFixtures: No existing Currency data. Adding test fixtures.')
+	console.log('databaseFixtures: No existing ExchangeRates data. Adding test fixtures.')
 
 	devExchangeRateFixtures.generate().forEach(er => {
-		Currency.insert(er)
+		ExchangeRates.insert(er)
 	})
 }
 
@@ -73,7 +73,19 @@ const pushUserFixtures = () => {
 export default {
 	apply: () => {
 		Meteor.startup(() => {
-			if (!!fixtures_environment && fixtures_environment === 'development') {
+			if (fixtures_environment === 'development') {
+				// TODO: should this be done in-app or in the pipeline?
+				if (!!drop_collections_on_startup) {
+					// Remove ALL collections.
+					console.warn('drop_collections_on_startup flag is set - dropping ALL database collections')
+
+					// Manually drop each collection here.
+					Profiles.rawCollection().drop()
+					UserAccounts.users.rawCollection().drop()
+					Accounts.rawCollection().drop()
+					ExchangeRates.rawCollection().drop()
+				}
+
 				pushAccountFixtures()
 				pushProfileFixtures()
 				pushExchangeRateFixtures()

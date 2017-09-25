@@ -1,5 +1,8 @@
+/* REMINDER: this is a production configuration file. Changes made here will be deployed to production */
 {
     "database": {
+        /* REMINDER: setting this flag will drop ALL prodution data */
+        "drop_collections_on_startup": false,
         "fixtures_environment": "production"
     },
 
