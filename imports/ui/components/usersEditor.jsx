@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Table, Button, Modal, Input } from 'antd'
-import { buildColumns } from './userAccountsColumns'
+import { buildColumns } from './usersEditorColumns'
 
 /**
  * Displays and manages profile users.
@@ -30,9 +30,33 @@ class component extends React.Component {
 	})
 
 	submidNewUser = () => {
+
+		let name = this.state.newUserName
+		let publicKey =this.state.newUserPublicKey
+
+		// Validation.
+		if (!name || name.trim() === '') {
+			return
+		}
+		name = name.trim()
+		
+		if (!publicKey || publicKey.trim() === '') {
+			return
+		}
+		publicKey = publicKey.trim()
+
+		if (publicKey.substring(0, 2) === '0x') {
+			publicKey = publicKey.substring(2)
+		}
+
+		if (!/^[0-9a-f]{64}$/i.test(publicKey)) {
+			alert("Public key format is incorrect")
+			return
+		}
+
 		this.props.onInsertUser({
-			name: this.state.newUserName,
-			publicKey: this.state.newUserPublicKey
+			name,
+			publicKey
 		})
 
 		this.hideAddModal()
@@ -42,11 +66,12 @@ class component extends React.Component {
 		const {
 			languageConfig,
 			onInsertUser,
+			onDeleteUser,
 			users
 		} = this.props
 
 		// Build the column set for this table.
-		const columns = buildColumns({ languageConfig })
+		const columns = buildColumns({ languageConfig, onDeleteUser })
 
 		return (
 			<div>

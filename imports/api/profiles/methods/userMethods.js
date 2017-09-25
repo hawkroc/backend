@@ -12,11 +12,11 @@ Meteor.methods({
      * 
      * @param {*} param0 
      */
-    [methodTypes.PROFILE_INSERT_USER]({ name, publicKey }){
+    [methodTypes.PROFILE_INSERT_USER]({ name, publicKey }) {
         
         // TODO: can we abstract this for all relevant method calls?
         if (!Meteor.user()) {
-            console.warn('Unknown user')
+            console.warn('Caller is not logged in')
             return { error: 'You are not logged in' }
         }
 
@@ -34,17 +34,54 @@ Meteor.methods({
         // currently add another user to.
         let profileId = Meteor.user().services['centrality-blockeeper'].profileId
         
-        UserAccounts.updateOrCreateUserFromExternalService(
-            'centrality-blockeeper', 
-            { 
-                // Meteor/accounts-base requirement.
-                id: publicKey, 
+        if (Meteor.isServer) {
+            UserAccounts.updateOrCreateUserFromExternalService(
+                'centrality-blockeeper', 
+                {
+                    // Meteor/accounts-base requirement.
+                    id: publicKey, 
+    
+                    // Blockeeper specific information.
+                    publicKey, 
+                    name,
+                    profileId
+                }
+            )
+        }
+    },
 
-                // Blockeeper specific information.
-                publicKey, 
-                name,
-                profileId
-            }
-        )
+    /**
+     * Delete a user from the current user's profile.
+     * 
+     * @param {*} param0 
+     */
+    [methodTypes.PROFILE_DELETE_USER]({ userId }) {
+        // TODO: can we abstract this for all relevant method calls?
+        if (!Meteor.user()) {
+            console.warn('Caller is not logged in')
+            return { error: 'You are not logged in' }
+        }
+
+        // Ensure the target user and current user share the same active profile.
+        let targetUser = UserAccounts.users.findOne(userId)
+
+        if (!targetUser 
+            || targetUser.services['centrality-blockeeper'].profileId
+                !== Meteor.user().services['centrality-blockeeper'].profileId
+        ) {
+            console.warn('Unknown target user')
+            return { error: 'Attempted to delete unkown user' }
+        }
+
+        // Ensure that the current user is not deleting themselves...
+        if (targetUser._id === Meteor.userId()) {
+            console.warn('User cannot delete themselves')
+            return { error: 'Can not delete self' }
+        }
+
+        // Delete the whole user document. This should log the user out.
+        UserAccounts.users.remove({
+            _id: userId
+        })
     }
 })

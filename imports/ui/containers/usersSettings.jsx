@@ -12,8 +12,10 @@ import userMethodTypes from '../../api/profiles/methods/userMethodTypes'
  * 
  */
 const view = ({ 
-	languageConfig, 
-	onInsertUser ,
+	languageConfig,
+
+	onInsertUser,
+	onDeleteUser,
 	users
 }) => {
 	return (
@@ -23,6 +25,7 @@ const view = ({
 				{...{
 					languageConfig,
 					onInsertUser,
+					onDeleteUser,
 					users
 				}}
 			/>
@@ -40,8 +43,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch, state) => {
 	return {
 		onInsertUser: newUser => {
-			Meteor.call(userMethodTypes.PROFILE_INSERT_USER, {
-				...newUser
+			Meteor.call(userMethodTypes.PROFILE_INSERT_USER, newUser)
+		},
+
+		onDeleteUser: userId => {
+			Meteor.call(userMethodTypes.PROFILE_DELETE_USER, {
+				userId
 			})
 		}
 	}
