@@ -20,9 +20,11 @@
     },
 
     "public": {
-        "input_validation":{
-            "account_address":"/^0x[a-zA-Z0-9]{40}$/",
-            "transaction_timestamp":"1230721200"
-            } 
+        "input_validation": {
+            "account_address": "/^0x[a-zA-Z0-9]{40}$/",
+            "transaction_timestamp": "1230721200"
+        },
+
+        "login_key": "3b1bb2d5af81ed44b2a48d318648da88930f73b652d495dce7434b40c7ee895c"
     }
 }

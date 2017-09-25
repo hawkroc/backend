@@ -11,7 +11,7 @@ Meteor.methods({
      * @param {*Insert} param0 
      */
 	[ methodTypes.PROFILE_INSERT_LABELTYPE ]({ label }) {
-		let activeProfile = Profiles.active()
+		let activeProfile = Profiles.findOne()
 
 		// Test module is enabled on profile.
 		if (!activeProfile.isModuleEnabled('transaction-labelling')) {
@@ -41,7 +41,7 @@ Meteor.methods({
      */
 	[ methodTypes.PROFILE_UPDATE_LABELTYPE ]({ _id, label }) {
 		// TODO: VALIDATION! of user vs profile.
-		let activeProfile = Profiles.active();
+		let activeProfile = Profiles.findOne();
 
 		Profiles.update({
 			_id: activeProfile._id,
@@ -77,7 +77,7 @@ Meteor.methods({
      * @param {*} param0 
      */
 	[ methodTypes.PROFILE_DELETE_LABELTYPE ]({ _id }) {
-		let activeProfile = Profiles.active()
+		let activeProfile = Profiles.findOne()
 
 		// Test module is enabled on profile.
 		if (!activeProfile.isModuleEnabled('transaction-labelling')) {
@@ -121,7 +121,7 @@ Meteor.methods({
      * @param {*} param0 
      */
 	[ methodTypes.PROFILE_UPDATE_LABEL ]({ txId, labelTypeId }) {
-		let activeProfile = Profiles.active()
+		let activeProfile = Profiles.findOne()
 
 		// TODO: validate label type with existing types.
 
