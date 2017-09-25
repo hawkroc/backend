@@ -13,16 +13,18 @@ const View = ({
 }) => {
 	return (
 		<LocaleProvider locale={language}>
-			<div className="list">
-				<HeaderContentLayout />
-				{
-					isProfileLoaded 
-						// Display the body conetent once profile is known.
-						? <BodyContentLayout {...{ languageConfig, language }}/>  
-						// Otherwise, prompt user to log in to load appropriate profile.
-						: <LoginContainer />
-				}
-			</div>
+			{
+				isProfileLoaded 
+					// Display the body conetent once profile is known.
+					? (
+						<div className="list">
+							<HeaderContentLayout />
+							<BodyContentLayout {...{ languageConfig, language }}/>  
+						</div>
+					)
+					// Otherwise, prompt user to log in to load appropriate profile.
+					: <LoginContainer />
+			}
 		</LocaleProvider>
 	)
 }

@@ -8,6 +8,7 @@ export default {
 	apply: () => {
 		Meteor.subscribe('accounts')
 		Meteor.subscribe('profiles')
+		Meteor.subscribe('users')
 		Meteor.subscribe('exchangeRates')
 	}
 }

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 
+import { Accounts as UserAccounts } from 'meteor/accounts-base'
 import Accounts from '../api/accounts/accounts'
 import Profiles from '../api/profiles/profiles'
 import ExchangeRates from '../api/exchangeRates/exchangeRates'
@@ -44,6 +45,29 @@ export default {
 			// Return the ExchangeRates ETH-USD. if need we can extends base on use's profile	
 			return ExchangeRates.find({ }, {
 				fields: ExchangeRates.publicFields
+			})
+		})
+
+		// Publish all users belonging to the current users profile.
+		// TODO: once we have a proper permission model this will change.
+		Meteor.publish('users', () => {
+			const activeUser = Meteor.user()
+			
+			if (!activeUser) {
+				return null
+			}
+
+			const activeUserProfileId = activeUser.services['centrality-blockeeper']
+				.profileId
+		
+			return UserAccounts.users.find({
+				'services.centrality-blockeeper.profileId': activeUserProfileId
+			}, { 
+				fields: {
+					_id: 1,
+					'services.centrality-blockeeper.publicKey': 1,
+					'services.centrality-blockeeper.name': 1
+				}
 			})
 		})
 	}
