@@ -4,6 +4,12 @@ import ClickCopyCell from '../common/clickCopyCell'
 
 const weiToEther = value => (value * Math.pow(10, -18))
 
+// TODO: if we find ourselves doing too much datetime manipulation, use moment.js.
+const monthNames = [
+	"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+]
+
 const maskLongNumberValue = value => {
 	// Fix values to avoid automatic conversion to scientific notation.
 	const fixed = Number(value.toPrecision(16))
@@ -51,14 +57,16 @@ export const buildColumns = ({
 
 	return [
 		{
-			title: 'Time',
+			title: 'Timestamp',
 			dataIndex: 'timeStamp',
 			key: 'timeStamp',
-			width: '4%',
+			width: '5%',
 			sortOrder: 'descend',
 
-			render: text => {
-				return new Date(parseInt(text) * 1000).toLocaleDateString()
+			render: value => {
+				let date = new Date(parseInt(value) * 1000)
+				const dateString = `${date.getFullYear()}-${monthNames[date.getMonth()]}-${date.getDate()}`
+				return dateString
 			},
 
 			sorter: (a, b) => a.timeStamp - b.timeStamp
@@ -139,21 +147,21 @@ export const buildColumns = ({
 				return maskLongNumberValue(weiToEther(value) * ethBtcRate)
 			}
 		},
+		// TODO:
+		// {
+		// 	title: 'Internal',
+		// 	dataIndex: 'contractAddress',
+		// 	key: 'contractAddress',
+		// 	width: '4%',
 
-		{
-			title: 'Internal',
-			dataIndex: 'contractAddress',
-			key: 'contractAddress',
-			width: '4%',
+		// 	render: text => {
+		// 		return text === '' ? '' : 'Internal'
+		// 	},
 
-			render: text => {
-				return text === '' ? '' : 'Internal'
-			},
-
-			filters: [{ text: 'No', value: 'No' }, { text: 'Yes', value: 'Yes' }],
-			onFilter: (value, record) => {
-				record.contractAddress.includes(value)
-			}
-		}
+		// 	filters: [{ text: 'No', value: 'No' }, { text: 'Yes', value: 'Yes' }],
+		// 	onFilter: (value, record) => {
+		// 		record.contractAddress.includes(value)
+		// 	}
+		// }
 	]
 }

@@ -4,6 +4,22 @@ import ClickCopyCell from './common/clickCopyCell'
 import EditableCell from './common/editableCell'
 import Accounts from '../../api/accounts/accounts'
 
+const weiToEther = value => {
+    if (value === null || value === undefined)
+        return ''
+
+    return value * Math.pow(10, -18)
+}
+
+const maskLongNumberValue = value => {
+    // Fix values to avoid automatic conversion to scientific notation.
+	const fixed = Number(parseFloat(value).toPrecision(16))
+    
+    return fixed.toString().length > 10 
+        ? fixed.toString().substr(0, 10) + '...'
+        : fixed.toString()
+}
+
 export const buildColumns = ({
 	// languageConfig
 	languageConfig,
@@ -17,7 +33,7 @@ export const buildColumns = ({
 		{
 			title: languageConfig.Alias,
 			dataIndex: 'alias',
-			width: '40%',
+			width: '35%',
 
 			render: (text, record) => (
 				<EditableCell
@@ -56,13 +72,13 @@ export const buildColumns = ({
 		},
 		{
 			title: languageConfig.Balance,
-			dataIndex: 'balance',
-			width: '15%',
+			dataIndex: 'Balance (ETH)',
+			width: '20%',
 			render: (text, record) => {
 				if (idToAddressBalance) {
 					for (let idAddress of idToAddressBalance) {
 						if (record.accountId === idAddress.id) {
-							return idAddress.balance
+							return maskLongNumberValue(weiToEther(idAddress.balance))
 						}
 					}
 				}

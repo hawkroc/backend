@@ -2,9 +2,13 @@ import { Meteor } from 'meteor/meteor'
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { Row, Col } from 'antd'
+
 import TransactionsGridComponent from '../components/transactions/transactionsGrid'
-import { fetchEtherExchangeRate } from '../../redux/actions/accountActions'
 import TransactionsExportComponent from '../components/transactions/transactionsExport'
+import TransactionsFilterContainer from '../containers/transactionsFilter'
+
+import { fetchEtherExchangeRate } from '../../redux/actions/accountActions'
 
 class TransactionsViewer extends React.Component {
 	componentDidMount() {
@@ -26,13 +30,22 @@ class TransactionsViewer extends React.Component {
 
 		return (
 			<div>
-				<div className="exchange">
-					<span style={{ color: 'black', fontStyle: 'italic' }}>
-						{languageConfig.Current}:
-					</span>{' '}
-                    1 ETH = {usdExchangeRate} USD
-				</div>
-				<TransactionsExportComponent {...{ transactions }} />
+				<Row>
+					<Col span={4}> 
+						<TransactionsExportComponent {...{ transactions }} />
+					</Col>
+					<Col offset={5} span={6}> 
+						<TransactionsFilterContainer />
+					</Col>
+					<Col offset={3} span={5}>
+						<div className="exchange">
+							<span style={{ color: 'black', fontStyle: 'italic' }}>
+								{languageConfig.Current}:
+							</span>{'  '}
+							1 ETH = {usdExchangeRate} USD
+						</div>
+					</Col>
+				</Row>
 				<TransactionsGridComponent
 					{...{
 						accounts,

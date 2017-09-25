@@ -21,7 +21,7 @@ const Layout = () => {
 						</div>
 					</Col>
 					<Col offset={6} span={6}>
-						<TransactionsFilterContainer/>
+						
 					</Col>
 					<Col offset={0} span={2} style={{float: "right"}}>
 						<Button 
