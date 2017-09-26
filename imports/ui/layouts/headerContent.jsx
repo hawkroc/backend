@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { Accounts as UserAccounts } from 'meteor/accounts-base'
 
@@ -20,18 +21,20 @@ const Layout = () => {
 							<img role="presentation" src="/img/blockeeper_Blue.png" className="logo"/>
 						</div>
 					</Col>
-					<Col offset={6} span={6}>
-						
+					<Col offset={12} span={4} className="hearder-user-name">
+						<i>
+						welcome:<b> {Meteor.user().services['centrality-blockeeper'].name}</b>
+						</i>
 					</Col>
-					<Col offset={0} span={2} style={{float: "right"}}>
-						<Button 
-								type="primary" 
-								onClick={e => UserAccounts.logout()} 
-								style={{ width: "100px", margin: "3px" }}>
+					<Col offset={0} span={2} style={{float: 'right'}}>
+						<Button
+							type="primary"
+							onClick={e => UserAccounts.logout()}
+							style={{ width: '100px', margin: '3px' }}>
 							Log out
 						</Button>
 					</Col>
-					<Col offset={4} span={2} style={{float: "right"}}>
+					<Col offset={0} span={2} style={{float: 'right'}}>
 						<SwitchLanguageSettings/>
 					</Col>
 				</Row>
