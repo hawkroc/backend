@@ -22,7 +22,7 @@ class TransactionsViewer extends React.Component {
 		if (this.state.count - 1 < 0) {
 		}
 		this.setState({
-			count: this.state.count - 1 < 0 ? 10 : this.state.count - 1
+			count: this.state.count - 1 < 0 ? 60 : this.state.count - 1
 		});
 	}
 	startTimer() {
