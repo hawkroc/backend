@@ -12,23 +12,27 @@ import UsersSettings from '../containers/usersSettings'
  * Body row layout for display of content.
  * 
  */
-const Layout = ({languageConfig}) => {
+const Layout = ({ languageConfig }) => {
 	return (
-		<Tabs defaultActiveKey="0" >
-			<TabPane tab={languageConfig.Transactions_title} key="0">
-				<TransactionsViewer />
-			</TabPane>
-			<TabPane tab={languageConfig.Reporting_title} key="1">
-				<TransactionsReporting {...{languageConfig}} />
-			</TabPane>
-			<TabPane tab={languageConfig.Settings_title} key="2">
-				<ApplicationSettings  {...{languageConfig}} />
-			</TabPane>
-			<TabPane tab="Users" key="3">
-				<UsersSettings  {...{languageConfig}} />
-			</TabPane>
-		</Tabs>
+	   <div>
+			<Tabs defaultActiveKey="0" >
+				<TabPane tab={languageConfig.Transactions_title} key="0">
+					<TransactionsViewer />
+				</TabPane>
+				<TabPane tab={languageConfig.Reporting_title} key="1">
+					<TransactionsReporting {...{ languageConfig }} />
+				</TabPane>
+				<TabPane tab={languageConfig.Settings_title} key="2">
+					<ApplicationSettings  {...{ languageConfig }} />
+				</TabPane>
+				<TabPane tab="Users" key="3">
+					<UsersSettings  {...{ languageConfig }} />
+				</TabPane>
+			</Tabs>
+			</div>
 	)
 }
+
+
 
 export default Layout

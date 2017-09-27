@@ -11,8 +11,33 @@ import TransactionsFilterContainer from '../containers/transactionsFilter'
 import { fetchEtherExchangeRate } from '../../redux/actions/accountActions'
 
 class TransactionsViewer extends React.Component {
+	constructor(args) {
+		super(args)
+		this.state = {
+			count: 60,	
+		}
+	}
+
+	tick() {
+		if (this.state.count - 1 < 0) {
+			// this.updateConvertInfo();
+			// this.updatePendingInfo();
+		}
+		this.setState({
+			count: this.state.count - 1 < 0 ? 10 : this.state.count - 1
+		});
+	}
+	startTimer() {
+		clearInterval(this.timer);
+		this.timer = setInterval(this.tick.bind(this), 1000);
+	}
+	stopTimer() { clearInterval(this.timer); }
+
+
+
 	componentDidMount() {
 		this.props.fetchExchangeRate()
+		this.startTimer()
 	}
 
 	render() {
@@ -31,10 +56,10 @@ class TransactionsViewer extends React.Component {
 		return (
 			<div>
 				<Row>
-					<Col span={4}> 
+					<Col span={4}>
 						<TransactionsExportComponent {...{ transactions }} />
 					</Col>
-					<Col offset={5} span={6}> 
+					<Col offset={5} span={6}>
 						<TransactionsFilterContainer />
 					</Col>
 					<Col offset={3} span={5}>
@@ -55,6 +80,9 @@ class TransactionsViewer extends React.Component {
 						activeProfile
 					}}
 				/>
+				<b>
+				New data available in {this.state.count} seconds
+			</b>
 			</div>
 		)
 	}

@@ -66,14 +66,14 @@ class TrackedAccountsEditorComponent extends React.Component {
 	}
 
 	submitAdd = () => {
-		if (!/^0x[a-zA-Z0-9]{40}$/.test(this.state.addAddress)) {
+		if (!/^0x[a-fA-F0-9]{40}$/.test(this.state.addAddress)) {
 			this.error('Please check your address')
 			return null
 		}
 		if (this.props.idToAddressBalance.filter(
 			ta => ta.address === this.state.addAddress
 		).length > 0) {
-			this.error('This address alread be tracked')
+			this.error('This address has already been tracked')
 			return null
 		}
 
