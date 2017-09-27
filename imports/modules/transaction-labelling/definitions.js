@@ -21,9 +21,11 @@ export const getKeyDefs = (labellingModule) => {
 			key: 'labelling_labelTypeId',
 			displayKey: 'Label',
 
-			formattedValueTransformer: value =>
-				!!value ? labellingModule.labelTypes.items.find(lt => lt._id === value)
-				: '',
+			formattedValueTransformer: value => {
+				if (!value) return ''
+				const labelType = labellingModule.labelTypes.items.find(lt => lt._id === value)
+				return !!labelType ? labelType.label : ''
+			},
 
 			displayValueTransformer: (_, formattedValue) => formattedValue
 		}

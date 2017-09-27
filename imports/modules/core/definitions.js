@@ -76,7 +76,7 @@ const getKeyDefs = ({
 	return [
 		// Transaction timestamp.
 		{
-			id: 'timestamp',
+			id: 'core_timestamp',
 			key: 'timeStamp',
 			displayKey: 'Timestamp',
 
@@ -92,7 +92,7 @@ const getKeyDefs = ({
 		},
 		// Transaction's originating address.
 		{
-			id: 'from_address',
+			id: 'core_from_address',
 			key: 'from',
 			displayKey: 'From',
 			formattedValueTransformer: value => value,
@@ -100,7 +100,7 @@ const getKeyDefs = ({
 		},
 		// Transaction's target address.
 		{
-			id: 'to_address',
+			id: 'core_to_address',
 			key: 'to',
 			displayKey: 'To',
 			formattedValueTransformer: value => value,
@@ -108,7 +108,7 @@ const getKeyDefs = ({
 		},
 		// Transaction's explicit transferred value (in Ether)
 		{
-			id: 'transaction_value_eth',
+			id: 'core_transaction_value_eth',
 			key: 'value',
 			displayKey: 'ETH',
 			formattedValueTransformer: value => weiToEther(value),
@@ -117,21 +117,27 @@ const getKeyDefs = ({
 		},
 		// Transaction's explicit transferred value in USD
 		{
-			id: 'transaction_value_usd',
+			id: 'core_transaction_value_usd',
 			key: 'value',
 			displayKey: 'USD',
+
 			formattedValueTransformer: (value, { timeStamp }) => 
-				valueExchangeTransformer(timeStamp, 'USD', weiToEther(value)),
-			displayValueTransformer: (_, formattedValue) => formattedValue.toFixed(2)
+				valueExchangeTransformer(timeStamp, 'ETH', weiToEther(value)),
+
+			displayValueTransformer: (value, formattedValue) => 
+				value == 0 ? '' : formattedValue.toFixed(2)
 		},
 		// Transaction's explicit transferred value in Bitcoin
 		{
-			id: 'transaction_value_btc',
+			id: 'core_transaction_value_btc',
 			key: 'value',
 			displayKey: 'BTC',
+
 			formattedValueTransformer: (value, { timeStamp }) => 
 				valueExchangeTransformer(timeStamp, 'BTC', weiToEther(value)),
-			displayValueTransformer: (_, formattedValue) => maskLongNumberValue(formattedValue)
+
+			displayValueTransformer: (value, formattedValue) => 
+				value == 0 ? '' : maskLongNumberValue(formattedValue)
 		},
 	]
 }
@@ -163,13 +169,13 @@ const buildColumns = ({
 
 		// Build columns based on data keys.
 		switch (ck.id) {
-			case 'timestamp':
+			case 'core_timestamp':
 				column.sortOrder = 'descend'
 				column.sorter = (a, b) => a.timeStamp - b.timeStamp
 				break
 
-			case 'from_address':
-			case 'to_address':
+			case 'core_from_address':
+			case 'core_to_address':
 				column.render = value => {
 					return (
 						<div className="editable-cell">

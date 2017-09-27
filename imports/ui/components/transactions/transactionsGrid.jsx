@@ -4,26 +4,20 @@ import { Table } from 'antd'
 import coreDefinitions from '../../../modules/core/definitions'
 
 import taxationDefinitions from '../../../modules/taxation/definitions'
-import taxationTransformers from '../../../modules/taxation/transformers'
-
 import labellingDefinitions from '../../../modules/transaction-labelling/definitions'
-import labellingTransformers from '../../../modules/transaction-labelling/transformers'
-
 
 /**
  * Presents a grid showing transaction information.
  * 
  */
 const View = ({
-	accounts,
+	transactions,
 	usdExchangeRate,
 	activeProfile,
 
 	addressDisplayTransformer,
 	valueExchangeTransformer
 }) => {
-	// Flatten transactions for all our tracked accounts.
-	let transactionsDataSource = [].concat.apply([], accounts.map(a => a.transactions))
 
 	let columns = coreDefinitions.buildColumns({
 		usdExchangeRate,
@@ -38,9 +32,6 @@ const View = ({
 		columns = columns.concat(labellingDefinitions.buildColumns({
 			transactionLabellingModule
 		}))
-
-		transactionsDataSource = labellingTransformers
-			.transformTransactions(transactionsDataSource, transactionLabellingModule)
 	}
 
 	// If the taxation module is enabled for this profile - build the extra
@@ -51,18 +42,13 @@ const View = ({
 		columns = columns.concat(taxationDefinitions.buildColumns({
 			taxationModule
 		}))
-
-		transactionsDataSource = taxationTransformers.transformTransactions(
-			transactionsDataSource, 
-			taxationModule
-		)
 	}
 
 	return (
 		<div className="tableList">
 			<Table
 				columns={ columns }
-				dataSource={ transactionsDataSource }
+				dataSource={ transactions }
 				rowKey={ transaction => transaction._id }
 				pagination={{ pageSize: 6 }}
 			/>

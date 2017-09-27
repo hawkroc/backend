@@ -6,7 +6,7 @@ import Accounts from '../../api/accounts/accounts'
 import * as methodTypes from './methodTypes'
 
 // TODO: decouple.
-const makeProcessedEntry = (transactionId, taxCodeId) => {``
+const makeProcessedEntry = (transactionId, taxCodeId) => {
 	const module = Profiles.findOne().getModule('taxation')
 	const taxCode = module.taxCodes.items.find(tc => tc.codeId === taxCodeId)
 	const txAccount = Accounts.findOne({"transactions._id": transactionId})

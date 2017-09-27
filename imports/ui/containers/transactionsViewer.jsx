@@ -8,6 +8,12 @@ import TransactionsGridComponent from '../components/transactions/transactionsGr
 import TransactionsExportComponent from '../components/transactions/transactionsExport'
 import TransactionsFilterContainer from '../containers/transactionsFilter'
 
+import coreDefinitions from '../../modules/core/definitions'
+import taxationDefinitions from '../../modules/taxation/definitions'
+import taxationTransformers from '../../modules/taxation/transformers'
+import labellingDefinitions from '../../modules/transaction-labelling/definitions'
+import labellingTransformers from '../../modules/transaction-labelling/transformers'
+
 import { fetchEtherExchangeRate } from '../../redux/actions/accountActions'
 
 class TransactionsViewer extends React.Component {
@@ -19,21 +25,20 @@ class TransactionsViewer extends React.Component {
 		const {
 			usdExchangeRate,
 			languageConfig,
-			accounts,
+
+			transactions,
+			transactionKeyDefs,
 			activeProfile,
 
 			addressDisplayTransformer,
 			valueExchangeTransformer,
 		} = this.props
 
-		const transactions = [].concat
-			.apply([], accounts.map(a => a.transactions))
-
 		return (
 			<div>
 				<Row>
 					<Col span={4}> 
-						<TransactionsExportComponent {...{ transactions }} />
+						<TransactionsExportComponent {...{ transactions, transactionKeyDefs }} />
 					</Col>
 					<Col offset={5} span={6}> 
 						<TransactionsFilterContainer />
@@ -49,7 +54,7 @@ class TransactionsViewer extends React.Component {
 				</Row>
 				<TransactionsGridComponent
 					{...{
-						accounts,
+						transactions,
 						usdExchangeRate,
 						activeProfile,
 
@@ -133,9 +138,44 @@ const mapStateToProps = state => {
 		}
 	}
 
+	const activeProfile = state.profiles.active
+
+	let transactions = [].concat.apply([], accounts.map(a => a.transactions))
+	let transactionKeyDefs = coreDefinitions.getKeyDefs({
+		addressDisplayTransformer,
+		valueExchangeTransformer
+	})
+
+	// Alow each module to transform the transactions list as required.
+
+	if (activeProfile.isModuleEnabled('transaction-labelling')) {
+		let transactionLabellingModule = activeProfile.getModule('transaction-labelling')
+		transactions = labellingTransformers
+			.transformTransactions(transactions, transactionLabellingModule)
+
+		transactionKeyDefs = transactionKeyDefs.concat(
+			labellingDefinitions.getKeyDefs(transactionLabellingModule)
+		)
+	}
+
+	if (activeProfile.isModuleEnabled('taxation')) {
+		let taxationModule = activeProfile.getModule('taxation')
+		transactions = taxationTransformers.transformTransactions(
+			transactions, 
+			taxationModule
+		)
+
+		transactionKeyDefs = transactionKeyDefs.concat(
+			taxationDefinitions.getKeyDefs(taxationModule)
+		)
+	}
+
+	// TODO: should transaction formatted/display values be calculted once here too?
+
 	return {
-		accounts,
-		activeProfile: state.profiles.active,
+		transactions,
+		transactionKeyDefs,
+		activeProfile,
 		usdExchangeRate: state.accounts.usdExchangeRate,
 
 		languageConfig: state.navigation.languageConfig,

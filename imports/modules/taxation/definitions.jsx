@@ -33,9 +33,10 @@ const getKeyDefs = (taxationModule) => {
 			key: 'taxation_codeId',
 			displayKey: 'VAT code',
 
-			formattedValueTransformer: value =>
-				taxationModule.taxCodes.items.find(tc => tc.codeId === value),
-
+			formattedValueTransformer: value => {
+				let code = taxationModule.taxCodes.items.find(tc => tc.codeId === value)
+				return !!code ? code.label : ''
+			},
 			displayValueTransformer: (_, formattedValue) => formattedValue
 		},
 		// Gross tax component.
@@ -44,9 +45,9 @@ const getKeyDefs = (taxationModule) => {
 			key: 'taxation_grossTax',
 			displayKey: 'Gross VAT (ETH)',
 
-			formattedValueTransformer: value => !!value ? weiToEther(value) : null,
-			displayValueTransformer: (_, formattedValue) => 
-				!!formattedValue ? maskLongNumberValue(formattedValue) : ''
+			formattedValueTransformer: value => !!value ? weiToEther(value) : '',
+			displayValueTransformer: (value, formattedValue) => 
+				!!value ? maskLongNumberValue(formattedValue) : ''
 		},
 		// Net transaction value after tax.
 		{
@@ -54,9 +55,9 @@ const getKeyDefs = (taxationModule) => {
 			key: 'taxation_netValue',
 			displayKey: 'Net value (ETH)',
 
-			formattedValueTransformer: value => !!value ? weiToEther(value) : null,
-			displayValueTransformer: (_, formattedValue) => 
-				!!formattedValue ? maskLongNumberValue(formattedValue) : ''
+			formattedValueTransformer: value => !!value ? weiToEther(value) : '',
+			displayValueTransformer: (value, formattedValue) => 
+				!!value ? maskLongNumberValue(formattedValue) : ''
 		}
 	]
 }
