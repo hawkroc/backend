@@ -57,7 +57,7 @@ class TrackedAccountsEditorComponent extends React.Component {
 
 	}
 
-	submitAdd = (trackedAccounts) => {
+	submitAdd = () => {
 		if (!/^0x[a-zA-Z0-9]{40}$/.test(this.state.addAddress)) {
 			this.error('Please check your address')
 			return null
@@ -112,7 +112,7 @@ class TrackedAccountsEditorComponent extends React.Component {
 				<Modal
 					title={languageConfig.Track_new_account}
 					visible={this.state.addModalVisible}
-					onOk={() => this.submitAdd(trackedAccounts)}
+					onOk={() => this.submitAdd()}
 					onCancel={() => this.hideAddModal()}
 				>
 					<h3 style={{ marginBottom: '8px' }}>{languageConfig.Account_alias}</h3>
