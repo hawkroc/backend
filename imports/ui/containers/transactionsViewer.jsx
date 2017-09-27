@@ -20,8 +20,6 @@ class TransactionsViewer extends React.Component {
 
 	tick() {
 		if (this.state.count - 1 < 0) {
-			// this.updateConvertInfo();
-			// this.updatePendingInfo();
 		}
 		this.setState({
 			count: this.state.count - 1 < 0 ? 10 : this.state.count - 1
