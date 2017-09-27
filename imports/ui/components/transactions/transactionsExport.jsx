@@ -30,16 +30,8 @@ class TransactionsExport extends React.Component {
 		let csvData = []
 		let selectedFieldDisplayKeys = this.state.exportFieldSelected
 
-		// Translate key display names to key indices. 
-		let selectedFieldKeys = selectedFieldDisplayKeys.map(keyName => {
-			return this.props.transactionKeyDefs.find(
-				kd => kd.displayKey === keyName
-			).key
-		})
-
 		// Pick transaction data into an object based on indices.
 		this.props.transactions.forEach(t => {
-			let txSubset = _.pick(t, selectedFieldKeys)
 			let txExport = { }
 
 			// Compute and set the formatted value for exporting.
@@ -52,12 +44,11 @@ class TransactionsExport extends React.Component {
 				Object.defineProperty(
 					txExport, 
 					dispKey,
-					Object.getOwnPropertyDescriptor(txSubset, keyDef.key)
+					Object.getOwnPropertyDescriptor(t, keyDef.key)
 				)
 
 				txExport[dispKey] = keyDef.formattedValueTransformer(
-					txSubset[keyDef.key], 
-					txSubset
+					t[keyDef.key], t
 				)
 			})
 

@@ -53,36 +53,36 @@ export const buildColumns = ({
 
 			render: (value, record) => {
 				return (
-					<div>
-						<Select
-							showSearch
-							value={value}
-							
-							style={{ width: '100%' }}
-							placeholder="Select a label"
-							optionFilterProp="name"
+					<div style={{ width: '100%', minWidth: '80px' }}>
+					<Select
+						showSearch
+						value={value}
+						
+						style={{ width: '100%' }}
+						placeholder="Select a label"
+						optionFilterProp="name"
 
-							filterOption={
-								(input, option) =>
-									option.props.children
-										.toLowerCase()
-										.indexOf(input.toLowerCase()) >= 0
-							}
+						filterOption={
+							(input, option) =>
+								option.props.children
+									.toLowerCase()
+									.indexOf(input.toLowerCase()) >= 0
+						}
 
-							onChange={
-								ltId => onLabelUpdated({ txId: record._id, labelTypeId: ltId })
-							}
-						>
-							{
-								transactionLabellingModule.labelTypes.items.map(lt => {
-									return (
-										<Select.Option value={lt._id} key={lt._id}>
-											{lt.label}
-										</Select.Option>
-									)
-								})
-							}
-						</Select>
+						onChange={
+							ltId => onLabelUpdated({ txId: record._id, labelTypeId: ltId })
+						}
+					>
+						{
+							transactionLabellingModule.labelTypes.items.map(lt => {
+								return (
+									<Select.Option value={lt._id} key={lt._id}>
+										{lt.label}
+									</Select.Option>
+								)
+							})
+						}
+					</Select>
 					</div>
 				)
 			}

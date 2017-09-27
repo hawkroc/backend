@@ -7,7 +7,7 @@ import * as methodTypes from './methodTypes'
 
 const weiToEther = value => {
 	if (value === null || value === undefined)
-		return ''
+		return 0
 
 	return value * Math.pow(10, -18)
 }
@@ -98,6 +98,7 @@ const buildColumns = ({
 			case 'taxation_code':
 				column.render = (value, record) => {
 					return (
+						<div style={{ width: '100%', minWidth: '80px' }}>
 						<Select
 							value={value}
 							onChange={codeId =>
@@ -116,6 +117,7 @@ const buildColumns = ({
 								})
 							}
 						</Select>
+						</div>
 					)
 				}
 				break
