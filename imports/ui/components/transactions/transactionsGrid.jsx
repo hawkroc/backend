@@ -1,11 +1,13 @@
 import React from 'react'
 import { Table } from 'antd'
 
-import { buildColumns } from './transactionsGridColumns'
-import taxationColumns from './transactionsGridTaxationColumns'
-import labellingColumns from './transactionsGridLabellingColumns'
-import { transformTransactions } from './transactionsTaxationTransformer'
-import * as txLabellingTransformer from './transactionsLabellingTransformer'
+import coreDefinitions from '../../../modules/core/definitions'
+
+import taxationDefinitions from '../../../modules/taxation/definitions'
+import taxationTransformers from '../../../modules/taxation/transformers'
+
+import labellingDefinitions from '../../../modules/transaction-labelling/definitions'
+import labellingTransformers from '../../../modules/transaction-labelling/transformers'
 
 
 /**
@@ -23,7 +25,7 @@ const View = ({
 	// Flatten transactions for all our tracked accounts.
 	let transactionsDataSource = [].concat.apply([], accounts.map(a => a.transactions))
 
-	let columns = buildColumns({
+	let columns = coreDefinitions.buildColumns({
 		usdExchangeRate,
 
 		addressDisplayTransformer,
@@ -33,11 +35,11 @@ const View = ({
 	// Same for the labelling module.
 	if (activeProfile.isModuleEnabled('transaction-labelling')) {
 		let transactionLabellingModule = activeProfile.getModule('transaction-labelling')
-		columns = columns.concat(labellingColumns.buildColumns({
+		columns = columns.concat(labellingDefinitions.buildColumns({
 			transactionLabellingModule
 		}))
 
-		transactionsDataSource = txLabellingTransformer
+		transactionsDataSource = labellingTransformers
 			.transformTransactions(transactionsDataSource, transactionLabellingModule)
 	}
 
@@ -46,11 +48,14 @@ const View = ({
 	// transactions list with the required fields.
 	if (activeProfile.isModuleEnabled('taxation')) {
 		let taxationModule = activeProfile.getModule('taxation')
-		columns = columns.concat(taxationColumns.buildColumns({
+		columns = columns.concat(taxationDefinitions.buildColumns({
 			taxationModule
 		}))
 
-		transactionsDataSource = transformTransactions(transactionsDataSource, taxationModule)
+		transactionsDataSource = taxationTransformers.transformTransactions(
+			transactionsDataSource, 
+			taxationModule
+		)
 	}
 
 	return (

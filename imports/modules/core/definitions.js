@@ -1,9 +1,9 @@
 import React from 'react'
 import { Select } from 'antd'
-import ClickCopyCell from '../common/clickCopyCell'
+
+import ClickCopyCell from '../../ui/components/common/clickCopyCell'
 
 const weiToEther = value => (value * Math.pow(10, -18))
-
 
 // TODO: if we find ourselves doing too much datetime manipulation, use moment.js.
 const monthNames = [
@@ -15,9 +15,9 @@ const maskLongNumberValue = value => {
 	// Fix values to avoid automatic conversion to scientific notation.
 	const fixed = Number(value.toPrecision(16))
 
-    return fixed.toString().length > 8 
-        ? fixed.toFixed(8) + '...'
-        : fixed.toString()
+	return fixed.toString().length > 8 
+		? fixed.toFixed(8) + '...'
+		: fixed.toString()
 }
 
 // An example of a key definition entry
@@ -69,74 +69,74 @@ const EXAMPLE_KEY_DEF = {
  * (i.e. for id->string masking)
  * 
  */
-export const getKeyDefs = ({
+const getKeyDefs = ({
 	addressDisplayTransformer,
 	valueExchangeTransformer
 }) => {
-    return [
+	return [
 		// Transaction timestamp.
-        {
+		{
 			id: 'timestamp',
-            key: 'timeStamp',
-            displayKey: 'Timestamp',
+			key: 'timeStamp',
+			displayKey: 'Timestamp',
 
 			// ISO string, e.g. 2017-09-26T21:26:45.075Z
-            formattedValueTransformer: (value) =>
+			formattedValueTransformer: (value) =>
 				(new Date(parseInt(value) * 1000)).toISOString(),
 
 			// YYYY-MMM-dd, e.g 2017-Sep-27.
-            displayValueTransformer: (value, formattedValue) => {
+			displayValueTransformer: (value, formattedValue) => {
 				let d = new Date(parseInt(value) * 1000)
 				return `${d.getFullYear()}-${monthNames[d.getMonth()]}-${d.getDate()}`
-            }
-        },
+			}
+		},
 		// Transaction's originating address.
-        {
+		{
 			id: 'from_address',
-            key: 'from',
-            displayKey: 'From',
-            formattedValueTransformer: value => value,
-            displayValueTransformer: value => addressDisplayTransformer(value)
-        },
+			key: 'from',
+			displayKey: 'From',
+			formattedValueTransformer: value => value,
+			displayValueTransformer: value => addressDisplayTransformer(value)
+		},
 		// Transaction's target address.
-        {
+		{
 			id: 'to_address',
-            key: 'to',
-            displayKey: 'To',
-            formattedValueTransformer: value => value,
-            displayValueTransformer: value => addressDisplayTransformer(value)
-        },
+			key: 'to',
+			displayKey: 'To',
+			formattedValueTransformer: value => value,
+			displayValueTransformer: value => addressDisplayTransformer(value)
+		},
 		// Transaction's explicit transferred value (in Ether)
-        {
+		{
 			id: 'transaction_value_eth',
-            key: 'value',
-            displayKey: 'ETH',
-            formattedValueTransformer: value => weiToEther(value),
+			key: 'value',
+			displayKey: 'ETH',
+			formattedValueTransformer: value => weiToEther(value),
 			displayValueTransformer: (_, formattedValue) => formattedValue == 0 ? '' 
 				: maskLongNumberValue(formattedValue)
-        },
+		},
 		// Transaction's explicit transferred value in USD
-        {
+		{
 			id: 'transaction_value_usd',
-            key: 'value',
-            displayKey: 'USD',
+			key: 'value',
+			displayKey: 'USD',
 			formattedValueTransformer: (value, { timeStamp }) => 
 				valueExchangeTransformer(timeStamp, 'USD', weiToEther(value)),
 			displayValueTransformer: (_, formattedValue) => formattedValue.toFixed(2)
-        },
+		},
 		// Transaction's explicit transferred value in Bitcoin
-        {
+		{
 			id: 'transaction_value_btc',
-            key: 'value',
-            displayKey: 'BTC',
+			key: 'value',
+			displayKey: 'BTC',
 			formattedValueTransformer: (value, { timeStamp }) => 
 				valueExchangeTransformer(timeStamp, 'BTC', weiToEther(value)),
 			displayValueTransformer: (_, formattedValue) => maskLongNumberValue(formattedValue)
-        },
-    ]
+		},
+	]
 }
 
-export const buildColumns = ({
+const buildColumns = ({
 	usdExchangeRate,
 
 	addressDisplayTransformer,
@@ -191,3 +191,5 @@ export const buildColumns = ({
 
 	return columns
 }
+
+export default { getKeyDefs, buildColumns }
