@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Table, Button, Modal, Input, message } from 'antd'
+import { Table, Button, Modal, Input, message,notification } from 'antd'
 import { buildColumns } from './trackedAccountsEditorColumns'
 import { Meteor } from "meteor/meteor";
 /**
@@ -31,6 +31,14 @@ class TrackedAccountsEditorComponent extends React.Component {
 		  })
 		message.error(info)
 	}
+
+	 openNotificationWithIcon = (type) => {
+		notification[type]({
+		  message: 'You tracked a new account',
+		  description: 'The data of this account will be ready in 2 minutis',
+		});
+	  }
+
 
 	showAddModal() {
 		this.setState({ addModalVisible: true })
@@ -75,7 +83,7 @@ class TrackedAccountsEditorComponent extends React.Component {
 		})
 
 		this.hideAddModal()
-
+        this.openNotificationWithIcon('success')
 
 
 	}
