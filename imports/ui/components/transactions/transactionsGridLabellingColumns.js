@@ -10,21 +10,44 @@ const onLabelUpdated = ({ txId, labelTypeId }) => {
 }
 
 /**
+ * Key definitions for displaying and exporting data.
+ * 
+ */
+export const getKeyDefs = (labellingModule) => {
+    return [
+        // Masked tax code.
+        {
+            id: 'assigned_label',
+            key: 'labelling_labelTypeId',
+            displayKey: 'Label',
+
+            formattedValueTransformer: value =>
+				!!value ? labellingModule.labelTypes.items.find(lt => lt._id === value)
+				: '',
+
+            displayValueTransformer: (_, formattedValue) => formattedValue
+        },
+	]
+}
+
+/**
  * Column builder for the transaction grid related to the labelling module.
  * 
  */
-const buildColumns = ({
+export const buildColumns = ({
     transactionLabellingModule
 }) => {
+
+	const keyDefs = getKeyDefs(transactionLabellingModule)
+
     let columns = [
         /**
          * Label drop-down selection.
          */
         {
-            title: 'Label',
-            dataIndex: 'labelling_labelTypeId',
-            key: 'labelling_labelTypeId',
-            width: '6%',
+            title: keyDefs[0].displayKey,
+            dataIndex: keyDefs[0].key,
+            key: keyDefs[0].id,
 
             render: (value, record) => {
 				return (
@@ -66,5 +89,3 @@ const buildColumns = ({
 
     return columns
 }
-
-export default { buildColumns }

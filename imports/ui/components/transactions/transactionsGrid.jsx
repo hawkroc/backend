@@ -14,18 +14,20 @@ import * as txLabellingTransformer from './transactionsLabellingTransformer'
  */
 const View = ({
 	accounts,
-	addressAliasLookup,
 	usdExchangeRate,
-	currencies,
-	activeProfile
+	activeProfile,
+
+	addressDisplayTransformer,
+	valueExchangeTransformer
 }) => {
 	// Flatten transactions for all our tracked accounts.
 	let transactionsDataSource = [].concat.apply([], accounts.map(a => a.transactions))
 
 	let columns = buildColumns({
-		addressAliasLookup,
 		usdExchangeRate,
-		currencies
+
+		addressDisplayTransformer,
+		valueExchangeTransformer
 	})
 
 	// Same for the labelling module.

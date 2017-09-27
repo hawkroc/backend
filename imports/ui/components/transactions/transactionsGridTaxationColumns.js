@@ -22,11 +22,50 @@ const maskLongNumberValue = value => {
 }
 
 /**
+ * Key definitions for displaying and exporting data.
+ * 
+ */
+export const getKeyDefs = (taxationModule) => {
+    return [
+        // Masked tax code.
+        {
+            id: 'taxation_code',
+            key: 'taxation_codeId',
+            displayKey: 'VAT code',
+
+            formattedValueTransformer: value =>
+                taxationModule.taxCodes.items.find(tc => tc.codeId === value),
+
+            displayValueTransformer: (_, formattedValue) => formattedValue
+        },
+        // Gross tax component.
+        {
+            id: 'taxation_gross_tax',
+            key: 'taxation_grossTax',
+            displayKey: 'Gross VAT (ETH)',
+
+            formattedValueTransformer: value => !!value ? weiToEther(value) : null,
+            displayValueTransformer: (_, formattedValue) => 
+                !!formattedValue ? maskLongNumberValue(formattedValue) : ''
+        },
+        // Net transaction value after tax.
+        {
+            id: 'taxation_net_value',
+            key: 'taxation_netValue',
+            displayKey: 'Net value (ETH)',
+
+            formattedValueTransformer: value => !!value ? weiToEther(value) : null,
+            displayValueTransformer: (_, formattedValue) => 
+                !!formattedValue ? maskLongNumberValue(formattedValue) : ''
+        }
+    ]
+}
+
+/**
  * Column builder for the transaction grid related to the taxation module.
  * 
  */
-
-const buildColumns = ({
+export const buildColumns = ({
     taxationModule
 }) => {
 
@@ -36,66 +75,56 @@ const buildColumns = ({
         Meteor.call(methodTypes.PROFILE_MODULE_TAXATION_UPDATETXTAXCODE, record)
     }
 
-    let columns = [
-        /**
-         * Tax code drop-down selection.
-         */
-        {
-            title: 'VAT code',
-            dataIndex: 'taxation_codeId',
-            key: 'taxation_codeId',
-            width: '6%',
+    let columnKeys = getKeyDefs(taxationModule)
+    let columns = []
 
-            render: (value, record) => {
-                if (record.value == 0) return ''
+    for(let ck of columnKeys) {
 
-                return (
-                    <Select
-                        value={value}
-                        onChange={codeId =>
-                            onCodeIdUpdated({ transactionId: record._id, taxCodeId: codeId })
-                        }
-                        placeholder="Assign VAT code"
-                        style={{ width: '100%' }}
-                    >
-                        {
-                            taxationModule.taxCodes.items.map(c => {
-                                return (
-                                    <Select.Option value={c.codeId} key={c.codeId}>
-                                        {c.label}
-                                    </Select.Option>
-                                )
-                            })
-                        }
-                    </Select>
-                )
-            }
-        },
-        {
-            title: 'Gross VAT (ETH)',
-            dataIndex: 'taxation_grossTax',
-            key: 'taxation_grossTax',
-            width: '6%',
+		let column = {
+			title: ck.displayKey,
+			dataIndex: ck.key,
+			key: ck.id,
 
-            render: (value, record) => {
-                if (!value || value == 0) return ''
-                return maskLongNumberValue(weiToEther(value))
-            }
-        },
-        {
-            title: 'Net value (ETH)',
-            dataIndex: 'taxation_netValue',
-            key: 'taxation_netValue',
-            width: '6%',
+			// Default: render display value.
+			render: (value, record) => {
+				let formattedValue = ck.formattedValueTransformer(value, record)
+				return ck.displayValueTransformer(value, formattedValue)
+			}
+		}
 
-            render: (value, record) => {
-                if (!value || value == 0) return ''
-                return maskLongNumberValue(weiToEther(value))
-            }
+		// Build columns based on data keys.
+		switch (ck.id) {
+            case 'taxation_code':
+                column.render = (value, record) => {
+					return (
+						<Select
+                            value={value}
+                            onChange={codeId =>
+                                onCodeIdUpdated({ transactionId: record._id, taxCodeId: codeId })
+                            }
+                            placeholder="Assign VAT code"
+                            style={{ width: '100%' }}
+                        >
+                            {
+                                taxationModule.taxCodes.items.map(c => {
+                                    return (
+                                        <Select.Option value={c.codeId} key={c.codeId}>
+                                            {c.label}
+                                        </Select.Option>
+                                    )
+                                })
+                            }
+                        </Select>
+					)
+				}
+                break
+
+            default:
+                break
         }
-    ]
+
+        columns.push(column)
+    }
 
     return columns
 }
-
-export default { buildColumns }

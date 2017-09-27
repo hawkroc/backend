@@ -4,6 +4,7 @@ import ClickCopyCell from '../common/clickCopyCell'
 
 const weiToEther = value => (value * Math.pow(10, -18))
 
+
 // TODO: if we find ourselves doing too much datetime manipulation, use moment.js.
 const monthNames = [
 	"Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -19,149 +20,174 @@ const maskLongNumberValue = value => {
         : fixed.toString()
 }
 
-export const buildColumns = ({
-	addressAliasLookup,
-	usdExchangeRate,
-	currencies
+// An example of a key definition entry
+const EXAMPLE_KEY_DEF = {
+	/**
+	 * Unique ID representing this key. This value is required as multiple key defs
+	 * could use the same record key. i.e. ETH value and USD value are both derived
+	 * from the transaction 'value' key.
+	 */
+	id: 'my_data_key',
+
+	/**
+	 * The collection key containing the raw data.
+	 * Keys can appear multiple times in this collection (i.e. masking)
+	 */
+	key: 'myDataKey',
+
+	/**
+	 * The column title and exported column header.
+	 */
+	displayKey: 'My Data-key',
+
+	/**
+	 * The formatted value. This should retain all of the useful value,
+	 * but formatted nicely (or functionally) for exporting.
+	 * 
+	 * e.g. unix timestamp -> human readable datetime.
+	 * e.g. wei -> ether
+	 */
+	formattedValueTransformer: (value, record) => {
+		return value
+	},
+
+	/**
+	 * The value to display in the core application. This can simply return
+	 * the value/formatted value if there is no further processing required.
+	 * 
+	 * e.g. full 64 hex character address -> "0xffffff..."
+	 */
+	displayValueTransformer: (value, formattedValue) => {
+		return formattedValue
+	}
+}
+
+/**
+ * Key definitions for displaying and exporting data uniformly.
+ * 
+ * For module-derived columns, args can be passed into this closure 
+ * (i.e. for id->string masking)
+ * 
+ */
+export const getKeyDefs = ({
+	addressDisplayTransformer,
+	valueExchangeTransformer
 }) => {
-	// Mask an account address with an alias if found.
-	// Otherwise default to its address.
-	const accountAliasMask = address => {
-		let mapping = addressAliasLookup.find(a => a.address === address)
-		if (mapping) {
-			return mapping.trackedAccount ? mapping.trackedAccount.alias : null
-		}
-		return address.substring(0, 12) + '...'
-	}
+    return [
+		// Transaction timestamp.
+        {
+			id: 'timestamp',
+            key: 'timeStamp',
+            displayKey: 'Timestamp',
 
-	// Get the most appropriate exchange rate for the timestamp and currency. 
-	const getExchangeRate = (timestamp, currencyIdentifier) => {
-		
-		let ratesSet = currencies.find(c => c.digitalCurrency === currencyIdentifier)
-		if (!ratesSet) {
-			// TODO: sensible default, such at current exchange rate.
-			return { timestamp, value: 0.0, estimated: true }
-		}
+			// ISO string, e.g. 2017-09-26T21:26:45.075Z
+            formattedValueTransformer: (value) =>
+				(new Date(parseInt(value) * 1000)).toISOString(),
 
-		const timestampDay = Math.floor(timestamp/86400)
+			// YYYY-MMM-dd, e.g 2017-Sep-27.
+            displayValueTransformer: (value, formattedValue) => {
+				let d = new Date(parseInt(value) * 1000)
+				return `${d.getFullYear()}-${monthNames[d.getMonth()]}-${d.getDate()}`
+            }
+        },
+		// Transaction's originating address.
+        {
+			id: 'from_address',
+            key: 'from',
+            displayKey: 'From',
+            formattedValueTransformer: value => value,
+            displayValueTransformer: value => addressDisplayTransformer(value)
+        },
+		// Transaction's target address.
+        {
+			id: 'to_address',
+            key: 'to',
+            displayKey: 'To',
+            formattedValueTransformer: value => value,
+            displayValueTransformer: value => addressDisplayTransformer(value)
+        },
+		// Transaction's explicit transferred value (in Ether)
+        {
+			id: 'transaction_value_eth',
+            key: 'value',
+            displayKey: 'ETH',
+            formattedValueTransformer: value => weiToEther(value),
+			displayValueTransformer: (_, formattedValue) => formattedValue == 0 ? '' 
+				: maskLongNumberValue(formattedValue)
+        },
+		// Transaction's explicit transferred value in USD
+        {
+			id: 'transaction_value_usd',
+            key: 'value',
+            displayKey: 'USD',
+			formattedValueTransformer: (value, { timeStamp }) => 
+				valueExchangeTransformer(timeStamp, 'USD', weiToEther(value)),
+			displayValueTransformer: (_, formattedValue) => formattedValue.toFixed(2)
+        },
+		// Transaction's explicit transferred value in Bitcoin
+        {
+			id: 'transaction_value_btc',
+            key: 'value',
+            displayKey: 'BTC',
+			formattedValueTransformer: (value, { timeStamp }) => 
+				valueExchangeTransformer(timeStamp, 'BTC', weiToEther(value)),
+			displayValueTransformer: (_, formattedValue) => maskLongNumberValue(formattedValue)
+        },
+    ]
+}
 
-		// Currently our rates are only daily.
-		let rate = ratesSet.rates.find(r => Math.floor(r.timestamp/86400) === timestampDay)
-		if (!rate) {
-			// TODO: sensible default, such at current exchange rate.
-			rate = { timestamp, value: 0.0, estimated: true }
-		}
+export const buildColumns = ({
+	usdExchangeRate,
 
-		return rate
-	}
+	addressDisplayTransformer,
+	valueExchangeTransformer
+}) => {
 
-	return [
-		{
-			title: 'Timestamp',
-			dataIndex: 'timeStamp',
-			key: 'timeStamp',
-			width: '5%',
-			sortOrder: 'descend',
+	let columnKeys = getKeyDefs({addressDisplayTransformer, valueExchangeTransformer})
+	let columns = []
 
-			render: value => {
-				let date = new Date(parseInt(value) * 1000)
-				const dateString = `${date.getFullYear()}-${monthNames[date.getMonth()]}-${date.getDate()}`
-				return dateString
-			},
+	for(let ck of columnKeys) {
 
-			sorter: (a, b) => a.timeStamp - b.timeStamp
-		},
-		{
-			title: 'From',
-			dataIndex: 'from',
-			key: 'from',
-			width: '7%',
+		// TODO: abstract default.
+		let column = {
+			title: ck.displayKey,
+			dataIndex: ck.key,
+			key: ck.id,
 
-			render: (text, record) => (
-				<div className="editable-cell">
-					<div className="editable-cell-text-wrapper" id={record._id}>
-						{accountAliasMask(text)}
-
-						<ClickCopyCell text={text} />
-					</div>
-				</div>
-			)
-		},
-
-		{
-			title: 'To',
-			dataIndex: 'to',
-			key: 'to',
-			width: '7%',
-
-			render: (text, record) => (
-				<div className="editable-cell">
-					<div className="editable-cell-text-wrapper" id={record._id}>
-						{accountAliasMask(text)}
-						<ClickCopyCell text={text} />
-					</div>
-				</div>
-			)
-		},
-		{
-			title: 'ETH',
-			dataIndex: 'value',
-			key: 'value',
-			width: '6%',
-
+			// Default: render display value.
 			render: (value, record) => {
-				if (value == 0) return ''
-				return maskLongNumberValue(weiToEther(value))
+				let formattedValue = ck.formattedValueTransformer(value, record)
+				return ck.displayValueTransformer(value, formattedValue)
 			}
-		},
-		{
-			title: 'USD',
-			dataIndex: 'value',
-			key: 'valueUsd',
-			width: '4%',
-			render: (value, record) => {
-				if (value == 0) return ''
-				let rate = getExchangeRate(record.timeStamp, 'ETH')
-				return (weiToEther(value) * rate.value).toFixed(2)
-			}
-		},
-		{
-			title: 'BTC',
-			dataIndex: 'value',
-			key: 'valueBtc',
-			width: '5%',
+		}
 
-			render: (value, record) => {
-				if (value == 0) return ''
-				// TODO: not the place for calcs like this.
-				const ethRate = getExchangeRate(record.timeStamp, 'ETH')
-				const btcRate = getExchangeRate(record.timeStamp, 'BTC')
+		// Build columns based on data keys.
+		switch (ck.id) {
+			case 'timestamp':
+				column.sortOrder = 'descend'
+				column.sorter = (a, b) => a.timeStamp - b.timeStamp
+				break
 
-				// TODO: until we get our data integrity on point, don't risk making
-				// silly calculations.
-				if (!!ethRate.estimated || btcRate.estimated) {
-					return "N/A"
+			case 'from_address':
+			case 'to_address':
+				column.render = value => {
+					return (
+						<div className="editable-cell">
+							<div className="editable-cell-text-wrapper">
+								{ck.displayValueTransformer(value)}
+								<ClickCopyCell text={ck.formattedValueTransformer(value)} />
+							</div>
+						</div>
+					)
 				}
+				break
 
-				const ethBtcRate = ethRate.value / btcRate.value
-				return maskLongNumberValue(weiToEther(value) * ethBtcRate)
-			}
-		},
-		// TODO:
-		// {
-		// 	title: 'Internal',
-		// 	dataIndex: 'contractAddress',
-		// 	key: 'contractAddress',
-		// 	width: '4%',
+			default:
+				break
+		}
 
-		// 	render: text => {
-		// 		return text === '' ? '' : 'Internal'
-		// 	},
+		columns.push(column)
+	}
 
-		// 	filters: [{ text: 'No', value: 'No' }, { text: 'Yes', value: 'Yes' }],
-		// 	onFilter: (value, record) => {
-		// 		record.contractAddress.includes(value)
-		// 	}
-		// }
-	]
+	return columns
 }
