@@ -50,7 +50,7 @@ const View = ({
 				columns={ columns }
 				dataSource={ transactions }
 				rowKey={ transaction => transaction._id }
-				pagination={{ pageSize: 6 }}
+				pagination={{ pageSize: 6 }} 
 			/>
 		</div>
 	)

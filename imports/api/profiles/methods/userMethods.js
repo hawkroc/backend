@@ -4,7 +4,7 @@ import { Accounts as UserAccounts } from 'meteor/accounts-base'
 import Profiles from '../profiles'
 import * as methodTypes from './userMethodTypes'
 
-const publicKeyValidator = /^[0-9a-f]{64}$/i
+import { sanitizeKeyString } from '../../../common/inputTransformationHelpers'
 
 Meteor.methods({
     /**
@@ -20,14 +20,15 @@ Meteor.methods({
             return { error: 'You are not logged in' }
         }
 
-        if (!publicKeyValidator.test(publicKey)) {
+		const validPublicKey = sanitizeKeyString(publicKey)
+        if (!validPublicKey) {
             console.warn('Invalid public key format')
-            return
+            return { error: 'Invalid public key format' }
         }
 
         if (!name || name === '') {
             console.warn('Invalid user name')
-            return
+            return  { error: 'Invalid user name' }
         }
 
         // Get current user's active profile. This is the only profile they can
@@ -38,11 +39,11 @@ Meteor.methods({
             UserAccounts.updateOrCreateUserFromExternalService(
                 'centrality-blockeeper', 
                 {
-                    // Meteor/accounts-base requirement.
-                    id: publicKey, 
+                    // Meteor/accounts-base "service" requirement.
+                    id: validPublicKey, 
     
                     // Blockeeper specific information.
-                    publicKey, 
+                    publicKey: validPublicKey, 
                     name,
                     profileId
                 }

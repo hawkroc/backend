@@ -3,7 +3,9 @@ import { Accounts as UserAccounts } from 'meteor/accounts-base'
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Input, Icon, Button, Modal } from 'antd'
+import { Input, Icon, Button, Modal, message } from 'antd'
+
+import { sanitizeKeyString } from '../../common/inputTransformationHelpers'
 
 // https://github.com/meteor/meteor/issues/8645
 window.Buffer = window.Buffer || require("buffer").Buffer;
@@ -60,37 +62,25 @@ class LoginComponent extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return {
-
-    }
+	return { }
 }
 
 const mapDispatchToProps = dispatch => {
-    return {
-        onAttemptLogin: (privateKey) => {
-            // TODO: client validation errors ui.
-
-            if (!privateKey) {
-                return
-            }
-
-            privateKey = privateKey.trim()
-
-            if (privateKey.substring(0, 2) === '0x') {
-                privateKey = privateKey.substring(2)
-            }
-
-            // 64 character hexidecimal test.
-            if (!/^[0-9a-f]{64}$/i.test(privateKey)) {
-                alert("Private key format is incorrect")
-                return
-            }
+	return {
+		onAttemptLogin: (privateKey) => {
+			let validPrivateKey = sanitizeKeyString(privateKey)
+			if (!validPrivateKey) {
+				message.error("Invalid key format")
+				return
+			}
 
             let messageBuffer = new Buffer(Meteor.settings.public.login_key, 'hex')
-            let keyBuffer = new Buffer(privateKey, 'hex')
+            let keyBuffer = new Buffer(validPrivateKey, 'hex')
 
-            let { v, r, s } = Signing.ecsign(messageBuffer, keyBuffer)
+			let { v, r, s } = Signing.ecsign(messageBuffer, keyBuffer)
 
+			// Inline source documentation only.
+			// https://github.com/meteor/meteor/blob/d854a4b9ba97a230d9d57b4a23f358edd2a36702/packages/accounts-base/accounts_client.js#L206
             UserAccounts.callLoginMethod({
                 methodArguments: [
                     {
