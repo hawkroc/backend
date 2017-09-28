@@ -55,6 +55,9 @@ class LoginComponent extends React.Component {
                         style={{ width: "100%" }}>
                     Log in
                 </Button>
+				<div style={{ marginTop: '10px', textAlign: 'center', fontStyle: 'italic'}}>
+					<a target='_blank' href='https://www.myetherwallet.com/'>Don't have a wallet?</a>
+				</div>
             </div>
             </Modal>
         )
