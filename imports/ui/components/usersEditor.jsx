@@ -1,7 +1,10 @@
 import React from 'react'
 
 import { Table, Button, Modal, Input } from 'antd'
+import { message, notification } from 'antd'
+
 import { buildColumns } from './usersEditorColumns'
+import { sanitizeKeyString } from '../../common/inputTransformationHelpers'
 
 /**
  * Displays and manages profile users.
@@ -15,12 +18,16 @@ class component extends React.Component {
 		this.state = {
 			newUserModalVisible: false,
 			newUserName: '',
-	  		addKey: ''
+			addKey: ''
 		}
 	}
 
-	handleUserNameChange = e => this.setState({ newUserName: e.target.value })
-	handleUserPublicKeyChange = e => this.setState({ newUserPublicKey: e.target.value })
+	handleUserNameChange = e => {
+		this.setState({ newUserName: e.target.value })
+	}
+	handleUserPublicKeyChange = e => {
+		this.setState({ newUserPublicKey: e.target.value })
+	}
 	showAddModal = () => this.setState({ newUserModalVisible: true })
 
 	hideAddModal = () => this.setState({
@@ -29,37 +36,43 @@ class component extends React.Component {
 		newUserPublicKey: ''
 	})
 
-	submidNewUser = () => {
+	submitNewUser = () => {
+
+		const { users, onInsertUser } = this.props
 
 		let name = this.state.newUserName
-		let publicKey =this.state.newUserPublicKey
+		let publicKey = this.state.newUserPublicKey
 
 		// Validation.
 		if (!name || name.trim() === '') {
+			message.error('Invalid user name')
 			return
 		}
 		name = name.trim()
 		
-		if (!publicKey || publicKey.trim() === '') {
-			return
-		}
-		publicKey = publicKey.trim()
-
-		if (publicKey.substring(0, 2) === '0x') {
-			publicKey = publicKey.substring(2)
-		}
-
-		if (!/^[0-9a-f]{64}$/i.test(publicKey)) {
-			alert("Public key format is incorrect")
+		const validPublicKey = sanitizeKeyString(publicKey)
+		if (!validPublicKey) {
+			message.error('Invalid key format')
 			return
 		}
 
-		this.props.onInsertUser({
+		if (!!users.find(u => u.services['centrality-blockeeper'].publicKey 
+				=== validPublicKey)) {
+			message.error('User key already exists')
+			return
+		}
+
+		onInsertUser({
 			name,
-			publicKey
+			publicKey: validPublicKey
 		})
 
 		this.hideAddModal()
+
+		notification['success']({
+			message: 'User successfully added',
+			description: 'They can now log into Blockeeper with their private key',
+		})
 	}
 
 	render() {
@@ -92,7 +105,7 @@ class component extends React.Component {
 				<Modal
 					title="Create new user"
 					visible={this.state.newUserModalVisible}
-					onOk={() => this.submidNewUser()}
+					onOk={() => this.submitNewUser()}
 					onCancel={() => this.hideAddModal()}
 				>
 					<h4 style={{ marginBottom: '8px' }}>Name</h4>

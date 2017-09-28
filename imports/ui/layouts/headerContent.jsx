@@ -23,7 +23,7 @@ const Layout = () => {
 					</Col>
 					<Col offset={12} span={4} className="hearder-user-name">
 						<i>
-						welcome:<b> {Meteor.user().services['centrality-blockeeper'].name}</b>
+						Welcome<b>  {Meteor.user().services['centrality-blockeeper'].name}</b>
 						</i>
 					</Col>
 					<Col offset={0} span={2} style={{float: 'right'}}>

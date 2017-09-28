@@ -1,12 +1,13 @@
+import { Meteor } from "meteor/meteor"
 import React from 'react'
 
-import { Table, Button, Modal, Input } from 'antd'
+import { Table, Button, Modal, Input, message, notification } from 'antd'
+
 import { buildColumns } from './trackedAccountsEditorColumns'
+import { sanitizeAddressString } from '../../common/inputTransformationHelpers'
 
 /**
  * Presents a grid containing accounts currently tracked by the application.
- * 
- *  TODO: editable cells.
  * 
  */
 class TrackedAccountsEditorComponent extends React.Component {
@@ -16,9 +17,21 @@ class TrackedAccountsEditorComponent extends React.Component {
 		// Local state for minor changes.
 		this.state = {
 			addModalVisible: false,
+			validation: false,
 			addAlias: '',
 			addAddress: ''
 		}
+	}
+
+	showErrorMessage = (info) => {
+		message.error(info)
+	}
+
+	openNotificationWithIcon = (type) => {
+		notification[type]({
+			message: 'Account has successfully been tracked',
+			description: 'Transaction data for this address will be available soon',
+		})
 	}
 
 	showAddModal() {
@@ -42,12 +55,30 @@ class TrackedAccountsEditorComponent extends React.Component {
 	}
 
 	submitAdd = () => {
+		const { addAddress, addAlias } = this.state
+
+		const validatedAddress = sanitizeAddressString(addAddress)
+		if (!validatedAddress) {
+			this.showErrorMessage('Invalid address format')
+			return null
+		}
+
+		// Accounts can only be tracked once per profile.
+		const existingTrackedAccount = this.props.idToAddressBalance.find(
+			ta => ta.address === '0x' + validatedAddress
+		)
+		if (!!existingTrackedAccount) {
+			this.showErrorMessage('This address is already being tracked')
+			return null
+		}
+
 		this.props.onInsertTrackedAccount({
-			alias: this.state.addAlias,
-			address: this.state.addAddress
+			alias: addAlias,
+			address: validatedAddress
 		})
 
 		this.hideAddModal()
+		this.openNotificationWithIcon('success')
 	}
 
 	render() {
@@ -65,7 +96,7 @@ class TrackedAccountsEditorComponent extends React.Component {
 		} = this.props
 
 		// Build the column set for this table.
-		const columns = buildColumns({languageConfig, onUpdateTrackedAccount, onDeleteTrackedAccount, idToAddressBalance})
+		const columns = buildColumns({ languageConfig, onUpdateTrackedAccount, onDeleteTrackedAccount, idToAddressBalance })
 
 		return (
 			<div>
@@ -82,11 +113,10 @@ class TrackedAccountsEditorComponent extends React.Component {
 				<Modal
 					title={languageConfig.Track_new_account}
 					visible={this.state.addModalVisible}
-
 					onOk={() => this.submitAdd()}
 					onCancel={() => this.hideAddModal()}
 				>
-					<h3 style={{marginBottom: '8px'}}>{languageConfig.Account_alias}</h3>
+					<h3 style={{ marginBottom: '8px' }}>{languageConfig.Account_alias}</h3>
 					<Input size="large" placeholder="My new account"
 						value={this.state.addAlias} onChange={this.handleAddAliasChange} />
 					<br />
