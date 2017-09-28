@@ -3,38 +3,47 @@ import { Meteor } from 'meteor/meteor'
 import Profiles from '../../../api/profiles/profiles'
 import Accounts from '../../../api/accounts/accounts'
 
+import { sanitizeAddressString } from '../../../common/inputTransformationHelpers'
+
 Meteor.methods({
 
 	/**
-     * Insert a new tracked account into a user's active profile.
-     * 
-     * @param {*} param0 
-     */
+	 * Insert a new tracked account into a user's active profile.
+	 * 
+	 * @param {*} param0 
+	 */
 	[methodTypes.PROFILE_INSERT_TRACKEDACCOUNT]({ alias, address }) {
-		// TODO: VALIDATION! of user vs ptrackedAccountMethodTypesrofile.
-		// TODO: address validation!
-		// TODO: profile collection factories!
 		let activeProfile = Profiles.findOne()
 
-		console.log(`PROFILE_INSERT_TRACKEDACCOUNT: profile ${activeProfile._id} wishes to track ${address}`)
+		// Address string validation.
+		let validatedAddress = sanitizeAddressString(address)
+		if (!validatedAddress) {
+			console.warn("PROFILE_INSERT_TRACKEDACCOUNT: invalid address provided")
+			return
+		}
+
+		// Currently our stored addresses are prefixed.
+		validatedAddress = '0x' + validatedAddress
+
+		console.log(`PROFILE_INSERT_TRACKEDACCOUNT: profile ${activeProfile._id} wishes to track ${validatedAddress}`)
 
 		// If the user is tracking an account that does not yet exist in our system,
 		// create it.
-		let account = Accounts.findOne({ address })
+		let account = Accounts.findOne({ address: validatedAddress })
 		let accountId = null
 
 		if (!account) {
-			console.log(`PROFILE_INSERT_TRACKEDACCOUNT: account ${address} does not exist. Creating and linking...`)
+			console.log(`PROFILE_INSERT_TRACKEDACCOUNT: account ${validatedAddress} does not exist. Creating and linking...`)
 
 			// TODO: use factory.
 			accountId = Accounts.insert({
-				address,
+				address: validatedAddress,
 				transactions: [ ],
 				latestMinedBlock: 0,
 				balance: 0
 			})
 		} else {
-			console.log(`PROFILE_INSERT_TRACKEDACCOUNT: account ${address} alreading exists. Linking...`)
+			console.log(`PROFILE_INSERT_TRACKEDACCOUNT: account ${validatedAddress} alreading exists. Linking...`)
 
 			accountId = account._id
 			// if this accountid already in profile trackAddress will return "you already track this address"
@@ -61,13 +70,11 @@ Meteor.methods({
 	},
 
 	/**
-     * Update a user's tracked account in their active profile.
-     * 
-     * @param {*} param0 
-     */
+	 * Update a user's tracked account in their active profile.
+	 * 
+	 * @param {*} param0 
+	 */
 	[methodTypes.PROFILE_UPDATE_TRACKEDACCOUNT]({ _id, alias }) {
-		// TODO: VALIDATION! of user vs profile.
-
 		let activeProfile = Profiles.findOne()
 
 		Profiles.update(
@@ -84,10 +91,10 @@ Meteor.methods({
 	},
 
 	/**
-     * Delete a user's tracked account type in their active profile.
-     * 
-     * @param {*} param0 
-     */
+	 * Delete a user's tracked account type in their active profile.
+	 * 
+	 * @param {*} param0 
+	 */
 	[methodTypes.PROFILE_DELETE_TRACKEDACCOUNT]({ _id }) {
 		let activeProfile = Profiles.findOne()
 

@@ -1,16 +1,15 @@
+import { Meteor } from "meteor/meteor"
 import React from 'react'
 
-import { Table, Button, Modal, Input, message,notification } from 'antd'
+import { Table, Button, Modal, Input, message, notification } from 'antd'
+
 import { buildColumns } from './trackedAccountsEditorColumns'
-import { Meteor } from "meteor/meteor";
+import { sanitizeAddressString } from '../../common/inputTransformationHelpers'
+
 /**
  * Presents a grid containing accounts currently tracked by the application.
  * 
- *  TODO: editable cells.
- * 
  */
-
-
 class TrackedAccountsEditorComponent extends React.Component {
 	constructor(args) {
 		super(args)
@@ -23,22 +22,17 @@ class TrackedAccountsEditorComponent extends React.Component {
 			addAddress: ''
 		}
 	}
-	error = (info) => {
 
-		message.config({
-			top: 303,
-			duration: 2,
-		  })
+	showErrorMessage = (info) => {
 		message.error(info)
 	}
 
-	 openNotificationWithIcon = (type) => {
+	openNotificationWithIcon = (type) => {
 		notification[type]({
-		  message: 'You tracked a new account',
-		  description: 'The data of this account will be ready in 2 minutis',
-		});
-	  }
-
+			message: 'Account has successfully been tracked',
+			description: 'Transaction data for this address will be available soon',
+		})
+	}
 
 	showAddModal() {
 		this.setState({ addModalVisible: true })
@@ -57,35 +51,36 @@ class TrackedAccountsEditorComponent extends React.Component {
 	}
 
 	handleAddAddressChange = (e) => {
-
-
 		if (e.target.value) {
 			this.setState({ addAddress: e.target.value.toLowerCase().trim() })
 		}
-
 	}
 
 	submitAdd = () => {
-		if (!/^0x[a-fA-F0-9]{40}$/.test(this.state.addAddress)) {
-			this.error('Please check your address')
+		const { addAddress, addAlias } = this.state
+
+		const validatedAddress = sanitizeAddressString(addAddress)
+		if (!validatedAddress) {
+			this.showErrorMessage('Invalid address format')
 			return null
 		}
-		if (this.props.idToAddressBalance.filter(
-			ta => ta.address === this.state.addAddress
-		).length > 0) {
-			this.error('This address has already been tracked')
+
+		// Accounts can only be tracked once per profile.
+		const existingTrackedAccount = this.props.idToAddressBalance.find(
+			ta => ta.address === '0x' + validatedAddress
+		)
+		if (!!existingTrackedAccount) {
+			this.showErrorMessage('This address is already being tracked')
 			return null
 		}
 
 		this.props.onInsertTrackedAccount({
-			alias: this.state.addAlias,
-			address: this.state.addAddress
+			alias: addAlias,
+			address: validatedAddress
 		})
 
 		this.hideAddModal()
-        this.openNotificationWithIcon('success')
-
-
+		this.openNotificationWithIcon('success')
 	}
 
 	render() {

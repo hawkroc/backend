@@ -3,7 +3,7 @@ import { Accounts as UserAccounts } from 'meteor/accounts-base'
 
 import * as Signing from 'ethereumjs-util'
 
-const ecPartValidator = /^[0-9a-f]{64}$/i
+import { KEY_VALIDATOR_HEX_NOPREFIX } from '../imports/common/inputValidationHelpers'
 
 /**
  * Register a 'signed-message' login handler for logging in users based
@@ -32,15 +32,15 @@ export function register () {
 
             if (!ecSignedMessage || !ecSignedMessage.v || !ecSignedMessage.r || !ecSignedMessage.v) {
                 console.log("signedMessageLoginHandler: invalid EC signature arg structure { v, r, s }")
-                return null
+                return { error: 'Invalid login attempt (bad message format)' }
             }
 
             const { v, r, s } = ecSignedMessage
 
-            if ((v != 27 && v != 28) || !ecPartValidator.test(r) || !ecPartValidator.test(s)) {
+            if ((v != 27 && v != 28) || !KEY_VALIDATOR_HEX_NOPREFIX.test(r) || !KEY_VALIDATOR_HEX_NOPREFIX.test(s)) {
                 console.log("signedMessageLoginHandler: invalid EC signature part")
                 console.log("v:", v, "r:", r, "s:", s)
-                return null
+                return { error: 'Invalid login attempt (invalid message)' }
             }
 
             // Pull the public key from the signed message.
@@ -65,7 +65,7 @@ export function register () {
              */
             if (!user) {
                 console.log("signedMessageLoginHandler: no user was identified with public key", trimmedPublicKey)
-                return null
+                return { error: 'Unknown user key provided' }
             }
 
             console.log("signedMessageLoginHandler: Successfully resolved user with _id ", user._id)
