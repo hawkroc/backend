@@ -1,15 +1,15 @@
 import { Meteor } from 'meteor/meteor'
-import * as methodTypes from './moduleMethodTypes'
+import * as methodTypes from './methodTypes'
 
 import Profiles from '../../api/profiles/profiles'
 
 Meteor.methods({
 
 	/**
-     * Insert a new labelType into the user's active profile.
-     * 
-     * @param {*Insert} param0 
-     */
+	 * Insert a new labelType into the user's active profile.
+	 * 
+	 * @param {*Insert} param0 
+	 */
 	[ methodTypes.PROFILE_INSERT_LABELTYPE ]({ label }) {
 		let activeProfile = Profiles.findOne()
 
@@ -35,10 +35,10 @@ Meteor.methods({
 	},
 
 	/**
-     * Update a user's label type in their active profile.
-     * 
-     * @param {*} param0 
-     */
+	 * Update a user's label type in their active profile.
+	 * 
+	 * @param {*} param0 
+	 */
 	[ methodTypes.PROFILE_UPDATE_LABELTYPE ]({ _id, label }) {
 		// TODO: VALIDATION! of user vs profile.
 		let activeProfile = Profiles.findOne();
@@ -72,10 +72,10 @@ Meteor.methods({
 	},
 
 	/**
-     * Delete a user's label type in their active profile.
-     * 
-     * @param {*} param0 
-     */
+	 * Delete a user's label type in their active profile.
+	 * 
+	 * @param {*} param0 
+	 */
 	[ methodTypes.PROFILE_DELETE_LABELTYPE ]({ _id }) {
 		let activeProfile = Profiles.findOne()
 
@@ -116,10 +116,10 @@ Meteor.methods({
 	},
 
 	/**
-     * Update the active user's label for a transaction.
-     * 
-     * @param {*} param0 
-     */
+	 * Update the active user's label for a transaction.
+	 * 
+	 * @param {*} param0 
+	 */
 	[ methodTypes.PROFILE_UPDATE_LABEL ]({ txId, labelTypeId }) {
 		let activeProfile = Profiles.findOne()
 

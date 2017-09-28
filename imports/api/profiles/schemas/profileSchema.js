@@ -5,8 +5,8 @@ import TrackedAccountSchema from './trackedAccountSchema'
 import TransactionDataTypesSchema from './transactionDataTypesSchema'
 import TransactionDatumSchema from './transactionDatumSchema'
 
-import TaxationModuleSchema from '../../../modules/taxation/moduleSchema'
-import TransactionLabellingModuleSchema from '../../../modules/transaction-labelling/moduleSchema'
+import TaxationModuleSchema from '../../../modules/taxation/schema'
+import TransactionLabellingModuleSchema from '../../../modules/transaction-labelling/schema'
 
 /**
  * User profile related data such as preferences and linked accounts.

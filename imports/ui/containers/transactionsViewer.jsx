@@ -8,6 +8,12 @@ import TransactionsGridComponent from '../components/transactions/transactionsGr
 import TransactionsExportComponent from '../components/transactions/transactionsExport'
 import TransactionsFilterContainer from '../containers/transactionsFilter'
 
+import coreDefinitions from '../../modules/core/definitions'
+import taxationDefinitions from '../../modules/taxation/definitions'
+import taxationTransformers from '../../modules/taxation/transformers'
+import labellingDefinitions from '../../modules/transaction-labelling/definitions'
+import labellingTransformers from '../../modules/transaction-labelling/transformers'
+
 import { fetchEtherExchangeRate } from '../../redux/actions/accountActions'
 
 class TransactionsViewer extends React.Component {
@@ -19,20 +25,20 @@ class TransactionsViewer extends React.Component {
 		const {
 			usdExchangeRate,
 			languageConfig,
-			accounts,
-			addressAliasLookup,
-			currencies,
-			activeProfile
-		} = this.props
 
-		const transactions = [].concat
-			.apply([], accounts.map(a => a.transactions))
+			transactions,
+			transactionKeyDefs,
+			activeProfile,
+
+			addressDisplayTransformer,
+			valueExchangeTransformer,
+		} = this.props
 
 		return (
 			<div>
 				<Row>
 					<Col span={4}> 
-						<TransactionsExportComponent {...{ transactions }} />
+						<TransactionsExportComponent {...{ transactions, transactionKeyDefs }} />
 					</Col>
 					<Col offset={5} span={6}> 
 						<TransactionsFilterContainer />
@@ -48,11 +54,12 @@ class TransactionsViewer extends React.Component {
 				</Row>
 				<TransactionsGridComponent
 					{...{
-						accounts,
-						addressAliasLookup,
+						transactions,
 						usdExchangeRate,
-						currencies,
-						activeProfile
+						activeProfile,
+
+						addressDisplayTransformer,
+						valueExchangeTransformer
 					}}
 				/>
 			</div>
@@ -68,7 +75,7 @@ const mapStateToProps = state => {
 	let trackedAccounts = state.profiles.active.trackedAccounts
 
 	// Create an account->tracked account lookup.
-	let addressAliasLookup = accounts.map(
+	const addressAliasLookup = accounts.map(
 		a => ({
 			_id: a._id,
 			address: a.address,
@@ -78,15 +85,103 @@ const mapStateToProps = state => {
 		})
 	)
 
-	return {
-		accounts,
-		addressAliasLookup,
+	const addressDisplayTransformer = address => {
+		let mapping = addressAliasLookup.find(a => a.address === address)
+		if (mapping) {
+			return mapping.trackedAccount ? mapping.trackedAccount.alias : null
+		}
+		return address.substring(0, 12) + '...'
+	}
 
-		activeProfile: state.profiles.active,
-		currencies: state.profiles.currencies,
+	const getExchangeRate = (timestamp, currencyIdentifier) => {
+		let currencies = state.profiles.currencies
+		
+		let ratesSet = currencies.find(c => c.digitalCurrency === currencyIdentifier)
+		if (!ratesSet) {
+			// TODO: sensible default, such at current exchange rate.
+			return { timestamp, value: 0.0, estimated: true }
+		}
+
+		const timestampDay = Math.floor(timestamp/86400)
+
+		// Currently our rates are only daily.
+		let rate = ratesSet.rates.find(r => Math.floor(r.timestamp/86400) === timestampDay)
+		if (!rate) {
+			// TODO: sensible default, such at current exchange rate.
+			rate = { timestamp, value: 0.0, estimated: true }
+		}
+
+		return rate
+	}
+
+	// Get the most appropriate exchange rate for the timestamp and currency.
+	// Then apply the selected rate to the passed base-currency value
+	// TODO: need a better overall way to do this.
+	const valueExchangeTransformer = (timestamp, currencyIdentifier, value) => {
+
+		// Special logic for coercing multiple rates.
+		if (currencyIdentifier === 'BTC') {
+			const ethRate = getExchangeRate(timestamp, 'ETH')
+			const btcRate = getExchangeRate(timestamp, 'BTC')
+	
+			// TODO: until we get our data integrity on point, don't risk making
+			// silly calculations.
+			if (!!ethRate.estimated || btcRate.estimated) {
+				return 0
+			}
+
+			const ethBtcRate = ethRate.value / btcRate.value
+			return value * ethBtcRate
+		}
+		else {
+			return value * getExchangeRate(timestamp, currencyIdentifier).value
+		}
+	}
+
+	const activeProfile = state.profiles.active
+
+	let transactions = [].concat.apply([], accounts.map(a => a.transactions))
+	let transactionKeyDefs = coreDefinitions.getKeyDefs({
+		addressDisplayTransformer,
+		valueExchangeTransformer
+	})
+
+	// Alow each module to transform the transactions list as required.
+
+	if (activeProfile.isModuleEnabled('transaction-labelling')) {
+		let transactionLabellingModule = activeProfile.getModule('transaction-labelling')
+		transactions = labellingTransformers
+			.transformTransactions(transactions, transactionLabellingModule)
+
+		transactionKeyDefs = transactionKeyDefs.concat(
+			labellingDefinitions.getKeyDefs(transactionLabellingModule)
+		)
+	}
+
+	if (activeProfile.isModuleEnabled('taxation')) {
+		let taxationModule = activeProfile.getModule('taxation')
+		transactions = taxationTransformers.transformTransactions(
+			transactions, 
+			taxationModule
+		)
+
+		transactionKeyDefs = transactionKeyDefs.concat(
+			taxationDefinitions.getKeyDefs(taxationModule)
+		)
+	}
+
+	// TODO: should transaction formatted/display values be calculted once here too?
+
+	return {
+		transactions,
+		transactionKeyDefs,
+		activeProfile,
 		usdExchangeRate: state.accounts.usdExchangeRate,
 
-		languageConfig: state.navigation.languageConfig
+		languageConfig: state.navigation.languageConfig,
+
+		addressDisplayTransformer,
+		valueExchangeTransformer
 	}
 }
 
