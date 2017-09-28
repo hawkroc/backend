@@ -51,9 +51,7 @@ class TrackedAccountsEditorComponent extends React.Component {
 	}
 
 	handleAddAddressChange = (e) => {
-		if (e.target.value) {
-			this.setState({ addAddress: e.target.value.toLowerCase().trim() })
-		}
+		this.setState({ addAddress: e.target.value })
 	}
 
 	submitAdd = () => {
