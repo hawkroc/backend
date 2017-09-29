@@ -10,6 +10,8 @@ import labellingDefinitions from '../../../modules/transaction-labelling/definit
  * Presents a grid showing transaction information.
  * 
  */
+
+
 const View = ({
 	transactions,
 	usdExchangeRate,
@@ -21,11 +23,11 @@ const View = ({
 
 	let columns = coreDefinitions.buildColumns({
 		usdExchangeRate,
-
 		addressDisplayTransformer,
 		valueExchangeTransformer
 	})
-
+	
+	 let height=window.innerHeight-320;
 	// Same for the labelling module.
 	if (activeProfile.isModuleEnabled('transaction-labelling')) {
 		let transactionLabellingModule = activeProfile.getModule('transaction-labelling')
@@ -50,7 +52,8 @@ const View = ({
 				columns={ columns }
 				dataSource={ transactions }
 				rowKey={ transaction => transaction._id }
-				pagination={{ pageSize: 6 }} 
+				pagination={{ pageSize: 36 }} 
+				scroll={{ y: height} }
 			/>
 		</div>
 	)
