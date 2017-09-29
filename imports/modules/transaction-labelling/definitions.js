@@ -50,6 +50,7 @@ export const buildColumns = ({
 			title: keyDefs[0].displayKey,
 			dataIndex: keyDefs[0].key,
 			key: keyDefs[0].id,
+			width: '10%',
 
 			render: (value, record) => {
 				return (
