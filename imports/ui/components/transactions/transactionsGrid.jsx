@@ -27,7 +27,9 @@ const View = ({
 		valueExchangeTransformer
 	})
 	
-	 let height=window.innerHeight-320;
+	// TODO: no magic numbers.
+	const height = window.innerHeight - 320
+	
 	// Same for the labelling module.
 	if (activeProfile.isModuleEnabled('transaction-labelling')) {
 		let transactionLabellingModule = activeProfile.getModule('transaction-labelling')
@@ -52,8 +54,8 @@ const View = ({
 				columns={ columns }
 				dataSource={ transactions }
 				rowKey={ transaction => transaction._id }
-				pagination={{ pageSize: 36 }} 
-				scroll={{ y: height} }
+				pagination={{ pageSize: 50 }}
+				scroll={{ y: height }}
 			/>
 		</div>
 	)

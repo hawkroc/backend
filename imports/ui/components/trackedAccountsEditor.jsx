@@ -26,7 +26,6 @@ class TrackedAccountsEditorComponent extends React.Component {
 	showErrorMessage = (info) => {
 		message.error(info)
 	}
-
 	openNotificationWithIcon = (type) => {
 		notification[type]({
 			message: 'Account has successfully been tracked',
@@ -37,7 +36,6 @@ class TrackedAccountsEditorComponent extends React.Component {
 	showAddModal() {
 		this.setState({ addModalVisible: true })
 	}
-
 	hideAddModal() {
 		this.setState({
 			addModalVisible: false,
@@ -49,7 +47,6 @@ class TrackedAccountsEditorComponent extends React.Component {
 	handleAddAliasChange = (e) => {
 		this.setState({ addAlias: e.target.value })
 	}
-
 	handleAddAddressChange = (e) => {
 		this.setState({ addAddress: e.target.value })
 	}
@@ -64,8 +61,8 @@ class TrackedAccountsEditorComponent extends React.Component {
 		}
 
 		// Accounts can only be tracked once per profile.
-		const existingTrackedAccount = this.props.idToAddressBalance.find(
-			ta => ta.address === '0x' + validatedAddress
+		const existingTrackedAccount = this.props.accounts.find(
+			a => a.address === '0x' + validatedAddress
 		)
 		if (!!existingTrackedAccount) {
 			this.showErrorMessage('This address is already being tracked')
@@ -85,9 +82,9 @@ class TrackedAccountsEditorComponent extends React.Component {
 		const {
 			// language
 			languageConfig,
-			// Collection of accounts to display.
+			accounts,
 			trackedAccounts,
-			idToAddressBalance,
+			
 			// Called when the UI requests a change to account information.
 			onUpdateTrackedAccount,
 			onInsertTrackedAccount,
@@ -96,7 +93,12 @@ class TrackedAccountsEditorComponent extends React.Component {
 		} = this.props
 
 		// Build the column set for this table.
-		const columns = buildColumns({ languageConfig, onUpdateTrackedAccount, onDeleteTrackedAccount, idToAddressBalance })
+		const columns = buildColumns({ 
+			languageConfig,
+			onUpdateTrackedAccount,
+			onDeleteTrackedAccount,
+			accounts
+		})
 
 		return (
 			<div>
