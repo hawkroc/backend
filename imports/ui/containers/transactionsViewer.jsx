@@ -109,7 +109,7 @@ const mapStateToProps = state => {
 			_id: a._id,
 			address: a.address,
 			trackedAccount: trackedAccounts.find(
-				tracked => tracked.accountId === a._id
+				ta => ta.accountAddress === a.address
 			)
 		})
 	)

@@ -8,7 +8,7 @@ export default {
 		const trackedAccounts = Accounts.find().fetch().map((a, i) => (
 			{
 				_id: new Meteor.Collection.ObjectID().toHexString(),
-				accountId: a._id,
+				accountAddress: a.address,
 				alias: `Demo account ${i + 1}`
 			}
 		))

@@ -18,8 +18,7 @@ class ApplicationSettings extends React.Component {
 		const {
 			languageConfig,
 			trackedAccounts,
-			accountsItems,
-			idToAddressBalance,
+			accounts,
 
 			transactionLabellingModuleEnabled,
 			transactionLabellingModule,
@@ -35,8 +34,7 @@ class ApplicationSettings extends React.Component {
 					<Col offset={1} span={10}>
 						<TrackedAccountsEditor {...{
 							languageConfig,
-							accountsItems,
-							idToAddressBalance,
+							accounts,
 							trackedAccounts,
 							onInsertTrackedAccount,
 							onUpdateTrackedAccount,
@@ -59,34 +57,14 @@ class ApplicationSettings extends React.Component {
 	}
 }
 
-const getIdToAddressBalance = (trackedAccounts, items) => {
-	let idToAddressBalance = []
-	for (let trackedAccount of trackedAccounts) {
-		for (let item of items) {
-			if (item._id === trackedAccount.accountId) {
-				idToAddressBalance.push({ id: trackedAccount.accountId, address: item.address, balance: item.balance })
-				break
-			}
-		}
-	}
-
-	return idToAddressBalance
-}
-
 const mapStateToProps = (state) => {
-	let idToAddressBalance = getIdToAddressBalance(
-		state.profiles.active.trackedAccounts,
-		state.accounts.items
-	)
-	
 	let transactionLabellingModuleEnabled = state.profiles.active
 		.isModuleEnabled('transaction-labelling')
 	let transactionLabellingModule = state.profiles.active
 		.getModule('transaction-labelling')
 
 	return {
-		accountsItems: state.accounts.items,
-		idToAddressBalance: idToAddressBalance,
+		accounts: state.accounts.items,
 		trackedAccounts: state.profiles.active.trackedAccounts,
 
 		transactionLabellingModule,

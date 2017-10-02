@@ -24,7 +24,7 @@ export const buildColumns = ({
 	// languageConfig
 	languageConfig,
 	// Callback for updating an account.
-	idToAddressBalance,
+	accounts,
 	onUpdateTrackedAccount,
 	onDeleteTrackedAccount
 }) => {
@@ -47,24 +47,15 @@ export const buildColumns = ({
 		},
 		{
 			title: languageConfig.Address,
-			dataIndex: 'accountId',
+			dataIndex: 'accountAddress',
 			width: '30%',
 
-			render: (text, record) => {
-				let address = ''
-				if (idToAddressBalance) {
-					for (let idAddress of idToAddressBalance) {
-						if (text === idAddress.id) {
-							address = idAddress.address
-							break
-						}
-					}
-				}
+			render: (value, record) => {
 				return (
 					<div className="editable-cell">
-						<div className="editable-cell-text-wrapper" id={address}>
-							{address.substring(0, 12) + '...'}
-							<ClickCopyCell text={address}/>
+						<div className="editable-cell-text-wrapper" id={value}>
+							{value.substring(0, 12) + '...'}
+							<ClickCopyCell text={value}/>
 						</div>
 					</div>
 				)
@@ -74,14 +65,14 @@ export const buildColumns = ({
 			title: languageConfig.Balance,
 			dataIndex: 'Balance (ETH)',
 			width: '20%',
-			render: (text, record) => {
-				if (idToAddressBalance) {
-					for (let idAddress of idToAddressBalance) {
-						if (record.accountId === idAddress.id) {
-							return maskLongNumberValue(weiToEther(idAddress.balance))
-						}
+			render: (value, record) => {
+				if (accounts) {
+					const account = accounts.find(a => a.addrss == value)
+					if (account) {
+						maskLongNumberValue(weiToEther(account.balance))
 					}
 				}
+
 				return null
 			}
 		},

@@ -36,13 +36,22 @@ Meteor.startup(() => {
 	Tracker.autorun(() => {(
 		store.dispatch(
 			setActiveProfile(Profiles.findOne())
-		),
+		)
+	)})
+	
+	Tracker.autorun(() => {(
 		store.dispatch(
 			setAccounts(Accounts.find().fetch())
-		),
+		)
+	)})
+	
+	Tracker.autorun(() => {(
 		store.dispatch(
 			setActiveCurrency(ExchangeRates.active())
-		),
+		)
+	)})
+	
+	Tracker.autorun(() => {(
 		store.dispatch(
 			setUsers(UserAccounts.users.find().fetch())
 		)
