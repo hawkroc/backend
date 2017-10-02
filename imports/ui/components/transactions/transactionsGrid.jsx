@@ -52,8 +52,8 @@ const View = ({
 				columns={ columns }
 				dataSource={ transactions }
 				rowKey={ transaction => transaction._id }
-				pagination={{ pageSize: 36 }} 
-				scroll={{ y: height} }
+				pagination={{ pageSize: 50 }}
+				scroll={{ y: height }}
 			/>
 		</div>
 	)
