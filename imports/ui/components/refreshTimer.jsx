@@ -22,6 +22,9 @@ class RefreshTimer extends React.Component {
 	componentDidMount = () => {
 		this.startTimer()
 	}
+	componentWillUnmount = () => {
+		this.stopTimer()
+	}
 
 	render = () => {
 		return (

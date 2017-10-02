@@ -21,9 +21,7 @@ const maskLongNumberValue = value => {
 }
 
 export const buildColumns = ({
-	// languageConfig
 	languageConfig,
-	// Callback for updating an account.
 	accounts,
 	onUpdateTrackedAccount,
 	onDeleteTrackedAccount
@@ -48,9 +46,10 @@ export const buildColumns = ({
 		{
 			title: languageConfig.Address,
 			dataIndex: 'accountAddress',
+			key: 'address',
 			width: '30%',
 
-			render: (value, record) => {
+			render: value => {
 				return (
 					<div className="editable-cell">
 						<div className="editable-cell-text-wrapper" id={value}>
@@ -63,13 +62,14 @@ export const buildColumns = ({
 		},
 		{
 			title: languageConfig.Balance,
-			dataIndex: 'Balance (ETH)',
+			dataIndex: 'accountAddress',
+			key: 'balance',
 			width: '20%',
-			render: (value, record) => {
+			render: value => {
 				if (accounts) {
-					const account = accounts.find(a => a.addrss == value)
+					const account = accounts.find(a => a.address == value)
 					if (account) {
-						maskLongNumberValue(weiToEther(account.balance))
+						return maskLongNumberValue(weiToEther(account.balance))
 					}
 				}
 
@@ -78,7 +78,7 @@ export const buildColumns = ({
 		},
 		{
 			title: '',
-			dataIndex: 'operation',
+			key: 'operation',
 			render: (text, record) => {
 				return (
 					<Popconfirm

@@ -27,7 +27,9 @@ const View = ({
 		valueExchangeTransformer
 	})
 	
-	 let height=window.innerHeight-320;
+	// TODO: no magic numbers.
+	const height = window.innerHeight - 320
+	
 	// Same for the labelling module.
 	if (activeProfile.isModuleEnabled('transaction-labelling')) {
 		let transactionLabellingModule = activeProfile.getModule('transaction-labelling')
