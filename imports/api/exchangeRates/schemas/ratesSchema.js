@@ -1,32 +1,16 @@
 import SimpleSchema  from 'simpl-schema'
+import { Meteor } from 'meteor/meteor'
 
-const Rate = new SimpleSchema({
-	_id: { type: String },
-
-	high: {
+const schema = new SimpleSchema({
+	timestamp: {
 		type: Number,
-		defaultValue: 0
+		min: Meteor.settings.public.input_validation.transaction_timestamp
 	},
-	time: {
+	value: {
 		type: Number,
-		defaultValue: 0
-	},
-	average: {
-		type: Number,
-		defaultValue: 0
-	},
-	open: {
-		type: Number,
-		defaultValue: 0
-	},
-	low: {
-		type: Number,
-		defaultValue: 0
-	},
-	volume: {
-		type: Number,
-		defaultValue: 0
+		defaultValue: 0, 
+		min: 0
 	}
 })
 
-export default Rate
+export default schema

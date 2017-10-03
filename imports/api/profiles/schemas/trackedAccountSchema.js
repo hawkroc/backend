@@ -7,8 +7,8 @@ import SimpleSchema  from 'simpl-schema'
 const TrackedAccountSchema = new SimpleSchema({
 	_id: { type: String },
 
-	// References Accounts._id
-	accountId: { type: String },
+	// References Accounts.address
+	accountAddress: { type: String },
 
 	// User's alias for the referenced account.
 	alias: { type: String }

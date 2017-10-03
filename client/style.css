@@ -155,12 +155,10 @@ body {
   background-color: #108ee9;
 }
 .exchange{
-  display: inline;
   float: right;
-   color: green;
+  color: green;
   font-style:normal;
-  display: inline;
-  margin-right: 2em;
+  margin-top: 0.5em;
 }
 
 
@@ -213,3 +211,8 @@ body {
 }
 
 /* END Editable Cell related */
+.hearder-user-name{ 
+     height: 3em; 
+     line-height: 3em; 
+ }
+ 

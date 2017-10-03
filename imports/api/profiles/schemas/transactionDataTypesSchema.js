@@ -1,6 +1,6 @@
 import SimpleSchema  from 'simpl-schema'
 
-import CategoryDataTypeSchema from './categoryDataTypeSchema'
+import CategoryDataTypeSchema from '../../../modules/common/categoryDataTypeSchema'
 
 const GstLabelsSchema = new SimpleSchema({
 	// Specify only a single name for this core data type.
@@ -12,7 +12,6 @@ const GstLabelsSchema = new SimpleSchema({
 	// Extend the category items with a GST value.
 	'items.$.gst': { type: Boolean }
 })
-
 GstLabelsSchema.extend(CategoryDataTypeSchema)
 
 /**

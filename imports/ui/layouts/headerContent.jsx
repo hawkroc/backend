@@ -1,6 +1,8 @@
-import React from 'react'
 
-import {Row, Col} from 'antd'
+import React from 'react'
+import { Accounts as UserAccounts } from 'meteor/accounts-base'
+
+import { Row, Col, Button } from 'antd'
 
 import TransactionsFilterContainer from '../containers/transactionsFilter'
 import SwitchLanguageSettings from '../containers/switchLanguageSettings'
@@ -19,14 +21,22 @@ const Layout = () => {
 							<img role="presentation" src="/img/blockeeper_Blue.png" className="logo"/>
 						</div>
 					</Col>
-					<Col offset={6} span={6}>
-						<TransactionsFilterContainer/>
+					<Col offset={12} span={4} className="hearder-user-name">
+						<i>
+						Welcome<b>  {Meteor.user().services['centrality-blockeeper'].name}</b>
+						</i>
 					</Col>
-
-					<Col offset={7} span={2}>
+					<Col offset={0} span={2} style={{float: 'right'}}>
+						<Button
+							type="primary"
+							onClick={e => UserAccounts.logout()}
+							style={{ width: '100px', margin: '3px' }}>
+							Log out
+						</Button>
+					</Col>
+					<Col offset={0} span={2} style={{float: 'right'}}>
 						<SwitchLanguageSettings/>
 					</Col>
-
 				</Row>
 			</div>
 		</div>

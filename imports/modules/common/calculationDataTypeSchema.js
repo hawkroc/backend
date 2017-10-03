@@ -1,7 +1,7 @@
 import SimpleSchema  from 'simpl-schema'
 
 /**
- * Defines a category based data type.
+ * Defines a calculation based data type.
  * 
  */
 const schema = new SimpleSchema({
@@ -12,12 +12,11 @@ const schema = new SimpleSchema({
 		optional: false
 	},
 
-	items: {
-		type: Array
-	},
-	'items.$': { type: Object },
-	'items.$._id': { type: String },
-	'items.$.label': { type: String },
+    // Unix timestamp. When the inputs were last updated. Calculations
+    // done before this timestamp may need to be re-run.
+	inputsLastUpdated: {
+        type: Number
+    }
 })
 
 export default schema

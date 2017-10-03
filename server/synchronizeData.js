@@ -31,9 +31,7 @@ const getdataFromApi = (startblock, endblock, address) => {
 
 	console.log('synchronizeData: Fetching remote data:', final)
 
-	return axios.get(final).then(response => {
-		return response
-	})
+	return axios.get(final) 
 }
 
 /**
@@ -80,6 +78,7 @@ export const synchronizeDataFromApi = () => {
 				'with address',
 				account.address
 			)
+            
 
 			getdataFromApi(account.latestMinedBlock + 1, endBlock, account.address)
 				.then(responseFromApi => {
@@ -147,9 +146,7 @@ export const synchronizeDataFromApi = () => {
 					console.log('synchronizeData:', e)
 					return false
 				})
-				.finally(() => {
-					console.log('synchronizeData: Remote fetch completed.')
-				})
+				
 		}
 	})
 }

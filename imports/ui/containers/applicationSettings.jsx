@@ -3,10 +3,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Row, Col } from 'antd'
 
-import TrackedAccounts from '../components/trackedAccounts'
-import TransactionLabels from '../components/transactionLabels'
+import TrackedAccountsEditor from '../components/trackedAccountsEditor'
+import LabelTypeEditorComponent from '../components/labelTypeEditor'
 
-import labelMethodTypes from '../../api/profiles/methods/labelMethodTypes'
 import trackedAccountMethodTypes from '../../api/profiles/methods/trackedAccountMethodTypes'
 
 
@@ -19,25 +18,23 @@ class ApplicationSettings extends React.Component {
 		const {
 			languageConfig,
 			trackedAccounts,
-			accountsItems,
-			idToAddressBalance,
-			labelTypes,
+			accounts,
+
+			transactionLabellingModuleEnabled,
+			transactionLabellingModule,
+
 			onInsertTrackedAccount,
 			onUpdateTrackedAccount,
-			onDeleteTrackedAccount,
-			onInsertLabelType,
-			onUpdateLabelType,
-			onDeleteLabelType
+			onDeleteTrackedAccount
 		} = this.props
 
 		return (
 			<div>
 				<Row>
 					<Col offset={1} span={10}>
-						<TrackedAccounts {...{
+						<TrackedAccountsEditor {...{
 							languageConfig,
-							accountsItems,
-							idToAddressBalance,
+							accounts,
 							trackedAccounts,
 							onInsertTrackedAccount,
 							onUpdateTrackedAccount,
@@ -45,13 +42,14 @@ class ApplicationSettings extends React.Component {
 						}} />
 					</Col>
 					<Col offset={1} span={9}>
-						<TransactionLabels {...{
-							languageConfig,
-							labelTypes,
-							onInsertLabelType,
-							onUpdateLabelType,
-							onDeleteLabelType
-						}} />
+						{
+							!!transactionLabellingModuleEnabled ?
+								<LabelTypeEditorComponent {...{
+									languageConfig,
+									transactionLabellingModule
+								}} />
+							: null
+						}
 					</Col>
 				</Row>
 			</div>
@@ -59,31 +57,18 @@ class ApplicationSettings extends React.Component {
 	}
 }
 
-const getIdToAddressBalance = (trackedAccounts, items) => {
-	let idToAddressBalance = []
-	for (let trackedAccount of trackedAccounts) {
-		for (let item of items) {
-			if (item._id === trackedAccount.accountId) {
-				idToAddressBalance.push({ id: trackedAccount.accountId, address: item.address, balance: item.balance })
-				break
-			}
-		}
-	}
-
-	return idToAddressBalance
-}
-
 const mapStateToProps = (state) => {
-	let idToAddressBalance = getIdToAddressBalance(
-		state.profiles.active.trackedAccounts,
-		state.accounts.items
-	)
+	let transactionLabellingModuleEnabled = state.profiles.active
+		.isModuleEnabled('transaction-labelling')
+	let transactionLabellingModule = state.profiles.active
+		.getModule('transaction-labelling')
 
 	return {
-		accountsItems: state.accounts.items,
-		idToAddressBalance: idToAddressBalance,
+		accounts: state.accounts.items,
 		trackedAccounts: state.profiles.active.trackedAccounts,
-		labelTypes: state.profiles.active.transactionDataTypes.gstLabels.items
+
+		transactionLabellingModule,
+		transactionLabellingModuleEnabled
 	}
 }
 
@@ -107,27 +92,7 @@ const mapDispatchToProps = (dispatch, state) => {
 			Meteor.call(trackedAccountMethodTypes.PROFILE_DELETE_TRACKEDACCOUNT, {
 				_id: trackedAccount._id
 			})
-		},
-
-		onUpdateLabelType: (updatedLabel) => {
-			// Update the active profile's label.
-			Meteor.call(labelMethodTypes.PROFILE_UPDATE_LABELTYPE, {
-				...updatedLabel
-			})
-		},
-
-		onInsertLabelType: (newLabel) => {
-			Meteor.call(labelMethodTypes.PROFILE_INSERT_LABELTYPE, {
-				...newLabel
-			})
-		},
-
-		onDeleteLabelType: (label) => {
-			Meteor.call(labelMethodTypes.PROFILE_DELETE_LABELTYPE, {
-				_id: label._id
-			})
 		}
-
 	}
 }
 

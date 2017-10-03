@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { Button, Icon, Modal, Select } from 'antd'
 import { CSVLink } from 'react-csv'
 
+const DEFAULT_EXPORT_FIELDS = ['Timestamp', 'From', 'To', 'ETH']
+
 /**
  * Component for exporting transaction data.
  * 
@@ -15,21 +17,42 @@ class TransactionsExport extends React.Component {
 		// Using local state for simple transitions.
 		this.state = {
 			modalVisible: false,
-			exportFieldSelected: ['timeStamp', 'from', 'to', 'value'],
+			exportFieldSelected: DEFAULT_EXPORT_FIELDS,
 			csvData: []
 		}
 	}
 
 	openModal() {this.setState({ modalVisible: true })}
 	closeModal() {this.setState({ modalVisible: false })}
-	cleanModal() {this.setState({  })}
 	handleFieldChange(value) { this.setState({exportFieldSelected: value}) }
 
 	handleDownload() {
 		let csvData = []
+		let selectedFieldDisplayKeys = this.state.exportFieldSelected
 
+		// Pick transaction data into an object based on indices.
 		this.props.transactions.forEach(t => {
-			csvData.push(_.pick(t, this.state.exportFieldSelected))
+			let txExport = { }
+
+			// Compute and set the formatted value for exporting.
+			// Rename the object keys to the display names again for export.
+			selectedFieldDisplayKeys.forEach(dispKey => {
+				let keyDef = this.props.transactionKeyDefs.find(
+					kd => kd.displayKey === dispKey
+				)
+
+				Object.defineProperty(
+					txExport, 
+					dispKey,
+					Object.getOwnPropertyDescriptor(t, keyDef.key)
+				)
+
+				txExport[dispKey] = keyDef.formattedValueTransformer(
+					t[keyDef.key], t
+				)
+			})
+
+			csvData.push(txExport)
 		})
 
 		this.setState({csvData})
@@ -37,18 +60,11 @@ class TransactionsExport extends React.Component {
 	}
 
 	render() {
-		let exportFieldOptions = [ ]
-
-		if (!!this.props.transactions && this.props.transactions.length > 0) {
-			let t = this.props.transactions[0]
-
-			Object.keys(t).forEach(k => {
-				exportFieldOptions.push(k)
-			})
-		}
+		let exportFieldOptions = this.props.transactionKeyDefs
+			.map(k => k.displayKey)
 
 		return (
-			<div className="tableList">
+			<div style={{ marginLeft: '1em' }}>
 				<Button onClick={() => this.openModal()}>
 					<Icon type="download" />Export data
 				</Button>
@@ -84,7 +100,7 @@ class TransactionsExport extends React.Component {
 						mode="multiple"
 						style={{ width: '100%' }}
 						placeholder="Please select export fields"
-						defaultValue={['timeStamp', 'from', 'to', 'value']}
+						defaultValue={DEFAULT_EXPORT_FIELDS}
 						onChange={(value) => this.handleFieldChange(value)}
 					>
 						{
