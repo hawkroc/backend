@@ -4,7 +4,7 @@ import { Accounts as UserAccounts } from 'meteor/accounts-base'
 import Profiles from '../profiles'
 import * as methodTypes from './userMethodTypes'
 
-import { sanitizeKeyString } from '../../../common/inputTransformationHelpers'
+import { sanitizeAddressString } from '../../../common/inputTransformationHelpers'
 
 Meteor.methods({
     /**
@@ -20,7 +20,7 @@ Meteor.methods({
             return { error: 'You are not logged in' }
         }
 
-		const validPublicKey = sanitizeKeyString(publicKey)
+		const validPublicKey = sanitizeAddressString(publicKey)
         if (!validPublicKey) {
             console.warn('Invalid public key format')
             return { error: 'Invalid public key format' }

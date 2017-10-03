@@ -5,8 +5,9 @@
 		"**/.meteor": true
 	},
 
-	"window.zoomLevel": 0,
+	"window.zoomLevel": 1,
 	"editor.renderWhitespace": "all",
 	"editor.insertSpaces": false,
-	"editor.detectIndentation": false
+	"editor.detectIndentation": false,
+	"eslint.enable": false
 }

@@ -31,7 +31,7 @@ const getKeyDefs = (taxationModule) => {
 		{
 			id: 'taxation_code',
 			key: 'taxation_codeId',
-			displayKey: 'VAT code',
+			displayKey: 'Tax code',
 
 			formattedValueTransformer: value => {
 				let code = taxationModule.taxCodes.items.find(tc => tc.codeId === value)
