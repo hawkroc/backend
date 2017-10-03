@@ -4,7 +4,7 @@ import { Table, Button, Modal, Input } from 'antd'
 import { message, notification } from 'antd'
 
 import { buildColumns } from './usersEditorColumns'
-import { sanitizeKeyString } from '../../common/inputTransformationHelpers'
+import { sanitizeAddressString } from '../../common/inputTransformationHelpers'
 
 /**
  * Displays and manages profile users.
@@ -50,7 +50,7 @@ class component extends React.Component {
 		}
 		name = name.trim()
 		
-		const validPublicKey = sanitizeKeyString(publicKey)
+		const validPublicKey = sanitizeAddressString(publicKey)
 		if (!validPublicKey) {
 			message.error('Invalid key format')
 			return

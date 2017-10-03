@@ -19,7 +19,7 @@ export const buildColumns = ({
 			}
 		},
 		{
-			title: "Public key",
+			title: "Address",
 			key: "publickey",
 			width: '30%',
 

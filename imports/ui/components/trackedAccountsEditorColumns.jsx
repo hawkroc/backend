@@ -13,11 +13,12 @@ const weiToEther = value => {
 
 const maskLongNumberValue = value => {
     // Fix values to avoid automatic conversion to scientific notation.
-	const fixed = Number(parseFloat(value).toPrecision(16))
-    
-    return fixed.toString().length > 10 
-        ? fixed.toString().substr(0, 10) + '...'
-        : fixed.toString()
+	let fixed = Number(parseFloat(value).toPrecision(16)) 
+	//console.log('1fixed'+new Intl.NumberFormat().format(fixed))
+	fixed=new Intl.NumberFormat().format(fixed)
+    return fixed.length > 10 
+        ? fixed.substr(0, 10) + '...'
+        : fixed
 }
 
 export const buildColumns = ({
@@ -69,7 +70,18 @@ export const buildColumns = ({
 				if (accounts) {
 					const account = accounts.find(a => a.address == value)
 					if (account) {
-						return maskLongNumberValue(weiToEther(account.balance))
+						return( //maskLongNumberValue(weiToEther(account.balance))
+		  
+						<div className="editable-cell">
+						<div className="editable-cell-text-wrapper" id={value}>
+							{maskLongNumberValue(weiToEther(account.balance))}
+							<ClickCopyCell text={account.balance}/>
+						</div>
+					</div>
+)
+
+
+
 					}
 				}
 

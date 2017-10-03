@@ -14,7 +14,7 @@ const monthNames = [
 const maskLongNumberValue = value => {
 	// Fix values to avoid automatic conversion to scientific notation.
 	const fixed = Number(value.toPrecision(16))
-
+	// console.log('new Intl.NumberFormat().format(number)'+JSON.stringify(new Intl.NumberFormat().format(fixed)))
 	return fixed.toString().length > 8 
 		? fixed.toFixed(8) + '...'
 		: fixed.toString()
