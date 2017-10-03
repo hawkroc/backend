@@ -159,6 +159,7 @@ const buildColumns = ({
 			title: ck.displayKey,
 			dataIndex: ck.key,
 			key: ck.id,
+			width: '10%',
 
 			// Default: render display value.
 			render: (value, record) => {

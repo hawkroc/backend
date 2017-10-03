@@ -7,6 +7,7 @@ import { Row, Col } from 'antd'
 import TransactionsGridComponent from '../components/transactions/transactionsGrid'
 import TransactionsExportComponent from '../components/transactions/transactionsExport'
 import TransactionsFilterContainer from '../containers/transactionsFilter'
+import RefreshTimerComponent from '../components/refreshTimer'
 
 import coreDefinitions from '../../modules/core/definitions'
 import taxationDefinitions from '../../modules/taxation/definitions'
@@ -16,33 +17,10 @@ import labellingTransformers from '../../modules/transaction-labelling/transform
 
 import { fetchEtherExchangeRate } from '../../redux/actions/accountActions'
 
+
 class TransactionsViewer extends React.Component {
-	constructor(args) {
-		super(args)
-		this.state = {
-			count: 60,
-		}
-	}
-
-	// Handlers for the refresh countdown timer.
-
-	timerTick = () =>
-		this.setState({
-			count: this.state.count - 1 < 0 
-				? 60 : this.state.count - 1
-		})
-	startTimer = () => {
-		clearInterval(this.timer)
-		this.timer = setInterval(this.timerTick, 1000)
-	}
-	stopTimer = () => clearInterval(this.timer)
-
 	componentDidMount() {
 		this.props.fetchExchangeRate()
-		this.startTimer()
-	}
-	componentWillUnmount() {
-		this.stopTimer()
 	}
 
 	render() {
@@ -88,7 +66,7 @@ class TransactionsViewer extends React.Component {
 				/>
 				<Row>
 				<Col span={4} offset={1}>
-					<b style={{ fontStyle: 'italic' }}>Transaction data refreshes in {this.state.count} seconds</b>
+					<RefreshTimerComponent />
 				</Col>
 				</Row>
 			</div>
@@ -109,7 +87,7 @@ const mapStateToProps = state => {
 			_id: a._id,
 			address: a.address,
 			trackedAccount: trackedAccounts.find(
-				tracked => tracked.accountId === a._id
+				ta => ta.accountAddress === a.address
 			)
 		})
 	)

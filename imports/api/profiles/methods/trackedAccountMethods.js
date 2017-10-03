@@ -25,46 +25,49 @@ Meteor.methods({
 		// Currently our stored addresses are prefixed.
 		validatedAddress = '0x' + validatedAddress
 
-		console.log(`PROFILE_INSERT_TRACKEDACCOUNT: profile ${activeProfile._id} wishes to track ${validatedAddress}`)
-
-		// If the user is tracking an account that does not yet exist in our system,
-		// create it.
-		let account = Accounts.findOne({ address: validatedAddress })
-		let accountId = null
-
-		if (!account) {
-			console.log(`PROFILE_INSERT_TRACKEDACCOUNT: account ${validatedAddress} does not exist. Creating and linking...`)
-
-			// TODO: use factory.
-			accountId = Accounts.insert({
-				address: validatedAddress,
-				transactions: [ ],
-				latestMinedBlock: 0,
-				balance: 0
-			})
-		} else {
-			console.log(`PROFILE_INSERT_TRACKEDACCOUNT: account ${validatedAddress} alreading exists. Linking...`)
-
-			accountId = account._id
-			// if this accountid already in profile trackAddress will return "you already track this address"
-			if(activeProfile.trackedAccounts.filter(
-				ta => ta.accountId === accountId
-			).length > 0) {
-				// throw new Meteor.Error("you already track this address ");
-				return null
-			}
+		// Ensure the account is not already tracked on this profile. This should also be handled
+		// interactively on the client-side.
+		if(activeProfile.trackedAccounts.filter(
+			ta => ta.accountAddress === validatedAddress
+		).length > 0) {
+			console.log(`PROFILE_INSERT_TRACKEDACCOUNT: profile already tracks this address`)
+			return null
 		}
 
+		console.log(`PROFILE_INSERT_TRACKEDACCOUNT: profile ${activeProfile._id} wishes to track ${validatedAddress}`)
+
+		// Add the tracked account to the profile.
+		// Technically, all valid account strings represent valid accounts even if an account
+		// has not been processed on the blockchain. Therefore we can always insert a new tracked
+		// account.
 		Profiles.update(activeProfile._id, {
 			$push: {
 				'trackedAccounts': {
 					// TODO: best way to do IDs?
 					_id: new Meteor.Collection.ObjectID().toHexString(),
 					alias,
-					accountId
+					accountAddress: validatedAddress
 				}
 			}
 		})
+
+		// If the user is tracking an account that does not yet exist in our system,
+		// create it.
+		let account = Accounts.findOne({ address: validatedAddress })
+
+		if (!account) {
+			console.log(`PROFILE_INSERT_TRACKEDACCOUNT: account ${validatedAddress} does not exist. Creating and linking...`)
+
+			// TODO: use factory.
+			Accounts.insert({
+				address: validatedAddress,
+				transactions: [ ],
+				latestMinedBlock: 0,
+				balance: 0
+			})
+		} else {
+			console.log(`PROFILE_INSERT_TRACKEDACCOUNT: account ${validatedAddress} alreading exists. Linked.`)
+		}
 
 		// TODO: tigger initial transaction mining for this account?
 	},
@@ -83,8 +86,7 @@ Meteor.methods({
 				'trackedAccounts._id': _id
 			}, {
 				$set: {
-					'trackedAccounts.$.alias': alias,
-					// 'trackedAccounts.$.accountId': accountId
+					'trackedAccounts.$.alias': alias
 				}
 			}
 		)
@@ -111,12 +113,12 @@ Meteor.methods({
 
 			// If this is the last user tracking an account in our Accounts collection,
 			// remove the account from the collection also.
-			let trackerCount = Profiles.find({ 'trackedAccounts.accountId': {
-				$eq: toDelete.accountId
+			let trackerCount = Profiles.find({ 'trackedAccounts.accountAddress': {
+				$eq: toDelete.accountAddress
 			} }).count()
 
 			if (trackerCount === 0) {
-				Accounts.remove(toDelete.accountId)
+				Accounts.remove({ address: toDelete.accountAddress })
 			}
 		}
 	}
