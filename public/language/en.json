@@ -20,6 +20,9 @@
     "Name":"Name",
     "GST":"GST",
     "Operation":"operation",
-    "Current":"Current exchange rate"
+	"Current":"Current exchange rate",
+	"Transaction_tax_code":"Tax Code",
+	"Tax_Rate":"Tax Rate",
+	"New_TAX":"New Tax"
 
   }

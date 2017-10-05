@@ -19,7 +19,7 @@ class ApplicationSettings extends React.Component {
 			languageConfig,
 			trackedAccounts,
 			accounts,
-
+            taxationModule,
 			transactionLabellingModuleEnabled,
 			transactionLabellingModule,
 
@@ -46,6 +46,7 @@ class ApplicationSettings extends React.Component {
 							!!transactionLabellingModuleEnabled ?
 								<LabelTypeEditorComponent {...{
 									languageConfig,
+									taxationModule,
 									transactionLabellingModule
 								}} />
 							: null
@@ -62,11 +63,11 @@ const mapStateToProps = (state) => {
 		.isModuleEnabled('transaction-labelling')
 	let transactionLabellingModule = state.profiles.active
 		.getModule('transaction-labelling')
-
+		let taxationModule = state.profiles.active.getModule('taxation')
 	return {
 		accounts: state.accounts.items,
 		trackedAccounts: state.profiles.active.trackedAccounts,
-
+        taxationModule,
 		transactionLabellingModule,
 		transactionLabellingModuleEnabled
 	}

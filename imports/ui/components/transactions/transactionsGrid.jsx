@@ -33,6 +33,7 @@ const View = ({
 	// Same for the labelling module.
 	if (activeProfile.isModuleEnabled('transaction-labelling')) {
 		let transactionLabellingModule = activeProfile.getModule('transaction-labelling')
+	
 		columns = columns.concat(labellingDefinitions.buildColumns({
 			transactionLabellingModule
 		}))
