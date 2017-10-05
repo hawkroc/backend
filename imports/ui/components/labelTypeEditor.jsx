@@ -35,7 +35,6 @@ const onUpdateTaxRate = (updatedRate) => {
 }
 
 const onInsertTaxRate = (newRate) => {
-	console.log('1newRate'+JSON.stringify(newRate))
 	Meteor.call(methodTypesTax.PROFILE_MODULE_TAXATION_INSERTTXTAXCODE, {
 		newRate
 	})
