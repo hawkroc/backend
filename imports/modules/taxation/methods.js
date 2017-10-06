@@ -49,7 +49,7 @@ Meteor.methods({
 	 */
 	[ methodTypes.PROFILE_MODULE_TAXATION_INSERTTXTAXCODE ]({ newRate }) {
 		let activeProfile = Profiles.findOne()
-
+        let id =new Meteor.Collection.ObjectID().toHexString()
 		// Test module is enabled on profile.
 		if (!activeProfile.isModuleEnabled('taxation')) {
 			console.warn("Attempted top interact with disabled module")
@@ -62,8 +62,8 @@ Meteor.methods({
 		}, {
 			$push: {
 				'modules.$.taxCodes.items': {
-					_id: new Meteor.Collection.ObjectID().toHexString(),
-					codeId:newRate.label,
+					_id: id,
+					codeId:id,
 					label:newRate.label,
 					rate:newRate.rate
 
@@ -98,7 +98,7 @@ Meteor.methods({
 		}, {
 			$pull: {
 				'modules.$.processed': {
-					processed: _id
+					codeId: _id
 				}
 			}
 		// TODO: once bug is fixed, remove bypass flag.
@@ -128,7 +128,7 @@ Meteor.methods({
 	[ methodTypes.PROFILE_MODULE_TAXATION_UPDATETAXCODE ]({ _id, label ,rate}) {
 		// TODO: VALIDATION! of user vs profile.
 		let activeProfile = Profiles.findOne();
-		let codeId=label
+		let codeId=_id
 		Profiles.update({
 			_id: activeProfile._id,
 			'modules.name': 'taxation'
