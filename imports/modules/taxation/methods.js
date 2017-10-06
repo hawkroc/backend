@@ -172,7 +172,6 @@ Meteor.methods({
 	 */
 	[methodTypes.PROFILE_MODULE_TAXATION_UPDATETXTAXCODE] ({ transactionId, taxCodeId }) {
 		let activeProfile = Profiles.findOne()
-		console.log('this is 1 '+_id)
 		if (!activeProfile.isModuleEnabled('taxation')) {
 			console.warn('Attempted to interact with deactivated module')
 			return
