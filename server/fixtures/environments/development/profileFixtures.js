@@ -82,9 +82,6 @@ export default {
 									label: 'Current Assets'
 								},
 
-
-
-
 								{
 									_id: new Meteor.Collection.ObjectID().toHexString(),
 									label: 'Depreciation'

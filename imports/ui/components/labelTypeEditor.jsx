@@ -69,6 +69,7 @@ const View = ({
 				<TabPane tab={languageConfig.Transaction_labels} key="0">
 			<Table bordered
 				rowKey={label => label._id}
+				pagination={{ pageSize: 5 }}
 				dataSource={transactionLabellingModule.labelTypes.items}
 				columns={columns} />
 			<Button className="editable-add-btn"
@@ -83,6 +84,7 @@ const View = ({
 
 			<Table bordered
 				rowKey={taxCodes => taxCodes._id}
+				pagination={{ pageSize: 5 }}
 				dataSource={taxationModule.taxCodes.items}
 				columns={columnsTaxCode} />
 			<Button className="editable-add-btn"
