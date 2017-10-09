@@ -34,7 +34,7 @@ export function register () {
                 console.log("signedMessageLoginHandler: invalid EC signature arg structure { v, r, s }")
                 return { error: 'Invalid login attempt (bad message format)' }
             }
-
+          
             const { v, r, s } = ecSignedMessage
 
             if ((v != 27 && v != 28) || !KEY_VALIDATOR_HEX_NOPREFIX.test(r) || !KEY_VALIDATOR_HEX_NOPREFIX.test(s)) {
@@ -50,13 +50,20 @@ export function register () {
                 new Buffer(r, 'hex'), 
                 new Buffer(s, 'hex')
             )
+			 
+			const trimmedPublicKeyBuffer=signaturePublicKey
+			const trimmedPublicKey = trimmedPublicKeyBuffer.toString('hex').substr(0, 64)		
+			const trimmedAddress =Signing.publicToAddress(trimmedPublicKeyBuffer).toString('hex').toLowerCase()	
+		
 
-            const trimmedPublicKey = signaturePublicKey.toString('hex').substr(0, 64)
-
-            const user = UserAccounts.users.findOne({
-                'services.centrality-blockeeper.publicKey': trimmedPublicKey
+            let user = UserAccounts.users.findOne({
+                'services.centrality-blockeeper.publicKey': trimmedAddress
             })
-
+            if(!user){
+				user = UserAccounts.users.findOne({
+					'services.centrality-blockeeper.publicKey': trimmedPublicKey
+				})
+			}
             /**
              * The object returned from this function contains the users document _id
              * of the user we wish to log in. To not log in any user, specify an error
@@ -64,7 +71,7 @@ export function register () {
              * 
              */
             if (!user) {
-                console.log("signedMessageLoginHandler: no user was identified with public key", trimmedPublicKey)
+                console.log("signedMessageLoginHandler: no user was identified with public key", trimmedAddress)
                 return { error: 'Unknown user key provided' }
             }
 

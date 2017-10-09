@@ -4,7 +4,8 @@ import Profiles from '../../../../imports/api/profiles/profiles'
 
 export default {
 	generate: () => {
-        const publicKey = '7afd49cb3065d4b6aa85e08ac35bbc30ccb353274c51bddd94346abffa8f816a'
+		//use address instead of public key
+        const publicKey = '6acddc01dad16218f6a22872149bf31cc13f7a64'
 
         // TODO: assumes at least one profile has been correctly added.
         const profileId = Profiles.findOne()._id
