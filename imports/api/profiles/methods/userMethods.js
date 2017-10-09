@@ -22,8 +22,8 @@ Meteor.methods({
 
 		const validPublicKey = sanitizeAddressString(publicKey)
         if (!validPublicKey) {
-            console.warn('Invalid public key format')
-            return { error: 'Invalid public key format' }
+            console.warn('Invalid address format')
+            return { error: 'Invalid address format' }
         }
 
         if (!name || name === '') {

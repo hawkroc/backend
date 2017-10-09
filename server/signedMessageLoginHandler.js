@@ -71,7 +71,7 @@ export function register () {
              * 
              */
             if (!user) {
-                console.log("signedMessageLoginHandler: no user was identified with public key", trimmedAddress)
+                console.log("signedMessageLoginHandler: no user was identified with address", trimmedAddress)
                 return { error: 'Unknown user key provided' }
             }
 

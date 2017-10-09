@@ -117,10 +117,10 @@ class component extends React.Component {
 					/>
 					<br />
 					<br />
-					<h4 style={{ marginBottom: '8px' }}>User's public key</h4>
+					<h4 style={{ marginBottom: '8px' }}>User's address</h4>
 					<Input
 						size="large"
-						placeholder="User's public key"
+						placeholder="User's Address"
 						value={this.state.newUserPublicKey}
 						onChange={this.handleUserPublicKeyChange}
 					/>
