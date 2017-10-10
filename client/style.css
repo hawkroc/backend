@@ -215,4 +215,8 @@ body {
      height: 3em; 
      line-height: 3em; 
  }
+
+ .addNewLable{
+	 color:red;
+ }
  

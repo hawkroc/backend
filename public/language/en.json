@@ -10,7 +10,7 @@
     "Track_new_account":"Track new account",
     "Account_alias": "Account alias",
     "Account_address":"Account address",
-    "New_label":"New label",
+    "New_label":"A New label",
     "Delete":"Delete",
     "Add_label":"Add label",
     "Stop_tracking":"Are you sure you want to stop tracking this account",
@@ -24,5 +24,6 @@
 	"Transaction_tax_code":"Tax Code",
 	"Tax_Rate":"Tax Rate",
 	"New_TAX":"New Tax"
+	
 
   }

@@ -16,7 +16,13 @@ export const buildColumns = ({
 			sortOrder: 'ascend',
 			sorter: (a, b) => a.label > b.label,
 
-			render: (value, record, index) => (
+			render: (value, record, index) => {
+				let color=''
+				if(value.indexOf('A New label')>-1){
+				   color='addNewLable'
+				 
+				}
+			return (	<div className={color}>
 				<EditableCell
 					value={value}
 					onChangeConfirmed={newValue => {
@@ -24,7 +30,9 @@ export const buildColumns = ({
 						onUpdateLabelType(record)
 					}}
 				/>
+				</div>
 			)
+		}
 		},
 		{
 			title: '',
