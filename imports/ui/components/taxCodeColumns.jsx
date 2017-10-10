@@ -14,7 +14,6 @@ export const buildColumnsTaxCode = ({
 			dataIndex: 'label',
 			width: '60%',
 			key: 'label',
-			sortOrder: 'ascend',
 			sorter: (a, b) => a.label > b.label,
 
 			render: (value, record, index) => (
@@ -35,7 +34,6 @@ export const buildColumnsTaxCode = ({
 			dataIndex: 'rate',
 			width: '20%',
 			key: 'rate',
-			sortOrder: 'ascend',
 			sorter: (a, b) => a.rate > b.rate,
 			render: (value, record, index) => (
 				<div id={record._id}>
