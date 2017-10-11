@@ -9,7 +9,7 @@ import { checkTaxRate } from '../../common/inputTransformationHelpers'
 const { TabPane } = Tabs;
 
 import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
+
 
 export default class LableRateEditor extends PureComponent {
 
@@ -83,7 +83,7 @@ export default class LableRateEditor extends PureComponent {
 
 		let valdate=checkTaxRate(addRate)
 		if(!valdate){
-			this.showErrorMessage('Please input the correct Rate')
+			this.showErrorMessage('The Rate only between 0.0000 and 1.000')
 			return null
 		}
 
