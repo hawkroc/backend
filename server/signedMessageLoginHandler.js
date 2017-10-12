@@ -34,7 +34,7 @@ export function register () {
                 console.log("signedMessageLoginHandler: invalid EC signature arg structure { v, r, s }")
                 return { error: 'Invalid login attempt (bad message format)' }
             }
-          
+             console.log('esc'+JSON.stringify(ecSignedMessage))
             const { v, r, s } = ecSignedMessage
 
             if ((v != 27 && v != 28) || !KEY_VALIDATOR_HEX_NOPREFIX.test(r) || !KEY_VALIDATOR_HEX_NOPREFIX.test(s)) {
@@ -42,7 +42,6 @@ export function register () {
                 console.log("v:", v, "r:", r, "s:", s)
                 return { error: 'Invalid login attempt (invalid message)' }
             }
-
             // Pull the public key from the signed message.
             const signaturePublicKey = Signing.ecrecover( 
                 new Buffer(Meteor.settings.public.login_key, 'hex'),
