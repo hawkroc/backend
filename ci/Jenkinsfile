@@ -88,7 +88,7 @@ pipeline {
     stage('Uat Settings Setup') {
       environment {
         ENV = 'uat'
-        SCRIPT = ' '
+        SCRIPT = 'config'
         SUBSCRIPTION_ID = 'c009f27e-44af-46c9-9242-9baf494d6af3'
         CLUSTER_URL = 'https://centrality-uat-master.australiasoutheast.cloudapp.azure.com'
       }
