@@ -84,7 +84,7 @@ pipeline {
     //   }
     // }
 
-
+   
     stage('Uat Settings Setup') {
       environment {
         ENV = 'uat'
