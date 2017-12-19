@@ -37,7 +37,7 @@ export default {
 			}
 		
 			return Profiles.find({
-				_id: activeUser.services['centrality-blockeeper'].profileId
+				_id: activeUser.services['yinpeng-blockeeper'].profileId
 			})
 		})
 
@@ -57,16 +57,16 @@ export default {
 				return null
 			}
 
-			const activeUserProfileId = activeUser.services['centrality-blockeeper']
+			const activeUserProfileId = activeUser.services['yinpeng-blockeeper']
 				.profileId
 		
 			return UserAccounts.users.find({
-				'services.centrality-blockeeper.profileId': activeUserProfileId
+				'services.yinpeng-blockeeper.profileId': activeUserProfileId
 			}, { 
 				fields: {
 					_id: 1,
-					'services.centrality-blockeeper.publicKey': 1,
-					'services.centrality-blockeeper.name': 1
+					'services.yinpeng-blockeeper.publicKey': 1,
+					'services.yinpeng-blockeeper.name': 1
 				}
 			})
 		})

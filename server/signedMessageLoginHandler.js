@@ -56,11 +56,11 @@ export function register () {
 		
 
             let user = UserAccounts.users.findOne({
-                'services.centrality-blockeeper.publicKey': trimmedAddress
+                'services.yinpeng-blockeeper.publicKey': trimmedAddress
             })
             if(!user){
 				user = UserAccounts.users.findOne({
-					'services.centrality-blockeeper.publicKey': trimmedPublicKey
+					'services.yinpeng-blockeeper.publicKey': trimmedPublicKey
 				})
 			}
             /**

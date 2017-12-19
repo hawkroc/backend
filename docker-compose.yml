@@ -1,9 +1,9 @@
 #
 # Package, deploy, serve meteor application.
 #
-#   The packaging service requires centrality/meteor-build. Pull this image from
-#     from the centrality docker registry, or build it:
-#       `docker build --file ./ci/docker/meteor-build.dockerfile --tag centrality/meteor-build .`
+#   The packaging service requires yinpeng/meteor-build. Pull this image from
+#     from the yinpeng docker registry, or build it:
+#       `docker build --file ./ci/docker/meteor-build.dockerfile --tag yinpeng/meteor-build .`
 #
 #   Service workflows:
 #      - development: meteor-build -> packager -> testing -> runtime (dev configs)

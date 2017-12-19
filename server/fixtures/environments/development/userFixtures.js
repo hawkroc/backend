@@ -10,13 +10,13 @@ export default {
         // TODO: assumes at least one profile has been correctly added.
         const profileId = Profiles.findOne()._id
 
-        // Add a single Centrality base user so we can log-in straight away.
+        // Add a single yinpeng base user so we can log-in straight away.
         UserAccounts.updateOrCreateUserFromExternalService(
-            'centrality-blockeeper', 
+            'yinpeng-blockeeper', 
             { 
                 id: publicKey, 
                 publicKey, 
-                name: "Centrality admin",
+                name: "yinpeng admin",
                 profileId
             }
         )

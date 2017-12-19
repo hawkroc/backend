@@ -2,9 +2,9 @@
 # Application build and package.
 #
 
-# Available from Centrality ACR.
-# Alternatively local build from: https://bitbucket.org/centralitydev/meteor
-FROM centralitycontainerregistry-on.azurecr.io/centrality/meteor-build-1.5.1:1.0.4
+# Available from yinpeng ACR.
+# Alternatively local build from: https://bitbucket.org/yinpengdev/meteor
+FROM yinpengcontainerregistry-on.azurecr.io/yinpeng/meteor-build-1.5.1:1.0.4
 
 # Set-up the application from our repository build context.
 WORKDIR /opt/working

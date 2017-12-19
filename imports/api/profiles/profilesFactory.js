@@ -12,7 +12,7 @@ const createProfileFixture = () => ({
 
 	info: {
 		_id: createId(),
-		username: 'text-fixture@centrality.ai'
+		username: 'text-fixture@yinpeng.ai'
 	},
 
 	trackedAccounts: [ ],

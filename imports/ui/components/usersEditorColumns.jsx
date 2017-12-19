@@ -14,7 +14,7 @@ export const buildColumns = ({
 			width: '40%',
 
 			render: (_, record) => {
-				const name = record.services['centrality-blockeeper'].name
+				const name = record.services['yinpeng-blockeeper'].name
 				return name
 			}
 		},
@@ -24,7 +24,7 @@ export const buildColumns = ({
 			width: '30%',
 
 			render: (_, record) => {
-				const publicKey = '0x' + record.services['centrality-blockeeper'].publicKey
+				const publicKey = '0x' + record.services['yinpeng-blockeeper'].publicKey
 				return (
 					<div className="editable-cell">
 						<div className="editable-cell-text-wrapper" id={publicKey}>

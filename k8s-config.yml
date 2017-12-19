@@ -12,10 +12,10 @@ spec:
     spec:
       containers:
       - name: blockeeper-service
-        image: centralitycontainerregistry-on.azurecr.io/centrality/blockeeper:1.0.<number>
+        image: yinpengcontainerregistry-on.azurecr.io/yinpeng/blockeeper:1.0.<number>
         env:
           - name: ROOT_URL
-            value: "https://<env_prefix>blockeeper.centrality.ai"
+            value: "https://<env_prefix>blockeeper.yinpeng.ai"
           - name: PORT
             value: "8080"
           - name: MONGO_URL

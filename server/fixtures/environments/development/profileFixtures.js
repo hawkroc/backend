@@ -17,7 +17,7 @@ export default {
 			{
 				info: {
 					_id: new Meteor.Collection.ObjectID().toHexString(),
-					username: 'demo-user@centrality.ai'
+					username: 'demo-user@yinpeng.ai'
 				},
 
 				trackedAccounts,

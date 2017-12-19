@@ -56,7 +56,7 @@ class component extends React.Component {
 			return
 		}
 
-		if (!!users.find(u => u.services['centrality-blockeeper'].publicKey 
+		if (!!users.find(u => u.services['yinpeng-blockeeper'].publicKey 
 				=== validPublicKey)) {
 			message.error('User key already exists')
 			return

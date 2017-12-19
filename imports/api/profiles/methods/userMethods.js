@@ -33,11 +33,11 @@ Meteor.methods({
 
         // Get current user's active profile. This is the only profile they can
         // currently add another user to.
-        let profileId = Meteor.user().services['centrality-blockeeper'].profileId
+        let profileId = Meteor.user().services['yinpeng-blockeeper'].profileId
         
         if (Meteor.isServer) {
             UserAccounts.updateOrCreateUserFromExternalService(
-                'centrality-blockeeper', 
+                'yinpeng-blockeeper', 
                 {
                     // Meteor/accounts-base "service" requirement.
                     id: validPublicKey, 
@@ -67,8 +67,8 @@ Meteor.methods({
         let targetUser = UserAccounts.users.findOne(userId)
 
         if (!targetUser 
-            || targetUser.services['centrality-blockeeper'].profileId
-                !== Meteor.user().services['centrality-blockeeper'].profileId
+            || targetUser.services['yinpeng-blockeeper'].profileId
+                !== Meteor.user().services['yinpeng-blockeeper'].profileId
         ) {
             console.warn('Unknown target user')
             return { error: 'Attempted to delete unkown user' }
